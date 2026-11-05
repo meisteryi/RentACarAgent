@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/car_bg_dark"
+    android:orientation="vertical"
+    android:padding="32dp">
+
+    <!-- Top Header / Greeting -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_select_my_car"
+            android:textColor="@color/car_text_primary"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/subtitle_select_my_car"
+            android:textColor="@color/car_text_secondary"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <!-- Car Type Horizontal/Grid Selector (AAOS 1-Click touch optimized) -->
+    <LinearLayout
+        android:id="@+id/containerCarTypes"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="32dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <!-- 1. 경차 -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardCompact"
+            android:layout_width="0dp"
+            android:layout_height="180dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="@color/car_surface_dark"
+            app:cardCornerRadius="16dp"
+            app:strokeColor="@color/car_surface_dark_stroke"
+            app:strokeWidth="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🚗"
+                    android:textSize="40sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="경차"
+                    android:textColor="@color/car_text_primary"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="캐스퍼, 모닝"
+                    android:textColor="@color/car_text_dim"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 2. 세단 -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSedan"
+            android:layout_width="0dp"
+            android:layout_height="180dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="@color/car_surface_dark"
+            app:cardCornerRadius="16dp"
+            app:strokeColor="@color/car_surface_dark_stroke"
+            app:strokeWidth="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🚘"
+                    android:textSize="40sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="세단"
+                    android:textColor="@color/car_text_primary"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="아반떼, 쏘나타, 그랜저"
+                    android:textColor="@color/car_text_dim"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 3. SUV -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSuv"
+            android:layout_width="0dp"
+            android:layout_height="180dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="@color/car_surface_dark"
+            app:cardCornerRadius="16dp"
+            app:strokeColor="@color/car_surface_dark_stroke"
+            app:strokeWidth="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🚙"
+                    android:textSize="40sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="SUV"
+                    android:textColor="@color/car_text_primary"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="투싼, 싼타페, 팰리세이드"
+                    android:textColor="@color/car_text_dim"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 4. 승합차 -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardVan"
+            android:layout_width="0dp"
+            android:layout_height="180dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="@color/car_surface_dark"
+            app:cardCornerRadius="16dp"
+            app:strokeColor="@color/car_surface_dark_stroke"
+            app:strokeWidth="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🚐"
+                    android:textSize="40sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="승합차"
+                    android:textColor="@color/car_text_primary"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="스타리아, 카니발"
+                    android:textColor="@color/car_text_dim"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 5. 트럭/상용차 -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardTruck"
+            android:layout_width="0dp"
+            android:layout_height="180dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="@color/car_surface_dark"
+            app:cardCornerRadius="16dp"
+            app:strokeColor="@color/car_surface_dark_stroke"
+            app:strokeWidth="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🚚"
+                    android:textSize="40sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="트럭"
+                    android:textColor="@color/car_text_primary"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="포터, 봉고"
+                    android:textColor="@color/car_text_dim"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+    <!-- Bottom Actions -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnSkip"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:paddingHorizontal="24dp"
+            android:text="@string/btn_skip_car"
+            android:textColor="@color/car_text_secondary"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btnConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:backgroundTint="@color/hyundai_accent"
+            android:enabled="false"
+            android:paddingHorizontal="32dp"
+            android:text="@string/btn_confirm_car"
+            android:textColor="@color/car_text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:cornerRadius="12dp" />
+    </LinearLayout>
+
+</LinearLayout>
+

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Android Automotive OS 하드웨어 선언 -->
+    <uses-feature
+        android:name="android.hardware.type.automotive"
+        android:required="true" />
+
+    <!-- 마이크 및 음성 인식(STT) 권한 -->
+    <uses-feature
+        android:name="android.hardware.microphone"
+        android:required="true" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- 순정 내비게이션 위 플로팅 오버레이 & 포그라운드 음성 서비스 권한 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- Android Automotive OS Car API & Pleos Connect 차량 제어/조회 권한 -->
+    <uses-permission android:name="android.car.permission.CAR_INFO" />
+    <uses-permission android:name="android.car.permission.CAR_SPEED" />
+    <uses-permission android:name="android.car.permission.CAR_POWERTRAIN" />
+    <uses-permission android:name="android.car.permission.CAR_DRIVING_STATE" />
+    <uses-permission android:name="android.car.permission.CAR_UX_RESTRICTIONS_CONFIGURATION" />
+    <uses-permission android:name="android.car.permission.CAR_ENERGY" />
+
+    <!-- Pleos Connect SDK 권한 -->
+    <uses-permission android:name="com.pleos.permission.VEHICLE_CONTROL" tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="com.pleos.permission.VEHICLE_INFO" tools:ignore="ProtectedPermissions" />
+
+    <application
+        android:name=".RentalCoachApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.RentalCarAdaptationCoach">
+
+        <!-- AAOS 주행 중 운전자 주의분산 방지 인증 (DO: Distraction Optimized) -->
+        <meta-data
+            android:name="distractionOptimized"
+            android:value="true" />
+
+        <!-- 기능 1: 시동 직후 평소 내 차종 선택 미니멀 팝업 UI -->
+        <activity
+            android:name=".ui.StartupCarSelectActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.RentalCarAdaptationCoach.StartupDialog">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.CAR_LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="distractionOptimized"
+                android:value="true" />
+        </activity>
+
+        <!-- 기능 2 & 3: 체급 브리핑 및 주행 중 음성 Q&A 비서 (내부 폴백 액티비티) -->
+        <activity
+            android:name=".ui.MainAssistantActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="distractionOptimized"
+                android:value="true" />
+        </activity>
+
+        <!-- 실제 현대 순정 내비게이션 위 백그라운드 음성 코칭 및 플로팅 Q&A 서비스 -->
+        <service
+            android:name=".service.CoachOverlayService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="In-Vehicle rental car coaching voice assistant" />
+        </service>
+
+    </application>
+
+</manifest>

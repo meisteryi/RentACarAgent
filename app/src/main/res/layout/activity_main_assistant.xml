@@ -1,0 +1,642 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootAssistantLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#12151B">
+
+    <!-- ========================================================= -->
+    <!-- 1. 현대 순정 ccNC 내비게이션 풀스크린 도로 지도             -->
+    <!-- ========================================================= -->
+    <com.hyundai.rentalhelper.ui.view.NavigationMapView
+        android:id="@+id/mapView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- ========================================================= -->
+    <!-- 2. 현대 순정 ccNC 상단 바 (홈, 통합 검색창, 프로필, 시계)   -->
+    <!-- ========================================================= -->
+    <LinearLayout
+        android:id="@+id/topCcncBar"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:background="#D9161B24"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- 순정 홈 버튼 -->
+        <ImageButton
+            android:id="@+id/btnHome"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="홈"
+            android:src="@android:drawable/ic_menu_today"
+            app:tint="@color/car_text_primary" />
+
+        <!-- 순정 통합 검색 바 -->
+        <LinearLayout
+            android:id="@+id/searchBarPill"
+            android:layout_width="380dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/bg_ccnc_search_bar"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🔍"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:text="목적지 또는 주소 검색"
+                android:textColor="@color/car_text_secondary"
+                android:textSize="15sp" />
+
+            <!-- 순정 음성 검색 마이크 버튼 -->
+            <ImageButton
+                android:id="@+id/btnCcncVoice"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="음성 검색"
+                android:src="@android:drawable/ic_btn_speak_now"
+                app:tint="@color/hyundai_active_blue" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <!-- 현재 주행 도로명 배지 -->
+        <TextView
+            android:id="@+id/tvCurrentRoadName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:text="강남대로"
+            android:textColor="@color/car_text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <!-- 통신 상태 및 현재 시각 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="5G"
+            android:textColor="@color/car_text_dim"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvClock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="오후 4:20"
+            android:textColor="@color/car_text_primary"
+            android:textSize="16sp" />
+
+        <!-- 순정 사용자 프로필 -->
+        <TextView
+            android:id="@+id/tvUserProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_badge_vehicle"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="4dp"
+            android:text="👤 운전자 1"
+            android:textColor="@color/car_text_primary"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- ========================================================= -->
+    <!-- 3. 현대 순정 ccNC 좌측 TBT 안내 카드 (방향, 거리, 속도제한) -->
+    <!-- ========================================================= -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardCcncTbt"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        app:cardBackgroundColor="#E6181D26"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="6dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topCcncBar"
+        app:strokeColor="#2E3848"
+        app:strokeWidth="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- 상단: 턴 화살표 + 거리 + 제한속도 표지판 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="↱"
+                    android:textColor="#00E5FF"
+                    android:textSize="44sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="500 m"
+                        android:textColor="@color/car_text_primary"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="양재대로 방면"
+                        android:textColor="@color/car_text_primary"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <!-- 한국 표준 제한속도 원형 표지판 (흰 원 + 빨간 테두리) -->
+                <FrameLayout
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bg_speed_limit_sign">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="60"
+                        android:textColor="#000000"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <!-- 차선 유도 가이드 (Lane Recommendation) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="6dp"
+                    android:text="↑"
+                    android:textColor="#4A566A"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="6dp"
+                    android:text="↑"
+                    android:textColor="#4A566A"
+                    android:textSize="20sp" />
+
+                <!-- 추천 차로 (초록색 점등) -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="6dp"
+                    android:text="↱"
+                    android:textColor="#00E5FF"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="6dp"
+                    android:text="↑"
+                    android:textColor="#4A566A"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="10dp"
+                android:background="#1AFFFFFF" />
+
+            <!-- 다음 안내 예고 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="다음: 1.2 km 앞 헌릉로 방면 좌회전"
+                android:textColor="@color/car_text_dim"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- ========================================================= -->
+    <!-- 4. 현대 순정 우측 맵 컨트롤 버튼들 (2D/3D 나침반, 줌, 음량) -->
+    <!-- ========================================================= -->
+    <LinearLayout
+        android:id="@+id/rightMapControls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topCcncBar">
+
+        <!-- 나침반 뷰 버튼 -->
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_ccnc_control_button"
+            android:contentDescription="나침반"
+            android:src="@android:drawable/ic_menu_compass"
+            app:tint="@color/car_text_primary" />
+
+        <!-- 교통정보 토글 -->
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_ccnc_control_button"
+            android:contentDescription="교통정보"
+            android:src="@android:drawable/ic_menu_mapmode"
+            app:tint="@color/hyundai_active_blue" />
+
+        <!-- 줌 인 / 줌 아웃 일체형 버튼 -->
+        <LinearLayout
+            android:layout_width="48dp"
+            android:layout_height="96dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_ccnc_control_button"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="+"
+                android:textColor="@color/car_text_primary"
+                android:textSize="24sp" />
+
+            <View
+                android:layout_width="32dp"
+                android:layout_height="1dp"
+                android:background="#2E3848" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="-"
+                android:textColor="@color/car_text_primary"
+                android:textSize="28sp" />
+        </LinearLayout>
+
+        <!-- 음량 조절 -->
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_ccnc_control_button"
+            android:contentDescription="안내음량"
+            android:src="@android:drawable/ic_lock_silent_mode_off"
+            app:tint="@color/car_text_primary" />
+    </LinearLayout>
+
+    <!-- ========================================================= -->
+    <!-- 5. 현대 순정 ccNC 하단 도착 정보 및 경로 바                -->
+    <!-- ========================================================= -->
+    <LinearLayout
+        android:id="@+id/bottomCcncBar"
+        android:layout_width="0dp"
+        android:layout_height="68dp"
+        android:background="#E6161B24"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- 도착 예정 시각 및 남은 시간 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="오후 4:54 도착 (34분)"
+                android:textColor="@color/car_text_primary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="남은 거리 28.4 km"
+                android:textColor="@color/car_text_secondary"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- 실시간 교통상황 게이지 바 -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="6dp"
+            android:layout_marginHorizontal="32dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_traffic_gauge" />
+
+        <!-- 순정 경로 관리 버튼 -->
+        <Button
+            android:id="@+id/btnReroute"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:text="대안 경로"
+            android:textColor="@color/car_text_primary"
+            android:textSize="14sp"
+            app:cornerRadius="10dp"
+            app:strokeColor="#3A4659" />
+
+        <Button
+            android:id="@+id/btnCancelRoute"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_marginStart="8dp"
+            android:text="안내 종료"
+            android:textColor="@color/car_text_secondary"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- ========================================================= -->
+    <!-- [추가된 기능 1] 현대 순정 시스템 알림 스타일 체급 브리핑     -->
+    <!-- 지도가 뜸과 동시에 상단에서 부드럽게 내려오며 음성 브리핑 송출 -->
+    <!-- ========================================================= -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardFloatingBriefing"
+        android:layout_width="620dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:cardBackgroundColor="#F218202C"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topCcncBar"
+        app:strokeColor="@color/hyundai_active_blue"
+        app:strokeWidth="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvBriefingIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🔊"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/tvBriefingHeader"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:text="현대 렌터카 적응 코치 (음성 안내 중)"
+                    android:textColor="@color/hyundai_active_blue"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/btnCloseBriefing"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="닫기"
+                    android:src="@android:drawable/ic_menu_close_clear_cancel"
+                    app:tint="@color/car_text_dim" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvBriefingContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:lineSpacingExtra="4dp"
+                android:text="차량 인식 및 평소 차종 대조 중..."
+                android:textColor="@color/car_text_primary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvBriefingSubtip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="평소: 세단 ➔ 탑승 렌터카: 투싼 SUV"
+                android:textColor="@color/car_text_secondary"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- ========================================================= -->
+    <!-- [추가된 기능 2] 현대 순정 음성 인식 Q&A 드로어 (지도를 가리지 않음) -->
+    <!-- ========================================================= -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardVoiceQa"
+        android:layout_width="620dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:visibility="gone"
+        app:cardBackgroundColor="#F5141A24"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardFloatingBriefing"
+        app:strokeColor="@color/hyundai_accent"
+        app:strokeWidth="2dp"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="18dp">
+
+            <TextView
+                android:id="@+id/tvQaUserQuery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="&quot;창문에 성에가 꼈어 어떡하지?&quot;"
+                android:textColor="@color/hyundai_active_blue"
+                android:textSize="15sp"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/tvQaAnswer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:lineSpacingExtra="4dp"
+                android:text="공조 터치 디스플레이 왼쪽 맨 위, 바람개비 아이콘 바로 옆 FRONT 부채꼴 버튼을 누르세요."
+                android:textColor="@color/car_text_primary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- ========================================================= -->
+    <!-- 주행 안전 규제(CarUxRestrictions) 알림 토스트               -->
+    <!-- ========================================================= -->
+    <LinearLayout
+        android:id="@+id/layoutDrivingModeAlert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="#D92E1A1A"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/bottomCcncBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⚠️"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="주행 안전 규제 적용 중: 음성 안내 모드"
+            android:textColor="@color/car_warning"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- ========================================================= -->
+    <!-- 시연/테스트 편의용 순정 스타일 퀵 버튼 (정차 중 우측 하단 배치) -->
+    <!-- ========================================================= -->
+    <LinearLayout
+        android:id="@+id/bottomQuickActions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/bottomCcncBar"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:id="@+id/chipDefog"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginEnd="6dp"
+            android:backgroundTint="#CC181E28"
+            android:text="성에 제거"
+            android:textColor="@color/car_text_primary"
+            android:textSize="12sp"
+            app:cornerRadius="8dp"
+            app:strokeColor="#3A4659" />
+
+        <Button
+            android:id="@+id/chipCruise"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginEnd="6dp"
+            android:backgroundTint="#CC181E28"
+            android:text="스마트 크루즈"
+            android:textColor="@color/car_text_primary"
+            android:textSize="12sp"
+            app:cornerRadius="8dp"
+            app:strokeColor="#3A4659" />
+
+        <Button
+            android:id="@+id/chipGear"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginEnd="6dp"
+            android:backgroundTint="#CC181E28"
+            android:text="기어 조작법"
+            android:textColor="@color/car_text_primary"
+            android:textSize="12sp"
+            app:cornerRadius="8dp"
+            app:strokeColor="#3A4659" />
+
+        <Button
+            android:id="@+id/chipHazard"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:backgroundTint="#CC181E28"
+            android:text="비상등 위치"
+            android:textColor="@color/car_text_primary"
+            android:textSize="12sp"
+            app:cornerRadius="8dp"
+            app:strokeColor="#3A4659" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,53 @@
+# Built application files (대용량 빌드 결과물 제외)
+*.apk
+*.ap_
+*.aab
+*.dex
+*.class
+
+# Gradle build cache & directories
+.gradle/
+build/
+**/build/
+
+# Android Studio / IntelliJ IDEA files
+.idea/
+*.iml
+*.iws
+*.ipr
+.navigation/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Local configuration file (SDK 경로 등 로컬 머신 설정)
+local.properties
+
+# Log files & dumps
+*.log
+*.hprof
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Large binaries & archives (AAR, ZIP, TAR 등)
+*.aar
+*.zip
+*.tar.gz
+*.7z
+
+# Gradle Wrapper JAR는 예외 처리 (팀원 빌드를 위해 보존 필수)
+!gradle/wrapper/gradle-wrapper.jar
+
+# Keystore / signing files (보안 키 파일 제외)
+*.jks
+*.keystore
+*.p12
+*.key
+

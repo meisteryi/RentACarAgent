@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 1. Top Briefing Banner (Slides down over the real native navigation) -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardFloatingBriefing"
+        android:layout_width="640dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="16dp"
+        app:cardBackgroundColor="#F218202C"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="16dp"
+        app:strokeColor="@color/hyundai_active_blue"
+        app:strokeWidth="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvBriefingIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🔊"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/tvBriefingHeader"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:text="현대 렌터카 적응 코치 (음성 브리핑 안내 중)"
+                    android:textColor="@color/hyundai_active_blue"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/btnCloseBriefing"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="닫기"
+                    android:src="@android:drawable/ic_menu_close_clear_cancel"
+                    app:tint="@color/car_text_dim" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvBriefingContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:lineSpacingExtra="4dp"
+                android:text="차량 인식 및 평소 차종 대조 중..."
+                android:textColor="@color/car_text_primary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvBriefingSubtip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="평소: 세단 ➔ 탑승 렌터카: 투싼 SUV"
+                android:textColor="@color/car_text_secondary"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- 2. Voice Q&A Active Response Card (Over the real native navigation) -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardVoiceQa"
+        android:layout_width="640dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        app:cardBackgroundColor="#F5141A24"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="18dp"
+        app:strokeColor="@color/hyundai_accent"
+        app:strokeWidth="2dp"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/tvQaUserQuery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="&quot;창문에 성에가 꼈어 어떡하지?&quot;"
+                android:textColor="@color/hyundai_active_blue"
+                android:textSize="15sp"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/tvQaAnswer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:lineSpacingExtra="4dp"
+                android:text="공조 터치 디스플레이 왼쪽 맨 위, 바람개비 아이콘 바로 옆 FRONT 부채꼴 버튼을 누르세요."
+                android:textColor="@color/car_text_primary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- 3. Floating Quick Control Widget (Sits cleanly on bottom-right of real map) -->
+    <LinearLayout
+        android:id="@+id/floatingControlsContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="20dp"
+        android:gravity="end|center_vertical"
+        android:orientation="horizontal">
+
+        <!-- Quick Test Chips (Foldable / Unobtrusive) -->
+        <LinearLayout
+            android:id="@+id/chipLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:background="#D9161B24"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="6dp">
+
+            <Button
+                android:id="@+id/chipDefog"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="성에 제거"
+                android:textColor="@color/car_text_primary"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/chipCruise"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="스마트 크루즈"
+                android:textColor="@color/car_text_primary"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/chipGear"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="기어 조작법"
+                android:textColor="@color/car_text_primary"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/chipHazard"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="비상등 위치"
+                android:textColor="@color/car_text_primary"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Floating Mic Button -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnFloatingMic"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:contentDescription="음성 질문"
+            app:backgroundTint="@color/hyundai_accent"
+            app:fabCustomSize="64dp"
+            app:maxImageSize="32dp"
+            app:srcCompat="@android:drawable/ic_btn_speak_now"
+            app:tint="@color/car_text_primary" />
+    </LinearLayout>
+
+</FrameLayout>
+

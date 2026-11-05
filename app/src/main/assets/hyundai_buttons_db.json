@@ -1,0 +1,307 @@
+{
+  "version": "2.0.0",
+  "models": [
+    {
+      "model_id": "AVANTE",
+      "model_name_ko": "아반떼",
+      "model_name_en": "Avante",
+      "segment": "SEDAN",
+      "segment_detail": "준중형 세단",
+      "specs": {
+        "length_mm": 4710,
+        "width_mm": 1825,
+        "height_mm": 1420,
+        "wheelbase_mm": 2720
+      },
+      "gear_type": "운전석과 조수석 사이 센터콘솔에 있는 전통적인 레버식 기어봉입니다. 손잡이 왼쪽 은색 락 버튼을 누른 채 뒤로 당기면 D단, 앞으로 밀면 R단입니다.",
+      "buttons": {
+        "hazard_light": {
+          "name": "비상등 버튼",
+          "location": "중앙 내비 화면 바로 아래, 가로형 송풍구 정중앙 빨간 삼각형 버튼",
+          "action_guide": "내비게이션 화면 바로 밑, 가로 송풍구 가운데 있는 유일한 빨간 삼각형 물리 버튼을 누르세요."
+        },
+        "wiper": {
+          "name": "와이퍼 조작 레버",
+          "location": "스티어링 휠(핸들) 오른쪽 뒤에 달린 긴 막대 레버",
+          "action_guide": "핸들 오른쪽 뒤 레버를 아래로 한 칸 내리면 자동 와이퍼, 레버 가운데 회전 다이얼로 속도를 조절합니다."
+        },
+        "front_defog": {
+          "name": "앞유리 성에 제거(FRONT)",
+          "location": "센터페시아 공조장치 버튼 가로 1열 중 맨 왼쪽 첫 번째 부채꼴 모양 버튼",
+          "action_guide": "공조기 조작 버튼 가로 1열 중 맨 왼쪽 첫 번째 'FRONT'라고 적힌 부채꼴 모양 버튼을 누르세요."
+        },
+        "rear_defog": {
+          "name": "뒷유리 및 사이드미러 열선(REAR)",
+          "location": "센터페시아 공조장치 버튼 가로 1열 중 맨 오른쪽 끝 사각형 모양 버튼",
+          "action_guide": "공조기 조작 버튼 맨 오른쪽 끝에 있는 직사각형 모양 'REAR' 버튼을 누르세요."
+        },
+        "smart_cruise": {
+          "name": "스마트 크루즈 컨트롤",
+          "location": "핸들 오른쪽 스포크 버튼 4개 중 오른쪽 위 차간거리/속도계 아이콘 버튼",
+          "action_guide": "핸들 오른쪽 스포크에 있는 버튼 네 개 중 오른쪽 위 차간거리 모양 버튼을 누르고, 바로 밑 토글 스위치를 아래로 톡 내려 속도를 맞추세요."
+        },
+        "electronic_parking_brake": {
+          "name": "전자식 주차 브레이크(EPB)",
+          "location": "기어봉 바로 뒤, 컵홀더 왼쪽 은색 (P) 스위치",
+          "action_guide": "기어봉 바로 뒤편 왼쪽의 (P) 스위치를 손가락으로 위로 당기면 체결되고, 브레이크를 밟고 아래로 누르면 풀립니다."
+        },
+        "auto_hold": {
+          "name": "오토홀드(Auto Hold)",
+          "location": "주차 브레이크 (P) 스위치 바로 밑의 AUTO HOLD 버튼",
+          "action_guide": "기어봉 뒤쪽 (P) 스위치 바로 아래에 위치한 'AUTO HOLD' 영문 버튼을 누르세요."
+        }
+      }
+    },
+    {
+      "model_id": "SONATA",
+      "model_name_ko": "쏘나타 디 엣지",
+      "model_name_en": "Sonata The Edge",
+      "segment": "SEDAN",
+      "segment_detail": "중형 세단",
+      "specs": {
+        "length_mm": 4910,
+        "width_mm": 1860,
+        "height_mm": 1445,
+        "wheelbase_mm": 2840
+      },
+      "gear_type": "핸들 오른쪽 뒤편 아래에 달린 전자식 칼럼 레버입니다. 끝부분 원통 다이얼을 앞(시계 방향)으로 돌리면 D단, 뒤(반시계)로 돌리면 R단, 레버 오른쪽 끝 은색 버튼을 꾹 누르면 P단입니다.",
+      "buttons": {
+        "hazard_light": {
+          "name": "비상등 버튼",
+          "location": "파노라믹 디스플레이 바로 아래, 중앙 송풍구 정중앙의 네모난 빨간 삼각형 버튼",
+          "action_guide": "중앙 송풍구 정가운데에 툭 튀어나와 있는 네모난 빨간 삼각형 버튼을 누르세요."
+        },
+        "wiper": {
+          "name": "와이퍼 조작 레버",
+          "location": "스티어링 휠 오른쪽 뒤 상단 레버",
+          "action_guide": "핸들 오른쪽 뒤 2시 방향에 있는 상단 레버입니다. 아래쪽 칼럼 기어 레버와 헷갈리지 마시고 윗쪽 얇은 레버를 조작하세요."
+        },
+        "front_defog": {
+          "name": "앞유리 성에 제거(FRONT)",
+          "location": "터치식 공조 터치패널 왼쪽 상단 모서리의 물리식 부채꼴 버튼",
+          "action_guide": "공조 터치 액정 왼쪽 맨 윗줄 첫 번째에 위치한 부채꼴 모양 'FRONT' 버튼을 누르세요."
+        },
+        "rear_defog": {
+          "name": "뒷유리 및 사이드미러 열선(REAR)",
+          "location": "터치식 공조 터치패널 오른쪽 상단 모서리의 물리식 사각형 버튼",
+          "action_guide": "공조 터치 액정 오른쪽 맨 윗줄 끝에 위치한 직사각형 모양 'REAR' 버튼을 누르세요."
+        },
+        "smart_cruise": {
+          "name": "스마트 크루즈 컨트롤",
+          "location": "핸들 오른쪽 스포크 조작계 중 왼쪽 윗줄 차간거리 차량 아이콘 버튼",
+          "action_guide": "핸들 오른쪽 버튼 네 개 중 왼쪽 위에 있는 차간거리 모양 버튼을 누르고, 가운데 토글을 위아래로 조절하세요."
+        },
+        "electronic_parking_brake": {
+          "name": "전자식 주차 브레이크(EPB)",
+          "location": "운전석 왼쪽 무릎 앞, 크래시패드 하단 버튼 모음 중 맨 왼쪽 (P) 스위치",
+          "action_guide": "핸들 왼쪽 무릎 앞 벽면에 있는 버튼 네 개 중 맨 왼쪽의 (P) 스위치를 당기거나 누르세요."
+        },
+        "auto_hold": {
+          "name": "오토홀드(Auto Hold)",
+          "location": "센터 콘솔 무선충전기 바로 앞, 가로 버튼 3개 중 가운데 버튼",
+          "action_guide": "센터 콘솔 컵홀더 앞쪽 버튼 세 개 중 가운데에 위치한 'AUTO HOLD' 버튼을 누르세요."
+        }
+      }
+    },
+    {
+      "model_id": "TUCSON",
+      "model_name_ko": "투싼",
+      "model_name_en": "Tucson",
+      "segment": "SUV",
+      "segment_detail": "준중형 SUV",
+      "specs": {
+        "length_mm": 4640,
+        "width_mm": 1865,
+        "height_mm": 1665,
+        "wheelbase_mm": 2755
+      },
+      "gear_type": "핸들 오른쪽 뒤 칼럼식 전자 기어입니다. 끝단 둥근 노브를 계기판(앞) 방향으로 돌리면 전진 D단, 운전자(몸) 방향으로 돌리면 후진 R단, 맨 끝 돌출 버튼을 누르면 주차 P단입니다.",
+      "buttons": {
+        "hazard_light": {
+          "name": "비상등 버튼",
+          "location": "센터페시아 화면 아래, 은색 볼륨 노브 사이 정중앙 빨간 삼각 버튼",
+          "action_guide": "중앙 내비 화면 바로 아래, 오디오 다이얼 사이에 위치한 빨간 삼각형 비상등 버튼을 누르세요."
+        },
+        "wiper": {
+          "name": "와이퍼 조작 레버",
+          "location": "핸들 오른쪽 뒤편 상단 레버",
+          "action_guide": "핸들 오른쪽 뒤편에 있는 두 개 막대 중 위쪽에 달린 긴 레버를 아래로 한 칸 내리세요."
+        },
+        "front_defog": {
+          "name": "앞유리 성에 제거(FRONT)",
+          "location": "센터페시아 공조 컨트롤 패널 왼쪽 상단 첫 번째 물리 버튼",
+          "action_guide": "공조 터치 디스플레이 왼쪽 맨 위, 바람개비 아이콘 바로 옆 'FRONT' 부채꼴 버튼을 누르세요."
+        },
+        "rear_defog": {
+          "name": "뒷유리 및 미러 열선(REAR)",
+          "location": "센터페시아 공조 컨트롤 패널 오른쪽 상단 끝 물리 버튼",
+          "action_guide": "공조 패널 오른쪽 맨 위, 온도 조절 다이얼 바로 안쪽 'REAR' 사각 버튼을 누르세요."
+        },
+        "smart_cruise": {
+          "name": "스마트 크루즈 컨트롤",
+          "location": "핸들 오른쪽 스포크 버튼 4개 중 윗줄 오른쪽 주행보조 차량 아이콘 버튼",
+          "action_guide": "핸들 오른쪽 버튼 네 개 중 윗줄 오른쪽 차간거리/차선 유지 버튼을 누르시면 계기판에 초록 불이 들어옵니다."
+        },
+        "electronic_parking_brake": {
+          "name": "전자식 파킹 브레이크(EPB)",
+          "location": "핸들 왼쪽 송풍구 아래, 크래시패드 버튼 4개 중 맨 왼쪽 (P) 레버",
+          "action_guide": "운전석 문 열었을 때 보이는 핸들 왼쪽 무릎 앞 버튼 줄에서 맨 왼쪽 (P) 스위치를 당기세요."
+        },
+        "auto_hold": {
+          "name": "오토홀드(Auto Hold)",
+          "location": "센터 콘솔 컵홀더 왼쪽 상단 버튼 패널 첫 번째 버튼",
+          "action_guide": "조수석과 운전석 사이 컵홀더 왼쪽 위에 있는 'AUTO HOLD' 영문 버튼을 누르세요."
+        }
+      }
+    },
+    {
+      "model_id": "IONIQ5",
+      "model_name_ko": "아이오닉 5",
+      "model_name_en": "Ioniq 5",
+      "segment": "SUV",
+      "segment_detail": "준중형 CUV / 전기차",
+      "specs": {
+        "length_mm": 4635,
+        "width_mm": 1890,
+        "height_mm": 1605,
+        "wheelbase_mm": 3000
+      },
+      "gear_type": "핸들 오른쪽 뒤 5시 방향 아래쪽 칼럼 회전 레버입니다. 끝부분 원통을 위(앞)로 비틀면 D단, 아래(뒤)로 비틀면 R단, 레버 오른쪽 끝에 박힌 은색 버튼을 꾹 누르면 P단입니다.",
+      "buttons": {
+        "hazard_light": {
+          "name": "비상등 버튼",
+          "location": "가로형 중앙 에어벤트(송풍구) 정중앙에 돌출된 빨간 삼각 버튼",
+          "action_guide": "가운데 에어컨 송풍구 정중앙에 홀로 돌출되어 있는 빨간 삼각형 버튼을 누르세요."
+        },
+        "wiper": {
+          "name": "와이퍼 조작 레버",
+          "location": "핸들 오른쪽 뒤 상단 레버",
+          "action_guide": "핸들 오른쪽 뒤 윗쪽 레버입니다. 아래쪽에 두껍게 튀어나온 기어 변속 다이얼 레버와 헷갈리지 마시고 위쪽 얇은 레버를 조작하세요."
+        },
+        "front_defog": {
+          "name": "앞유리 성에 제거(FRONT)",
+          "location": "공조 터치패널 왼쪽 상단 모서리 첫 번째 FRONT 터치 아이콘",
+          "action_guide": "공조기 조작 터치 화면에서 왼쪽 맨 윗줄 첫 번째에 위치한 부채꼴 'FRONT' 아이콘을 터치하세요."
+        },
+        "rear_defog": {
+          "name": "뒷유리 및 미러 열선(REAR)",
+          "location": "공조 터치패널 오른쪽 상단 모서리 끝 REAR 터치 아이콘",
+          "action_guide": "공조기 조작 터치 화면 오른쪽 맨 윗줄 끝에 있는 사각형 'REAR' 아이콘을 터치하세요."
+        },
+        "smart_cruise": {
+          "name": "스마트 크루즈 / 고속도로 주행 보조",
+          "location": "핸들 '왼쪽' 스포크 버튼 4개 중 오른쪽 위 차간거리 아이콘 버튼",
+          "action_guide": "아이오닉 5는 일반 차와 달리 핸들 '왼쪽'에 크루즈가 있습니다! 핸들 왼쪽 버튼 네 개 중 오른쪽 위 차간거리 버튼을 누르세요."
+        },
+        "electronic_parking_brake": {
+          "name": "전자식 주차 브레이크(EPB)",
+          "location": "핸들 왼쪽 뒤 무릎 앞 크래시패드 맨 아래 (P) 스위치",
+          "action_guide": "핸들 왼쪽 무릎 앞 벽면 버튼 모음 중 맨 아래에 있는 은색 (P) 스위치를 앞으로 당기세요."
+        },
+        "auto_hold": {
+          "name": "오토홀드(Auto Hold)",
+          "location": "핸들 왼쪽 뒤 크래시패드 (P) 스위치 바로 윗줄 AUTO HOLD 버튼",
+          "action_guide": "핸들 왼쪽 무릎 앞 (P) 스위치 바로 윗줄에 있는 'AUTO HOLD' 버튼을 누르세요."
+        },
+        "charge_door": {
+          "name": "전기차 충전구 열림",
+          "location": "차량 외부 우측 후면 충전 도어 또는 핸들 왼쪽 크래시패드 플러그 아이콘 버튼",
+          "action_guide": "차에서 내린 후 조수석 뒤쪽 충전구 덮개 사각형 부분을 손으로 꾹 누르거나, 핸들 왼쪽 크래시패드의 콘센트 모양 버튼을 길게 누르세요."
+        }
+      }
+    },
+    {
+      "model_id": "CASPER",
+      "model_name_ko": "캐스퍼",
+      "model_name_en": "Casper",
+      "segment": "COMPACT",
+      "segment_detail": "경형 SUV",
+      "specs": {
+        "length_mm": 3595,
+        "width_mm": 1595,
+        "height_mm": 1575,
+        "wheelbase_mm": 2400
+      },
+      "gear_type": "바닥 콘솔이 아니라 대시보드 센터페시아에 돌출된 일체형 기어봉입니다. 손잡이 앞쪽 트리거 버튼을 쥐고 아래로 당기면 D단, 맨 위로 올리면 P단입니다.",
+      "buttons": {
+        "hazard_light": {
+          "name": "비상등 버튼",
+          "location": "내비게이션 화면 바로 밑, 오디오 조작 버튼 가로 1열 정중앙 빨간 버튼",
+          "action_guide": "내비게이션 화면 바로 아래, 버튼 한 줄 가운데에 큼직하게 박힌 빨간 삼각형 비상등 버튼을 누르세요."
+        },
+        "wiper": {
+          "name": "와이퍼 조작 레버",
+          "location": "스티어링 휠 오른쪽 뒤 레버",
+          "action_guide": "핸들 오른쪽 뒤 레버를 아래로 한 칸 내리면 작동하며, 레버 끝을 돌려 속도를 조절합니다."
+        },
+        "front_defog": {
+          "name": "앞유리 성에 제거(FRONT)",
+          "location": "동그란 공조 조작 다이얼 패널 좌측 상단 FRONT 물리 버튼",
+          "action_guide": "가운데 둥근 에어컨 조작부 왼쪽 윗줄에 있는 부채꼴 모양 'FRONT' 버튼을 누르세요."
+        },
+        "rear_defog": {
+          "name": "뒷유리 및 미러 열선(REAR)",
+          "location": "공조 조작 다이얼 패널 우측 상단 REAR 물리 버튼",
+          "action_guide": "가운데 둥근 에어컨 조작부 오른쪽 윗줄에 있는 직사각형 모양 'REAR' 버튼을 누르세요."
+        },
+        "smart_cruise": {
+          "name": "스마트 크루즈 컨트롤",
+          "location": "핸들 오른쪽 스포크 버튼 4개 중 오른쪽 위 차간거리 차량 아이콘 버튼",
+          "action_guide": "핸들 오른쪽 버튼 네 개 중 오른쪽 위에 위치한 차간거리 유지 버튼을 누르고, 바로 밑 스위치를 아래로 딸깍 내리세요."
+        },
+        "electronic_parking_brake": {
+          "name": "풋 파킹 브레이크 (발로 밟는 방식)",
+          "location": "운전석 바닥, 브레이크 페달 왼쪽 끝에 위치한 작은 발 페달",
+          "action_guide": "캐스퍼는 손으로 조작하는 전자식 버튼이 없습니다! 운전석 바닥 브레이크 페달 왼쪽 끝에 있는 풋 페달을 발로 꾹 밟아서 체결하고, 다시 꾹 밟아서 풉니다."
+        },
+        "drive_mode": {
+          "name": "드라이브 / 험로 트랙션 다이얼",
+          "location": "대시보드 기어봉 바로 오른쪽 원형 회전 다이얼",
+          "action_guide": "기어봉 바로 오른쪽에 튀어나온 둥근 다이얼을 돌려 노멀, 스포츠, 눈길 주행 모드를 선택할 수 있습니다."
+        }
+      }
+    }
+  ],
+  "faq_intents": [
+    {
+      "intent": "front_defog",
+      "keywords": ["성에", "습기", "앞유리", "시야", "김서림", "흐려", "김서려", "김서린"],
+      "response_key": "front_defog"
+    },
+    {
+      "intent": "rear_defog",
+      "keywords": ["뒷유리", "사이드미러", "열선", "빗물", "물방울", "뒤유리"],
+      "response_key": "rear_defog"
+    },
+    {
+      "intent": "hazard_light",
+      "keywords": ["비상등", "깜빡이", "비상", "경고등", "비상깜빡이"],
+      "response_key": "hazard_light"
+    },
+    {
+      "intent": "smart_cruise",
+      "keywords": ["스마트크루즈", "크루즈", "자율주행", "차간거리", "자동속도", "어댑티브", "hda", "정속주행"],
+      "response_key": "smart_cruise"
+    },
+    {
+      "intent": "wiper",
+      "keywords": ["와이퍼", "비", "유리닦기", "워셔액", "빗방울", "와이퍼어디"],
+      "response_key": "wiper"
+    },
+    {
+      "intent": "electronic_parking_brake",
+      "keywords": ["주차브레이크", "사이드브레이크", "파킹브레이크", "epb", "주차", "사이드", "파킹"],
+      "response_key": "electronic_parking_brake"
+    },
+    {
+      "intent": "auto_hold",
+      "keywords": ["오토홀드", "자동정차", "신호대기", "브레이크홀드"],
+      "response_key": "auto_hold"
+    },
+    {
+      "intent": "gear_type",
+      "keywords": ["기어", "변속기", "변속", "p단", "d단", "후진", "중립", "기어봉", "칼럼"],
+      "is_gear": true
+    }
+  ]
+}
