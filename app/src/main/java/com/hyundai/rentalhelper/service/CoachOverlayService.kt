@@ -15,6 +15,7 @@ import android.os.IBinder
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
+import android.view.ContextThemeWrapper
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -159,7 +160,8 @@ class CoachOverlayService : Service() {
             return
         }
 
-        bubbleBinding = LayoutFloatingCoachBubbleBinding.inflate(LayoutInflater.from(this))
+        val themeContext = ContextThemeWrapper(this, com.hyundai.rentalhelper.R.style.Theme_RentalCarAdaptationCoach)
+        bubbleBinding = LayoutFloatingCoachBubbleBinding.inflate(LayoutInflater.from(themeContext))
 
         val windowType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
@@ -170,13 +172,12 @@ class CoachOverlayService : Service() {
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
             windowType,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
-                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
             PixelFormat.TRANSLUCENT
         ).apply {
-            gravity = Gravity.CENTER_VERTICAL or Gravity.END
-            x = 24
-            y = -40
+            gravity = Gravity.BOTTOM or Gravity.END
+            x = 80
+            y = 180
         }
 
         // 터치 및 드래그 제스처 등록
@@ -197,7 +198,8 @@ class CoachOverlayService : Service() {
     private fun createFloatingBanner() {
         if (!Settings.canDrawOverlays(this)) return
 
-        bannerBinding = LayoutFloatingBriefingBannerBinding.inflate(LayoutInflater.from(this))
+        val themeContext = ContextThemeWrapper(this, com.hyundai.rentalhelper.R.style.Theme_RentalCarAdaptationCoach)
+        bannerBinding = LayoutFloatingBriefingBannerBinding.inflate(LayoutInflater.from(themeContext))
         bannerBinding?.root?.visibility = View.GONE
 
         val windowType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -280,10 +282,11 @@ class CoachOverlayService : Service() {
 
     private fun toggleBubbleMenu() {
         val panel = bubbleBinding?.bubbleMenuPanel ?: return
-        if (panel.visibility == View.VISIBLE) {
-            panel.visibility = View.GONE
-        } else {
-            panel.visibility = View.VISIBLE
+        panel.visibility = if (panel.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+        try {
+            windowManager?.updateViewLayout(bubbleBinding?.root, bubbleLayoutParams)
+        } catch (e: Exception) {
+            Log.e(TAG, "updateViewLayout 실패", e)
         }
     }
 
@@ -343,6 +346,9 @@ class CoachOverlayService : Service() {
         banner.tvBannerBody.text = body
         banner.tvBannerSubtext.text = subtext
         banner.root.visibility = View.VISIBLE
+        try {
+            windowManager?.updateViewLayout(banner.root, bannerLayoutParams)
+        } catch (e: Exception) {}
 
         mainHandler.removeCallbacks(autoHideBannerRunnable)
         // 10초 후 순정 지도 시야 확보를 위해 자동 닫힘
@@ -350,7 +356,12 @@ class CoachOverlayService : Service() {
     }
 
     private val autoHideBannerRunnable = Runnable {
-        bannerBinding?.root?.visibility = View.GONE
+        bannerBinding?.let { banner ->
+            banner.root.visibility = View.GONE
+            try {
+                windowManager?.updateViewLayout(banner.root, bannerLayoutParams)
+            } catch (e: Exception) {}
+        }
     }
 
     private fun simulateQuery(query: String) {

@@ -75,7 +75,7 @@
         <!-- 실제 현대 순정 내비게이션 위 백그라운드 음성 코칭 및 플로팅 Q&A 서비스 -->
         <service
             android:name=".service.CoachOverlayService"
-            android:exported="false"
+            android:exported="true"
             android:foregroundServiceType="specialUse">
             <property
                 android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"

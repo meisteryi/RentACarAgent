@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="end|center_vertical"
@@ -12,8 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
-        android:background="#E6181F2B"
-        android:elevation="12dp"
+        android:background="@drawable/bg_floating_banner"
+        android:elevation="14dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="8dp"
@@ -21,85 +20,85 @@
 
         <Button
             android:id="@+id/btnQuickDefog"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="44dp"
             android:layout_marginEnd="6dp"
+            android:background="@drawable/bg_chip_button"
             android:text="성에 제거"
             android:textColor="@color/car_text_primary"
-            android:textSize="13sp"
-            app:cornerRadius="8dp"
-            app:strokeColor="#3A485E" />
+            android:textSize="13sp" />
 
         <Button
             android:id="@+id/btnQuickCruise"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="44dp"
             android:layout_marginEnd="6dp"
+            android:background="@drawable/bg_chip_button"
             android:text="스마트 크루즈"
             android:textColor="@color/car_text_primary"
-            android:textSize="13sp"
-            app:cornerRadius="8dp"
-            app:strokeColor="#3A485E" />
+            android:textSize="13sp" />
 
         <Button
             android:id="@+id/btnQuickGear"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="44dp"
             android:layout_marginEnd="6dp"
+            android:background="@drawable/bg_chip_button"
             android:text="기어 조작법"
             android:textColor="@color/car_text_primary"
-            android:textSize="13sp"
-            app:cornerRadius="8dp"
-            app:strokeColor="#3A485E" />
+            android:textSize="13sp" />
 
         <Button
             android:id="@+id/btnQuickBriefing"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="44dp"
+            android:background="@drawable/bg_chip_button"
             android:text="체급 브리핑"
             android:textColor="@color/hyundai_active_blue"
-            android:textSize="13sp"
-            app:cornerRadius="8dp"
-            app:strokeColor="@color/hyundai_active_blue" />
+            android:textSize="13sp" />
     </LinearLayout>
 
-    <!-- The Floating Icon Bubble (Always visible over the real navigation) -->
-    <FrameLayout
+    <!-- The Floating Icon Pill (Prominently visible on top of native map) -->
+    <LinearLayout
         android:id="@+id/bubbleIconContainer"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        android:background="@drawable/bg_floating_bubble"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:background="@drawable/bg_floating_pill"
         android:clickable="true"
-        android:elevation="16dp"
-        android:focusable="true">
+        android:elevation="20dp"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🎙️"
+            android:textSize="26sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
+            android:layout_marginStart="8dp"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="🎙️"
-                android:textSize="26sp" />
+                android:text="렌터카 코치"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvBubbleBadge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="투싼"
-                android:textColor="@color/car_text_primary"
-                android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textColor="#00E5FF"
+                android:textSize="11sp" />
         </LinearLayout>
-    </FrameLayout>
+    </LinearLayout>
 
 </LinearLayout>
-
