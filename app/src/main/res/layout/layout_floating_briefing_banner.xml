@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/cardBannerRoot"
-    android:layout_width="680dp"
+    android:layout_width="1550dp"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
     android:background="@drawable/bg_floating_banner"
-    android:elevation="20dp"
+    android:elevation="30dp"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:padding="32dp">
 
+    <!-- Subtitle Header Bar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,48 +20,69 @@
             android:id="@+id/tvBannerIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="🔊"
-            android:textSize="22sp" />
+            android:text="🗣️"
+            android:textSize="44sp" />
 
-        <TextView
-            android:id="@+id/tvBannerTitle"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="18dp"
             android:layout_weight="1"
-            android:text="현대 렌터카 적응 코치"
-            android:textColor="@color/hyundai_active_blue"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:orientation="vertical">
 
-        <ImageButton
+            <TextView
+                android:id="@+id/tvBannerTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="[실시간 음성 자막 - TTS 발화 중]"
+                android:textColor="#0072CE"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvBannerCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="💡 현대 렌터카 적응 코치"
+                android:textColor="@color/car_text_secondary"
+                android:textSize="22sp" />
+        </LinearLayout>
+
+        <!-- Close Button -->
+        <Button
             android:id="@+id/btnBannerClose"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:background="?selectableItemBackgroundBorderless"
-            android:contentDescription="닫기"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
-            android:tint="@color/car_text_dim" />
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:paddingHorizontal="24dp"
+            android:text="닫기 ✕"
+            android:textColor="@color/car_text_dim"
+            android:textSize="24sp" />
     </LinearLayout>
 
+    <!-- Verbatim Spoken Voice Subtitle (Large, High Contrast HUD) -->
     <TextView
         android:id="@+id/tvBannerBody"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:lineSpacingExtra="4dp"
-        android:text="차량 인식 및 안내 준비 중..."
-        android:textColor="@color/car_text_primary"
-        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_subtitle_box"
+        android:lineSpacingExtra="12dp"
+        android:padding="24dp"
+        android:text="&quot;스피커 음성 안내 대사와 100% 동일한 자막이 여기에 표시됩니다.&quot;"
+        android:textColor="#111827"
+        android:textSize="36sp"
         android:textStyle="bold" />
 
+    <!-- Subtitle Footer / Context Hint -->
     <TextView
         android:id="@+id/tvBannerSubtext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="10초 후 지도를 위해 자동으로 닫힙니다."
+        android:layout_marginTop="16dp"
+        android:text="🔊 차량 스피커로 출력되는 음성과 100% 동일한 실시간 자막입니다."
         android:textColor="@color/car_text_secondary"
-        android:textSize="12sp" />
+        android:textSize="22sp" />
 
 </LinearLayout>

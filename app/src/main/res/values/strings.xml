@@ -11,7 +11,7 @@
     <string name="car_type_van">승합차 (스타리아/카니발)</string>
     <string name="car_type_truck">트럭/상용차 (포터/봉고)</string>
 
-    <string name="btn_confirm_car">선택 완료 (지도 및 음성 안내 시작)</string>
+    <string name="btn_confirm_car">선택 완료</string>
     <string name="btn_skip_car">건너뛰기</string>
 
     <!-- Main Assistant -->

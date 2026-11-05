@@ -35,6 +35,7 @@ class VoiceAssistantEngine(
     var onListeningStateChanged: ((isListening: Boolean) -> Unit)? = null
     var onSpeechResultReceived: ((query: String, title: String, answer: String) -> Unit)? = null
     var onErrorOccurred: ((errorMessage: String) -> Unit)? = null
+    var onSpokenSubtitle: ((spokenText: String) -> Unit)? = null
 
     private var pendingSpeechText: String? = null
 
@@ -210,6 +211,9 @@ class VoiceAssistantEngine(
      * TTS 음성 안내 송출 (1~2문장 극단적 간결성 준수)
      */
     fun speak(text: String, utteranceId: String = UTTERANCE_ID_BRIEFING, onCompleted: (() -> Unit)? = null) {
+        // [개발 모드] 음성이 나올 때 동일한 텍스트로 실시간 자막 통지
+        onSpokenSubtitle?.invoke(text)
+
         if (!isTtsReady || tts == null) {
             Log.w(TAG, "TTS 초기화 대기 중: 발화 예약 등록 ($text)")
             pendingSpeechText = text

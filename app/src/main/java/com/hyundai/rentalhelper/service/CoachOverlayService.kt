@@ -121,12 +121,28 @@ class CoachOverlayService : Service() {
     private fun initVoiceEngine() {
         voiceEngine = VoiceAssistantEngine(this, buttonDb)
 
+        voiceEngine.onSpokenSubtitle = { spokenText ->
+            val carName = currentRentalModel?.modelNameKo ?: "현대 렌터카"
+            showBanner(
+                title = "🗣️ [실시간 음성 자막 - TTS 발화 중]",
+                body = spokenText,
+                subtext = "🔊 차량 스피커 음성과 100% 동일한 실시간 자막입니다.",
+                category = "💡 $carName 실시간 음성 가이드"
+            )
+        }
+
         voiceEngine.onSpeechResultReceived = { query, title, answer ->
-            showBanner(title, answer, "질문: \"$query\"")
+            val carName = currentRentalModel?.modelNameKo ?: "현대 렌터카"
+            showBanner(
+                title = "🗣️ [실시간 음성 자막 - $title]",
+                body = answer,
+                subtext = "질문: \"$query\"",
+                category = "💡 $carName 음성 Q&amp;A 답변"
+            )
         }
 
         voiceEngine.onErrorOccurred = { errorMsg ->
-            showBanner("음성 비서", errorMsg, "다시 말씀해 주세요.")
+            showBanner("⚠️ 음성 비서 알림", errorMsg, "다시 말씀해 주세요.")
         }
     }
 
@@ -176,8 +192,8 @@ class CoachOverlayService : Service() {
             PixelFormat.TRANSLUCENT
         ).apply {
             gravity = Gravity.BOTTOM or Gravity.END
-            x = 80
-            y = 180
+            x = 100
+            y = 240
         }
 
         // 터치 및 드래그 제스처 등록
@@ -214,8 +230,9 @@ class CoachOverlayService : Service() {
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
             PixelFormat.TRANSLUCENT
         ).apply {
-            gravity = Gravity.TOP or Gravity.CENTER_HORIZONTAL
-            y = 24
+            gravity = Gravity.TOP or Gravity.END
+            x = 80
+            y = 30
         }
 
         bannerBinding?.btnBannerClose?.setOnClickListener {
@@ -257,8 +274,8 @@ class CoachOverlayService : Service() {
                         val dy = (initialTouchY - event.rawY).toInt()
                         if (Math.abs(dx) > 10 || Math.abs(dy) > 10) {
                             isDragging = true
-                            params.x = initialX + dx
-                            params.y = initialY + dy
+                            params.x = (initialX + dx).coerceIn(40, 1600)
+                            params.y = (initialY + dy).coerceIn(80, 1100)
                             try {
                                 windowManager?.updateViewLayout(bubbleBinding?.root, params)
                             } catch (e: Exception) {
@@ -331,28 +348,36 @@ class CoachOverlayService : Service() {
         val briefingText = buttonDb.generateAdaptationBriefing(rentalModel, usualSegment)
 
         showBanner(
-            "💡 현대 렌터카 체급 브리핑 (${rentalModel.modelNameKo})",
-            briefingText,
-            "평소: ${usualSegment.displayName} ➔ 현재 렌터카: ${rentalModel.modelNameKo}"
+            title = "🗣️ [실시간 음성 자막 - 체급 브리핑]",
+            body = briefingText,
+            subtext = "평소 운전: ${usualSegment.displayName} ➔ 현재 렌터카: ${rentalModel.modelNameKo}",
+            category = "💡 ${rentalModel.modelNameKo} 적응 브리핑"
         )
 
         // 차량 스피커 음성(TTS) 즉각 출력
         voiceEngine.speak(briefingText)
     }
 
-    private fun showBanner(title: String, body: String, subtext: String) {
+    private fun showBanner(
+        title: String,
+        body: String,
+        subtext: String,
+        category: String? = null
+    ) {
         val banner = bannerBinding ?: return
         banner.tvBannerTitle.text = title
-        banner.tvBannerBody.text = body
+        banner.tvBannerBody.text = "\"$body\""
         banner.tvBannerSubtext.text = subtext
+        val carName = currentRentalModel?.modelNameKo ?: "현대 렌터카"
+        banner.tvBannerCategory.text = category ?: "💡 $carName 맞춤 코치 안내"
         banner.root.visibility = View.VISIBLE
         try {
             windowManager?.updateViewLayout(banner.root, bannerLayoutParams)
         } catch (e: Exception) {}
 
         mainHandler.removeCallbacks(autoHideBannerRunnable)
-        // 10초 후 순정 지도 시야 확보를 위해 자동 닫힘
-        mainHandler.postDelayed(autoHideBannerRunnable, 10000)
+        // 15초 후 자동 닫힘 (음성 자막 정독 시간 보장)
+        mainHandler.postDelayed(autoHideBannerRunnable, 15000)
     }
 
     private val autoHideBannerRunnable = Runnable {
@@ -367,7 +392,12 @@ class CoachOverlayService : Service() {
     private fun simulateQuery(query: String) {
         val model = currentRentalModel ?: return
         val (title, answer) = buttonDb.matchVoiceQuery(model, query)
-        showBanner("🎙️ $title", answer, "질문: \"$query\"")
+        showBanner(
+            title = "🗣️ [실시간 음성 자막 - $title]",
+            body = answer,
+            subtext = "질문: \"$query\"",
+            category = "💡 ${model.modelNameKo} 핀포인트 안내"
+        )
         voiceEngine.speak(answer)
     }
 

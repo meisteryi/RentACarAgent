@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/car_bg_dark"
+    android:background="@color/car_bg_light"
     android:orientation="vertical"
-    android:padding="32dp">
+    android:padding="48dp">
 
-    <!-- Top Header / Greeting -->
+    <!-- Top Header / Greeting (Automotive Large Font) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,25 +20,25 @@
             android:layout_height="wrap_content"
             android:text="@string/title_select_my_car"
             android:textColor="@color/car_text_primary"
-            android:textSize="32sp"
+            android:textSize="50sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvSubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:text="@string/subtitle_select_my_car"
             android:textColor="@color/car_text_secondary"
-            android:textSize="18sp" />
+            android:textSize="28sp" />
     </LinearLayout>
 
-    <!-- Car Type Horizontal/Grid Selector (AAOS 1-Click touch optimized) -->
+    <!-- Car Type Horizontal Selector (Large 88dp+ Touch Targets for In-Car Display) -->
     <LinearLayout
         android:id="@+id/containerCarTypes"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="36dp"
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="horizontal">
@@ -47,14 +47,15 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardCompact"
             android:layout_width="0dp"
-            android:layout_height="180dp"
-            android:layout_margin="8dp"
+            android:layout_height="380dp"
+            android:layout_margin="12dp"
             android:layout_weight="1"
             android:clickable="true"
             android:focusable="true"
-            app:cardBackgroundColor="@color/car_surface_dark"
-            app:cardCornerRadius="16dp"
-            app:strokeColor="@color/car_surface_dark_stroke"
+            app:cardBackgroundColor="@color/car_surface_light"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="4dp"
+            app:strokeColor="@color/car_surface_light_stroke"
             app:strokeWidth="2dp">
 
             <LinearLayout
@@ -62,30 +63,30 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="24dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="🚗"
-                    android:textSize="40sp" />
+                    android:textSize="84sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="20dp"
                     android:text="경차"
                     android:textColor="@color/car_text_primary"
-                    android:textSize="22sp"
+                    android:textSize="38sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="10dp"
                     android:text="캐스퍼, 모닝"
                     android:textColor="@color/car_text_dim"
-                    android:textSize="14sp" />
+                    android:textSize="24sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -93,14 +94,15 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardSedan"
             android:layout_width="0dp"
-            android:layout_height="180dp"
-            android:layout_margin="8dp"
+            android:layout_height="380dp"
+            android:layout_margin="12dp"
             android:layout_weight="1"
             android:clickable="true"
             android:focusable="true"
-            app:cardBackgroundColor="@color/car_surface_dark"
-            app:cardCornerRadius="16dp"
-            app:strokeColor="@color/car_surface_dark_stroke"
+            app:cardBackgroundColor="@color/car_surface_light"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="4dp"
+            app:strokeColor="@color/car_surface_light_stroke"
             app:strokeWidth="2dp">
 
             <LinearLayout
@@ -108,30 +110,30 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="24dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="🚘"
-                    android:textSize="40sp" />
+                    android:textSize="84sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="20dp"
                     android:text="세단"
                     android:textColor="@color/car_text_primary"
-                    android:textSize="22sp"
+                    android:textSize="38sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="아반떼, 쏘나타, 그랜저"
+                    android:layout_marginTop="10dp"
+                    android:text="아반떼, 쏘나타"
                     android:textColor="@color/car_text_dim"
-                    android:textSize="14sp" />
+                    android:textSize="24sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -139,14 +141,15 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardSuv"
             android:layout_width="0dp"
-            android:layout_height="180dp"
-            android:layout_margin="8dp"
+            android:layout_height="380dp"
+            android:layout_margin="12dp"
             android:layout_weight="1"
             android:clickable="true"
             android:focusable="true"
-            app:cardBackgroundColor="@color/car_surface_dark"
-            app:cardCornerRadius="16dp"
-            app:strokeColor="@color/car_surface_dark_stroke"
+            app:cardBackgroundColor="@color/car_surface_light"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="4dp"
+            app:strokeColor="@color/car_surface_light_stroke"
             app:strokeWidth="2dp">
 
             <LinearLayout
@@ -154,30 +157,30 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="24dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="🚙"
-                    android:textSize="40sp" />
+                    android:textSize="84sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="20dp"
                     android:text="SUV"
                     android:textColor="@color/car_text_primary"
-                    android:textSize="22sp"
+                    android:textSize="38sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="투싼, 싼타페, 팰리세이드"
+                    android:layout_marginTop="10dp"
+                    android:text="투싼, 싼타페"
                     android:textColor="@color/car_text_dim"
-                    android:textSize="14sp" />
+                    android:textSize="24sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -185,14 +188,15 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardVan"
             android:layout_width="0dp"
-            android:layout_height="180dp"
-            android:layout_margin="8dp"
+            android:layout_height="380dp"
+            android:layout_margin="12dp"
             android:layout_weight="1"
             android:clickable="true"
             android:focusable="true"
-            app:cardBackgroundColor="@color/car_surface_dark"
-            app:cardCornerRadius="16dp"
-            app:strokeColor="@color/car_surface_dark_stroke"
+            app:cardBackgroundColor="@color/car_surface_light"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="4dp"
+            app:strokeColor="@color/car_surface_light_stroke"
             app:strokeWidth="2dp">
 
             <LinearLayout
@@ -200,30 +204,30 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="24dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="🚐"
-                    android:textSize="40sp" />
+                    android:textSize="84sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="20dp"
                     android:text="승합차"
                     android:textColor="@color/car_text_primary"
-                    android:textSize="22sp"
+                    android:textSize="38sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="10dp"
                     android:text="스타리아, 카니발"
                     android:textColor="@color/car_text_dim"
-                    android:textSize="14sp" />
+                    android:textSize="24sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -231,14 +235,15 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardTruck"
             android:layout_width="0dp"
-            android:layout_height="180dp"
-            android:layout_margin="8dp"
+            android:layout_height="380dp"
+            android:layout_margin="12dp"
             android:layout_weight="1"
             android:clickable="true"
             android:focusable="true"
-            app:cardBackgroundColor="@color/car_surface_dark"
-            app:cardCornerRadius="16dp"
-            app:strokeColor="@color/car_surface_dark_stroke"
+            app:cardBackgroundColor="@color/car_surface_light"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="4dp"
+            app:strokeColor="@color/car_surface_light_stroke"
             app:strokeWidth="2dp">
 
             <LinearLayout
@@ -246,40 +251,40 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="24dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="🚚"
-                    android:textSize="40sp" />
+                    android:textSize="84sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="20dp"
                     android:text="트럭"
                     android:textColor="@color/car_text_primary"
-                    android:textSize="22sp"
+                    android:textSize="38sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="10dp"
                     android:text="포터, 봉고"
                     android:textColor="@color/car_text_dim"
-                    android:textSize="14sp" />
+                    android:textSize="24sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 
-    <!-- Bottom Actions -->
+    <!-- Bottom Actions (Large Buttons for Easy Pressing) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="28dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -287,11 +292,11 @@
             android:id="@+id/btnSkip"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
-            android:paddingHorizontal="24dp"
+            android:layout_height="100dp"
+            android:paddingHorizontal="40dp"
             android:text="@string/btn_skip_car"
             android:textColor="@color/car_text_secondary"
-            android:textSize="18sp" />
+            android:textSize="28sp" />
 
         <View
             android:layout_width="0dp"
@@ -301,16 +306,15 @@
         <Button
             android:id="@+id/btnConfirm"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
+            android:layout_height="100dp"
             android:backgroundTint="@color/hyundai_accent"
             android:enabled="false"
-            android:paddingHorizontal="32dp"
+            android:paddingHorizontal="56dp"
             android:text="@string/btn_confirm_car"
-            android:textColor="@color/car_text_primary"
-            android:textSize="20sp"
+            android:textColor="@color/car_text_on_accent"
+            android:textSize="32sp"
             android:textStyle="bold"
-            app:cornerRadius="12dp" />
+            app:cornerRadius="22dp" />
     </LinearLayout>
 
 </LinearLayout>
-

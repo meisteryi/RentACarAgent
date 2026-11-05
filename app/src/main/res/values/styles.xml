@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Base Automotive Dark Theme -->
-    <style name="Theme.RentalCarAdaptationCoach" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <!-- Base Automotive Light Theme (White Background, Black Text, Hyundai Blue Accent) -->
+    <style name="Theme.RentalCarAdaptationCoach" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/hyundai_accent</item>
         <item name="colorPrimaryVariant">@color/hyundai_blue</item>
-        <item name="colorOnPrimary">@color/car_text_primary</item>
-        <item name="android:windowBackground">@color/car_bg_dark</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="android:windowBackground">@color/car_bg_light</item>
         <item name="android:textColorPrimary">@color/car_text_primary</item>
         <item name="android:textColorSecondary">@color/car_text_secondary</item>
     </style>
 
-    <!-- Startup Dialog Theme: Quick floating/modal style or clean fullscreen overlay -->
+    <!-- Startup Dialog Theme -->
     <style name="Theme.RentalCarAdaptationCoach.StartupDialog" parent="Theme.RentalCarAdaptationCoach">
         <item name="android:windowIsFloating">false</item>
-        <item name="android:windowBackground">@color/car_bg_dark</item>
+        <item name="android:windowBackground">@color/car_bg_light</item>
     </style>
 </resources>
-

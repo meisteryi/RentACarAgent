@@ -1,22 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Hyundai Brand & Automotive Dark Palette -->
+    <!-- Hyundai Brand Palette -->
     <color name="hyundai_blue">#002C5F</color>
-    <color name="hyundai_active_blue">#00AAD2</color>
     <color name="hyundai_accent">#0072CE</color>
+    <color name="hyundai_active_blue">#0091FF</color>
+    <color name="hyundai_light_blue_tint">#EBF5FF</color>
     
-    <color name="car_bg_dark">#121418</color>
-    <color name="car_surface_dark">#1C2026</color>
-    <color name="car_surface_dark_stroke">#2C323D</color>
-    <color name="car_card_selected">#243447</color>
+    <!-- White / Light Theme Palette (Matching Pleos/cCNC Day Mode) -->
+    <color name="car_bg_light">#FFFFFF</color>
+    <color name="car_bg_subtle">#F8F9FA</color>
+    <color name="car_surface_light">#FFFFFF</color>
+    <color name="car_surface_light_stroke">#E5E7EB</color>
+    <color name="car_card_selected">#EEF6FF</color>
+    <color name="car_card_selected_stroke">#0072CE</color>
 
-    <color name="car_text_primary">#F5F7FA</color>
-    <color name="car_text_secondary">#9DA8B6</color>
-    <color name="car_text_dim">#687482</color>
+    <!-- Typography: High-Contrast Deep Black & Slate Gray -->
+    <color name="car_text_primary">#111827</color>
+    <color name="car_text_secondary">#4B5563</color>
+    <color name="car_text_dim">#9CA3AF</color>
+    <color name="car_text_on_accent">#FFFFFF</color>
 
-    <color name="car_warning">#FFB020</color>
+    <!-- Compatibility aliases -->
+    <color name="car_bg_dark">#FFFFFF</color>
+    <color name="car_surface_dark">#FFFFFF</color>
+    <color name="car_surface_dark_stroke">#E5E7EB</color>
+
+    <color name="car_warning">#E67E22</color>
     <color name="car_danger">#D32F2F</color>
     <color name="car_success">#2E7D32</color>
-    <color name="mic_listening_pulse">#FF5252</color>
+    <color name="mic_listening_pulse">#0072CE</color>
 </resources>
-
