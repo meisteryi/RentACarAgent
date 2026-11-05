@@ -51,9 +51,9 @@ class VehicleSdkManager(
     private var carInfoManager: CarInfoManager? = null
     private val mainHandler = Handler(Looper.getMainLooper())
 
-    // 차량 상태 캐시 (기본값: 현대 투싼 SUV)
-    private var currentModelId: String = "TUCSON"
-    private var currentModelName: String = "투싼"
+    // 차량 상태 캐시 (기본값: 현대 아이오닉 5 EV - 에뮬레이터 기본 렌더링 모델)
+    private var currentModelId: String = "IONIQ5"
+    private var currentModelName: String = "아이오닉 5"
     private var currentSpeedKmh: Float = 0.0f
     private var currentGear: String = "PARK"
 
@@ -202,8 +202,8 @@ class VehicleSdkManager(
                 currentModelName = "캐스퍼"
             }
             else -> {
-                currentModelId = "TUCSON"
-                currentModelName = "투싼"
+                currentModelId = "IONIQ5"
+                currentModelName = "아이오닉 5"
             }
         }
         Log.i(TAG, "현재 렌터카 모델 설정됨: $currentModelName ($currentModelId)")

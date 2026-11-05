@@ -1,10 +1,963 @@
 {
-  "version": "2.0.0",
+  "version": "4.0.0",
+  "comment": "현대자동차 연식별 실차 기준 운전석 조작계 전수 물리 버튼 및 하드웨어 온톨로지 DB (전 차종 전수 구축 완료)",
   "models": [
+    {
+      "model_id": "IONIQ5",
+      "model_name_ko": "아이오닉 5",
+      "model_name_en": "Ioniq 5",
+      "model_year": "2021~2024 (NE / NE PE)",
+      "segment": "SUV",
+      "segment_detail": "준중형 CUV / 전용 전기차 (E-GMP)",
+      "specs": {
+        "length_mm": 4635,
+        "width_mm": 1890,
+        "height_mm": 1605,
+        "wheelbase_mm": 3000
+      },
+      "gear_type": "스티어링 휠(핸들) 오른쪽 뒤편 5시 방향에 위치한 전자식 칼럼 로터리 레버입니다. 레버 끝단 원통을 앞(위)으로 비틀면 D단, 뒤(몸쪽)로 비틀면 R단, 중간에 살짝 걸치면 N단이며, 레버 오른쪽 끝에 매립된 은색 버튼을 누르면 P단이 체결됩니다.",
+      "buttons": {
+        "gear_shift": {
+          "name": "전자식 칼럼 로터리 변속 레버",
+          "zone": "STEERING_WHEEL_COLUMN",
+          "location": "핸들 오른쪽 뒤편 와이퍼 레버 아래 5시 방향",
+          "action_guide": "와이퍼 레버 아래쪽에 있는 두꺼운 칼럼 레버 끝부분을 앞쪽으로 비틀면 D단, 몸쪽으로 돌리면 R단, 레버 끝 은색 버튼을 꾹 누르면 P단이 들어갑니다."
+        },
+        "hazard_light": {
+          "name": "비상경고등 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "중앙 수평형 송풍구(에어벤트) 정중앙 돌출 버튼",
+          "action_guide": "가운데 에어컨 송풍구 정중앙에 홀로 돌출되어 있는 빨간 삼각형 버튼을 누르세요."
+        },
+        "wiper_stalk": {
+          "name": "와이퍼 & 워셔액 조작 레버",
+          "zone": "STEERING_WHEEL_COLUMN",
+          "location": "핸들 오른쪽 뒤편 상단 얇은 레버 (칼럼 기어 위쪽)",
+          "action_guide": "핸들 오른쪽 뒤 얇은 레버를 아래로 한 칸 내리면 AUTO, 레버 가운데 다이얼로 감도를 조절하며, 레버를 몸쪽으로 당기면 워셔액이 분사됩니다."
+        },
+        "light_stalk": {
+          "name": "전조등 & 방향지시등 레버",
+          "zone": "STEERING_WHEEL_COLUMN",
+          "location": "핸들 왼쪽 뒤편 레버",
+          "action_guide": "레버를 위로 올리면 우회전, 아래로 내리면 좌회전 깜빡이입니다. 끝단 회전 다이얼을 'AUTO' 위치에 두시면 터널과 야간에 자동으로 불이 켜집니다."
+        },
+        "front_defog": {
+          "name": "앞유리 성에 제거 버튼(FRONT)",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 터치스크린 패널 맨 윗줄 가장 왼쪽 첫 번째 부채꼴 아이콘",
+          "action_guide": "센터페시아 공조 터치 화면 왼쪽 맨 윗줄 첫 번째 'FRONT'라고 적힌 부채꼴 아이콘을 터치하세요. 에어컨과 외기 순환이 켜지며 성에가 급속 제거됩니다."
+        },
+        "rear_defog": {
+          "name": "뒷유리 및 사이드미러 열선 버튼(REAR)",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 터치스크린 패널 맨 윗줄 가장 오른쪽 끝 직사각형 아이콘",
+          "action_guide": "공조 터치 화면 오른쪽 맨 윗줄 끝에 위치한 직사각형 모양 'REAR' 아이콘을 터치하면 뒷유리와 양쪽 사이드미러 열선이 켜집니다."
+        },
+        "climate_auto": {
+          "name": "공조기 자동 제어(AUTO)",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 터치패널 중앙 상단 AUTO 터치 아이콘",
+          "action_guide": "공조 화면의 'AUTO' 아이콘을 터치하면 1~3단계 바람 세기별로 설정 온도에 맞춰 풍량이 자동 제어됩니다."
+        },
+        "climate_off": {
+          "name": "공조기 전원 OFF 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 터치패널 좌측 모서리 OFF 아이콘",
+          "action_guide": "공조 화면 왼쪽 부채꼴 FRONT 버튼 바로 옆의 'OFF' 아이콘을 누르면 에어컨과 히터가 꺼집니다."
+        },
+        "temp_toggle_driver": {
+          "name": "운전석 실내 온도 조절 스위치",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 터치패널 왼쪽 아래 은색 상하 토글 스위치",
+          "action_guide": "공조 패널 왼쪽 아래에 있는 은색 스위치를 위로 올리면 온도가 올라가고, 아래로 내리면 온도가 내려갑니다."
+        },
+        "temp_toggle_passenger": {
+          "name": "동승석 실내 온도 조절 스위치",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 터치패널 오른쪽 아래 은색 상하 토글 스위치",
+          "action_guide": "공조 패널 오른쪽 아래에 있는 은색 스위치를 위로 올리면 동승석 온도가 올라가고 아래로 내리면 내려갑니다."
+        },
+        "driver_only": {
+          "name": "운전석 독립 공조(DRIVER ONLY)",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 터치패널 하단 DRIVER ONLY 아이콘",
+          "action_guide": "공조 패널의 'DRIVER ONLY'를 터치하면 운전석으로만 바람을 집중시켜 전기차 배터리 소모를 아낍니다."
+        },
+        "air_recirculation": {
+          "name": "실내 공기 순환/외기 유입 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 패널 중앙 자동차 내부 순환 화살표 아이콘",
+          "action_guide": "터치할 때마다 실내 공기 순환과 외부 공기 유입 모드가 번갈아 전환됩니다."
+        },
+        "seat_vent_heat": {
+          "name": "운전석 통풍 & 열선 시트 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 터치패널 'WARMER' 터치 후 시트 화면 또는 센터콘솔 버튼",
+          "action_guide": "공조 패널의 'WARMER' 버튼을 터치하거나 디스플레이 시트 메뉴에서 열선 3단, 통풍 3단으로 터치 조절합니다."
+        },
+        "heated_steering_wheel": {
+          "name": "스티어링 휠(핸들) 열선 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 터치패널 WARMER 화면 내 핸들 아이콘",
+          "action_guide": "공조 화면 WARMER 메뉴 진입 후 스티어링 휠 열선 아이콘을 터치하여 2단계로 켜고 끕니다."
+        },
+        "smart_cruise": {
+          "name": "스마트 크루즈 컨트롤(SCC) 스위치",
+          "zone": "STEERING_WHEEL",
+          "location": "스티어링 휠(핸들) 왼쪽 스포크 9시 방향 계기판/속도계 모양 버튼",
+          "action_guide": "아이오닉 5는 일반 차와 달리 스마트 크루즈가 핸들 '왼쪽'에 있습니다. 원하는 속도에서 왼쪽 계기판 모양 버튼을 누르면 설정됩니다."
+        },
+        "lane_follow_assist": {
+          "name": "차로 유지 보조(LFA) 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "스티어링 휠 왼쪽 스포크 핸들 모양 아이콘",
+          "action_guide": "핸들 왼쪽의 스티어링 휠 모양 아이콘을 누르면 초록색 핸들 표시등이 켜지며 차선 중앙을 자동으로 유지해 줍니다."
+        },
+        "cruise_gap": {
+          "name": "차간 거리 조절 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 왼쪽 스포크 자동차와 막대 표시 아이콘",
+          "action_guide": "버튼을 누를 때마다 앞차와의 안전거리가 1단계에서 4단계까지 순환 변경됩니다."
+        },
+        "cruise_speed_toggle": {
+          "name": "크루즈 속도 조절 토글(RES+/SET-)",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 왼쪽 스포크 중앙 은색 상하 토글 스위치",
+          "action_guide": "토글을 위(+RES)로 올리면 속도가 1km/h(길게 10km/h) 증가하고, 아래(-SET)로 내리면 감속합니다."
+        },
+        "drive_mode": {
+          "name": "드라이브 모드 원형 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "스티어링 휠 중앙 8시 방향 하단에 매립된 원형 버튼",
+          "action_guide": "핸들 8시 방향에 튀어나온 둥근 원형 버튼을 누르면 ECO, NORMAL, SPORT 모드로 전환됩니다. 길게 누르면 눈길 SNOW 모드가 켜집니다."
+        },
+        "regen_paddle_left": {
+          "name": "회생제동 증가 & i-Pedal 패들",
+          "zone": "STEERING_WHEEL",
+          "location": "스티어링 휠 뒤편 왼쪽 마이너스(-) 패들쉬프트",
+          "action_guide": "왼쪽 패들을 한 번씩 당기면 회생제동 단계가 1~3단계 및 i-Pedal(원페달 주행) 모드로 높아지며, 당기고 있으면 차가 멈출 때까지 감속합니다."
+        },
+        "regen_paddle_right": {
+          "name": "회생제동 감소 패들",
+          "zone": "STEERING_WHEEL",
+          "location": "스티어링 휠 뒤편 오른쪽 플러스(+) 패들쉬프트",
+          "action_guide": "오른쪽 패들을 당기면 회생제동 강도가 0단계(타력 주행) 방향으로 낮아집니다. 길게 당기면 스마트 회생제동 AUTO 모드가 켜집니다."
+        },
+        "voice_recognition": {
+          "name": "음성인식 마이크 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "스티어링 휠 오른쪽 스포크 2시 방향 사람 말하는 모양 아이콘",
+          "action_guide": "버튼을 짧게 누르고 삐 소리가 난 뒤 '에어컨 켜줘', '라디오 틀어줘' 등 원하는 음성 명령을 말하세요."
+        },
+        "audio_volume": {
+          "name": "오디오 볼륨 조절 및 음소거 토글",
+          "zone": "STEERING_WHEEL",
+          "location": "스티어링 휠 오른쪽 스포크 은색 상하 토글 스위치",
+          "action_guide": "토글을 위/아래로 밀어 음량을 조절하고, 토글을 정면에서 꾹 누르면 즉시 음소거됩니다."
+        },
+        "phone_call": {
+          "name": "블루투스 전화 수신/종료 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "스티어링 휠 오른쪽 스포크 수화기 모양 아이콘",
+          "action_guide": "전화가 올 때 누르면 통화가 연결되고, 통화 중 누르면 통화가 종료됩니다."
+        },
+        "cluster_view_mode": {
+          "name": "클러스터(계기판) 뷰 모드 전환 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "스티어링 휠 오른쪽 스포크 종이 책 넘김 모양 아이콘",
+          "action_guide": "누를 때마다 계기판 중앙의 주행정보, 타이어공기압, ADAS 운전자보조 화면이 순서대로 바뀝니다."
+        },
+        "electronic_parking_brake": {
+          "name": "전자식 주차 브레이크(EPB) 스위치",
+          "zone": "CRASH_PAD_LOWER",
+          "location": "운전석 왼쪽 무릎 앞 크래시패드 하단 스위치 패널",
+          "action_guide": "콘솔이 아니라 운전석 왼쪽 무릎 앞 패널에 있습니다. 스위치를 몸쪽으로 당기면 주차 브레이크가 걸리고, 브레이크를 밟고 누르면 풀립니다."
+        },
+        "auto_hold": {
+          "name": "오토홀드(AUTO HOLD) 스위치",
+          "zone": "CRASH_PAD_LOWER",
+          "location": "운전석 왼쪽 무릎 앞 크래시패드 EPB 스위치 바로 옆",
+          "action_guide": "운전석 무릎 앞 'AUTO HOLD' 버튼을 누르면 계기판에 흰색 표시등이 켜지며, 주행 중 정차 시 브레이크에서 발을 떼도 차가 멈춰있습니다."
+        },
+        "charge_door": {
+          "name": "전동 충전구 도어 열림/닫힘 버튼",
+          "zone": "CRASH_PAD_LOWER",
+          "location": "운전석 왼쪽 무릎 앞 크래시패드 충전 플러그 아이콘 버튼",
+          "action_guide": "운전석 왼쪽 무릎 앞 충전 플러그 버튼을 꾹 누르면 우측 후면 충전구가 전동으로 열립니다. 충전구 커버 안쪽 닫힘 버튼을 눌러 닫을 수도 있습니다."
+        },
+        "fuel_door": {
+          "name": "전동 충전구 도어 열림/닫힘 버튼",
+          "zone": "CRASH_PAD_LOWER",
+          "location": "운전석 왼쪽 무릎 앞 크래시패드 충전 플러그 아이콘 버튼",
+          "action_guide": "아이오닉 5는 순수 전기차이므로 주유구가 없으며, 운전석 무릎 앞 충전 플러그 버튼을 꾹 누르면 우측 뒤 충전 도어가 전동으로 열립니다."
+        },
+        "tailgate": {
+          "name": "스마트 파워 테일게이트(트렁크) 개폐 버튼",
+          "zone": "CRASH_PAD_LOWER",
+          "location": "운전석 왼쪽 무릎 앞 크래시패드 트렁크 열림 아이콘 버튼",
+          "action_guide": "운전석 왼쪽 무릎 앞 트렁크 모양 버튼을 1초 이상 길게 누르면 테일게이트가 전동으로 열리고, 다시 길게 누르면 닫힙니다."
+        },
+        "esc_off": {
+          "name": "차체 자세 제어 장치(ESC) OFF 버튼",
+          "zone": "CRASH_PAD_LOWER",
+          "location": "운전석 왼쪽 무릎 앞 크래시패드 미끄러지는 자동차 OFF 아이콘",
+          "action_guide": "눈길이나 진흙탕에 빠져 바퀴가 헛돌 때 짧게 누르면 구동력 제어가 꺼지며 탈출할 수 있습니다. 길게 누르면 차체자세제어가 완전 해제됩니다."
+        },
+        "battery_reset_12v": {
+          "name": "12V 배터리 리셋 버튼",
+          "zone": "CRASH_PAD_LOWER",
+          "location": "운전석 왼쪽 무릎 앞 패널 '12V BATT RESET' 버튼",
+          "action_guide": "12V 보조 배터리가 방전되어 시동이 안 걸릴 때 이 버튼을 누르고 15초 이내에 브레이크를 밟고 START 버튼을 누르면 고전압 배터리로 긴급 시동됩니다."
+        },
+        "hood_open": {
+          "name": "앞 보닛(후드/프렁크) 개폐 수동 레버",
+          "zone": "CRASH_PAD_LOWER",
+          "location": "운전석 왼쪽 발끝 벽면 하단 후드 열림 레버",
+          "action_guide": "운전석 왼쪽 발 앞쪽 벽 하단에 있는 자동차 보닛 열림 레버를 몸쪽으로 딸깍 당긴 후 전방 프렁크를 열 수 있습니다."
+        },
+        "sliding_console": {
+          "name": "유니버셜 아일랜드 슬라이딩 해제 레버",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터콘솔 맨 앞쪽 하단 바닥 손잡이 레버",
+          "action_guide": "콘솔 앞쪽 맨 아래 손잡이 레버를 쥐고 뒤로 밀거나 앞으로 당기면 센터콘솔 전체가 앞뒤로 14cm 슬라이딩 이동합니다."
+        },
+        "wireless_charger": {
+          "name": "스마트폰 무선 충전 패드",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터콘솔 컵홀더 아래 수직 포켓 슬롯",
+          "action_guide": "센터콘솔 컵홀더 하단 슬롯에 스마트폰 화면이 뒤를 보거나 바닥을 향하도록 넣으면 주황색 충전 불이 들어오며 무선 충전됩니다."
+        },
+        "parking_sensor": {
+          "name": "주차 거리 경고(P센서) ON/OFF 버튼",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터페시아 하단 물리 스위치 패널 내 'P▲' 아이콘",
+          "action_guide": "주차 시 장애물 감지 비프음을 끄거나 켤 때 누르세요. 10km/h 이하 주행 시 자동으로 작동합니다."
+        },
+        "parking_view": {
+          "name": "서라운드 뷰 모니터(VIEW) 카메라 버튼",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터페시아 하단 물리 스위치 패널 카메라 모양 'VIEW' 아이콘",
+          "action_guide": "누르면 내비게이션 화면에 360도 어라운드 뷰와 전후방 카메라 화면이 즉시 표시됩니다."
+        },
+        "v2l_indoor": {
+          "name": "실내 V2L 220V 콘센트",
+          "zone": "REAR_SEAT_CENTER",
+          "location": "2열 뒷좌석 시트 중앙 하단 220V 전원 소켓",
+          "action_guide": "2열 시트 가운데 아래 220V 콘센트 덮개를 돌려 열고 가전제품 플러그를 꽂으면 최대 3.6kW의 실내 전자기기를 사용하실 수 있습니다."
+        },
+        "power_windows": {
+          "name": "4열 전동 파워 윈도우 스위치",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 암레스트 4개의 창문 상하 스위치",
+          "action_guide": "스위치를 끝까지 깊게 누르거나 당기면 원터치로 창문이 완전히 열리거나 닫힙니다."
+        },
+        "window_lock": {
+          "name": "뒷좌석 윈도우 및 전자식 차일드락 통합 버튼",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 암레스트 창문 스위치 뒤쪽 X표시 아이콘",
+          "action_guide": "불이 켜지면 뒷좌석 창문 조작이 차단되고 뒷좌석 문이 안쪽에서 열리지 않는 차일드락이 함께 작동합니다."
+        },
+        "door_lock_unlock": {
+          "name": "전좌석 중앙 도어 잠금/해제 버튼",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 암레스트 자물쇠 잠김/열림 아이콘",
+          "action_guide": "자물쇠 닫힌 모양을 누르면 전 좌석 도어가 잠기고, 열린 모양을 누르면 해제됩니다."
+        },
+        "side_mirror_adjust": {
+          "name": "사이드미러 각도 조절 4방향 스위치",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 암레스트 원형 4방향 패드 및 L/R 선택 레버",
+          "action_guide": "L(좌) 또는 R(우) 레버를 선택한 뒤 원형 방향 패드를 눌러 사이드미러 거울 각도를 상하좌우로 조절하세요."
+        },
+        "side_mirror_fold": {
+          "name": "전동 접이식 사이드미러 폴딩/언폴딩 버튼",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 암레스트 맨 앞쪽 미러 접힘 아이콘 버튼",
+          "action_guide": "버튼을 누르면 양쪽 사이드미러가 접히거나 펴집니다. 중립 위치에서는 문 잠금 시 자동으로 접힙니다."
+        },
+        "memory_seat": {
+          "name": "운전자세 메모리 시스템(IMS 1/2) 버튼",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 손잡이 안쪽 'SET', '1', '2' 버튼",
+          "action_guide": "시트와 사이드미러를 맞춘 후 SET을 누르고 1번을 누르면 삐 소리와 함께 운전자세가 저장됩니다."
+        },
+        "vision_roof_shade": {
+          "name": "비전루프 전동 롤 블라인드 개폐 스위치",
+          "zone": "OVERHEAD_CONSOLE",
+          "location": "실내 룸미러 위 천장 오버헤드 콘솔 슬라이드 스위치",
+          "action_guide": "천장의 루프 스위치를 뒤로 밀면 전동 롤 블라인드가 열려 유리 천장이 노출되고, 앞으로 밀면 닫힙니다."
+        },
+        "room_lamp_door": {
+          "name": "맵램프 및 도어 연동 실내등 버튼",
+          "zone": "OVERHEAD_CONSOLE",
+          "location": "천장 룸미러 위 실내등 조작부 DOOR 아이콘",
+          "action_guide": "DOOR 버튼을 눌러두면 문을 열 때 실내등이 켜지고 닫으면 부드럽게 꺼집니다."
+        },
+        "sos_button": {
+          "name": "블루링크 SOS 긴급구난 버튼",
+          "zone": "OVERHEAD_CONSOLE",
+          "location": "천장 오버헤드 콘솔 빨간색 SOS 덮개 버튼",
+          "action_guide": "위급 사고나 고장 시 덮개를 열고 SOS 버튼을 누르면 현대 블루링크 응급상황실로 즉시 전화가 연결됩니다."
+        },
+        "seat_adjustment": {
+          "name": "운전석 8방향 전동 시트 조절 스위치",
+          "zone": "SEAT_CONTROLS",
+          "location": "운전석 시트 바닥 좌측 바깥 플라스틱 커버에 위치한 스위치",
+          "action_guide": "긴 수평 스위치로 시트 앞뒤/높낮이를 맞추고, 수직 스위치를 기울여 등받이 각도를 조절하세요. 원형 버튼은 허리 지지대입니다."
+        },
+        "seat_relaxation_comfort": {
+          "name": "릴랙션 컴포트 시트 원터치 무중력 버튼",
+          "zone": "SEAT_CONTROLS",
+          "location": "운전석 시트 조절 스위치 옆 무중력 자세 아이콘 버튼",
+          "action_guide": "정차 중 이 버튼을 길게 누르면 시트가 뒤로 눕혀지고 종아리 받침대가 올라와 무중력 휴식 자세를 만들어 줍니다."
+        },
+        "engine_start_stop": {
+          "name": "START ENGINE EV 시동 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "스티어링 휠 오른쪽 내비게이션 디스플레이 좌하단",
+          "action_guide": "브레이크 페달을 밟은 상태에서 동그란 START 버튼을 누르면 계기판에 초록색 READY 표시등이 켜지며 출발 준비가 완료됩니다."
+        }
+      }
+    },
+    {
+      "model_id": "TUCSON",
+      "model_name_ko": "더 뉴 투싼",
+      "model_name_en": "The new Tucson",
+      "model_year": "2024~현재 (더 뉴 투싼 NX4 PE)",
+      "segment": "SUV",
+      "segment_detail": "준중형 SUV (ccNC 인포테인먼트)",
+      "specs": {
+        "length_mm": 4640,
+        "width_mm": 1865,
+        "height_mm": 1665,
+        "wheelbase_mm": 2755
+      },
+      "gear_type": "스티어링 휠(핸들) 오른쪽 뒤편 5시 방향에 위치한 전자식 칼럼 로터리 레버입니다. 끝단을 앞으로 돌리면 D단, 몸쪽으로 돌리면 R단, 끝 버튼을 누르면 P단이 들어갑니다.",
+      "buttons": {
+        "gear_shift": {
+          "name": "전자식 칼럼 로터리 변속 레버",
+          "zone": "STEERING_WHEEL_COLUMN",
+          "location": "핸들 오른쪽 뒤편 와이퍼 레버 아래 5시 방향",
+          "action_guide": "더 뉴 투싼은 버튼식이 아닌 칼럼식 레버가 적용되었습니다. 레버 끝단을 앞쪽으로 돌리면 D단, 몸쪽으로 돌리면 R단, 끝 은색 버튼을 누르면 P단이 들어갑니다."
+        },
+        "wiper_stalk": {
+          "name": "와이퍼 & 리어 와이퍼/워셔액 스토크 레버",
+          "zone": "STEERING_WHEEL_COLUMN",
+          "location": "핸들 오른쪽 뒤편 상단 얇은 레버",
+          "action_guide": "레버를 한 칸 내리면 AUTO 우적감지 모드이며, 레버 끝단을 돌리면 SUV 뒷유리 와이퍼가 작동하고 몸쪽으로 당기면 앞유리 워셔액이 나옵니다."
+        },
+        "light_stalk": {
+          "name": "전조등 & 방향지시등 스토크 레버",
+          "zone": "STEERING_WHEEL_COLUMN",
+          "location": "핸들 왼쪽 뒤편 레버",
+          "action_guide": "위로 올리면 우회전, 아래로 내리면 좌회전 깜빡이입니다. 끝단 회전 스위치를 'AUTO'에 놓으시면 주변 밝기에 따라 헤드라이트가 자동 점등됩니다."
+        },
+        "paddle_shift_left": {
+          "name": "패들쉬프트 다운(-) / 회생제동 레버",
+          "zone": "STEERING_WHEEL_COLUMN",
+          "location": "핸들 뒤 왼쪽 마이너스(-) 패들 레버",
+          "action_guide": "가솔린 모델은 저단 변속 엔진 브레이크로 작동하며, 하이브리드 모델은 회생제동 단계를 높여 배터리를 충전합니다."
+        },
+        "paddle_shift_right": {
+          "name": "패들쉬프트 업(+) / 회생제동 감소 레버",
+          "zone": "STEERING_WHEEL_COLUMN",
+          "location": "핸들 뒤 오른쪽 플러스(+) 패들 레버",
+          "action_guide": "가솔린 모델은 고단 변속으로 전환되며, 하이브리드 모델은 회생제동 단계를 낮춥니다."
+        },
+        "smart_cruise": {
+          "name": "스마트 크루즈 컨트롤(SCC) 스위치",
+          "zone": "STEERING_WHEEL",
+          "location": "스티어링 휠(핸들) 오른쪽 스포크 속도계 모양 아이콘",
+          "action_guide": "투싼은 스마트 크루즈가 핸들 '오른쪽'에 있습니다. 주행 중 원하는 속도에서 속도계 버튼을 누르면 해당 속도로 정속 주행합니다."
+        },
+        "lane_follow_assist": {
+          "name": "차로 유지 보조(LFA) 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 오른쪽 스포크 스티어링 휠 모양 아이콘",
+          "action_guide": "핸들 오른쪽의 스티어링 휠 아이콘을 누르면 초록색 핸들 표시등이 켜지며 고속도로와 일반도로에서 차선 정중앙을 유지해 줍니다."
+        },
+        "cruise_gap": {
+          "name": "차간 거리 조절 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 오른쪽 스포크 자동차와 막대 표시 아이콘",
+          "action_guide": "스마트 크루즈 주행 중 누를 때마다 앞차와의 차간거리가 1단계부터 4단계까지 변경됩니다."
+        },
+        "cruise_speed_toggle": {
+          "name": "크루즈 속도 조절 토글(RES+/SET-)",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 오른쪽 스포크 은색 상하 토글 스위치",
+          "action_guide": "토글을 위(+RES)로 올리면 속도가 증가하고, 아래(-SET)로 내리면 감속합니다."
+        },
+        "cluster_view_mode": {
+          "name": "클러스터 메뉴/트립 전환 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 오른쪽 스포크 문서 넘김 모양 아이콘",
+          "action_guide": "누를 때마다 12.3인치 디지털 계기판의 주행거리 연비, 타이어 공기압, 드라이브 어시스트 화면이 바뀝니다."
+        },
+        "voice_recognition": {
+          "name": "음성인식 마이크 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "스티어링 휠 왼쪽 스포크 사람 말하는 아이콘",
+          "action_guide": "버튼을 짧게 누르고 삐 소리가 나면 '시트 열선 켜줘', '라디오 91.9 틀어줘' 등 음성 명령을 내리세요."
+        },
+        "audio_volume": {
+          "name": "오디오 볼륨 및 음소거 토글",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 왼쪽 스포크 은색 볼륨 상하 토글",
+          "action_guide": "토글을 위/아래로 밀어 음량을 조절하고, 가운데를 꾹 누르면 즉시 음소거됩니다."
+        },
+        "audio_seek": {
+          "name": "곡 넘김 및 라디오 탐색 토글",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 왼쪽 스포크 좌우/상하 탐색 스위치",
+          "action_guide": "음악 트랙을 다음 곡으로 넘기거나 다음 라디오 주파수로 변경합니다."
+        },
+        "phone_call": {
+          "name": "블루투스 핸즈프리 전화 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 왼쪽 스포크 수화기 모양 아이콘",
+          "action_guide": "전화가 올 때 누르면 전화를 받고 통화 중 다시 누르면 끊깁니다."
+        },
+        "custom_star": {
+          "name": "스티어링 휠 사용자 지정 별표(★) 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 왼쪽 스포크 별표(★) 아이콘",
+          "action_guide": "인포테인먼트 설정에서 자주 쓰는 기능(폰 프로젝션, 블루투스 오디오 등)으로 단축키를 지정해 즉각 실행합니다."
+        },
+        "hazard_light": {
+          "name": "비상경고등 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "중앙 송풍구와 공조 디스플레이 사이 정중앙",
+          "action_guide": "센터페시아 중앙에 붉은색 삼각형 비상등 버튼을 누르시면 4개 방향지시등이 동시 점멸합니다."
+        },
+        "engine_start_stop": {
+          "name": "엔진 스타트/스톱 시동 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "스티어링 휠 오른쪽 내비게이션 디스플레이 하단",
+          "action_guide": "브레이크 페달을 밟은 상태에서 ENGINE START STOP 버튼을 누르면 엔진 또는 하이브리드 시스템 시동이 걸립니다."
+        },
+        "climate_auto": {
+          "name": "풀오토 에어컨(AUTO) 다이얼/터치",
+          "zone": "CENTER_FASCIA",
+          "location": "6.6인치 터치 공조 디스플레이 좌측 상단 AUTO 버튼",
+          "action_guide": "AUTO 버튼을 누르고 온도 다이얼을 맞추시면 실내 풍량과 바람 방향이 자동으로 제어됩니다."
+        },
+        "climate_off": {
+          "name": "공조기 OFF 터치 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 터치스크린 좌측 OFF 버튼",
+          "action_guide": "OFF 버튼을 터치하시면 히터와 에어컨 송풍이 완전히 정지합니다."
+        },
+        "temp_dial_driver": {
+          "name": "운전석 실내 온도 조절 물리 다이얼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 디스플레이 왼쪽 테두리 원형 금속 다이얼",
+          "action_guide": "공조 화면 왼쪽의 둥근 다이얼을 시계방향으로 돌리면 온도가 상승하고, 반시계로 돌리면 내려갑니다."
+        },
+        "temp_dial_passenger": {
+          "name": "동승석 실내 온도 조절 물리 다이얼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 디스플레이 오른쪽 테두리 원형 금속 다이얼",
+          "action_guide": "오른쪽 둥근 다이얼을 돌려 조수석 온도를 독립적으로 설정할 수 있습니다."
+        },
+        "front_defog": {
+          "name": "앞유리 성에 제거 버튼(FRONT)",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 조작부 왼쪽 물리 버튼 부채꼴 'FRONT' 아이콘",
+          "action_guide": "공조 조작부 왼쪽 'FRONT' 부채꼴 버튼을 누르시면 앞유리 김서림과 성에를 급속 제거하도록 에어컨과 외기가 자동 가동됩니다."
+        },
+        "rear_defog": {
+          "name": "뒷유리 및 사이드미러 열선 버튼(REAR)",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 조작부 오른쪽 물리 버튼 사각형 'REAR' 아이콘",
+          "action_guide": "공조 조작부 오른쪽 'REAR' 버튼을 누르시면 SUV 뒷유리 열선과 양쪽 사이드미러 열선이 20분간 작동합니다."
+        },
+        "air_recirculation": {
+          "name": "내기 순환 / 외기 유입 전환 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 터치스크린 내 자동차 내부 순환 화살표 아이콘",
+          "action_guide": "터널이나 먼지가 많은 도로 진입 시 터치하여 외부 공기 유입을 차단하세요."
+        },
+        "sync_climate": {
+          "name": "좌우 공조 동기화(SYNC) 터치 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 터치스크린 중앙 'SYNC' 아이콘",
+          "action_guide": "SYNC를 터치하면 동승석 온도가 운전석 설정 온도와 똑같이 하나로 맞춰집니다."
+        },
+        "drive_mode": {
+          "name": "드라이브 모드 셀렉트 토글 스위치",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 컵홀더 앞쪽 토글 스위치",
+          "action_guide": "센터 콘솔 앞 토글을 밀어 ECO, NORMAL, SPORT 모드로 전환하며, 하이브리드나 4WD 사양은 눈길/모래/진흙 터레인 모드를 선택할 수 있습니다."
+        },
+        "auto_hold": {
+          "name": "오토홀드(AUTO HOLD) 물리 버튼",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 컵홀더 옆 'AUTO HOLD' 각인 버튼",
+          "action_guide": "투싼은 칼럼식 기어 덕분에 오토홀드가 센터 콘솔 컵홀더 옆에 위치합니다. 누르면 정차 시 브레이크에서 발을 떼도 정지 상태가 유지됩니다."
+        },
+        "seat_vent_heat": {
+          "name": "운전석 열선/통풍 시트 3단 토글 스위치",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 앞단 운전석 쪽 상하 토글 스위치",
+          "action_guide": "스위치를 앞으로 밀면 파란색 3단계 통풍 시트가 켜지고, 뒤로 당기면 주황색 3단계 열선 시트가 켜집니다."
+        },
+        "seat_heat_passenger": {
+          "name": "동승석 열선/통풍 시트 3단 토글 스위치",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 앞단 동승석 쪽 상하 토글 스위치",
+          "action_guide": "스위치를 앞으로 밀면 조수석 통풍 시트, 뒤로 당기면 조수석 열선 시트가 3단계로 켜집니다."
+        },
+        "heated_steering_wheel": {
+          "name": "스티어링 휠(핸들) 열선 버튼",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 시트 토글 스위치 사이 핸들 열선 아이콘",
+          "action_guide": "센터 콘솔의 스티어링 휠 모양 버튼을 누르면 2단계(강/약)로 핸들이 따뜻해집니다."
+        },
+        "parking_sensor": {
+          "name": "주차 거리 경고(P센서) ON/OFF 버튼",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 조작부 'P▲' 아이콘 버튼",
+          "action_guide": "주차 중 전후방 센서 삐소리 경보음을 끄거나 켤 수 있습니다."
+        },
+        "parking_view": {
+          "name": "서라운드 뷰 모니터(VIEW) 카메라 버튼",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 조작부 카메라 모양 'VIEW' 버튼",
+          "action_guide": "누르면 내비게이션 디스플레이에 360도 어라운드 뷰와 전후방 광각 카메라 화면이 켜집니다."
+        },
+        "downhill_brake": {
+          "name": "경사로 저속 주행(DBC) 제어 버튼",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 조작부 내리막 경사로 자동차 아이콘",
+          "action_guide": "가파른 내리막길 주행 시 누르면 브레이크 페달을 밟지 않아도 시속 10km 미만으로 안전하게 감속하며 내려갑니다."
+        },
+        "wireless_charger": {
+          "name": "스마트폰 무선 충전 패드",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 하단 플로팅 수납함 개방형 패드",
+          "action_guide": "칼럼 기어가 적용되어 넓어진 콘솔 상단 트레이에 스마트폰을 올려놓으면 고속 무선 충전됩니다."
+        },
+        "electronic_parking_brake": {
+          "name": "전자식 주차 브레이크(EPB) 스위치",
+          "zone": "CRASH_PAD_LOWER",
+          "location": "운전석 왼쪽 무릎 앞 크래시패드 하단 패널",
+          "action_guide": "더 뉴 투싼의 EPB는 운전석 왼쪽 무릎 앞 스위치 패널에 있습니다. 몸쪽으로 당기면 주차 브레이크가 체결되고 누르면 해제됩니다."
+        },
+        "tailgate": {
+          "name": "스마트 파워 테일게이트(트렁크) 개폐 버튼",
+          "zone": "CRASH_PAD_LOWER",
+          "location": "운전석 왼쪽 무릎 앞 크래시패드 트렁크 모양 버튼",
+          "action_guide": "운전석 왼쪽 무릎 앞 트렁크 버튼을 1초 이상 길게 누르면 테일게이트가 전동으로 열리고, 다시 길게 누르면 닫힙니다."
+        },
+        "esc_off": {
+          "name": "차체 자세 제어 장치(ESC) OFF 버튼",
+          "zone": "CRASH_PAD_LOWER",
+          "location": "운전석 왼쪽 무릎 앞 크래시패드 미끄러지는 자동차 OFF 아이콘",
+          "action_guide": "눈길 웅덩이에 빠졌을 때 한 번 누르면 미끄럼 방지가 꺼져 바퀴 탈출을 돕습니다."
+        },
+        "headlight_leveling": {
+          "name": "전조등 조사각 조절 다이얼",
+          "zone": "CRASH_PAD_LOWER",
+          "location": "운전석 무릎 앞 0~3 숫자 각인 휠 다이얼",
+          "action_guide": "트렁크에 무거운 짐을 실어 차체 뒷부분이 가라앉았을 때 다이얼을 돌려 전조등 비추는 각도를 아래로 낮춥니다."
+        },
+        "hood_open": {
+          "name": "엔진 후드(보닛) 개폐 수동 레버",
+          "zone": "CRASH_PAD_LOWER",
+          "location": "운전석 왼쪽 발끝 벽면 하단 레버",
+          "action_guide": "운전석 왼쪽 발 앞쪽 벽 하단의 자동차 보닛 열림 레버를 몸쪽으로 딸깍 당겨 보닛을 엽니다."
+        },
+        "fuel_door": {
+          "name": "푸시 오픈식 주유구 커버",
+          "zone": "EXTERIOR_CONTROLS",
+          "location": "차량 우측 뒤편 주유구 덮개 (실내 레버 없음)",
+          "action_guide": "실내에는 별도 주유구 버튼이 없습니다. 차량 도어가 잠금 해제된 상태에서 주유구 커버 뒷부분을 손으로 가볍게 누르면 톡 튀어나오며 열립니다."
+        },
+        "power_windows": {
+          "name": "4도어 세이프티 파워 윈도우 스위치",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 암레스트 상하 조작 스위치",
+          "action_guide": "스위치를 깊게 끝까지 누르거나 당기면 원터치로 창문이 완전히 열리거나 닫힙니다."
+        },
+        "window_lock": {
+          "name": "뒷좌석 윈도우 및 전자식 차일드락 통합 버튼",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 창문 스위치 뒤쪽 X표시 스위치",
+          "action_guide": "누르면 뒷좌석 창문 조작이 잠기고 뒷좌석 문이 안쪽에서 열리지 않아 어린이를 안전하게 보호합니다."
+        },
+        "door_lock_unlock": {
+          "name": "중앙 도어 잠금/해제 버튼",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 암레스트 자물쇠 아이콘",
+          "action_guide": "잠긴 자물쇠를 누르면 전체 문이 잠기고, 열린 자물쇠를 누르면 잠금 해제됩니다."
+        },
+        "side_mirror_adjust": {
+          "name": "사이드미러 각도 조절 스위치",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 암레스트 원형 4방향 패드 및 L/R 선택 버튼",
+          "action_guide": "L 또는 R 버튼을 누른 후 원형 4방향 패드로 거울 각도를 상하좌우로 조절합니다."
+        },
+        "side_mirror_fold": {
+          "name": "전동 사이드미러 접이 버튼",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 암레스트 맨 앞쪽 미러 접힘 아이콘",
+          "action_guide": "버튼을 누르면 사이드미러가 수동으로 접히거나 펴집니다."
+        },
+        "memory_seat": {
+          "name": "운전자세 메모리 시스템(IMS 1/2)",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 트림 상단 SET, 1, 2 버튼",
+          "action_guide": "원하는 시트 각도를 맞춘 뒤 SET을 누르고 1번을 누르면 저장되며, 이후 1번을 누르면 저장된 자세로 자동 복원됩니다."
+        },
+        "sunroof_switch": {
+          "name": "파노라마 선루프 틸트/슬라이드 스위치",
+          "zone": "OVERHEAD_CONSOLE",
+          "location": "천장 오버헤드 콘솔 슬라이드 레버 스위치",
+          "action_guide": "스위치를 뒤로 밀면 롤블라인드가 열린 후 유리창이 오픈되며, 위로 누르면 틸트 환기 모드가 됩니다."
+        },
+        "room_lamp_door": {
+          "name": "도어 연동 실내 룸램프 버튼",
+          "zone": "OVERHEAD_CONSOLE",
+          "location": "천장 룸미러 위 DOOR 아이콘 버튼",
+          "action_guide": "DOOR 버튼을 눌러두면 문을 열 때 실내등이 켜지고 문을 닫으면 자동으로 소등됩니다."
+        },
+        "sos_button": {
+          "name": "블루링크 SOS 긴급구난 버튼",
+          "zone": "OVERHEAD_CONSOLE",
+          "location": "천장 오버헤드 콘솔 빨간 SOS 버튼",
+          "action_guide": "긴급 사고나 차량 고장 시 누르면 현대 블루링크 고객센터로 즉시 구조 요청이 연결됩니다."
+        },
+        "seat_adjustment": {
+          "name": "운전석 8방향 전동 시트 조절 스위치",
+          "zone": "SEAT_CONTROLS",
+          "location": "운전석 시트 왼쪽 하단 측면 스위치",
+          "action_guide": "수평 스위치로 시트 위치와 높낮이를 조절하고, 수직 스위치로 등받이 기울기를 조절합니다."
+        }
+      }
+    },
+    {
+      "model_id": "SONATA",
+      "model_name_ko": "쏘나타 디 엣지",
+      "model_name_en": "Sonata The Edge",
+      "model_year": "2023~현재 (DN8 PE)",
+      "segment": "SEDAN",
+      "segment_detail": "중형 세단 (ccNC 인포테인먼트)",
+      "specs": {
+        "length_mm": 4910,
+        "width_mm": 1860,
+        "height_mm": 1445,
+        "wheelbase_mm": 2840
+      },
+      "gear_type": "스티어링 휠(핸들) 오른쪽 뒤편 5시 방향에 위치한 전자식 칼럼 로터리 레버입니다. 끝단을 앞으로 돌리면 D단, 몸쪽으로 돌리면 R단, 끝 버튼을 누르면 P단이 체결됩니다.",
+      "buttons": {
+        "gear_shift": {
+          "name": "전자식 칼럼 로터리 변속 레버",
+          "zone": "STEERING_WHEEL_COLUMN",
+          "location": "핸들 오른쪽 뒤편 와이퍼 레버 아래 5시 방향",
+          "action_guide": "쏘나타 디 엣지는 이전 버튼식이 사라지고 핸들 오른쪽 뒤 칼럼 레버가 적용되었습니다. 끝단을 앞으로 비틀면 D단, 몸쪽으로 비틀면 R단, 레버 끝 은색 버튼을 누르면 P단이 체결됩니다."
+        },
+        "wiper_stalk": {
+          "name": "와이퍼 & 워셔액 스토크 레버",
+          "zone": "STEERING_WHEEL_COLUMN",
+          "location": "핸들 오른쪽 뒤편 상단 레버",
+          "action_guide": "레버를 아래로 한 칸 내리면 AUTO 우적감지 모드이며, 레버를 몸쪽으로 당기면 앞유리에 워셔액이 분사되며 와이퍼가 작동합니다."
+        },
+        "light_stalk": {
+          "name": "전조등 & 방향지시등 스토크 레버",
+          "zone": "STEERING_WHEEL_COLUMN",
+          "location": "핸들 왼쪽 뒤편 레버",
+          "action_guide": "위로 올리면 우회전, 아래로 내리면 좌회전 깜빡이입니다. 끝단 회전 다이얼을 'AUTO'에 두시면 조도에 따라 심리스 호라이즌 램프와 헤드라이트가 자동 작동합니다."
+        },
+        "paddle_shift_left": {
+          "name": "패들쉬프트 다운(-) 레버",
+          "zone": "STEERING_WHEEL_COLUMN",
+          "location": "핸들 뒤 왼쪽 마이너스(-) 패들",
+          "action_guide": "기어를 수동으로 저단 변속하여 강력한 엔진 브레이크나 급가속 토크를 발휘합니다."
+        },
+        "paddle_shift_right": {
+          "name": "패들쉬프트 업(+) 레버",
+          "zone": "STEERING_WHEEL_COLUMN",
+          "location": "핸들 뒤 오른쪽 플러스(+) 패들",
+          "action_guide": "기어를 고단으로 변속하여 고속 순항 및 연비 주행을 돕습니다."
+        },
+        "smart_cruise": {
+          "name": "스마트 크루즈 컨트롤(SCC) 스위치",
+          "zone": "STEERING_WHEEL",
+          "location": "스티어링 휠(핸들) 오른쪽 스포크 속도계 모양 아이콘",
+          "action_guide": "쏘나타는 스마트 크루즈가 핸들 '오른쪽'에 있습니다. 주행 중 속도계 모양 버튼을 누르면 앞차와의 거리를 유지하며 지정 속도로 자동 정속 주행합니다."
+        },
+        "lane_follow_assist": {
+          "name": "차로 유지 보조(LFA) 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 오른쪽 스포크 스티어링 휠 모양 아이콘",
+          "action_guide": "핸들 모양 아이콘을 누르면 계기판에 초록색 핸들 표시등이 켜지며 차선 중앙을 자동으로 유지해 줍니다."
+        },
+        "cruise_gap": {
+          "name": "차간 거리 조절 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 오른쪽 스포크 자동차와 막대 표시 아이콘",
+          "action_guide": "누를 때마다 앞차와의 안전거리가 1단계부터 4단계까지 순환 변경됩니다."
+        },
+        "cruise_speed_toggle": {
+          "name": "크루즈 속도 조절 토글(RES+/SET-)",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 오른쪽 스포크 은색 상하 토글 스위치",
+          "action_guide": "토글을 위(+RES)로 올리면 속도 증가, 아래(-SET)로 내리면 감속합니다."
+        },
+        "cluster_view_mode": {
+          "name": "클러스터 뷰 모드 전환 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 오른쪽 스포크 종이 넘김 모양 아이콘",
+          "action_guide": "누를 때마다 파노라믹 커브드 디스플레이의 계기판 주행 정보 화면이 전환됩니다."
+        },
+        "voice_recognition": {
+          "name": "음성인식 마이크 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 왼쪽 스포크 사람 말하는 아이콘",
+          "action_guide": "짧게 누르고 삐 소리가 나면 '통풍 시트 켜줘', '라디오 켜줘' 등 차량 제어 음성을 말씀하세요."
+        },
+        "audio_volume": {
+          "name": "오디오 볼륨 및 음소거 토글",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 왼쪽 스포크 볼륨 조절 토글",
+          "action_guide": "토글을 위/아래로 밀어 볼륨을 맞추고, 꾹 누르면 음소거됩니다."
+        },
+        "audio_seek": {
+          "name": "트랙 및 라디오 주파수 탐색 스위치",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 왼쪽 스포크 상하 화살표 스위치",
+          "action_guide": "다음 곡 또는 다음 라디오 채널로 전환합니다."
+        },
+        "phone_call": {
+          "name": "블루투스 전화 수신/종료 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 왼쪽 스포크 전화기 아이콘",
+          "action_guide": "수신 전화를 받거나 통화를 종료합니다."
+        },
+        "custom_star": {
+          "name": "사용자 지정 즐겨찾기 별표(★) 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 왼쪽 스포크 별표(★) 아이콘",
+          "action_guide": "내비게이션 설정에서 등록한 단축 기능을 즉각 실행합니다."
+        },
+        "hazard_light": {
+          "name": "비상경고등 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "중앙 슬림 에어벤트 정중앙",
+          "action_guide": "중앙 송풍구 가운데 있는 붉은색 삼각형 비상등 버튼을 누르세요."
+        },
+        "engine_start_stop": {
+          "name": "엔진 스타트/스톱 시동 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "핸들 오른쪽 디스플레이 하단 크래시패드",
+          "action_guide": "브레이크 페달을 밟고 START STOP 버튼을 누르면 시동이 걸립니다."
+        },
+        "climate_auto": {
+          "name": "터치식 풀오토 에어컨(AUTO) 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 터치스크린 패널 상단 'AUTO' 버튼",
+          "action_guide": "AUTO를 터치하고 원하는 실내 온도를 설정하면 풍량과 송풍 위치가 전자동 제어됩니다."
+        },
+        "climate_off": {
+          "name": "공조기 OFF 터치 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 패널 'OFF' 버튼",
+          "action_guide": "에어컨과 히터 송풍을 완전히 끕니다."
+        },
+        "temp_dial_driver": {
+          "name": "운전석 온도 조절 링 다이얼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 터치패널 왼쪽 원형 다이얼",
+          "action_guide": "왼쪽 다이얼을 시계방향으로 돌리면 운전석 온도가 올라가고 반시계로 돌리면 내려갑니다."
+        },
+        "temp_dial_passenger": {
+          "name": "동승석 온도 조절 링 다이얼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 터치패널 오른쪽 원형 다이얼",
+          "action_guide": "오른쪽 다이얼을 돌려 동승석 온도를 개별 설정합니다."
+        },
+        "front_defog": {
+          "name": "앞유리 성에 제거 버튼(FRONT)",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 패널 왼쪽 물리 버튼 부채꼴 'FRONT' 아이콘",
+          "action_guide": "부채꼴 모양 FRONT 버튼을 누르면 에어컨과 외기 유입이 켜지며 앞유리 김서림이 빠르게 제거됩니다."
+        },
+        "rear_defog": {
+          "name": "뒷유리 및 사이드미러 열선 버튼(REAR)",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 패널 오른쪽 물리 버튼 사각형 'REAR' 아이콘",
+          "action_guide": "직사각형 모양 REAR 버튼을 누르면 뒷유리와 사이드미러 열선이 가동됩니다."
+        },
+        "air_recirculation": {
+          "name": "실내 내기 순환 터치 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 터치스크린 내 자동차 순환 화살표 아이콘",
+          "action_guide": "외부 악취나 매연 유입을 방지할 때 터치하여 실내 공기만 순환시킵니다."
+        },
+        "sync_climate": {
+          "name": "좌우 공조 동기화(SYNC) 터치 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 터치스크린 중앙 'SYNC' 아이콘",
+          "action_guide": "동승석 온도를 운전석 설정 온도와 일치시킵니다."
+        },
+        "drive_mode": {
+          "name": "드라이브 모드 선택 버튼",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 앞단 'DRIVE MODE' 버튼",
+          "action_guide": "누를 때마다 NORMAL, ECO, SPORT, MY DRIVE 모드로 주행 세팅이 바뀝니다."
+        },
+        "auto_hold": {
+          "name": "오토홀드(AUTO HOLD) 물리 버튼",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 컵홀더 옆 'AUTO HOLD' 각인 버튼",
+          "action_guide": "오토홀드 버튼을 누르면 정차 시 브레이크 페달에서 발을 떼도 차가 밀리지 않고 정차 상태를 유지합니다."
+        },
+        "seat_vent_heat": {
+          "name": "운전석 열선/통풍 시트 3단 스위치",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 전면 좌측 토글 스위치",
+          "action_guide": "스위치를 앞으로 밀면 파란색 통풍 시트가 3단계로 켜지고 뒤로 당기면 주황색 열선 시트가 켜집니다."
+        },
+        "seat_heat_passenger": {
+          "name": "동승석 열선/통풍 시트 3단 스위치",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 전면 우측 토글 스위치",
+          "action_guide": "동승석 탑승자가 통풍 및 열선 시트를 3단계로 조절할 수 있습니다."
+        },
+        "heated_steering_wheel": {
+          "name": "스티어링 휠(핸들) 열선 버튼",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 시트 스위치 옆 스티어링 휠 열선 아이콘",
+          "action_guide": "핸들 모양 버튼을 누르면 2단계로 스티어링 휠이 따뜻해집니다."
+        },
+        "parking_sensor": {
+          "name": "주차 거리 경고(P센서) ON/OFF 버튼",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 조작부 'P▲' 아이콘 버튼",
+          "action_guide": "주차 보조 센서의 경보 비프음을 끄거나 켤 수 있습니다."
+        },
+        "parking_view": {
+          "name": "서라운드 뷰 모니터(VIEW) 카메라 버튼",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 조작부 'VIEW' 카메라 아이콘",
+          "action_guide": "누르면 내비게이션 디스플레이에 360도 어라운드 뷰 및 광각 카메라 화면이 켜집니다."
+        },
+        "wireless_charger": {
+          "name": "스마트폰 무선 충전 패드",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 컵홀더 앞쪽 트레이",
+          "action_guide": "칼럼 기어가 적용되어 넓어진 콘솔 앞 트레이에 휴대폰을 올려두면 무선 충전됩니다."
+        },
+        "electronic_parking_brake": {
+          "name": "전자식 주차 브레이크(EPB) 스위치",
+          "zone": "CRASH_PAD_LOWER",
+          "location": "운전석 왼쪽 무릎 앞 크래시패드 하단 스위치 패널",
+          "action_guide": "쏘나타 디 엣지의 EPB는 운전석 왼쪽 무릎 앞 패널에 있습니다. 스위치를 몸쪽으로 당기면 주차 브레이크가 걸리고 누르면 풀립니다."
+        },
+        "tailgate": {
+          "name": "스마트 전동 트렁크 개폐 버튼",
+          "zone": "CRASH_PAD_LOWER",
+          "location": "운전석 왼쪽 무릎 앞 크래시패드 트렁크 모양 버튼",
+          "action_guide": "운전석 무릎 앞 트렁크 버튼을 1초 이상 길게 누르면 트렁크가 전동으로 열립니다."
+        },
+        "esc_off": {
+          "name": "차체 자세 제어 장치(ESC) OFF 버튼",
+          "zone": "CRASH_PAD_LOWER",
+          "location": "운전석 무릎 앞 미끄러지는 자동차 OFF 아이콘",
+          "action_guide": "바퀴가 눈길이나 모래에 빠졌을 때 한 번 눌러 탈출을 돕습니다."
+        },
+        "interior_light_dimmer": {
+          "name": "계기판/실내 조명 밝기 조절 토글",
+          "zone": "CRASH_PAD_LOWER",
+          "location": "운전석 무릎 앞 전구 표시 토글 스위치",
+          "action_guide": "위/아래로 밀어 클러스터와 앰비언트 무드램프의 밝기를 조절합니다."
+        },
+        "hood_open": {
+          "name": "엔진 후드(보닛) 개폐 수동 레버",
+          "zone": "CRASH_PAD_LOWER",
+          "location": "운전석 왼쪽 발끝 벽면 하단 레버",
+          "action_guide": "운전석 왼쪽 발 앞쪽 벽 하단의 자동차 보닛 열림 레버를 몸쪽으로 딸깍 당겨 보닛을 엽니다."
+        },
+        "fuel_door": {
+          "name": "푸시 오픈식 주유구 커버",
+          "zone": "EXTERIOR_CONTROLS",
+          "location": "차량 우측 뒤편 주유구 덮개 (실내 레버 없음)",
+          "action_guide": "실내에는 주유구 버튼이 없습니다. 차량 도어가 언락된 상태에서 주유구 커버 뒷부분을 손으로 살짝 누르면 톡 튀어나오며 열립니다."
+        },
+        "trunk_exterior_hidden": {
+          "name": "트렁크 외부 엠블럼 히든 터치 버튼",
+          "zone": "EXTERIOR_CONTROLS",
+          "location": "트렁크 중앙 현대 H 엠블럼 상단 숨겨진 버튼",
+          "action_guide": "차량 스마트키를 소지한 채 트렁크 정중앙 현대 H 엠블럼 윗부분 빈 공간을 손가락으로 누르면 트렁크가 열립니다."
+        },
+        "power_windows": {
+          "name": "4도어 세이프티 파워 윈도우 스위치",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 암레스트 윈도우 조작 스위치",
+          "action_guide": "스위치를 끝까지 깊게 당기거나 누르면 원터치로 창문이 열리고 닫힙니다."
+        },
+        "window_lock": {
+          "name": "뒷좌석 윈도우 및 전자식 차일드락 통합 버튼",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 창문 스위치 뒤쪽 X표시 아이콘",
+          "action_guide": "버튼을 켜두면 뒷좌석 창문이 잠기고 뒷좌석 문이 안에서 열리지 않습니다."
+        },
+        "door_lock_unlock": {
+          "name": "중앙 도어 잠금/해제 버튼",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 암레스트 자물쇠 아이콘",
+          "action_guide": "누르면 전 좌석 도어가 일괄 잠기거나 해제됩니다."
+        },
+        "side_mirror_adjust": {
+          "name": "사이드미러 각도 조절 스위치",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 암레스트 원형 4방향 패드 및 L/R 선택 버튼",
+          "action_guide": "L 또는 R을 선택한 뒤 방향 패드로 사이드미러 각도를 조절하세요."
+        },
+        "side_mirror_fold": {
+          "name": "전동 사이드미러 접이 버튼",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 암레스트 앞쪽 미러 접힘 아이콘",
+          "action_guide": "누르면 양쪽 사이드미러가 접히거나 펴집니다."
+        },
+        "memory_seat": {
+          "name": "운전자세 메모리 시스템(IMS 1/2)",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 트림 상단 SET, 1, 2 버튼",
+          "action_guide": "SET 버튼을 누르고 1번을 누르면 시트 및 사이드미러 설정이 저장됩니다."
+        },
+        "sunroof_switch": {
+          "name": "파노라마 선루프 틸트/슬라이드 스위치",
+          "zone": "OVERHEAD_CONSOLE",
+          "location": "천장 오버헤드 콘솔 슬라이드 스위치",
+          "action_guide": "스위치를 뒤로 밀면 블라인드와 선루프 유리가 열립니다."
+        },
+        "room_lamp_door": {
+          "name": "도어 연동 실내 룸램프 버튼",
+          "zone": "OVERHEAD_CONSOLE",
+          "location": "천장 룸미러 위 DOOR 버튼",
+          "action_guide": "차량 문을 열 때 실내 조명이 자동으로 켜집니다."
+        },
+        "sos_button": {
+          "name": "블루링크 SOS 긴급구난 버튼",
+          "zone": "OVERHEAD_CONSOLE",
+          "location": "천장 오버헤드 콘솔 SOS 버튼",
+          "action_guide": "위급 사고 시 누르면 긴급출동 고객센터로 연결됩니다."
+        },
+        "seat_adjustment": {
+          "name": "운전석 8방향 전동 시트 조절 스위치",
+          "zone": "SEAT_CONTROLS",
+          "location": "운전석 시트 왼쪽 측면 하단 스위치",
+          "action_guide": "수평 스위치로 앞뒤/높낮이를 맞추고, 수직 스위치로 등받이 각도를 조절합니다."
+        }
+      }
+    },
     {
       "model_id": "AVANTE",
       "model_name_ko": "아반떼",
       "model_name_en": "Avante",
+      "model_year": "2020~현재 (CN7 / CN7 PE)",
       "segment": "SEDAN",
       "segment_detail": "준중형 세단",
       "specs": {
@@ -13,200 +966,271 @@
         "height_mm": 1420,
         "wheelbase_mm": 2720
       },
-      "gear_type": "운전석과 조수석 사이 센터콘솔에 있는 전통적인 레버식 기어봉입니다. 손잡이 왼쪽 은색 락 버튼을 누른 채 뒤로 당기면 D단, 앞으로 밀면 R단입니다.",
+      "gear_type": "센터 콘솔 중앙에 위치한 전통적인 기계식 부츠 타입 가죽 기어 노브입니다. 브레이크를 밟고 손잡이 앞쪽 버튼을 누른 채 뒤로 당기면 D단, 앞으로 밀면 P단 또는 R단이 들어갑니다.",
       "buttons": {
-        "hazard_light": {
-          "name": "비상등 버튼",
-          "location": "중앙 내비 화면 바로 아래, 가로형 송풍구 정중앙 빨간 삼각형 버튼",
-          "action_guide": "내비게이션 화면 바로 밑, 가로 송풍구 가운데 있는 유일한 빨간 삼각형 물리 버튼을 누르세요."
+        "gear_shift": {
+          "name": "기계식 부츠 타입 가죽 기어 노브",
+          "zone": "CENTER_CONSOLE",
+          "location": "운전석과 동승석 사이 센터 콘솔 정중앙 기어봉",
+          "action_guide": "아반떼는 전통적인 기계식 기어봉입니다. 브레이크를 밟고 기어 노브 앞쪽 트리거 버튼을 누른 상태에서 뒤로 당기면 D단, 앞으로 밀면 P단이나 R단으로 들어갑니다. D단에서 왼쪽으로 꺾으면 스포츠 수동 모드(+/-)입니다."
         },
-        "wiper": {
-          "name": "와이퍼 조작 레버",
-          "location": "스티어링 휠(핸들) 오른쪽 뒤에 달린 긴 막대 레버",
-          "action_guide": "핸들 오른쪽 뒤 레버를 아래로 한 칸 내리면 자동 와이퍼, 레버 가운데 회전 다이얼로 속도를 조절합니다."
+        "shift_lock_release": {
+          "name": "시프트락 릴리즈(SHIFT LOCK RELEASE) 버튼",
+          "zone": "CENTER_CONSOLE",
+          "location": "기어봉 앞 왼쪽 작은 사각형 버튼",
+          "action_guide": "차량이 방전되었거나 이중 주차를 위해 시동을 끄고 기어를 N단(중립)으로 놓아야 할 때, 브레이크를 밟고 이 버튼을 누르면서 기어봉을 N단으로 당깁니다."
         },
-        "front_defog": {
-          "name": "앞유리 성에 제거(FRONT)",
-          "location": "센터페시아 공조장치 버튼 가로 1열 중 맨 왼쪽 첫 번째 부채꼴 모양 버튼",
-          "action_guide": "공조기 조작 버튼 가로 1열 중 맨 왼쪽 첫 번째 'FRONT'라고 적힌 부채꼴 모양 버튼을 누르세요."
+        "wiper_stalk": {
+          "name": "와이퍼 & 워셔액 스토크 레버",
+          "zone": "STEERING_WHEEL_COLUMN",
+          "location": "핸들 오른쪽 뒤편 레버",
+          "action_guide": "레버를 아래로 한 칸 내리면 간헐 와이퍼(INT) 또는 AUTO 모드이며, 몸쪽으로 당기면 앞유리 워셔액이 분사됩니다."
         },
-        "rear_defog": {
-          "name": "뒷유리 및 사이드미러 열선(REAR)",
-          "location": "센터페시아 공조장치 버튼 가로 1열 중 맨 오른쪽 끝 사각형 모양 버튼",
-          "action_guide": "공조기 조작 버튼 맨 오른쪽 끝에 있는 직사각형 모양 'REAR' 버튼을 누르세요."
+        "light_stalk": {
+          "name": "전조등 & 방향지시등 스토크 레버",
+          "zone": "STEERING_WHEEL_COLUMN",
+          "location": "핸들 왼쪽 뒤편 레버",
+          "action_guide": "위로 올리면 우회전, 아래로 내리면 좌회전 깜빡이입니다. 끝단 다이얼을 'AUTO'에 놓으시면 어두워질 때 전조등이 자동으로 점등됩니다."
         },
         "smart_cruise": {
-          "name": "스마트 크루즈 컨트롤",
-          "location": "핸들 오른쪽 스포크 버튼 4개 중 오른쪽 위 차간거리/속도계 아이콘 버튼",
-          "action_guide": "핸들 오른쪽 스포크에 있는 버튼 네 개 중 오른쪽 위 차간거리 모양 버튼을 누르고, 바로 밑 토글 스위치를 아래로 톡 내려 속도를 맞추세요."
+          "name": "스마트 크루즈 컨트롤(SCC) 스위치",
+          "zone": "STEERING_WHEEL",
+          "location": "스티어링 휠(핸들) 오른쪽 스포크 속도계 모양 아이콘",
+          "action_guide": "아반떼는 크루즈 버튼이 핸들 '오른쪽'에 있습니다. 정속 주행을 원하실 때 속도계 아이콘을 누르면 현재 속도로 설정됩니다."
         },
-        "electronic_parking_brake": {
-          "name": "전자식 주차 브레이크(EPB)",
-          "location": "기어봉 바로 뒤, 컵홀더 왼쪽 은색 (P) 스위치",
-          "action_guide": "기어봉 바로 뒤편 왼쪽의 (P) 스위치를 손가락으로 위로 당기면 체결되고, 브레이크를 밟고 아래로 누르면 풀립니다."
+        "lane_follow_assist": {
+          "name": "차로 유지 보조(LFA) 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 오른쪽 스포크 스티어링 휠 모양 아이콘",
+          "action_guide": "핸들 모양 버튼을 누르면 계기판에 초록색 핸들 표시등이 켜지며 차선 중앙을 유지하도록 조향을 돕습니다."
         },
-        "auto_hold": {
-          "name": "오토홀드(Auto Hold)",
-          "location": "주차 브레이크 (P) 스위치 바로 밑의 AUTO HOLD 버튼",
-          "action_guide": "기어봉 뒤쪽 (P) 스위치 바로 아래에 위치한 'AUTO HOLD' 영문 버튼을 누르세요."
-        }
-      }
-    },
-    {
-      "model_id": "SONATA",
-      "model_name_ko": "쏘나타 디 엣지",
-      "model_name_en": "Sonata The Edge",
-      "segment": "SEDAN",
-      "segment_detail": "중형 세단",
-      "specs": {
-        "length_mm": 4910,
-        "width_mm": 1860,
-        "height_mm": 1445,
-        "wheelbase_mm": 2840
-      },
-      "gear_type": "핸들 오른쪽 뒤편 아래에 달린 전자식 칼럼 레버입니다. 끝부분 원통 다이얼을 앞(시계 방향)으로 돌리면 D단, 뒤(반시계)로 돌리면 R단, 레버 오른쪽 끝 은색 버튼을 꾹 누르면 P단입니다.",
-      "buttons": {
+        "cruise_gap": {
+          "name": "차간 거리 조절 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 오른쪽 스포크 자동차와 막대 표시 아이콘",
+          "action_guide": "누를 때마다 앞차와의 간격이 1단계부터 4단계까지 변경됩니다."
+        },
+        "cruise_speed_toggle": {
+          "name": "크루즈 속도 조절 토글(RES+/SET-)",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 오른쪽 스포크 은색 토글 스위치",
+          "action_guide": "위(+RES)로 올리면 속도 증가, 아래(-SET)로 내리면 속도 감소합니다."
+        },
+        "cluster_view_mode": {
+          "name": "클러스터 메뉴/트립 전환 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 오른쪽 스포크 문서 넘김 아이콘",
+          "action_guide": "계기판 중앙의 주행 거리, 연비, 타이어 공기압 화면을 변경합니다."
+        },
+        "voice_recognition": {
+          "name": "음성인식 마이크 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 왼쪽 스포크 사람 말하는 아이콘",
+          "action_guide": "버튼을 누르고 삐 소리가 난 뒤 원하는 음성 명령을 말하세요."
+        },
+        "audio_volume": {
+          "name": "오디오 볼륨 및 음소거 토글",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 왼쪽 스포크 볼륨 조절 스위치",
+          "action_guide": "위/아래로 밀어 볼륨을 조절하고, 누르면 음소거됩니다."
+        },
+        "audio_seek": {
+          "name": "트랙 및 라디오 탐색 스위치",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 왼쪽 스포크 탐색 토글",
+          "action_guide": "음악 트랙이나 라디오 주파수를 넘깁니다."
+        },
+        "phone_call": {
+          "name": "블루투스 핸즈프리 전화 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 왼쪽 스포크 전화기 아이콘",
+          "action_guide": "전화를 받거나 끊을 때 사용합니다."
+        },
+        "custom_star": {
+          "name": "사용자 지정 별표(★) 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 왼쪽 스포크 별표(★) 아이콘",
+          "action_guide": "설정에서 지정한 사용자 단축 메뉴를 실행합니다."
+        },
         "hazard_light": {
-          "name": "비상등 버튼",
-          "location": "파노라믹 디스플레이 바로 아래, 중앙 송풍구 정중앙의 네모난 빨간 삼각형 버튼",
-          "action_guide": "중앙 송풍구 정가운데에 툭 튀어나와 있는 네모난 빨간 삼각형 버튼을 누르세요."
+          "name": "비상경고등 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "중앙 슬림 송풍구 정중앙 돌출 버튼",
+          "action_guide": "가운데 에어컨 송풍구 사이 붉은 삼각형 비상등 버튼을 누르세요."
         },
-        "wiper": {
-          "name": "와이퍼 조작 레버",
-          "location": "스티어링 휠 오른쪽 뒤 상단 레버",
-          "action_guide": "핸들 오른쪽 뒤 2시 방향에 있는 상단 레버입니다. 아래쪽 칼럼 기어 레버와 헷갈리지 마시고 윗쪽 얇은 레버를 조작하세요."
+        "engine_start_stop": {
+          "name": "엔진 스타트/스톱 시동 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "핸들 오른쪽 내비게이션 디스플레이 좌하단",
+          "action_guide": "브레이크 페달을 밟고 START STOP 버튼을 누르면 엔진 시동이 걸립니다."
+        },
+        "climate_auto": {
+          "name": "듀얼 풀오토 에어컨(AUTO) 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 조작 패널 좌측 'AUTO' 버튼",
+          "action_guide": "AUTO 버튼을 누르고 다이얼로 온도를 맞추면 최적의 풍량으로 자동 조절됩니다."
+        },
+        "climate_off": {
+          "name": "공조기 전원 OFF 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 조작 패널 'OFF' 버튼",
+          "action_guide": "에어컨과 히터 송풍을 정지합니다."
+        },
+        "temp_dial_driver": {
+          "name": "운전석 실내 온도 조절 다이얼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 패널 왼쪽 원형 다이얼",
+          "action_guide": "다이얼을 시계방향으로 돌리면 온도가 상승하고 반시계로 돌리면 내려갑니다."
+        },
+        "temp_dial_passenger": {
+          "name": "동승석 실내 온도 조절 다이얼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 패널 오른쪽 원형 다이얼",
+          "action_guide": "동승석 온도를 독립적으로 조절합니다."
         },
         "front_defog": {
-          "name": "앞유리 성에 제거(FRONT)",
-          "location": "터치식 공조 터치패널 왼쪽 상단 모서리의 물리식 부채꼴 버튼",
-          "action_guide": "공조 터치 액정 왼쪽 맨 윗줄 첫 번째에 위치한 부채꼴 모양 'FRONT' 버튼을 누르세요."
+          "name": "앞유리 성에 제거 버튼(FRONT)",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 조작부 부채꼴 'FRONT' 물리 버튼",
+          "action_guide": "부채꼴 모양 FRONT 버튼을 누르면 에어컨이 가동되며 앞유리 습기와 성에가 즉시 제거됩니다."
         },
         "rear_defog": {
-          "name": "뒷유리 및 사이드미러 열선(REAR)",
-          "location": "터치식 공조 터치패널 오른쪽 상단 모서리의 물리식 사각형 버튼",
-          "action_guide": "공조 터치 액정 오른쪽 맨 윗줄 끝에 위치한 직사각형 모양 'REAR' 버튼을 누르세요."
+          "name": "뒷유리 및 사이드미러 열선 버튼(REAR)",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 조작부 사각형 'REAR' 물리 버튼",
+          "action_guide": "사각형 모양 REAR 버튼을 누르면 뒷유리와 사이드미러 열선이 켜집니다."
         },
-        "smart_cruise": {
-          "name": "스마트 크루즈 컨트롤",
-          "location": "핸들 오른쪽 스포크 조작계 중 왼쪽 윗줄 차간거리 차량 아이콘 버튼",
-          "action_guide": "핸들 오른쪽 버튼 네 개 중 왼쪽 위에 있는 차간거리 모양 버튼을 누르고, 가운데 토글을 위아래로 조절하세요."
+        "air_recirculation": {
+          "name": "내기 순환 / 외기 유입 전환 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 패널 자동차 순환 화살표 버튼",
+          "action_guide": "실내 공기 순환 또는 외부 공기 유입을 선택합니다."
         },
-        "electronic_parking_brake": {
-          "name": "전자식 주차 브레이크(EPB)",
-          "location": "운전석 왼쪽 무릎 앞, 크래시패드 하단 버튼 모음 중 맨 왼쪽 (P) 스위치",
-          "action_guide": "핸들 왼쪽 무릎 앞 벽면에 있는 버튼 네 개 중 맨 왼쪽의 (P) 스위치를 당기거나 누르세요."
-        },
-        "auto_hold": {
-          "name": "오토홀드(Auto Hold)",
-          "location": "센터 콘솔 무선충전기 바로 앞, 가로 버튼 3개 중 가운데 버튼",
-          "action_guide": "센터 콘솔 컵홀더 앞쪽 버튼 세 개 중 가운데에 위치한 'AUTO HOLD' 버튼을 누르세요."
-        }
-      }
-    },
-    {
-      "model_id": "TUCSON",
-      "model_name_ko": "투싼",
-      "model_name_en": "Tucson",
-      "segment": "SUV",
-      "segment_detail": "준중형 SUV",
-      "specs": {
-        "length_mm": 4640,
-        "width_mm": 1865,
-        "height_mm": 1665,
-        "wheelbase_mm": 2755
-      },
-      "gear_type": "핸들 오른쪽 뒤 칼럼식 전자 기어입니다. 끝단 둥근 노브를 계기판(앞) 방향으로 돌리면 전진 D단, 운전자(몸) 방향으로 돌리면 후진 R단, 맨 끝 돌출 버튼을 누르면 주차 P단입니다.",
-      "buttons": {
-        "hazard_light": {
-          "name": "비상등 버튼",
-          "location": "센터페시아 화면 아래, 은색 볼륨 노브 사이 정중앙 빨간 삼각 버튼",
-          "action_guide": "중앙 내비 화면 바로 아래, 오디오 다이얼 사이에 위치한 빨간 삼각형 비상등 버튼을 누르세요."
-        },
-        "wiper": {
-          "name": "와이퍼 조작 레버",
-          "location": "핸들 오른쪽 뒤편 상단 레버",
-          "action_guide": "핸들 오른쪽 뒤편에 있는 두 개 막대 중 위쪽에 달린 긴 레버를 아래로 한 칸 내리세요."
-        },
-        "front_defog": {
-          "name": "앞유리 성에 제거(FRONT)",
-          "location": "센터페시아 공조 컨트롤 패널 왼쪽 상단 첫 번째 물리 버튼",
-          "action_guide": "공조 터치 디스플레이 왼쪽 맨 위, 바람개비 아이콘 바로 옆 'FRONT' 부채꼴 버튼을 누르세요."
-        },
-        "rear_defog": {
-          "name": "뒷유리 및 미러 열선(REAR)",
-          "location": "센터페시아 공조 컨트롤 패널 오른쪽 상단 끝 물리 버튼",
-          "action_guide": "공조 패널 오른쪽 맨 위, 온도 조절 다이얼 바로 안쪽 'REAR' 사각 버튼을 누르세요."
-        },
-        "smart_cruise": {
-          "name": "스마트 크루즈 컨트롤",
-          "location": "핸들 오른쪽 스포크 버튼 4개 중 윗줄 오른쪽 주행보조 차량 아이콘 버튼",
-          "action_guide": "핸들 오른쪽 버튼 네 개 중 윗줄 오른쪽 차간거리/차선 유지 버튼을 누르시면 계기판에 초록 불이 들어옵니다."
+        "ac_on_off": {
+          "name": "에어컨(A/C) 냉매 압축기 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 패널 'A/C' 버튼",
+          "action_guide": "누르면 찬 바람을 만드는 에어컨 컴프레서가 작동합니다."
         },
         "electronic_parking_brake": {
-          "name": "전자식 파킹 브레이크(EPB)",
-          "location": "핸들 왼쪽 송풍구 아래, 크래시패드 버튼 4개 중 맨 왼쪽 (P) 레버",
-          "action_guide": "운전석 문 열었을 때 보이는 핸들 왼쪽 무릎 앞 버튼 줄에서 맨 왼쪽 (P) 스위치를 당기세요."
+          "name": "전자식 주차 브레이크(EPB) 스위치",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 기어봉 왼쪽 뒤편 (P) 마크 은색 스위치",
+          "action_guide": "아반떼의 EPB는 기어봉 왼쪽 콘솔에 있습니다. 손가락으로 스위치를 위로 딸깍 당기면 주차 브레이크가 걸리고, 브레이크를 밟고 아래로 누르면 풀립니다."
         },
         "auto_hold": {
-          "name": "오토홀드(Auto Hold)",
-          "location": "센터 콘솔 컵홀더 왼쪽 상단 버튼 패널 첫 번째 버튼",
-          "action_guide": "조수석과 운전석 사이 컵홀더 왼쪽 위에 있는 'AUTO HOLD' 영문 버튼을 누르세요."
-        }
-      }
-    },
-    {
-      "model_id": "IONIQ5",
-      "model_name_ko": "아이오닉 5",
-      "model_name_en": "Ioniq 5",
-      "segment": "SUV",
-      "segment_detail": "준중형 CUV / 전기차",
-      "specs": {
-        "length_mm": 4635,
-        "width_mm": 1890,
-        "height_mm": 1605,
-        "wheelbase_mm": 3000
-      },
-      "gear_type": "핸들 오른쪽 뒤 5시 방향 아래쪽 칼럼 회전 레버입니다. 끝부분 원통을 위(앞)로 비틀면 D단, 아래(뒤)로 비틀면 R단, 레버 오른쪽 끝에 박힌 은색 버튼을 꾹 누르면 P단입니다.",
-      "buttons": {
-        "hazard_light": {
-          "name": "비상등 버튼",
-          "location": "가로형 중앙 에어벤트(송풍구) 정중앙에 돌출된 빨간 삼각 버튼",
-          "action_guide": "가운데 에어컨 송풍구 정중앙에 홀로 돌출되어 있는 빨간 삼각형 버튼을 누르세요."
+          "name": "오토홀드(AUTO HOLD) 물리 버튼",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 기어봉 왼쪽 EPB 스위치 바로 뒤쪽",
+          "action_guide": "AUTO HOLD 버튼을 누르면 계기판에 흰색 표시등이 켜지며, 신호 대기 정차 시 브레이크에서 발을 떼도 차가 멈춰있습니다."
         },
-        "wiper": {
-          "name": "와이퍼 조작 레버",
-          "location": "핸들 오른쪽 뒤 상단 레버",
-          "action_guide": "핸들 오른쪽 뒤 윗쪽 레버입니다. 아래쪽에 두껍게 튀어나온 기어 변속 다이얼 레버와 헷갈리지 마시고 위쪽 얇은 레버를 조작하세요."
+        "drive_mode": {
+          "name": "드라이브 모드 버튼",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 기어봉 좌측 상단 'DRIVE MODE' 버튼",
+          "action_guide": "누를 때마다 NORMAL, ECO, SPORT, SMART 모드로 주행 감각이 전환됩니다."
         },
-        "front_defog": {
-          "name": "앞유리 성에 제거(FRONT)",
-          "location": "공조 터치패널 왼쪽 상단 모서리 첫 번째 FRONT 터치 아이콘",
-          "action_guide": "공조기 조작 터치 화면에서 왼쪽 맨 윗줄 첫 번째에 위치한 부채꼴 'FRONT' 아이콘을 터치하세요."
+        "seat_vent_heat": {
+          "name": "운전석 통풍/열선 시트 3단 버튼",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 기어봉 좌측 시트 아이콘 버튼",
+          "action_guide": "위쪽을 누르면 주황색 3단 열선 시트, 아래쪽을 누르면 파란색 3단 통풍 시트가 켜집니다."
         },
-        "rear_defog": {
-          "name": "뒷유리 및 미러 열선(REAR)",
-          "location": "공조 터치패널 오른쪽 상단 모서리 끝 REAR 터치 아이콘",
-          "action_guide": "공조기 조작 터치 화면 오른쪽 맨 윗줄 끝에 있는 사각형 'REAR' 아이콘을 터치하세요."
+        "seat_heat_passenger": {
+          "name": "동승석 통풍/열선 시트 3단 버튼",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 기어봉 우측 동승석 시트 버튼",
+          "action_guide": "동승석 열선 및 통풍 시트를 3단계로 조절합니다."
         },
-        "smart_cruise": {
-          "name": "스마트 크루즈 / 고속도로 주행 보조",
-          "location": "핸들 '왼쪽' 스포크 버튼 4개 중 오른쪽 위 차간거리 아이콘 버튼",
-          "action_guide": "아이오닉 5는 일반 차와 달리 핸들 '왼쪽'에 크루즈가 있습니다! 핸들 왼쪽 버튼 네 개 중 오른쪽 위 차간거리 버튼을 누르세요."
+        "heated_steering_wheel": {
+          "name": "스티어링 휠(핸들) 열선 버튼",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 기어봉 좌측 핸들 열선 아이콘",
+          "action_guide": "버튼을 누르면 스티어링 휠 가죽이 따뜻해집니다."
         },
-        "electronic_parking_brake": {
-          "name": "전자식 주차 브레이크(EPB)",
-          "location": "핸들 왼쪽 뒤 무릎 앞 크래시패드 맨 아래 (P) 스위치",
-          "action_guide": "핸들 왼쪽 무릎 앞 벽면 버튼 모음 중 맨 아래에 있는 은색 (P) 스위치를 앞으로 당기세요."
+        "parking_sensor": {
+          "name": "주차 거리 경고(P센서) ON/OFF 버튼",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 기어봉 좌측 'P▲' 아이콘 버튼",
+          "action_guide": "주차 센서 경고 비프음을 끄거나 켭니다."
         },
-        "auto_hold": {
-          "name": "오토홀드(Auto Hold)",
-          "location": "핸들 왼쪽 뒤 크래시패드 (P) 스위치 바로 윗줄 AUTO HOLD 버튼",
-          "action_guide": "핸들 왼쪽 무릎 앞 (P) 스위치 바로 윗줄에 있는 'AUTO HOLD' 버튼을 누르세요."
+        "parking_view": {
+          "name": "후방 모니터/뷰(VIEW) 카메라 버튼",
+          "zone": "CENTER_CONSOLE",
+          "location": "센터 콘솔 기어봉 좌측 카메라 모양 버튼",
+          "action_guide": "주행 중이거나 정차 중 누르면 내비게이션에 후방 영상이 표시됩니다."
         },
-        "charge_door": {
-          "name": "전기차 충전구 열림",
-          "location": "차량 외부 우측 후면 충전 도어 또는 핸들 왼쪽 크래시패드 플러그 아이콘 버튼",
-          "action_guide": "차에서 내린 후 조수석 뒤쪽 충전구 덮개 사각형 부분을 손으로 꾹 누르거나, 핸들 왼쪽 크래시패드의 콘센트 모양 버튼을 길게 누르세요."
+        "passenger_grab_bar": {
+          "name": "동승석 코너링 그랩 바(손잡이)",
+          "zone": "CENTER_CONSOLE",
+          "location": "기어봉 우측에 높게 솟아있는 아치형 손잡이",
+          "action_guide": "운전석과 조수석을 구분하며 코너링 시 조수석 탑승자가 잡는 지지대 역할을 합니다."
+        },
+        "fuel_door": {
+          "name": "운전석 바닥 수동 주유구 열림 레버",
+          "zone": "CABIN_FLOOR_DRIVER",
+          "location": "운전석 시트 왼쪽 바닥 끝 주유기 그림 레버",
+          "action_guide": "아반떼는 버튼이 아닙니다. 운전석 문을 열고 시트 왼쪽 아래 바닥 끝을 보시면 주유기 그림이 그려진 검은색 레버가 있습니다. 이 레버를 손으로 위로 딸깍 당기시면 주유구가 열립니다."
+        },
+        "tailgate": {
+          "name": "트렁크 열림 레버 및 버튼",
+          "zone": "CABIN_FLOOR_DRIVER",
+          "location": "운전석 시트 왼쪽 바닥 레버 또는 크래시패드 버튼",
+          "action_guide": "운전석 시트 왼쪽 바닥의 트렁크 그림 레버를 위로 당기거나, 크래시패드에 트렁크 버튼이 있는 경우 1초간 누르면 트렁크가 열립니다."
+        },
+        "esc_off": {
+          "name": "차체 자세 제어(ESC) OFF 버튼",
+          "zone": "CRASH_PAD_LOWER",
+          "location": "운전석 왼쪽 무릎 앞 크래시패드 스위치",
+          "action_guide": "진흙탕이나 눈길 탈출 시 눌러 구동력 제어를 끕니다."
+        },
+        "headlight_leveling": {
+          "name": "전조등 조사각 조절 다이얼",
+          "zone": "CRASH_PAD_LOWER",
+          "location": "운전석 왼쪽 무릎 앞 0~3 숫자 각인 휠",
+          "action_guide": "뒷좌석 탑승 인원이나 짐 무게에 맞춰 헤드라이트 조사각을 조절합니다."
+        },
+        "hood_open": {
+          "name": "엔진 후드(보닛) 개폐 수동 레버",
+          "zone": "CRASH_PAD_LOWER",
+          "location": "운전석 왼쪽 발끝 벽면 하단 레버",
+          "action_guide": "운전석 왼쪽 발 앞쪽 벽 하단의 자동차 보닛 열림 레버를 몸쪽으로 딸깍 당겨 보닛을 엽니다."
+        },
+        "power_windows": {
+          "name": "파워 윈도우 조작 스위치",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 암레스트 스위치 패널",
+          "action_guide": "4개 좌석 창문을 열고 닫으며 운전석은 원터치 오토 다운/업을 지원합니다."
+        },
+        "window_lock": {
+          "name": "뒷좌석 윈도우 잠금 스위치",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 창문 스위치 뒤쪽 X버튼",
+          "action_guide": "누르면 뒷좌석 탑승자가 창문을 조작할 수 없도록 차단합니다."
+        },
+        "door_lock_unlock": {
+          "name": "중앙 도어 잠금/해제 스위치",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 자물쇠 모양 스위치",
+          "action_guide": "전체 문을 잠그거나 엽니다."
+        },
+        "side_mirror_adjust": {
+          "name": "사이드미러 각도 조절 4방향 스위치",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 암레스트 4방향 패드 및 L/R 스위치",
+          "action_guide": "L 또는 R을 선택하고 4방향 패드를 눌러 거울 각도를 맞춥니다."
+        },
+        "side_mirror_fold": {
+          "name": "전동 사이드미러 접이 버튼",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 암레스트 맨 앞쪽 미러 접힘 버튼",
+          "action_guide": "누르면 양쪽 사이드미러를 접거나 펼 수 있습니다."
+        },
+        "seat_adjustment": {
+          "name": "운전석 시트 수동 조절 레버 (렌터카 일반 사양)",
+          "zone": "SEAT_CONTROLS",
+          "location": "운전석 시트 왼쪽 측면 및 바닥 앞쪽 레버",
+          "action_guide": "시트 왼쪽 바깥의 긴 레버를 위아래로 펌핑하면 방석 높낮이가 조절되고, 뒤쪽 작은 레버를 당기며 등받이 각도를 맞추며, 시트 앞 하단 철제 바를 당겨 앞뒤로 이동합니다."
         }
       }
     },
@@ -214,50 +1238,274 @@
       "model_id": "CASPER",
       "model_name_ko": "캐스퍼",
       "model_name_en": "Casper",
+      "model_year": "2021~현재 (AX1)",
       "segment": "COMPACT",
-      "segment_detail": "경형 SUV",
+      "segment_detail": "경형 SUV (엔트리 SUV)",
       "specs": {
         "length_mm": 3595,
         "width_mm": 1595,
         "height_mm": 1575,
         "wheelbase_mm": 2400
       },
-      "gear_type": "바닥 콘솔이 아니라 대시보드 센터페시아에 돌출된 일체형 기어봉입니다. 손잡이 앞쪽 트리거 버튼을 쥐고 아래로 당기면 D단, 맨 위로 올리면 P단입니다.",
+      "gear_type": "센터페시아 하단에 대시보드 일체형으로 솟아있는 기계식 기어봉입니다. 브레이크를 밟고 손잡이 앞 버튼을 누른 채 아래로 당기면 D단, 위로 올리면 R단 또는 P단이 들어갑니다.",
       "buttons": {
-        "hazard_light": {
-          "name": "비상등 버튼",
-          "location": "내비게이션 화면 바로 밑, 오디오 조작 버튼 가로 1열 정중앙 빨간 버튼",
-          "action_guide": "내비게이션 화면 바로 아래, 버튼 한 줄 가운데에 큼직하게 박힌 빨간 삼각형 비상등 버튼을 누르세요."
+        "gear_shift": {
+          "name": "대시보드 마운트 기계식 변속 레버",
+          "zone": "CENTER_FASCIA",
+          "location": "센터페시아 하단 돌출형 가죽 기어 노브",
+          "action_guide": "캐스퍼는 기어봉이 바닥이 아니라 대시보드 아래 솟아있습니다. 브레이크를 밟고 기어 노브 앞쪽 버튼을 누른 채 아래로 당기면 D단, 위로 올리면 R단 또는 P단이 들어갑니다. 기어봉을 왼쪽으로 꺾으면 L(저단 엔진브레이크) 모드입니다."
         },
-        "wiper": {
-          "name": "와이퍼 조작 레버",
-          "location": "스티어링 휠 오른쪽 뒤 레버",
-          "action_guide": "핸들 오른쪽 뒤 레버를 아래로 한 칸 내리면 작동하며, 레버 끝을 돌려 속도를 조절합니다."
-        },
-        "front_defog": {
-          "name": "앞유리 성에 제거(FRONT)",
-          "location": "동그란 공조 조작 다이얼 패널 좌측 상단 FRONT 물리 버튼",
-          "action_guide": "가운데 둥근 에어컨 조작부 왼쪽 윗줄에 있는 부채꼴 모양 'FRONT' 버튼을 누르세요."
-        },
-        "rear_defog": {
-          "name": "뒷유리 및 미러 열선(REAR)",
-          "location": "공조 조작 다이얼 패널 우측 상단 REAR 물리 버튼",
-          "action_guide": "가운데 둥근 에어컨 조작부 오른쪽 윗줄에 있는 직사각형 모양 'REAR' 버튼을 누르세요."
-        },
-        "smart_cruise": {
-          "name": "스마트 크루즈 컨트롤",
-          "location": "핸들 오른쪽 스포크 버튼 4개 중 오른쪽 위 차간거리 차량 아이콘 버튼",
-          "action_guide": "핸들 오른쪽 버튼 네 개 중 오른쪽 위에 위치한 차간거리 유지 버튼을 누르고, 바로 밑 스위치를 아래로 딸깍 내리세요."
-        },
-        "electronic_parking_brake": {
-          "name": "풋 파킹 브레이크 (발로 밟는 방식)",
-          "location": "운전석 바닥, 브레이크 페달 왼쪽 끝에 위치한 작은 발 페달",
-          "action_guide": "캐스퍼는 손으로 조작하는 전자식 버튼이 없습니다! 운전석 바닥 브레이크 페달 왼쪽 끝에 있는 풋 페달을 발로 꾹 밟아서 체결하고, 다시 꾹 밟아서 풉니다."
+        "drive_traction_dial": {
+          "name": "드라이브 & 2WD 험로 트랙션 모드 조그 다이얼",
+          "zone": "CENTER_FASCIA",
+          "location": "기어 노브 바로 오른쪽 원형 금속 다이얼",
+          "action_guide": "다이얼 중앙을 꾹 누르면 DRIVE 모드(SPORT, NORMAL)와 TRACTION 험로 모드(SNOW 눈길, MUD 진흙, SAND 모래길)로 전환되며, 다이얼을 돌려 원하는 주행 모드를 선택합니다."
         },
         "drive_mode": {
-          "name": "드라이브 / 험로 트랙션 다이얼",
-          "location": "대시보드 기어봉 바로 오른쪽 원형 회전 다이얼",
-          "action_guide": "기어봉 바로 오른쪽에 튀어나온 둥근 다이얼을 돌려 노멀, 스포츠, 눈길 주행 모드를 선택할 수 있습니다."
+          "name": "드라이브 & 험로 주행 모드 다이얼",
+          "zone": "CENTER_FASCIA",
+          "location": "기어 노브 바로 오른쪽 원형 금속 다이얼",
+          "action_guide": "다이얼을 돌려 NORMAL, SPORT 주행 모드를 선택하고, 다이얼을 누르면 눈길 탈출용 SNOW/MUD 험로 모드로 바뀝니다."
+        },
+        "foot_parking_brake": {
+          "name": "풋 파킹 브레이크 페달 (전자식 EPB 미적용)",
+          "zone": "FOOT_WELL_DRIVER",
+          "location": "운전석 브레이크 페달 왼쪽 바닥 끝 작은 페달",
+          "action_guide": "캐스퍼는 손으로 당기는 버튼이 없고 왼발 풋 페달 방식입니다. 왼발로 페달을 깊숙이 딸깍 소리 날 때까지 밟으면 주차 브레이크가 걸리고, 풀 때도 왼발로 다시 한번 깊게 밟았다가 떼면 탕 소리와 함께 풀립니다."
+        },
+        "electronic_parking_brake": {
+          "name": "풋 파킹 브레이크 페달 (전자식 EPB 미적용 안내)",
+          "zone": "FOOT_WELL_DRIVER",
+          "location": "운전석 브레이크 페달 왼쪽 바닥 끝 작은 페달",
+          "action_guide": "캐스퍼는 전자식 버튼이 없습니다. 운전석 왼쪽 발밑 바닥 끝에 있는 작은 풋 페달을 왼발로 깊게 밟으면 잠기고, 다시 한번 깊게 밟았다가 떼면 주차 브레이크가 해제됩니다."
+        },
+        "auto_hold": {
+          "name": "오토홀드(AUTO HOLD) 미지원 기능 안내",
+          "zone": "FOOT_WELL_DRIVER",
+          "location": "미지원 사양 (풋 파킹 브레이크 차량)",
+          "action_guide": "캐스퍼는 기계식 풋 파킹 브레이크 차량으로 오토홀드 기능이 지원되지 않습니다. 신호 대기 시 브레이크 페달을 직접 밟고 계셔야 합니다."
+        },
+        "wiper_stalk": {
+          "name": "와이퍼 & 리어 와이퍼/워셔액 스토크 레버",
+          "zone": "STEERING_WHEEL_COLUMN",
+          "location": "핸들 오른쪽 뒤편 레버",
+          "action_guide": "레버를 아래로 내려 와이퍼 속도를 조절하고, 끝단을 돌리면 리어 와이퍼가 작동하며, 몸쪽으로 당기면 워셔액이 분사됩니다."
+        },
+        "light_stalk": {
+          "name": "전조등 & 방향지시등 스토크 레버",
+          "zone": "STEERING_WHEEL_COLUMN",
+          "location": "핸들 왼쪽 뒤편 레버",
+          "action_guide": "위로 올리면 우회전, 아래로 내리면 좌회전 깜빡이입니다. 끝단 회전 다이얼을 'AUTO'에 놓으시면 어두워질 때 원형 DRL과 헤드라이트가 자동으로 켜집니다."
+        },
+        "smart_cruise": {
+          "name": "스마트 크루즈 컨트롤(SCC) 스위치",
+          "zone": "STEERING_WHEEL",
+          "location": "스티어링 휠(핸들) 오른쪽 스포크 속도계 모양 아이콘",
+          "action_guide": "캐스퍼는 스마트 크루즈가 핸들 '오른쪽'에 있습니다. 주행 중 속도계 모양 버튼을 누르면 설정 속도에 맞춰 앞차와의 거리를 유지하며 주행합니다."
+        },
+        "lane_follow_assist": {
+          "name": "차로 유지 보조(LFA) 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 오른쪽 스포크 스티어링 휠 모양 아이콘",
+          "action_guide": "핸들 모양 버튼을 누르면 계기판에 초록색 핸들 표시등이 켜지며 시속 0km부터 차선 중앙을 유지하도록 돕습니다."
+        },
+        "cruise_gap": {
+          "name": "차간 거리 조절 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 오른쪽 스포크 차간 거리 아이콘",
+          "action_guide": "누를 때마다 앞차와의 간격이 1단계부터 4단계까지 변경됩니다."
+        },
+        "cruise_speed_toggle": {
+          "name": "크루즈 속도 조절 토글(RES+/SET-)",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 오른쪽 스포크 토글 스위치",
+          "action_guide": "위(+RES)로 올리면 속도 증가, 아래(-SET)로 내리면 속도가 감소합니다."
+        },
+        "cluster_view_mode": {
+          "name": "클러스터 메뉴/트립 전환 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 오른쪽 스포크 문서 넘김 아이콘",
+          "action_guide": "계기판의 주행 정보 및 경차 타이어 공기압 화면을 변경합니다."
+        },
+        "voice_recognition": {
+          "name": "음성인식 마이크 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 왼쪽 스포크 사람 말하는 아이콘",
+          "action_guide": "버튼을 누르고 삐 소리가 난 뒤 음성 명령을 내리세요."
+        },
+        "audio_volume": {
+          "name": "오디오 볼륨 및 음소거 토글",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 왼쪽 스포크 볼륨 토글 스위치",
+          "action_guide": "위/아래로 밀어 볼륨을 맞추고, 누르면 음소거됩니다."
+        },
+        "audio_seek": {
+          "name": "트랙 및 라디오 탐색 토글",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 왼쪽 스포크 탐색 스위치",
+          "action_guide": "음악 트랙이나 라디오 주파수를 넘깁니다."
+        },
+        "phone_call": {
+          "name": "블루투스 핸즈프리 통화 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 왼쪽 스포크 수화기 아이콘",
+          "action_guide": "전화를 받거나 끊습니다."
+        },
+        "custom_star": {
+          "name": "사용자 지정 별표(★) 버튼",
+          "zone": "STEERING_WHEEL",
+          "location": "핸들 왼쪽 스포크 별표(★) 아이콘",
+          "action_guide": "자주 쓰는 단축 메뉴를 실행합니다."
+        },
+        "hazard_light": {
+          "name": "비상경고등 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "센터페시아 내비게이션 디스플레이 바로 아래 정중앙",
+          "action_guide": "센터페시아 중앙에 돌출된 붉은 삼각형 비상등 버튼을 누르세요."
+        },
+        "engine_start_stop": {
+          "name": "엔진 스타트/스톱 시동 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "스티어링 휠 오른쪽 내비게이션 디스플레이 좌하단",
+          "action_guide": "브레이크 페달을 밟고 START STOP 버튼을 누르면 엔진 시동이 걸립니다."
+        },
+        "climate_auto": {
+          "name": "풀오토 에어컨(AUTO) 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 조작부 왼쪽 원형 다이얼 중앙 'AUTO' 버튼",
+          "action_guide": "AUTO 버튼을 누르고 다이얼로 온도를 맞추면 최적의 풍량이 자동 제어됩니다."
+        },
+        "climate_off": {
+          "name": "공조기 전원 OFF 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 조작부 'OFF' 버튼",
+          "action_guide": "에어컨과 히터 송풍을 정지합니다."
+        },
+        "climate_temp_dial": {
+          "name": "실내 온도 조절 다이얼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 조작부 왼쪽 원형 다이얼",
+          "action_guide": "다이얼을 돌려 실내 희망 온도를 조절합니다."
+        },
+        "climate_fan_dial": {
+          "name": "송풍 바람 세기 조절 다이얼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 조작부 오른쪽 원형 다이얼",
+          "action_guide": "오른쪽 다이얼을 돌려 에어컨 바람 세기를 수동으로 조절합니다."
+        },
+        "front_defog": {
+          "name": "앞유리 성에 제거 버튼(FRONT)",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 패널 부채꼴 'FRONT' 버튼",
+          "action_guide": "부채꼴 모양 FRONT 버튼을 누르면 앞유리 김서림과 성에가 급속 제거됩니다."
+        },
+        "rear_defog": {
+          "name": "뒷유리 및 사이드미러 열선 버튼(REAR)",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 패널 사각형 'REAR' 버튼",
+          "action_guide": "사각형 모양 REAR 버튼을 누르면 뒷유리와 사이드미러 열선이 가동됩니다."
+        },
+        "ac_button": {
+          "name": "에어컨(A/C) 냉매 압축기 가동 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 패널 'A/C' 버튼",
+          "action_guide": "누르면 차가운 냉기가 나오는 에어컨 컴프레서가 작동합니다."
+        },
+        "air_recirculation": {
+          "name": "실내 내기 순환 / 외기 유입 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 패널 자동차 순환 화살표 버튼",
+          "action_guide": "터널이나 먼지가 많을 때 외기 유입을 차단합니다."
+        },
+        "seat_vent_heat": {
+          "name": "운전석 통풍 & 열선 2단 시트 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "기어 노브 왼쪽 시트 모양 버튼",
+          "action_guide": "위로 누르면 주황색 2단 열선 시트, 아래로 누르면 파란색 2단 통풍 시트가 켜집니다."
+        },
+        "seat_heat_passenger": {
+          "name": "동승석 열선 시트 버튼 (통풍 미지원)",
+          "zone": "CENTER_FASCIA",
+          "location": "기어 노브 오른쪽 시트 모양 버튼",
+          "action_guide": "캐스퍼는 동승석 통풍이 없으며, 버튼을 누르면 주황색 2단계 열선 시트만 작동합니다."
+        },
+        "heated_steering_wheel": {
+          "name": "스티어링 휠(핸들) 열선 버튼",
+          "zone": "CENTER_FASCIA",
+          "location": "공조 패널 하단 스티어링 휠 열선 아이콘",
+          "action_guide": "버튼을 누르면 핸들이 따뜻해집니다."
+        },
+        "fuel_door": {
+          "name": "운전석 바닥 주유구 수동 열림 레버",
+          "zone": "CABIN_FLOOR_DRIVER",
+          "location": "운전석 시트 왼쪽 바닥 끝 주유기 그림 레버",
+          "action_guide": "캐스퍼는 실내에 주유구 버튼이 없습니다. 운전석 문을 열고 시트 왼쪽 아래 바닥 끝을 보시면 주유기 그림이 그려진 검은색 작은 레버가 있습니다. 이 레버를 손으로 위로 딸깍 당기시면 주유구가 열립니다."
+        },
+        "tailgate": {
+          "name": "테일게이트(트렁크) 수동 개폐 손잡이",
+          "zone": "EXTERIOR_CONTROLS",
+          "location": "트렁크 번호판 상단 중앙 고무 터치 스위치",
+          "action_guide": "캐스퍼는 실내에 트렁크 버튼이 없습니다. 차량 도어가 언락된 상태에서 트렁크 뒷문 번호판 바로 위쪽 가운데 고무 스위치를 손으로 누르며 위로 들어 올리시면 트렁크가 열립니다."
+        },
+        "esc_off": {
+          "name": "차체 자세 제어(ESC) OFF 버튼",
+          "zone": "CRASH_PAD_LOWER",
+          "location": "운전석 왼쪽 무릎 앞 크래시패드 스위치",
+          "action_guide": "모래나 눈길 구덩이에 빠졌을 때 한 번 눌러 구동력 제어를 끕니다."
+        },
+        "headlight_leveling": {
+          "name": "전조등 조사각 조절 다이얼",
+          "zone": "CRASH_PAD_LOWER",
+          "location": "운전석 왼쪽 무릎 앞 0~3 숫자 각인 휠",
+          "action_guide": "짐이나 탑승 인원에 따라 헤드라이트 높이를 조절합니다."
+        },
+        "hood_open": {
+          "name": "엔진 후드(보닛) 개폐 수동 레버",
+          "zone": "CRASH_PAD_LOWER",
+          "location": "운전석 왼쪽 발끝 벽면 하단 레버",
+          "action_guide": "운전석 왼쪽 발 앞쪽 벽 하단의 보닛 열림 레버를 몸쪽으로 딸깍 당겨 보닛을 엽니다."
+        },
+        "power_windows": {
+          "name": "파워 윈도우 조작 스위치",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 암레스트 스위치 패널",
+          "action_guide": "운전석 및 조수석, 뒷좌석 창문을 열고 닫습니다."
+        },
+        "window_lock": {
+          "name": "뒷좌석 윈도우 잠금 버튼",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 창문 스위치 뒤쪽 X버튼",
+          "action_guide": "뒷좌석 창문 조작을 잠급니다."
+        },
+        "door_lock_unlock": {
+          "name": "중앙 도어 잠금/해제 버튼",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 자물쇠 모양 스위치",
+          "action_guide": "전체 도어를 잠그거나 해제합니다."
+        },
+        "side_mirror_adjust": {
+          "name": "사이드미러 각도 조절 4방향 스위치",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 암레스트 4방향 패드 및 L/R 스위치",
+          "action_guide": "L 또는 R을 선택하고 4방향 패드를 눌러 거울 각도를 맞춥니다."
+        },
+        "side_mirror_fold": {
+          "name": "전동 사이드미러 접이 버튼",
+          "zone": "DOOR_TRIM",
+          "location": "운전석 도어 암레스트 맨 앞쪽 미러 접힘 버튼",
+          "action_guide": "누르면 양쪽 사이드미러를 접거나 펼 수 있습니다."
+        },
+        "seat_full_folding": {
+          "name": "1열 전좌석 풀 폴딩 차박 모드 레버",
+          "zone": "SEAT_CONTROLS",
+          "location": "운전석 및 동승석 시트 어깨 뒤 상단 숄더 레버",
+          "action_guide": "운전석과 조수석 시트 등받이 어깨 윗부분의 레버를 당기면 등받이가 앞으로 180도 평평하게 접혀 실내 전체를 차박 및 긴 짐 적재 공간으로 만들 수 있습니다."
+        },
+        "seat_adjustment": {
+          "name": "운전석 시트 수동 조절 레버",
+          "zone": "SEAT_CONTROLS",
+          "location": "운전석 시트 왼쪽 바깥 펌핑 레버 및 하단 슬라이딩 바",
+          "action_guide": "시트 왼쪽 바깥 레버를 펌핑하여 방석 높이를 맞추고, 시트 앞 바닥 철제 바를 당겨 앞뒤로 이동합니다."
         }
       }
     }
@@ -265,43 +1513,443 @@
   "faq_intents": [
     {
       "intent": "front_defog",
-      "keywords": ["성에", "습기", "앞유리", "시야", "김서림", "흐려", "김서려", "김서린"],
+      "keywords": [
+        "성에",
+        "습기",
+        "앞유리",
+        "시야",
+        "김서림",
+        "흐려",
+        "김서려",
+        "김서린",
+        "앞유리습기",
+        "디프로스터",
+        "바람앞유리"
+      ],
       "response_key": "front_defog"
     },
     {
       "intent": "rear_defog",
-      "keywords": ["뒷유리", "사이드미러", "열선", "빗물", "물방울", "뒤유리"],
+      "keywords": [
+        "뒷유리",
+        "사이드미러",
+        "열선",
+        "리어",
+        "뒷창문",
+        "백미러열선",
+        "성에뒤",
+        "뒤유리"
+      ],
       "response_key": "rear_defog"
     },
     {
       "intent": "hazard_light",
-      "keywords": ["비상등", "깜빡이", "비상", "경고등", "비상깜빡이"],
+      "keywords": [
+        "비상등",
+        "깜빡이",
+        "비상",
+        "위험",
+        "비상경고등",
+        "삼각형버튼",
+        "비상점멸"
+      ],
       "response_key": "hazard_light"
     },
     {
       "intent": "smart_cruise",
-      "keywords": ["스마트크루즈", "크루즈", "자율주행", "차간거리", "자동속도", "어댑티브", "hda", "정속주행"],
+      "keywords": [
+        "스마트크루즈",
+        "크루즈",
+        "자율주행",
+        "속도유지",
+        "정속주행",
+        "어댑티브",
+        "크루즈컨트롤",
+        "scc",
+        "크루즈어디",
+        "속도고정"
+      ],
       "response_key": "smart_cruise"
     },
     {
-      "intent": "wiper",
-      "keywords": ["와이퍼", "비", "유리닦기", "워셔액", "빗방울", "와이퍼어디"],
-      "response_key": "wiper"
+      "intent": "lane_follow_assist",
+      "keywords": [
+        "차선유지",
+        "차로유지",
+        "핸들조향",
+        "핸들잡아",
+        "lfa",
+        "차선",
+        "차로",
+        "핸들자동",
+        "차선이탈"
+      ],
+      "response_key": "lane_follow_assist"
+    },
+    {
+      "intent": "wiper_stalk",
+      "keywords": [
+        "와이퍼",
+        "비",
+        "유리닦기",
+        "워셔액",
+        "비와",
+        "빗물",
+        "워셔",
+        "뒷유리와이퍼",
+        "유리창닦기"
+      ],
+      "response_key": "wiper_stalk"
+    },
+    {
+      "intent": "light_stalk",
+      "keywords": [
+        "전조등",
+        "라이트",
+        "상향등",
+        "오토라이트",
+        "헤드라이트",
+        "깜빡이레버",
+        "방향지시등",
+        "안개등",
+        "미등",
+        "라이트켜"
+      ],
+      "response_key": "light_stalk"
     },
     {
       "intent": "electronic_parking_brake",
-      "keywords": ["주차브레이크", "사이드브레이크", "파킹브레이크", "epb", "주차", "사이드", "파킹"],
+      "keywords": [
+        "주차브레이크",
+        "사이드브레이크",
+        "파킹브레이크",
+        "epb",
+        "브레이크잠금",
+        "풋브레이크",
+        "사이드어디",
+        "파킹어디"
+      ],
       "response_key": "electronic_parking_brake"
     },
     {
       "intent": "auto_hold",
-      "keywords": ["오토홀드", "자동정차", "신호대기", "브레이크홀드"],
+      "keywords": [
+        "오토홀드",
+        "자동정차",
+        "신호대기",
+        "발떼도",
+        "정차유지",
+        "autohold",
+        "오토홀드어디"
+      ],
       "response_key": "auto_hold"
     },
     {
       "intent": "gear_type",
-      "keywords": ["기어", "변속기", "변속", "p단", "d단", "후진", "중립", "기어봉", "칼럼"],
+      "keywords": [
+        "기어",
+        "변속기",
+        "변속",
+        "드라이브",
+        "후진",
+        "p단",
+        "d단",
+        "r단",
+        "중립",
+        "기어봉",
+        "기어어디"
+      ],
+      "response_key": "gear_shift",
       "is_gear": true
+    },
+    {
+      "intent": "charge_door",
+      "keywords": [
+        "충전",
+        "충전구",
+        "충전기",
+        "충전도어",
+        "충전구열어",
+        "전기충전",
+        "플러그"
+      ],
+      "response_key": "charge_door"
+    },
+    {
+      "intent": "fuel_door",
+      "keywords": [
+        "주유구",
+        "기름",
+        "주유",
+        "휘발유",
+        "기름통",
+        "주유구열어",
+        "기름어디",
+        "주유구어디",
+        "주유소"
+      ],
+      "response_key": "fuel_door"
+    },
+    {
+      "intent": "tailgate",
+      "keywords": [
+        "트렁크",
+        "테일게이트",
+        "짐칸",
+        "뒷문",
+        "트렁크열어",
+        "트렁크어디",
+        "화물칸"
+      ],
+      "response_key": "tailgate"
+    },
+    {
+      "intent": "regen_paddle",
+      "keywords": [
+        "패들",
+        "원페달",
+        "회생제동",
+        "아이페달",
+        "ipedal",
+        "감속패들",
+        "패들쉬프트"
+      ],
+      "response_key": "regen_paddle_left"
+    },
+    {
+      "intent": "drive_mode",
+      "keywords": [
+        "드라이브모드",
+        "에코모드",
+        "스포츠모드",
+        "스노우모드",
+        "주행모드",
+        "모드변경",
+        "험로"
+      ],
+      "response_key": "drive_mode"
+    },
+    {
+      "intent": "seat_vent_heat",
+      "keywords": [
+        "통풍",
+        "열선",
+        "엉따",
+        "엉시",
+        "시트따뜻",
+        "시트시원",
+        "시트온도",
+        "따뜻하게시트",
+        "통풍시트",
+        "열선시트"
+      ],
+      "response_key": "seat_vent_heat"
+    },
+    {
+      "intent": "heated_steering_wheel",
+      "keywords": [
+        "손따",
+        "핸들열선",
+        "핸들따뜻",
+        "스티어링열선",
+        "운전대열선",
+        "스티어링휠열선"
+      ],
+      "response_key": "heated_steering_wheel"
+    },
+    {
+      "intent": "v2l",
+      "keywords": [
+        "220v",
+        "콘센트",
+        "v2l",
+        "전기코드",
+        "충전코드",
+        "실내전기"
+      ],
+      "response_key": "v2l_indoor"
+    },
+    {
+      "intent": "sliding_console",
+      "keywords": [
+        "콘솔이동",
+        "아일랜드",
+        "콘솔밀기",
+        "센터콘솔슬라이딩",
+        "수납장"
+      ],
+      "response_key": "sliding_console"
+    },
+    {
+      "intent": "window_lock",
+      "keywords": [
+        "창문락",
+        "윈도우락",
+        "차일드락",
+        "아이문",
+        "창문안열려",
+        "뒷좌석창문",
+        "창문잠금"
+      ],
+      "response_key": "window_lock"
+    },
+    {
+      "intent": "door_lock_unlock",
+      "keywords": [
+        "문잠금",
+        "문열기",
+        "도어락",
+        "문잠그기",
+        "문잠겨",
+        "도어잠금",
+        "도어해제"
+      ],
+      "response_key": "door_lock_unlock"
+    },
+    {
+      "intent": "side_mirror_adjust",
+      "keywords": [
+        "사이드미러조절",
+        "백미러조절",
+        "미러각도",
+        "거울조절",
+        "백미러각도"
+      ],
+      "response_key": "side_mirror_adjust"
+    },
+    {
+      "intent": "side_mirror_fold",
+      "keywords": [
+        "사이드미러접기",
+        "백미러접기",
+        "미러접어",
+        "거울접어",
+        "미러폴딩"
+      ],
+      "response_key": "side_mirror_fold"
+    },
+    {
+      "intent": "hood_open",
+      "keywords": [
+        "보닛",
+        "본넷",
+        "후드",
+        "엔진룸",
+        "프렁크",
+        "앞뚜껑"
+      ],
+      "response_key": "hood_open"
+    },
+    {
+      "intent": "battery_reset",
+      "keywords": [
+        "방전",
+        "12v",
+        "배터리리셋",
+        "시동안걸려",
+        "배터리방전"
+      ],
+      "response_key": "battery_reset_12v"
+    },
+    {
+      "intent": "engine_start",
+      "keywords": [
+        "시동",
+        "시동버튼",
+        "스타트버튼",
+        "시동어떻게",
+        "시동켜"
+      ],
+      "response_key": "engine_start_stop"
+    },
+    {
+      "intent": "parking_sensor",
+      "keywords": [
+        "주차센서",
+        "주차삐소리",
+        "주차경고",
+        "후방센서",
+        "주차경보",
+        "p센서",
+        "삐소리"
+      ],
+      "response_key": "parking_sensor"
+    },
+    {
+      "intent": "parking_view",
+      "keywords": [
+        "어라운드뷰",
+        "서라운드뷰",
+        "후방카메라",
+        "카메라",
+        "뷰버튼",
+        "화면카메라",
+        "전방카메라"
+      ],
+      "response_key": "parking_view"
+    },
+    {
+      "intent": "sunroof_switch",
+      "keywords": [
+        "선루프",
+        "썬루프",
+        "루프",
+        "천장열기",
+        "비전루프",
+        "블라인드",
+        "유리천장"
+      ],
+      "response_key": "sunroof_switch"
+    },
+    {
+      "intent": "seat_adjustment",
+      "keywords": [
+        "시트조절",
+        "의자조절",
+        "시트높이",
+        "의자높낮이",
+        "시트앞뒤",
+        "등받이",
+        "운전석시트"
+      ],
+      "response_key": "seat_adjustment"
+    },
+    {
+      "intent": "seat_full_folding",
+      "keywords": [
+        "차박",
+        "풀폴딩",
+        "의자접기",
+        "시트접기",
+        "앞좌석접기",
+        "평탄화",
+        "시트눕히기"
+      ],
+      "response_key": "seat_full_folding"
+    },
+    {
+      "intent": "shift_lock_release",
+      "keywords": [
+        "시프트락",
+        "중립주차",
+        "기어안움직여",
+        "방전기어",
+        "이중주차",
+        "기어중립"
+      ],
+      "response_key": "shift_lock_release"
+    },
+    {
+      "intent": "downhill_brake",
+      "keywords": [
+        "경사로",
+        "내리막길",
+        "dbc",
+        "경사로저속",
+        "가파른길",
+        "내리막"
+      ],
+      "response_key": "downhill_brake"
     }
   ]
 }

@@ -104,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="투싼"
+                android:text="아이오닉 5"
                 android:textColor="#0072CE"
                 android:textSize="24sp"
                 android:textStyle="bold" />

@@ -45,6 +45,8 @@ class CoachOverlayService : Service() {
 
         const val ACTION_START_COACHING = "com.hyundai.rentalhelper.action.START_COACHING"
         const val ACTION_TRIGGER_BRIEFING = "com.hyundai.rentalhelper.action.TRIGGER_BRIEFING"
+        const val ACTION_VOICE_QUERY = "com.hyundai.rentalhelper.action.VOICE_QUERY"
+        const val EXTRA_QUERY = "query"
     }
 
     private var windowManager: WindowManager? = null
@@ -331,6 +333,14 @@ class CoachOverlayService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val model = currentRentalModel
             ?: buttonDb.findModelById(vehicleSdkManager.getCurrentState().modelId)
+
+        if (intent?.action == ACTION_VOICE_QUERY) {
+            val query = intent.getStringExtra(EXTRA_QUERY) ?: ""
+            if (query.isNotBlank()) {
+                simulateQuery(query)
+            }
+            return START_STICKY
+        }
 
         if (model != null && (!isBriefingGiven || intent?.action == ACTION_TRIGGER_BRIEFING)) {
             isBriefingGiven = true

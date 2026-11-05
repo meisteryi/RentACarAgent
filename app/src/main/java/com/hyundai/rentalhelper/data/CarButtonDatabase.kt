@@ -15,6 +15,7 @@ data class CarSpecs(
 
 data class ButtonDetail(
     @SerializedName("name") val name: String,
+    @SerializedName("zone") val zone: String? = null,
     @SerializedName("location") val location: String,
     @SerializedName("action_guide") val actionGuide: String
 )
@@ -23,6 +24,7 @@ data class HyundaiCarModel(
     @SerializedName("model_id") val modelId: String,
     @SerializedName("model_name_ko") val modelNameKo: String,
     @SerializedName("model_name_en") val modelNameEn: String,
+    @SerializedName("model_year") val modelYear: String? = null,
     @SerializedName("segment") val segment: String,
     @SerializedName("segment_detail") val segmentDetail: String,
     @SerializedName("specs") val specs: CarSpecs,
@@ -108,6 +110,17 @@ class CarButtonDatabase private constructor(context: Context) {
         val rentalSegment = rentalModel.segment.uppercase()
         val rentalName = rentalModel.modelNameKo
 
+        // [특화] 아이오닉 5 순수 전기차 전용 체급 및 EV 조작 브리핑
+        if (rentalModel.modelId.equals("IONIQ5", ignoreCase = true)) {
+            return when (usualSegment) {
+                CarSegment.COMPACT -> "탑승하신 아이오닉 5는 100% 전기차로 평소 경차보다 차폭이 30센티미터 넓고 휠베이스가 3미터로 매우 깁니다. 특히 스마트 크루즈는 일반 차와 달리 핸들 '왼쪽'에 있고, 기어는 핸들 오른쪽 뒤 칼럼 레버를 돌려 조작합니다."
+                CarSegment.SEDAN -> "탑승하신 아이오닉 5는 순수 전기차로 평소 세단보다 휠베이스가 3미터에 달해 실내가 매우 넓고 시야가 높습니다. 스마트 크루즈는 핸들 '왼쪽'에 있으며, 기어는 핸들 오른쪽 뒤 칼럼 레버 끝단을 돌려 조작합니다."
+                CarSegment.SUV -> "탑승하신 아이오닉 5는 전기차 전용 플랫폼으로 바닥에 배터리가 있어 일반 내연기관 SUV보다 무게중심이 낮고 주행이 안정적입니다. 기어는 핸들 오른쪽 뒤 칼럼 레버, 크루즈는 핸들 '왼쪽'에 위치합니다."
+                CarSegment.VAN -> "탑승하신 아이오닉 5는 전기차로 대형 승합차 못지않은 3미터 휠베이스의 넓은 공간을 제공합니다. 핸들 뒤 패들쉬프트로 회생제동 세기를 맞추어 편안하게 주행하세요."
+                CarSegment.TRUCK -> "탑승하신 아이오닉 5는 전기 모터의 즉각적인 토크와 조용한 승차감이 특징입니다. 기어는 핸들 오른쪽 뒤 칼럼 레버를 돌려 D단으로 변속하세요."
+            }
+        }
+
         return when (usualSegment) {
             CarSegment.COMPACT -> { // 경차를 몰던 운전자
                 when (rentalSegment) {
@@ -143,32 +156,43 @@ class CarButtonDatabase private constructor(context: Context) {
 
     /**
      * [기능 3] 음성 자연어 질문을 버튼/기능 DB와 매칭하여 극단적으로 짧은 1~2문장 즉답 생성
+     * (가장 구체적인 긴 키워드 우선 매칭을 통해 '밀기 어떻게' -> '기어' 오작동 방지)
      */
     fun matchVoiceQuery(carModel: HyundaiCarModel, query: String): Pair<String, String> {
         val intents = database?.faqIntents ?: emptyList()
         val normalizedQuery = query.replace(" ", "").lowercase()
 
+        // 1. 모든 인텐트의 키워드를 검사하여 일치하는 (키워드 길이, 인텐트) 후보군 수집
+        data class MatchCandidate(val keywordLen: Int, val intent: FaqIntent, val matchedKeyword: String)
+        val candidates = mutableListOf<MatchCandidate>()
+
         for (intent in intents) {
-            val matchedKeyword = intent.keywords.firstOrNull { kw ->
-                normalizedQuery.contains(kw.replace(" ", "").lowercase())
-            }
-
-            if (matchedKeyword != null) {
-                if (intent.isGear) {
-                    return Pair("변속기(기어) 조작법", carModel.gearType)
-                }
-
-                val buttonKey = intent.responseKey
-                if (buttonKey != null) {
-                    val button = carModel.buttons[buttonKey]
-                    if (button != null) {
-                        return Pair(button.name, button.actionGuide)
-                    }
+            for (kw in intent.keywords) {
+                val cleanKw = kw.replace(" ", "").lowercase()
+                if (cleanKw.isNotEmpty() && normalizedQuery.contains(cleanKw)) {
+                    candidates.add(MatchCandidate(cleanKw.length, intent, cleanKw))
                 }
             }
         }
 
-        // 특정 차종에 특화된 추가 키워드 매칭 (예: 충전구)
+        // 키워드 길이가 긴 순서(가장 구체적인 의미)로 정렬
+        val bestMatch = candidates.maxByOrNull { it.keywordLen }
+        if (bestMatch != null) {
+            val intent = bestMatch.intent
+            if (intent.isGear) {
+                return Pair("변속기(기어) 조작법", carModel.gearType)
+            }
+
+            val buttonKey = intent.responseKey
+            if (buttonKey != null) {
+                val button = carModel.buttons[buttonKey]
+                if (button != null) {
+                    return Pair(button.name, button.actionGuide)
+                }
+            }
+        }
+
+        // 2. 특정 차종 특화 추가 키워드 매칭 (예: 충전구)
         if (carModel.buttons.containsKey("charge_door") &&
             (normalizedQuery.contains("충전") || normalizedQuery.contains("충전구"))) {
             val button = carModel.buttons["charge_door"]!!
