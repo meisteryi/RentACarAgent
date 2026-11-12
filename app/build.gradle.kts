@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -15,6 +17,29 @@ android {
         versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // RENDY LLM intent routing. Defaults keep the rule-based engine. Values come only from a
+        // Gradle -P flag or the git-ignored local.properties; a Gemini API key must never be set here.
+        val rendyLocal = Properties().apply {
+            rootProject.file("local.properties").takeIf { it.isFile }?.inputStream()?.use { load(it) }
+        }
+        fun rendyProperty(name: String, default: String): String =
+            (project.findProperty(name) as String?) ?: rendyLocal.getProperty(name) ?: default
+        fun escapeForBuildConfig(value: String) = value.replace("\\", "\\\\").replace("\"", "\\\"")
+        buildConfigField("boolean", "RENDY_LLM_ENABLED",
+            rendyProperty("rendy.llm.enabled", "false").toBoolean().toString())
+        buildConfigField("String", "RENDY_LLM_PROXY_ENDPOINT",
+            "\"${escapeForBuildConfig(rendyProperty("rendy.llm.proxyEndpoint", ""))}\"")
+        buildConfigField("String", "RENDY_LLM_PROXY_TOKEN",
+            "\"${escapeForBuildConfig(rendyProperty("rendy.llm.proxyToken", ""))}\"")
+        // Wake word: derive the grammar-only "lite G" Vosk model (same decisions, less native memory). See RendyWakeWordLiteGraph.
+        buildConfigField("boolean", "RENDY_WAKEWORD_LITE_GRAPH",
+            rendyProperty("rendy.wakeword.liteGraph", "true").toBoolean().toString())
+        // Ready cue after confirmed STT capture: "off" (default) or "after_capture". See RendyListeningCue.
+        buildConfigField("String", "RENDY_READY_CUE",
+            "\"${escapeForBuildConfig(rendyProperty("rendy.voice.readyCue", "off"))}\"")
+        buildConfigField("String", "RENDY_LLM_VERIFIED_INTENTS",
+            "\"${escapeForBuildConfig(rendyProperty("rendy.llm.verifiedIntents", ""))}\"")
     }
 
     buildTypes {
@@ -41,10 +66,15 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
 dependencies {
+    implementation("com.alphacephei:vosk-android:0.3.75@aar")
+    implementation("net.java.dev.jna:jna:5.18.1@aar")
+    implementation("ai.pleos.playground:TextToSpeech:3.3.1")
+    implementation("ai.pleos.playground:SpeechToText:3.3.1")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

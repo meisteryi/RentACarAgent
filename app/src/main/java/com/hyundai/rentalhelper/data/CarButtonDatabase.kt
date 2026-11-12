@@ -4,6 +4,8 @@ import android.content.Context
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
+import com.hyundai.rentalhelper.intent.RendyKnowledgeBase
+import com.hyundai.rentalhelper.intent.RendyQuestionPipeline
 import java.io.InputStreamReader
 
 data class CarSpecs(
@@ -13,11 +15,51 @@ data class CarSpecs(
     @SerializedName("wheelbase_mm") val wheelbaseMm: Int
 )
 
+/**
+ * v4.2 per-button verification against the official owner's manual. Gson does not honour Kotlin
+ * defaults, so every field is nullable and a missing block (v4.0 DB) reads as "not verified".
+ */
+data class ButtonVerification(
+    @SerializedName("status") val status: String? = null,
+    @SerializedName("priority") val priority: String? = null,
+    @SerializedName("answer_policy") val answerPolicy: String? = null,
+    @SerializedName("location_verified") val locationVerified: Boolean? = null,
+    @SerializedName("operation_verified") val operationVerified: Boolean? = null,
+    @SerializedName("source_url") val sourceUrl: String? = null,
+    @SerializedName("source_urls") val sourceUrls: List<String>? = null,
+    @SerializedName("source_page") val sourcePage: String? = null,
+    @SerializedName("finding") val finding: String? = null,
+    @SerializedName("notes") val notes: String? = null,
+    @SerializedName("needed_evidence") val neededEvidence: String? = null
+)
+
+data class ButtonFollowUp(
+    @SerializedName("on_not_found") val onNotFound: String? = null,
+    @SerializedName("on_found") val onFound: String? = null,
+    @SerializedName("on_done") val onDone: String? = null,
+    @SerializedName("require_user_confirmation") val requireUserConfirmation: Boolean? = null,
+    @SerializedName("max_steps_per_turn") val maxStepsPerTurn: Int? = null
+)
+
 data class ButtonDetail(
     @SerializedName("name") val name: String,
     @SerializedName("zone") val zone: String? = null,
     @SerializedName("location") val location: String,
-    @SerializedName("action_guide") val actionGuide: String
+    @SerializedName("action_guide") val actionGuide: String,
+    // ---- v4.2 (optional; absent in v4.0) ----
+    @SerializedName("spoken_answer") val spokenAnswer: String? = null,
+    @SerializedName("detailed_location") val detailedLocation: String? = null,
+    @SerializedName("operation_steps") val operationSteps: List<String>? = null,
+    @SerializedName("visual_landmarks") val visualLandmarks: List<String>? = null,
+    @SerializedName("expected_result") val expectedResult: String? = null,
+    @SerializedName("user_phrases") val userPhrases: List<String>? = null,
+    @SerializedName("control_type") val controlType: String? = null,
+    @SerializedName("safety_notes") val safetyNotes: List<String>? = null,
+    @SerializedName("requires_parked") val requiresParked: Boolean? = null,
+    @SerializedName("follow_up") val followUp: ButtonFollowUp? = null,
+    @SerializedName("redirect_to") val redirectTo: String? = null,
+    @SerializedName("duplicate_of") val duplicateOf: String? = null,
+    @SerializedName("verification") val verification: ButtonVerification? = null
 )
 
 data class HyundaiCarModel(
@@ -36,17 +78,84 @@ data class FaqIntent(
     @SerializedName("intent") val intent: String,
     @SerializedName("keywords") val keywords: List<String>,
     @SerializedName("response_key") val responseKey: String?,
-    @SerializedName("is_gear") val isGear: Boolean = false
+    @SerializedName("is_gear") val isGear: Boolean = false,
+    /** v4.2 proposed intents only (e.g. per-model branching hint for `temperature`). */
+    @SerializedName("note") val note: String? = null
+)
+
+data class ClarificationRule(
+    @SerializedName("phrase") val phrase: String? = null,
+    /** Button IDs (not intent IDs) the phrase may refer to. */
+    @SerializedName("candidates") val candidates: List<String>? = null,
+    @SerializedName("question") val question: String? = null
+)
+
+data class KeywordRisk(
+    @SerializedName("keyword") val keyword: String? = null,
+    @SerializedName("intent") val intent: String? = null,
+    @SerializedName("issue") val issue: String? = null
+)
+
+/** One `model_routing[intent][model]` entry. Actions present in v4.2: button, fallback, redirect, no_data, not_applicable_non_ev. */
+data class ModelRoute(
+    @SerializedName("action") val action: String? = null,
+    @SerializedName("button") val button: String? = null,
+    @SerializedName("to") val to: String? = null
+)
+
+data class IntentEnhancements(
+    @SerializedName("clarification_rules") val clarificationRules: List<ClarificationRule>? = null,
+    @SerializedName("keyword_risks") val keywordRisks: List<KeywordRisk>? = null,
+    @SerializedName("proposed_new_intents") val proposedNewIntents: List<FaqIntent>? = null,
+    @SerializedName("model_routing") val modelRouting: Map<String, Map<String, ModelRoute>>? = null,
+    @SerializedName("follow_up_phrases") val followUpPhrases: Map<String, List<String>>? = null,
+    @SerializedName("dialogue_rules") val dialogueRules: List<String>? = null
+)
+
+/**
+ * One officially sourced, speakable field of a button (assets/rendy_verification_overlay.json).
+ * [text] restates only [evidence]; [scope] is "exact" (position on the car) or "component" (panel/unit only).
+ */
+data class OverlayField(
+    @SerializedName("text") val text: String? = null,
+    @SerializedName("scope") val scope: String? = null,
+    @SerializedName("steps") val steps: List<String>? = null,
+    @SerializedName("result") val result: String? = null,
+    @SerializedName("evidence") val evidence: String? = null,
+    @SerializedName("source") val source: String? = null,
+    @SerializedName("section") val section: String? = null
+)
+
+data class OverlayEntry(
+    @SerializedName("model") val model: String? = null,
+    @SerializedName("button") val button: String? = null,
+    @SerializedName("edition") val edition: String? = null,
+    @SerializedName("location") val location: OverlayField? = null,
+    @SerializedName("operation") val operation: OverlayField? = null,
+    @SerializedName("appearance") val appearance: OverlayField? = null,
+    @SerializedName("append_safety_note") val appendSafetyNote: Boolean? = null,
+    @SerializedName("notes") val notes: String? = null
+)
+
+data class VerificationOverlay(
+    @SerializedName("version") val version: String? = null,
+    @SerializedName("base_db_version") val baseDbVersion: String? = null,
+    @SerializedName("checked_date") val checkedDate: String? = null,
+    @SerializedName("entries") val entries: List<OverlayEntry>? = null
 )
 
 data class HyundaiDatabase(
     @SerializedName("version") val version: String,
     @SerializedName("models") val models: List<HyundaiCarModel>,
-    @SerializedName("faq_intents") val faqIntents: List<FaqIntent>
+    @SerializedName("faq_intents") val faqIntents: List<FaqIntent>,
+    /** v4.2+. Null for a v4.0 DB, in which case only the 33 FAQ intents exist and nothing is verified. */
+    @SerializedName("intent_enhancements") val intentEnhancements: IntentEnhancements? = null
 )
 
 class CarButtonDatabase private constructor(context: Context) {
     private var database: HyundaiDatabase? = null
+    /** Optional field-level verification overlay; absent or invalid -> DB verification alone. Declared before init. */
+    private var overlay: VerificationOverlay? = null
 
     init {
         loadDatabase(context)
@@ -55,6 +164,7 @@ class CarButtonDatabase private constructor(context: Context) {
     companion object {
         private const val TAG = "CarButtonDatabase"
         private const val DB_FILE_NAME = "hyundai_buttons_db.json"
+        private const val OVERLAY_FILE_NAME = "rendy_verification_overlay.json"
 
         @Volatile
         private var instance: CarButtonDatabase? = null
@@ -77,9 +187,29 @@ class CarButtonDatabase private constructor(context: Context) {
         } catch (e: Exception) {
             Log.e(TAG, "차량 버튼 DB JSON 파싱 실패", e)
         }
+        try {
+            context.assets.open(OVERLAY_FILE_NAME).use { inputStream ->
+                InputStreamReader(inputStream, Charsets.UTF_8).use { reader ->
+                    overlay = Gson().fromJson(reader, VerificationOverlay::class.java)
+                    Log.i(TAG, "검증 오버레이 로드: ${overlay?.version}, entries=${overlay?.entries?.size}")
+                }
+            }
+        } catch (e: Exception) {
+            Log.w(TAG, "검증 오버레이 없음 또는 파싱 실패; DB 검증 정보만 사용", e)
+        }
     }
 
     fun getAllModels(): List<HyundaiCarModel> = database?.models ?: emptyList()
+
+    fun getFaqIntents(): List<FaqIntent> = database?.faqIntents ?: emptyList()
+
+    fun getDatabaseVersion(): String? = database?.version
+
+    /**
+     * Routing, verification policy and follow-up data for the loaded DB (33 FAQ + accepted v4.2 intents).
+     * Null only when the asset failed to load.
+     */
+    val knowledge: RendyKnowledgeBase? by lazy { database?.let { RendyKnowledgeBase(it, overlay) } }
 
     /**
      * 모델 ID로 차종 검색 (예: AVANTE, TUCSON, IONIQ5)
@@ -155,55 +285,16 @@ class CarButtonDatabase private constructor(context: Context) {
     }
 
     /**
-     * [기능 3] 음성 자연어 질문을 버튼/기능 DB와 매칭하여 극단적으로 짧은 1~2문장 즉답 생성
-     * (가장 구체적인 긴 키워드 우선 매칭을 통해 '밀기 어떻게' -> '기어' 오작동 방지)
+     * [기능 3] 음성 질문 → 키워드 규칙 → 차종별 라우팅 → 검증 정책을 거친 짧은 답변 (대화 맥락 없음).
+     * v4.2부터 검증되지 않은 위치·조작법(action_guide 원문 포함)은 읽지 않으며, 매칭 실패 시
+     * 근거 없는 일반 안내("센터페시아 조작부를 확인") 대신 다시 질문해 달라고 안내합니다.
      */
     fun matchVoiceQuery(carModel: HyundaiCarModel, query: String): Pair<String, String> {
-        val intents = database?.faqIntents ?: emptyList()
-        val normalizedQuery = query.replace(" ", "").lowercase()
-
-        // 1. 모든 인텐트의 키워드를 검사하여 일치하는 (키워드 길이, 인텐트) 후보군 수집
-        data class MatchCandidate(val keywordLen: Int, val intent: FaqIntent, val matchedKeyword: String)
-        val candidates = mutableListOf<MatchCandidate>()
-
-        for (intent in intents) {
-            for (kw in intent.keywords) {
-                val cleanKw = kw.replace(" ", "").lowercase()
-                if (cleanKw.isNotEmpty() && normalizedQuery.contains(cleanKw)) {
-                    candidates.add(MatchCandidate(cleanKw.length, intent, cleanKw))
-                }
-            }
-        }
-
-        // 키워드 길이가 긴 순서(가장 구체적인 의미)로 정렬
-        val bestMatch = candidates.maxByOrNull { it.keywordLen }
-        if (bestMatch != null) {
-            val intent = bestMatch.intent
-            if (intent.isGear) {
-                return Pair("변속기(기어) 조작법", carModel.gearType)
-            }
-
-            val buttonKey = intent.responseKey
-            if (buttonKey != null) {
-                val button = carModel.buttons[buttonKey]
-                if (button != null) {
-                    return Pair(button.name, button.actionGuide)
-                }
-            }
-        }
-
-        // 2. 특정 차종 특화 추가 키워드 매칭 (예: 충전구)
-        if (carModel.buttons.containsKey("charge_door") &&
-            (normalizedQuery.contains("충전") || normalizedQuery.contains("충전구"))) {
-            val button = carModel.buttons["charge_door"]!!
-            return Pair(button.name, button.actionGuide)
-        }
-
-        // 기본 매칭 실패 시 fallback (극단적으로 짧은 1문장)
-        return Pair(
-            "안내 불가",
-            "질문하신 기능은 센터페시아 조작부 또는 핸들 버튼을 확인해 주세요."
+        val kb = knowledge ?: return Pair(
+            RendyQuestionPipeline.UNAVAILABLE_TITLE, RendyQuestionPipeline.UNAVAILABLE_TEXT
         )
+        val answer = RendyQuestionPipeline.answerWithRulesOnce(kb, carModel, query)
+        return Pair(answer.title, answer.text)
     }
 }
 

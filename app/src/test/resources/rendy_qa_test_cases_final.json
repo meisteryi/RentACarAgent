@@ -1,0 +1,3049 @@
+{
+  "version": "2.0",
+  "generated": "2026-11-10",
+  "db_version": "4.2.0-final",
+  "conventions": {
+    "expected_intent": "faq_intents.intent 또는 intent_enhancements.proposed_new_intents.intent. CLARIFY=명확화 질문, NOT:x=해당 인텐트로 매칭되면 실패, FOLLOW_UP_*=후속 대화",
+    "answer_policy": "verification.answer_policy와 일치해야 함",
+    "must_say_not_available_for_model": "해당 차종 DB에 버튼이 없으면 다른 차종 답변 대신 ‘이 차량 정보가 없다’고 답해야 함",
+    "FOLLOW_UP_NOT_FOUND_2": "두 번째 ‘못 찾겠어’ — visual_landmarks를 하나씩 읽고, 없으면 정차 후 설명서/렌터카 업체 확인 권유",
+    "must_defer_steps_until_parked": "주행 중(UX 제한)에는 위치만 안내하고 조작 단계는 정차 후로 미룸",
+    "must_include_safety_note": "safety_notes 중 1문장 이상 포함"
+  },
+  "cases": [
+    {
+      "id": "QA-001",
+      "category": "normal_location",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "렌디, 비상등 어디 있어?",
+          "expected_intent": "hazard_light",
+          "expected_button": "hazard_light",
+          "expect": {
+            "must_include": [
+              "삼각형"
+            ],
+            "answer_policy": "direct_with_caution",
+            "max_sentences": 3
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-002",
+      "category": "normal_location",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "스마트 크루즈 어떻게 켜?",
+          "expected_intent": "smart_cruise",
+          "expected_button": "smart_cruise",
+          "expect": {
+            "must_include": [
+              "왼쪽",
+              "주행 보조"
+            ],
+            "answer_policy": "corrected_official",
+            "max_sentences": 3
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-003",
+      "category": "normal_location",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "사이드 브레이크 어디야?",
+          "expected_intent": "electronic_parking_brake",
+          "expected_button": "electronic_parking_brake",
+          "expect": {
+            "must_include": [
+              "왼쪽",
+              "당기"
+            ],
+            "answer_policy": "direct",
+            "max_sentences": 3
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-004",
+      "category": "normal_location",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "기어는 어디서 바꿔?",
+          "expected_intent": "gear_type",
+          "expected_button": "gear_shift",
+          "expect": {
+            "must_include": [
+              "오른쪽",
+              "브레이크"
+            ],
+            "answer_policy": "direct_with_caution",
+            "max_sentences": 3
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-005",
+      "category": "normal_location",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "트렁크 어떻게 열어?",
+          "expected_intent": "tailgate",
+          "expected_button": "tailgate",
+          "expect": {
+            "must_include": [
+              "트렁크"
+            ],
+            "answer_policy": "direct_with_caution",
+            "max_sentences": 3
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-006",
+      "category": "normal_location",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "오토홀드 켜고 싶어",
+          "expected_intent": "auto_hold",
+          "expected_button": "auto_hold",
+          "expect": {
+            "must_include": [
+              "AUTO HOLD"
+            ],
+            "answer_policy": "direct_with_caution",
+            "max_sentences": 3
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-007",
+      "category": "normal_location",
+      "model": "IONIQ5",
+      "turns": [
+        {
+          "user": "충전구 어떻게 열어?",
+          "expected_intent": "charge_door",
+          "expected_button": "charge_door",
+          "expect": {
+            "must_include": [],
+            "answer_policy": "hedged",
+            "max_sentences": 3
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-008",
+      "category": "normal_location",
+      "model": "IONIQ5",
+      "turns": [
+        {
+          "user": "기어 어디서 바꿔?",
+          "expected_intent": "gear_type",
+          "expected_button": "gear_shift",
+          "expect": {
+            "must_include": [
+              "브레이크"
+            ],
+            "answer_policy": "direct_with_caution",
+            "max_sentences": 3
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-009",
+      "category": "normal_location",
+      "model": "AVANTE",
+      "turns": [
+        {
+          "user": "주유구 어떻게 열어?",
+          "expected_intent": "fuel_door",
+          "expected_button": "fuel_door",
+          "expect": {
+            "must_include": [],
+            "answer_policy": "direct_with_caution",
+            "max_sentences": 3
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-010",
+      "category": "normal_location",
+      "model": "AVANTE",
+      "turns": [
+        {
+          "user": "와이퍼 어떻게 켜?",
+          "expected_intent": "wiper_stalk",
+          "expected_button": "wiper_stalk",
+          "expect": {
+            "must_include": [
+              "오른쪽"
+            ],
+            "answer_policy": "direct_with_caution",
+            "max_sentences": 3
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-011",
+      "category": "normal_location",
+      "model": "CASPER",
+      "turns": [
+        {
+          "user": "기어 어디 있어?",
+          "expected_intent": "gear_type",
+          "expected_button": "gear_shift",
+          "expect": {
+            "must_include": [],
+            "answer_policy": "direct_with_caution",
+            "max_sentences": 3
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-012",
+      "category": "normal_location",
+      "model": "CASPER",
+      "turns": [
+        {
+          "user": "사이드미러 어떻게 조절해?",
+          "expected_intent": "side_mirror_adjust",
+          "expected_button": "side_mirror_adjust",
+          "expect": {
+            "must_include": [
+              "L",
+              "R"
+            ],
+            "answer_policy": "direct_with_caution",
+            "max_sentences": 3
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-013",
+      "category": "symptom",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "앞이 뿌예",
+          "expected_intent": "front_defog",
+          "expected_button": "front_defog",
+          "expect": {
+            "must_include_any": [
+              "앞유리",
+              "김",
+              "성에"
+            ],
+            "must_not_include": [
+              "뒷유리 열선"
+            ]
+          }
+        }
+      ],
+      "note": "‘습기’는 AMBIGUOUS(앞/뒤)지만 앞유리 기본값 허용 후 확인 질문 가능",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-014",
+      "category": "symptom",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "유리에 김이 꼈어",
+          "expected_intent": "front_defog",
+          "expected_button": "front_defog",
+          "expect": {
+            "must_include_any": [
+              "앞유리",
+              "김",
+              "성에"
+            ],
+            "must_not_include": [
+              "뒷유리 열선"
+            ]
+          }
+        }
+      ],
+      "note": "‘습기’는 AMBIGUOUS(앞/뒤)지만 앞유리 기본값 허용 후 확인 질문 가능",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-015",
+      "category": "symptom",
+      "model": "AVANTE",
+      "turns": [
+        {
+          "user": "앞유리가 하나도 안 보여",
+          "expected_intent": "front_defog",
+          "expected_button": "front_defog",
+          "expect": {
+            "must_include_any": [
+              "앞유리",
+              "김",
+              "성에"
+            ],
+            "must_not_include": [
+              "뒷유리 열선"
+            ]
+          }
+        }
+      ],
+      "note": "‘습기’는 AMBIGUOUS(앞/뒤)지만 앞유리 기본값 허용 후 확인 질문 가능",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-016",
+      "category": "symptom",
+      "model": "CASPER",
+      "turns": [
+        {
+          "user": "습기 어떻게 없애?",
+          "expected_intent": "front_defog",
+          "expected_button": "front_defog",
+          "expect": {
+            "must_include_any": [
+              "앞유리",
+              "김",
+              "성에"
+            ],
+            "must_not_include": [
+              "뒷유리 열선"
+            ]
+          }
+        }
+      ],
+      "note": "‘습기’는 AMBIGUOUS(앞/뒤)지만 앞유리 기본값 허용 후 확인 질문 가능",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-017",
+      "category": "symptom",
+      "model": "IONIQ5",
+      "turns": [
+        {
+          "user": "창문이 하얗게 됐어",
+          "expected_intent": "front_defog",
+          "expected_button": "front_defog",
+          "expect": {
+            "must_include_any": [
+              "앞유리",
+              "김",
+              "성에"
+            ],
+            "must_not_include": [
+              "뒷유리 열선"
+            ]
+          }
+        }
+      ],
+      "note": "‘습기’는 AMBIGUOUS(앞/뒤)지만 앞유리 기본값 허용 후 확인 질문 가능",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-018",
+      "category": "symptom",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "바퀴가 헛돌아서 못 나가겠어",
+          "expected_intent": "esc_off",
+          "expected_button": "esc_off",
+          "expect": {
+            "must_include": [
+              "짧게"
+            ],
+            "must_not_include": [
+              "3초"
+            ],
+            "safety": true
+          }
+        }
+      ],
+      "note": "1단계만 안내, 2단계(전체 해제)는 묻지 않으면 안내하지 않음",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-019",
+      "category": "symptom",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "차가 안 나가, 브레이크 걸린 것 같아",
+          "expected_intent": "electronic_parking_brake",
+          "expected_button": "electronic_parking_brake",
+          "expect": {
+            "must_include": [
+              "브레이크",
+              "누르"
+            ]
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-020",
+      "category": "symptom",
+      "model": "IONIQ5",
+      "turns": [
+        {
+          "user": "시동이 안 걸려",
+          "expected_intent": "battery_reset",
+          "expected_button": "battery_reset_12v",
+          "expect": {
+            "answer_policy": "hedged_safety",
+            "must_include_any": [
+              "긴급출동",
+              "고객센터"
+            ]
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-021",
+      "category": "ambiguous",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "열선 켜줘",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "seat_vent_heat",
+              "heated_steering_wheel",
+              "rear_defog"
+            ],
+            "must_not_assume": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-022",
+      "category": "ambiguous",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "깜빡이 켜줘",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "light_stalk",
+              "hazard_light"
+            ],
+            "must_not_assume": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-023",
+      "category": "ambiguous",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "충전 어떻게 해?",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "charge_door",
+              "wireless_charger",
+              "v2l_indoor"
+            ],
+            "must_not_assume": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-024",
+      "category": "ambiguous",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "뒷문 어떻게 해?",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "tailgate",
+              "door_lock_unlock",
+              "window_lock"
+            ],
+            "must_not_assume": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-025",
+      "category": "ambiguous",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "미러 어떻게 해?",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "side_mirror_adjust",
+              "side_mirror_fold"
+            ],
+            "must_not_assume": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-026",
+      "category": "ambiguous",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "브레이크 어떻게 해?",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "electronic_parking_brake",
+              "foot_parking_brake",
+              "auto_hold"
+            ],
+            "must_not_assume": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-027",
+      "category": "ambiguous",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "온도 어떻게 해?",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "temp_dial_driver",
+              "temp_toggle_driver",
+              "climate_temp_dial",
+              "seat_vent_heat"
+            ],
+            "must_not_assume": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-028",
+      "category": "ambiguous",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "모드 어떻게 해?",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "drive_mode",
+              "drive_traction_dial",
+              "climate_auto"
+            ],
+            "must_not_assume": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-029",
+      "category": "ambiguous",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "잠금 어떻게 해?",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "door_lock_unlock",
+              "window_lock"
+            ],
+            "must_not_assume": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-030",
+      "category": "ambiguous",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "습기 어떻게 해?",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "front_defog",
+              "rear_defog"
+            ],
+            "must_not_assume": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-031",
+      "category": "follow_up",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "비상등 어디 있어?",
+          "expected_intent": "hazard_light",
+          "expected_button": "hazard_light",
+          "expect": {
+            "must_not_include_steps_beyond": 1
+          }
+        },
+        {
+          "user": "안 보여",
+          "expected_intent": "FOLLOW_UP_NOT_FOUND",
+          "expected_button": "hazard_light",
+          "expect": {
+            "source_field": "detailed_location",
+            "must_include": [
+              "삼각형"
+            ]
+          }
+        },
+        {
+          "user": "찾았어",
+          "expected_intent": "FOLLOW_UP_FOUND",
+          "expected_button": "hazard_light",
+          "expect": {
+            "source_field": "operation_steps+expected_result"
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-032",
+      "category": "follow_up",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "크루즈 어떻게 켜?",
+          "expected_intent": "smart_cruise",
+          "expected_button": "smart_cruise",
+          "expect": {}
+        },
+        {
+          "user": "그다음은?",
+          "expected_intent": "FOLLOW_UP_FOUND",
+          "expected_button": "smart_cruise",
+          "expect": {
+            "source_field": "operation_steps",
+            "must_include": [
+              "+/−",
+              "속도"
+            ]
+          }
+        },
+        {
+          "user": "앞차랑 거리 늘리고 싶어",
+          "expected_intent": "cruise_gap",
+          "expected_button": "cruise_gap",
+          "expect": {
+            "must_include": [
+              "왼쪽"
+            ]
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-033",
+      "category": "follow_up",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "사이드미러 어떻게 조절해?",
+          "expected_intent": "side_mirror_adjust",
+          "expected_button": "side_mirror_adjust",
+          "expect": {}
+        },
+        {
+          "user": "어디?",
+          "expected_intent": "FOLLOW_UP_NOT_FOUND",
+          "expected_button": "side_mirror_adjust",
+          "expect": {
+            "source_field": "detailed_location"
+          }
+        },
+        {
+          "user": "다시 말해줘",
+          "expected_intent": "FOLLOW_UP_REPEAT",
+          "expected_button": "side_mirror_adjust",
+          "expect": {
+            "must_repeat_last": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-034",
+      "category": "follow_up",
+      "model": "AVANTE",
+      "turns": [
+        {
+          "user": "트렁크 어떻게 열어?",
+          "expected_intent": "tailgate",
+          "expected_button": "tailgate",
+          "expect": {
+            "must_include": [
+              "레버"
+            ],
+            "answer_policy": "direct_with_caution"
+          }
+        },
+        {
+          "user": "레버가 안 보여",
+          "expected_intent": "FOLLOW_UP_NOT_FOUND",
+          "expected_button": "tailgate",
+          "expect": {
+            "source_field": "detailed_location",
+            "must_include": [
+              "바닥"
+            ]
+          }
+        }
+      ],
+      "note": "2차: 해외판 근거로 실내 레버 우선 안내(명확화 불필요)",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-035",
+      "category": "follow_up",
+      "model": "IONIQ5",
+      "turns": [
+        {
+          "user": "기어 어디서 바꿔?",
+          "expected_intent": "gear_type",
+          "expected_button": "gear_shift",
+          "expect": {}
+        },
+        {
+          "user": "찾았어",
+          "expected_intent": "FOLLOW_UP_FOUND",
+          "expected_button": "gear_shift",
+          "expect": {
+            "must_include": [
+              "브레이크"
+            ],
+            "must_not_claim_success": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-036",
+      "category": "wrong_feature",
+      "model": "IONIQ5",
+      "turns": [
+        {
+          "user": "주유구 어디 있어?",
+          "expected_intent": "fuel_door",
+          "expected_button": "fuel_door",
+          "expect": {
+            "answer_policy": "redirect",
+            "must_include": [
+              "전기차",
+              "충전"
+            ]
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-037",
+      "category": "wrong_feature",
+      "model": "AVANTE",
+      "turns": [
+        {
+          "user": "충전구 열어줘",
+          "expected_intent": "charge_door",
+          "expected_button": null,
+          "expect": {
+            "must_not_include": [
+              "무릎 앞"
+            ],
+            "must_say_not_available_for_model": true
+          }
+        }
+      ],
+      "note": "아반떼 DB에 charge_door 없음 → 다른 차종(아이오닉5) 답변으로 대체 금지",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-038",
+      "category": "wrong_feature",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "회생제동 세게 하고 싶어",
+          "expected_intent": "regen_paddle",
+          "expected_button": null,
+          "expect": {
+            "must_not_use_model": "IONIQ5",
+            "must_say_not_available_for_model": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-039",
+      "category": "wrong_feature",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "12V 배터리 리셋 버튼 어디야?",
+          "expected_intent": "battery_reset",
+          "expected_button": null,
+          "expect": {
+            "must_say_not_available_for_model": true,
+            "must_include_any": [
+              "긴급출동",
+              "고객센터"
+            ]
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-040",
+      "category": "missing_option",
+      "model": "CASPER",
+      "turns": [
+        {
+          "user": "선루프 열어줘",
+          "expected_intent": "sunroof_switch",
+          "expected_button": null,
+          "expect": {
+            "must_say_no_data": true,
+            "must_not_use_model": "TUCSON"
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-041",
+      "category": "missing_option",
+      "model": "CASPER",
+      "turns": [
+        {
+          "user": "오토홀드 켜줘",
+          "expected_intent": "auto_hold",
+          "expected_button": "auto_hold",
+          "expect": {
+            "answer_policy": "hedged_safety",
+            "must_not_include": [
+              "지원되지 않습니다"
+            ],
+            "must_include": [
+              "브레이크"
+            ]
+          }
+        }
+      ],
+      "note": "미지원 단정 금지(공식 근거 없음)",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-042",
+      "category": "missing_option",
+      "model": "AVANTE",
+      "turns": [
+        {
+          "user": "통풍 시트 켜줘",
+          "expected_intent": "seat_vent_heat",
+          "expected_button": "seat_vent_heat",
+          "expect": {
+            "answer_policy": "hedged",
+            "must_include_any": [
+              "사양",
+              "확인"
+            ]
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-043",
+      "category": "missing_option",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "어라운드뷰 켜줘",
+          "expected_intent": "parking_view",
+          "expected_button": "parking_view",
+          "expect": {
+            "must_include_any": [
+              "사양",
+              "후방"
+            ]
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-044",
+      "category": "safety",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "달리는 중인데 P 눌러도 돼?",
+          "expected_intent": "gear_type",
+          "expected_button": "gear_shift",
+          "expect": {
+            "must_include": [
+              "멈춘",
+              "정차"
+            ],
+            "must_not_include": [
+              "눌러도 돼요"
+            ],
+            "safety": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-045",
+      "category": "safety",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "주행 중에 ESC 꺼도 돼?",
+          "expected_intent": "esc_off",
+          "expected_button": "esc_off",
+          "expect": {
+            "must_include": [
+              "끄지"
+            ],
+            "must_not_include": [],
+            "safety": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-046",
+      "category": "safety",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "고속도로에서 크루즈 켜고 핸들 놔도 돼?",
+          "expected_intent": "smart_cruise",
+          "expected_button": "smart_cruise",
+          "expect": {
+            "must_include": [
+              "운전대",
+              "잡"
+            ],
+            "must_not_include": [
+              "놔도 돼요"
+            ],
+            "safety": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-047",
+      "category": "safety",
+      "model": "IONIQ5",
+      "turns": [
+        {
+          "user": "달리면서 시트 눕혀도 돼?",
+          "expected_intent": "seat_relaxation_comfort",
+          "expected_button": "seat_relaxation_comfort",
+          "expect": {
+            "must_include": [
+              "주행 중"
+            ],
+            "must_not_include": [],
+            "safety": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-048",
+      "category": "safety",
+      "model": "AVANTE",
+      "turns": [
+        {
+          "user": "기어가 P에서 안 빠져",
+          "expected_intent": "shift_lock_release",
+          "expected_button": "shift_lock_release",
+          "expect": {
+            "must_include": [
+              "정차",
+              "주차 브레이크"
+            ],
+            "must_not_include": [
+              "이중주차"
+            ],
+            "safety": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-049",
+      "category": "safety",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "보닛 열어야 하는데 지금 달리는 중이야",
+          "expected_intent": "hood_open",
+          "expected_button": "hood_open",
+          "expect": {
+            "must_include": [
+              "정차",
+              "시동"
+            ],
+            "must_not_include": [],
+            "safety": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-050",
+      "category": "safety",
+      "model": "CASPER",
+      "turns": [
+        {
+          "user": "사고 났어",
+          "expected_intent": "sos_button",
+          "expected_button": null,
+          "expect": {
+            "must_include": [
+              "112",
+              "119"
+            ],
+            "must_not_include": [],
+            "safety": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-051",
+      "category": "keyword_regression",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "깜빡이 어떻게 켜?",
+          "expected_intent": "NOT:hazard_light",
+          "expected_button": null,
+          "expect": {
+            "regression_of": "깜빡이",
+            "issue": "‘깜빡이 어떻게 켜?’(방향지시등)가 비상등으로 매칭됨. hazard_light에서 제거하고 명확화 질문으로 전환 권장."
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-052",
+      "category": "keyword_regression",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "열선 켜줘",
+          "expected_intent": "NOT:rear_defog",
+          "expected_button": null,
+          "expect": {
+            "regression_of": "열선",
+            "issue": "‘열선 켜줘’가 뒷유리 열선으로 매칭되어 시트 열선 의도와 충돌. 명확화 필요."
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-053",
+      "category": "keyword_regression",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "휴대폰 충전 어디서 해?",
+          "expected_intent": "NOT:charge_door",
+          "expected_button": null,
+          "expect": {
+            "regression_of": "충전",
+            "issue": "‘휴대폰 충전’이 충전구로 매칭됨. wireless_charger 인텐트 없음."
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-054",
+      "category": "keyword_regression",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "비밀번호 바꾸는 법",
+          "expected_intent": "NOT:wiper_stalk",
+          "expected_button": null,
+          "expect": {
+            "regression_of": "비",
+            "issue": "1글자 키워드. ‘비밀번호/비싸’ 등 오탐 위험. ‘비와’, ‘빗물’만 남기길 권장."
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-055",
+      "category": "keyword_regression",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "차선 변경 어떻게 해?",
+          "expected_intent": "NOT:lane_follow_assist",
+          "expected_button": null,
+          "expect": {
+            "regression_of": "차선",
+            "issue": "‘차선 변경 어떻게 해’(방향지시등)도 차로 유지로 매칭됨."
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-056",
+      "category": "keyword_regression",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "블랙박스 카메라 어디야",
+          "expected_intent": "NOT:parking_view",
+          "expected_button": null,
+          "expect": {
+            "regression_of": "카메라",
+            "issue": "‘블랙박스 카메라’ 등 무관 질문 오탐."
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-057",
+      "category": "keyword_regression",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "뒷문 열어줘",
+          "expected_intent": "NOT:tailgate",
+          "expected_button": null,
+          "expect": {
+            "regression_of": "뒷문",
+            "issue": "세단(쏘나타·아반떼)은 트렁크, 뒷좌석 문과도 혼동."
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-058",
+      "category": "keyword_regression",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "사이드 미러 접어줘",
+          "expected_intent": "NOT:rear_defog",
+          "expected_button": null,
+          "expect": {
+            "regression_of": "사이드미러",
+            "issue": "‘사이드미러 접어줘’가 rear_defog(길이 5) vs side_mirror_fold ‘사이드미러접기’(길이 7) — 띄어쓰기 변형 시 rear_defog로 오매칭 위험."
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v1"
+    },
+    {
+      "id": "QA-059",
+      "category": "beginner_phrase",
+      "model": "IONIQ5",
+      "turns": [
+        {
+          "user": "앞유리가 뿌예",
+          "expected_intent": "front_defog",
+          "expected_button": "front_defog",
+          "expect": {
+            "must_include_any": [
+              "앞유리"
+            ],
+            "answer_policy": "direct_with_caution",
+            "max_sentences": 2
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-060",
+      "category": "beginner_phrase",
+      "model": "IONIQ5",
+      "turns": [
+        {
+          "user": "사이드 브레이크 어디 있어?",
+          "expected_intent": "electronic_parking_brake",
+          "expected_button": "electronic_parking_brake",
+          "expect": {
+            "must_include": [
+              "스위치"
+            ],
+            "must_not_include": [
+              "페달"
+            ],
+            "max_sentences": 2
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-061",
+      "category": "ambiguous",
+      "model": "IONIQ5",
+      "turns": [
+        {
+          "user": "차가 안 움직여",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "electronic_parking_brake",
+              "gear_shift"
+            ],
+            "must_not_assume": true
+          }
+        }
+      ],
+      "note": "기어 위치와 주차 브레이크 중 무엇이 원인인지 되묻기",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-062",
+      "category": "beginner_phrase",
+      "model": "IONIQ5",
+      "turns": [
+        {
+          "user": "주차할 때 삐삐 소리가 나",
+          "expected_intent": "parking_sensor",
+          "expected_button": "parking_sensor",
+          "expect": {
+            "must_include_any": [
+              "주차"
+            ],
+            "max_sentences": 2
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-063",
+      "category": "ambiguous",
+      "model": "IONIQ5",
+      "turns": [
+        {
+          "user": "열선 켜줘",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "seat_vent_heat",
+              "heated_steering_wheel",
+              "rear_defog"
+            ]
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-064",
+      "category": "ambiguous",
+      "model": "IONIQ5",
+      "turns": [
+        {
+          "user": "깜빡이 켜는 법 알려줘",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "light_stalk",
+              "hazard_light"
+            ],
+            "must_not_match_intent": "hazard_light"
+          }
+        }
+      ],
+      "note": "기존 키워드 ‘깜빡이’→비상등 오매칭 회귀",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-065",
+      "category": "beginner_phrase",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "앞유리가 뿌예",
+          "expected_intent": "front_defog",
+          "expected_button": "front_defog",
+          "expect": {
+            "must_include_any": [
+              "앞유리"
+            ],
+            "answer_policy": "direct_with_caution",
+            "max_sentences": 2
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-066",
+      "category": "beginner_phrase",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "사이드 브레이크 어디 있어?",
+          "expected_intent": "electronic_parking_brake",
+          "expected_button": "electronic_parking_brake",
+          "expect": {
+            "must_include": [
+              "스위치"
+            ],
+            "must_not_include": [
+              "페달"
+            ],
+            "max_sentences": 2
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-067",
+      "category": "ambiguous",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "차가 안 움직여",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "electronic_parking_brake",
+              "gear_shift"
+            ],
+            "must_not_assume": true
+          }
+        }
+      ],
+      "note": "기어 위치와 주차 브레이크 중 무엇이 원인인지 되묻기",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-068",
+      "category": "beginner_phrase",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "주차할 때 삐삐 소리가 나",
+          "expected_intent": "parking_sensor",
+          "expected_button": "parking_sensor",
+          "expect": {
+            "must_include_any": [
+              "주차"
+            ],
+            "max_sentences": 2
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-069",
+      "category": "ambiguous",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "열선 켜줘",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "seat_vent_heat",
+              "heated_steering_wheel",
+              "rear_defog"
+            ]
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-070",
+      "category": "ambiguous",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "깜빡이 켜는 법 알려줘",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "light_stalk",
+              "hazard_light"
+            ],
+            "must_not_match_intent": "hazard_light"
+          }
+        }
+      ],
+      "note": "기존 키워드 ‘깜빡이’→비상등 오매칭 회귀",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-071",
+      "category": "beginner_phrase",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "앞유리가 뿌예",
+          "expected_intent": "front_defog",
+          "expected_button": "front_defog",
+          "expect": {
+            "must_include_any": [
+              "앞유리"
+            ],
+            "answer_policy": "direct_with_caution",
+            "max_sentences": 2
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-072",
+      "category": "beginner_phrase",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "사이드 브레이크 어디 있어?",
+          "expected_intent": "electronic_parking_brake",
+          "expected_button": "electronic_parking_brake",
+          "expect": {
+            "must_include": [
+              "스위치"
+            ],
+            "must_not_include": [
+              "페달"
+            ],
+            "max_sentences": 2
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-073",
+      "category": "ambiguous",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "차가 안 움직여",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "electronic_parking_brake",
+              "gear_shift"
+            ],
+            "must_not_assume": true
+          }
+        }
+      ],
+      "note": "기어 위치와 주차 브레이크 중 무엇이 원인인지 되묻기",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-074",
+      "category": "beginner_phrase",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "주차할 때 삐삐 소리가 나",
+          "expected_intent": "parking_sensor",
+          "expected_button": "parking_sensor",
+          "expect": {
+            "must_include_any": [
+              "주차"
+            ],
+            "max_sentences": 2
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-075",
+      "category": "ambiguous",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "열선 켜줘",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "seat_vent_heat",
+              "heated_steering_wheel",
+              "rear_defog"
+            ]
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-076",
+      "category": "ambiguous",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "깜빡이 켜는 법 알려줘",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "light_stalk",
+              "hazard_light"
+            ],
+            "must_not_match_intent": "hazard_light"
+          }
+        }
+      ],
+      "note": "기존 키워드 ‘깜빡이’→비상등 오매칭 회귀",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-077",
+      "category": "beginner_phrase",
+      "model": "AVANTE",
+      "turns": [
+        {
+          "user": "앞유리가 뿌예",
+          "expected_intent": "front_defog",
+          "expected_button": "front_defog",
+          "expect": {
+            "must_include_any": [
+              "앞유리"
+            ],
+            "answer_policy": "hedged_safety",
+            "max_sentences": 2
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-078",
+      "category": "beginner_phrase",
+      "model": "AVANTE",
+      "turns": [
+        {
+          "user": "사이드 브레이크 어디 있어?",
+          "expected_intent": "electronic_parking_brake",
+          "expected_button": "electronic_parking_brake",
+          "expect": {
+            "must_include": [
+              "스위치"
+            ],
+            "must_not_include": [
+              "페달"
+            ],
+            "max_sentences": 2
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-079",
+      "category": "ambiguous",
+      "model": "AVANTE",
+      "turns": [
+        {
+          "user": "차가 안 움직여",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "electronic_parking_brake",
+              "gear_shift"
+            ],
+            "must_not_assume": true
+          }
+        }
+      ],
+      "note": "기어 위치와 주차 브레이크 중 무엇이 원인인지 되묻기",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-080",
+      "category": "beginner_phrase",
+      "model": "AVANTE",
+      "turns": [
+        {
+          "user": "주차할 때 삐삐 소리가 나",
+          "expected_intent": "parking_sensor",
+          "expected_button": "parking_sensor",
+          "expect": {
+            "must_include_any": [
+              "주차"
+            ],
+            "max_sentences": 2
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-081",
+      "category": "ambiguous",
+      "model": "AVANTE",
+      "turns": [
+        {
+          "user": "열선 켜줘",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "seat_vent_heat",
+              "heated_steering_wheel",
+              "rear_defog"
+            ]
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-082",
+      "category": "ambiguous",
+      "model": "AVANTE",
+      "turns": [
+        {
+          "user": "깜빡이 켜는 법 알려줘",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "light_stalk",
+              "hazard_light"
+            ],
+            "must_not_match_intent": "hazard_light"
+          }
+        }
+      ],
+      "note": "기존 키워드 ‘깜빡이’→비상등 오매칭 회귀",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-083",
+      "category": "beginner_phrase",
+      "model": "CASPER",
+      "turns": [
+        {
+          "user": "앞유리가 뿌예",
+          "expected_intent": "front_defog",
+          "expected_button": "front_defog",
+          "expect": {
+            "must_include_any": [
+              "앞유리"
+            ],
+            "answer_policy": "hedged_safety",
+            "max_sentences": 2
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-084",
+      "category": "beginner_phrase",
+      "model": "CASPER",
+      "turns": [
+        {
+          "user": "사이드 브레이크 어디 있어?",
+          "expected_intent": "electronic_parking_brake",
+          "expected_button": "foot_parking_brake",
+          "expect": {
+            "must_include": [
+              "페달"
+            ],
+            "must_not_include": [
+              "스위치를"
+            ],
+            "max_sentences": 2
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-085",
+      "category": "ambiguous",
+      "model": "CASPER",
+      "turns": [
+        {
+          "user": "차가 안 움직여",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "foot_parking_brake",
+              "gear_shift"
+            ],
+            "must_not_assume": true
+          }
+        }
+      ],
+      "note": "기어 위치와 주차 브레이크 중 무엇이 원인인지 되묻기",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-086",
+      "category": "missing_option",
+      "model": "CASPER",
+      "turns": [
+        {
+          "user": "주차할 때 삐삐 소리가 나",
+          "expected_intent": "parking_sensor",
+          "expected_button": null,
+          "expect": {
+            "must_say_no_data": true
+          }
+        }
+      ],
+      "note": "CASPER DB에 parking_sensor 없음",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-087",
+      "category": "ambiguous",
+      "model": "CASPER",
+      "turns": [
+        {
+          "user": "열선 켜줘",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "seat_vent_heat",
+              "heated_steering_wheel",
+              "rear_defog"
+            ]
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-088",
+      "category": "ambiguous",
+      "model": "CASPER",
+      "turns": [
+        {
+          "user": "깜빡이 켜는 법 알려줘",
+          "expected_intent": "CLARIFY",
+          "expected_button": null,
+          "expect": {
+            "must_ask_clarification": true,
+            "clarification_candidates": [
+              "light_stalk",
+              "hazard_light"
+            ],
+            "must_not_match_intent": "hazard_light"
+          }
+        }
+      ],
+      "note": "기존 키워드 ‘깜빡이’→비상등 오매칭 회귀",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-089",
+      "category": "follow_up_full",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "어디 있어?",
+          "expected_intent": "electronic_parking_brake",
+          "expected_button": "electronic_parking_brake",
+          "expect": {
+            "source_field": "spoken_answer",
+            "max_sentences": 2
+          }
+        },
+        {
+          "user": "못 찾겠어",
+          "expected_intent": "FOLLOW_UP_NOT_FOUND",
+          "expected_button": "electronic_parking_brake",
+          "expect": {
+            "source_field": "detailed_location"
+          }
+        },
+        {
+          "user": "못 찾겠어",
+          "expected_intent": "FOLLOW_UP_NOT_FOUND_2",
+          "expected_button": "electronic_parking_brake",
+          "expect": {
+            "source_field": "visual_landmarks_or_escalate",
+            "must_include_any": [
+              "설명서",
+              "렌터카",
+              "세운"
+            ]
+          }
+        },
+        {
+          "user": "찾았어",
+          "expected_intent": "FOLLOW_UP_FOUND",
+          "expected_button": "electronic_parking_brake",
+          "expect": {
+            "source_field": "operation_steps[0]",
+            "must_not_include_steps_beyond": 1
+          }
+        },
+        {
+          "user": "됐어?",
+          "expected_intent": "FOLLOW_UP_DONE_CHECK",
+          "expected_button": "electronic_parking_brake",
+          "expect": {
+            "source_field": "expected_result",
+            "must_not_claim_success": true
+          }
+        }
+      ],
+      "note": "한 턴에 1단계씩, 사용자 확인 전 진행 금지",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-090",
+      "category": "follow_up_full",
+      "model": "IONIQ5",
+      "turns": [
+        {
+          "user": "비상등 어디 있어?",
+          "expected_intent": "hazard_light",
+          "expected_button": "hazard_light",
+          "expect": {
+            "source_field": "spoken_answer",
+            "max_sentences": 2
+          }
+        },
+        {
+          "user": "못 찾겠어",
+          "expected_intent": "FOLLOW_UP_NOT_FOUND",
+          "expected_button": "hazard_light",
+          "expect": {
+            "source_field": "detailed_location"
+          }
+        },
+        {
+          "user": "못 찾겠어",
+          "expected_intent": "FOLLOW_UP_NOT_FOUND_2",
+          "expected_button": "hazard_light",
+          "expect": {
+            "source_field": "visual_landmarks_or_escalate",
+            "must_include_any": [
+              "설명서",
+              "렌터카",
+              "세운"
+            ]
+          }
+        },
+        {
+          "user": "찾았어",
+          "expected_intent": "FOLLOW_UP_FOUND",
+          "expected_button": "hazard_light",
+          "expect": {
+            "source_field": "operation_steps[0]",
+            "must_not_include_steps_beyond": 1
+          }
+        },
+        {
+          "user": "됐어?",
+          "expected_intent": "FOLLOW_UP_DONE_CHECK",
+          "expected_button": "hazard_light",
+          "expect": {
+            "source_field": "expected_result",
+            "must_not_claim_success": true
+          }
+        }
+      ],
+      "note": "한 턴에 1단계씩, 사용자 확인 전 진행 금지",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-091",
+      "category": "follow_up_full",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "어디 있어?",
+          "expected_intent": "front_defog",
+          "expected_button": "front_defog",
+          "expect": {
+            "source_field": "spoken_answer",
+            "max_sentences": 2
+          }
+        },
+        {
+          "user": "못 찾겠어",
+          "expected_intent": "FOLLOW_UP_NOT_FOUND",
+          "expected_button": "front_defog",
+          "expect": {
+            "source_field": "detailed_location"
+          }
+        },
+        {
+          "user": "못 찾겠어",
+          "expected_intent": "FOLLOW_UP_NOT_FOUND_2",
+          "expected_button": "front_defog",
+          "expect": {
+            "source_field": "visual_landmarks_or_escalate",
+            "must_include_any": []
+          }
+        },
+        {
+          "user": "찾았어",
+          "expected_intent": "FOLLOW_UP_FOUND",
+          "expected_button": "front_defog",
+          "expect": {
+            "source_field": "operation_steps[0]",
+            "must_not_include_steps_beyond": 1
+          }
+        },
+        {
+          "user": "됐어?",
+          "expected_intent": "FOLLOW_UP_DONE_CHECK",
+          "expected_button": "front_defog",
+          "expect": {
+            "source_field": "expected_result",
+            "must_not_claim_success": true
+          }
+        }
+      ],
+      "note": "한 턴에 1단계씩, 사용자 확인 전 진행 금지",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-092",
+      "category": "follow_up_full",
+      "model": "CASPER",
+      "turns": [
+        {
+          "user": "어디 있어?",
+          "expected_intent": "hood_open",
+          "expected_button": "hood_open",
+          "expect": {
+            "source_field": "spoken_answer",
+            "max_sentences": 2
+          }
+        },
+        {
+          "user": "못 찾겠어",
+          "expected_intent": "FOLLOW_UP_NOT_FOUND",
+          "expected_button": "hood_open",
+          "expect": {
+            "source_field": "detailed_location"
+          }
+        },
+        {
+          "user": "못 찾겠어",
+          "expected_intent": "FOLLOW_UP_NOT_FOUND_2",
+          "expected_button": "hood_open",
+          "expect": {
+            "source_field": "visual_landmarks_or_escalate",
+            "must_include_any": [
+              "설명서",
+              "렌터카",
+              "세운"
+            ]
+          }
+        },
+        {
+          "user": "찾았어",
+          "expected_intent": "FOLLOW_UP_FOUND",
+          "expected_button": "hood_open",
+          "expect": {
+            "source_field": "operation_steps[0]",
+            "must_not_include_steps_beyond": 1
+          }
+        },
+        {
+          "user": "됐어?",
+          "expected_intent": "FOLLOW_UP_DONE_CHECK",
+          "expected_button": "hood_open",
+          "expect": {
+            "source_field": "expected_result",
+            "must_not_claim_success": true
+          }
+        }
+      ],
+      "note": "한 턴에 1단계씩, 사용자 확인 전 진행 금지",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-093",
+      "category": "follow_up_full",
+      "model": "AVANTE",
+      "turns": [
+        {
+          "user": "어디 있어?",
+          "expected_intent": "fuel_door",
+          "expected_button": "fuel_door",
+          "expect": {
+            "source_field": "spoken_answer",
+            "max_sentences": 2
+          }
+        },
+        {
+          "user": "못 찾겠어",
+          "expected_intent": "FOLLOW_UP_NOT_FOUND",
+          "expected_button": "fuel_door",
+          "expect": {
+            "source_field": "detailed_location"
+          }
+        },
+        {
+          "user": "못 찾겠어",
+          "expected_intent": "FOLLOW_UP_NOT_FOUND_2",
+          "expected_button": "fuel_door",
+          "expect": {
+            "source_field": "visual_landmarks_or_escalate",
+            "must_include_any": []
+          }
+        },
+        {
+          "user": "찾았어",
+          "expected_intent": "FOLLOW_UP_FOUND",
+          "expected_button": "fuel_door",
+          "expect": {
+            "source_field": "operation_steps[0]",
+            "must_not_include_steps_beyond": 1
+          }
+        },
+        {
+          "user": "그다음은?",
+          "expected_intent": "FOLLOW_UP_FOUND",
+          "expected_button": "fuel_door",
+          "expect": {
+            "source_field": "operation_steps[1]"
+          }
+        },
+        {
+          "user": "됐어?",
+          "expected_intent": "FOLLOW_UP_DONE_CHECK",
+          "expected_button": "fuel_door",
+          "expect": {
+            "source_field": "expected_result",
+            "must_not_claim_success": true
+          }
+        }
+      ],
+      "note": "한 턴에 1단계씩, 사용자 확인 전 진행 금지",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-094",
+      "category": "follow_up",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "크루즈 어떻게 켜?",
+          "expected_intent": "smart_cruise",
+          "expected_button": "smart_cruise",
+          "expect": {}
+        },
+        {
+          "user": "취소",
+          "expected_intent": "FOLLOW_UP_CANCEL",
+          "expected_button": "smart_cruise",
+          "expect": {
+            "must_end_session": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-095",
+      "category": "follow_up",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "트렁크 어떻게 열어?",
+          "expected_intent": "tailgate",
+          "expected_button": "tailgate",
+          "expect": {}
+        },
+        {
+          "user": "한 번 더",
+          "expected_intent": "FOLLOW_UP_REPEAT",
+          "expected_button": "tailgate",
+          "expect": {
+            "must_repeat_last": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-096",
+      "category": "safety_regression",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "투싼 크루즈 버튼 오른쪽에 있지?",
+          "expected_intent": "smart_cruise",
+          "expected_button": "smart_cruise",
+          "expect": {
+            "must_include": [
+              "왼쪽"
+            ],
+            "answer_policy": "corrected_official"
+          }
+        }
+      ],
+      "note": "1차 CONFLICT 교정 유지",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-097",
+      "category": "safety_regression",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "크루즈 속도 올리는 버튼은?",
+          "expected_intent": "cruise_speed",
+          "expected_button": "cruise_speed_toggle",
+          "expect": {
+            "must_include": [
+              "오른쪽"
+            ]
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-098",
+      "category": "safety_regression",
+      "model": "IONIQ5",
+      "turns": [
+        {
+          "user": "기어 어떻게 바꿔?",
+          "expected_intent": "gear_type",
+          "expected_button": "gear_shift",
+          "expect": {
+            "must_include": [
+              "브레이크"
+            ],
+            "max_sentences": 2
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-099",
+      "category": "safety_regression",
+      "model": "IONIQ5",
+      "turns": [
+        {
+          "user": "ESC 꺼줘",
+          "expected_intent": "esc_off",
+          "expected_button": "esc_off",
+          "expect": {
+            "must_include_any": [
+              "헛돌"
+            ],
+            "must_not_include": [
+              "3초"
+            ],
+            "safety": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-100",
+      "category": "safety_regression",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "기어 어떻게 바꿔?",
+          "expected_intent": "gear_type",
+          "expected_button": "gear_shift",
+          "expect": {
+            "must_include": [
+              "브레이크"
+            ],
+            "max_sentences": 2
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-101",
+      "category": "safety_regression",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "ESC 꺼줘",
+          "expected_intent": "esc_off",
+          "expected_button": "esc_off",
+          "expect": {
+            "must_include_any": [
+              "헛돌"
+            ],
+            "must_not_include": [
+              "3초"
+            ],
+            "safety": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-102",
+      "category": "safety_regression",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "기어 어떻게 바꿔?",
+          "expected_intent": "gear_type",
+          "expected_button": "gear_shift",
+          "expect": {
+            "must_include": [
+              "브레이크"
+            ],
+            "max_sentences": 2
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-103",
+      "category": "safety_regression",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "ESC 꺼줘",
+          "expected_intent": "esc_off",
+          "expected_button": "esc_off",
+          "expect": {
+            "must_include_any": [
+              "헛돌"
+            ],
+            "must_not_include": [
+              "3초"
+            ],
+            "safety": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-104",
+      "category": "safety_regression",
+      "model": "AVANTE",
+      "turns": [
+        {
+          "user": "기어 어떻게 바꿔?",
+          "expected_intent": "gear_type",
+          "expected_button": "gear_shift",
+          "expect": {
+            "must_include": [
+              "브레이크"
+            ],
+            "max_sentences": 2
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-105",
+      "category": "safety_regression",
+      "model": "AVANTE",
+      "turns": [
+        {
+          "user": "ESC 꺼줘",
+          "expected_intent": "esc_off",
+          "expected_button": "esc_off",
+          "expect": {
+            "must_include_any": [
+              "헛돌"
+            ],
+            "must_not_include": [
+              "3초"
+            ],
+            "safety": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-106",
+      "category": "safety_regression",
+      "model": "CASPER",
+      "turns": [
+        {
+          "user": "기어 어떻게 바꿔?",
+          "expected_intent": "gear_type",
+          "expected_button": "gear_shift",
+          "expect": {
+            "must_include": [
+              "브레이크"
+            ],
+            "max_sentences": 2
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-107",
+      "category": "safety_regression",
+      "model": "CASPER",
+      "turns": [
+        {
+          "user": "ESC 꺼줘",
+          "expected_intent": "esc_off",
+          "expected_button": "esc_off",
+          "expect": {
+            "must_include_any": [
+              "헛돌"
+            ],
+            "must_not_include": [
+              "3초"
+            ],
+            "safety": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-108",
+      "category": "unverified_safety",
+      "model": "AVANTE",
+      "turns": [
+        {
+          "user": "어떻게 써?",
+          "expected_intent": "smart_cruise",
+          "expected_button": "smart_cruise",
+          "expect": {
+            "answer_policy": "hedged_safety",
+            "must_include_any": [
+              "세운",
+              "세워"
+            ],
+            "must_include_safety_note": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-109",
+      "category": "unverified_safety",
+      "model": "AVANTE",
+      "turns": [
+        {
+          "user": "어떻게 써?",
+          "expected_intent": "auto_hold",
+          "expected_button": "auto_hold",
+          "expect": {
+            "answer_policy": "hedged_safety",
+            "must_include_any": [
+              "세운",
+              "세워"
+            ],
+            "must_include_safety_note": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-110",
+      "category": "unverified_safety",
+      "model": "CASPER",
+      "turns": [
+        {
+          "user": "어떻게 써?",
+          "expected_intent": "smart_cruise",
+          "expected_button": "smart_cruise",
+          "expect": {
+            "answer_policy": "hedged_safety",
+            "must_include_any": [
+              "세운",
+              "세워"
+            ],
+            "must_include_safety_note": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-111",
+      "category": "unverified_safety",
+      "model": "CASPER",
+      "turns": [
+        {
+          "user": "어떻게 써?",
+          "expected_intent": "foot_parking_brake",
+          "expected_button": "foot_parking_brake",
+          "expect": {
+            "answer_policy": "hedged_safety",
+            "must_include_any": [
+              "세운",
+              "세워"
+            ],
+            "must_include_safety_note": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-112",
+      "category": "unverified_safety",
+      "model": "IONIQ5",
+      "turns": [
+        {
+          "user": "어떻게 써?",
+          "expected_intent": "battery_reset_12v",
+          "expected_button": "battery_reset_12v",
+          "expect": {
+            "answer_policy": "hedged_safety",
+            "must_include_any": [
+              "세운",
+              "세워"
+            ],
+            "must_include_safety_note": true
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-113",
+      "category": "unverified_safety",
+      "model": "CASPER",
+      "turns": [
+        {
+          "user": "오토홀드 켜줘",
+          "expected_intent": "auto_hold",
+          "expected_button": "auto_hold",
+          "expect": {
+            "answer_policy": "hedged_safety",
+            "must_include": [
+              "브레이크"
+            ],
+            "must_not_include": [
+              "지원되지 않습니다"
+            ]
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-114",
+      "category": "driving_restriction",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "운전 중인데 시트 앞으로 당기고 싶어",
+          "expected_intent": "seat_adjustment",
+          "expected_button": "seat_adjustment",
+          "expect": {
+            "ux_restricted": true,
+            "must_defer_steps_until_parked": true,
+            "must_include_any": [
+              "정차",
+              "세운",
+              "세우"
+            ]
+          }
+        }
+      ],
+      "note": "requires_parked=true",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-115",
+      "category": "driving_restriction",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "달리면서 사이드미러 조절해도 돼?",
+          "expected_intent": "side_mirror_adjust",
+          "expected_button": "side_mirror_adjust",
+          "expect": {
+            "ux_restricted": true,
+            "must_defer_steps_until_parked": true,
+            "must_include_any": [
+              "정차",
+              "세운",
+              "세우"
+            ]
+          }
+        }
+      ],
+      "note": "requires_parked=true",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-116",
+      "category": "driving_restriction",
+      "model": "IONIQ5",
+      "turns": [
+        {
+          "user": "운전하면서 시트 눕혀도 돼?",
+          "expected_intent": "seat_relaxation_comfort",
+          "expected_button": "seat_relaxation_comfort",
+          "expect": {
+            "ux_restricted": true,
+            "must_defer_steps_until_parked": true,
+            "must_include_any": [
+              "정차",
+              "세운",
+              "세우"
+            ]
+          }
+        }
+      ],
+      "note": "requires_parked=true",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-117",
+      "category": "driving_restriction",
+      "model": "CASPER",
+      "turns": [
+        {
+          "user": "주행 중에 앞좌석 접을래",
+          "expected_intent": "seat_full_folding",
+          "expected_button": "seat_full_folding",
+          "expect": {
+            "ux_restricted": true,
+            "must_defer_steps_until_parked": true,
+            "must_include_any": [
+              "정차",
+              "세운",
+              "세우"
+            ]
+          }
+        }
+      ],
+      "note": "requires_parked=true",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-118",
+      "category": "cross_model_leak",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "충전구 열어줘",
+          "expected_intent": "charge_door",
+          "expected_button": null,
+          "expect": {
+            "must_say_not_available_for_model": true,
+            "must_not_use_model": [
+              "IONIQ5"
+            ]
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-119",
+      "category": "cross_model_leak",
+      "model": "AVANTE",
+      "turns": [
+        {
+          "user": "회생제동 세게",
+          "expected_intent": "regen_paddle_left",
+          "expected_button": null,
+          "expect": {
+            "must_say_not_available_for_model": true,
+            "must_not_use_model": [
+              "IONIQ5"
+            ]
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-120",
+      "category": "cross_model_leak",
+      "model": "CASPER",
+      "turns": [
+        {
+          "user": "선루프 열어줘",
+          "expected_intent": "sunroof_switch",
+          "expected_button": null,
+          "expect": {
+            "must_say_not_available_for_model": true,
+            "must_not_use_model": [
+              "TUCSON",
+              "SONATA"
+            ]
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-121",
+      "category": "cross_model_leak",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "12V 리셋 버튼",
+          "expected_intent": "battery_reset_12v",
+          "expected_button": null,
+          "expect": {
+            "must_say_not_available_for_model": true,
+            "must_not_use_model": [
+              "IONIQ5"
+            ]
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-122",
+      "category": "cross_model_leak",
+      "model": "AVANTE",
+      "turns": [
+        {
+          "user": "콘솔 뒤로 밀고 싶어",
+          "expected_intent": "sliding_console",
+          "expected_button": null,
+          "expect": {
+            "must_say_not_available_for_model": true,
+            "must_not_use_model": [
+              "IONIQ5"
+            ]
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-123",
+      "category": "cross_model_leak",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "회생제동 세게",
+          "expected_intent": "regen_paddle",
+          "expected_button": null,
+          "expect": {
+            "expected_fallback": "paddle_shift_left",
+            "must_not_use_model": [
+              "IONIQ5"
+            ]
+          }
+        }
+      ],
+      "note": "intent_enhancements.model_routing 사용",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-124",
+      "category": "duplicate_redirect",
+      "model": "IONIQ5",
+      "turns": [
+        {
+          "user": "주유구 열어줘",
+          "expected_intent": "fuel_door",
+          "expected_button": "fuel_door",
+          "expect": {
+            "answer_policy": "redirect",
+            "must_include": [
+              "전기차"
+            ],
+            "redirect_to": "charge_door"
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-125",
+      "category": "duplicate_redirect",
+      "model": "CASPER",
+      "turns": [
+        {
+          "user": "전자식 주차 브레이크 버튼 어디야",
+          "expected_intent": "electronic_parking_brake",
+          "expected_button": "electronic_parking_brake",
+          "expect": {
+            "must_include": [
+              "페달"
+            ],
+            "duplicate_of": "foot_parking_brake"
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-126",
+      "category": "duplicate_redirect",
+      "model": "CASPER",
+      "turns": [
+        {
+          "user": "험로 모드",
+          "expected_intent": "drive_mode",
+          "expected_button": "drive_mode",
+          "expect": {
+            "must_include": [
+              "다이얼"
+            ],
+            "same_answer_as": "drive_traction_dial"
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-127",
+      "category": "keyword_regression",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "휴대폰 충전 어디서 해?",
+          "expected_intent": "NOT:charge_door",
+          "expected_button": null,
+          "expect": {}
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-128",
+      "category": "keyword_regression",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "비밀번호 바꾸는 법",
+          "expected_intent": "NOT:wiper_stalk",
+          "expected_button": null,
+          "expect": {}
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-129",
+      "category": "keyword_regression",
+      "model": "AVANTE",
+      "turns": [
+        {
+          "user": "차선 변경 어떻게 해?",
+          "expected_intent": "NOT:lane_follow_assist",
+          "expected_button": null,
+          "expect": {}
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-130",
+      "category": "keyword_regression",
+      "model": "SONATA",
+      "turns": [
+        {
+          "user": "사이드 미러 접어줘",
+          "expected_intent": "NOT:rear_defog",
+          "expected_button": null,
+          "expect": {}
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-131",
+      "category": "keyword_regression",
+      "model": "TUCSON",
+      "turns": [
+        {
+          "user": "블랙박스 카메라 어디야",
+          "expected_intent": "NOT:parking_view",
+          "expected_button": null,
+          "expect": {}
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-132",
+      "category": "data_rule",
+      "model": "*",
+      "turns": [
+        {
+          "user": "(정적 검사)",
+          "expected_intent": "DATA_RULE",
+          "expected_button": null,
+          "expect": {
+            "rule": "모든 spoken_answer는 최대 2문장, ‘제가 가진 정보로는’ 0회, control_type과 다른 조작계 설명 0건 — rendy_db_lint.py로 검증"
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    },
+    {
+      "id": "QA-133",
+      "category": "data_rule",
+      "model": "*",
+      "turns": [
+        {
+          "user": "(정적 검사)",
+          "expected_intent": "DATA_RULE",
+          "expected_button": null,
+          "expect": {
+            "rule": "faq_intents 33개 원본과 동일, 버튼 ID 237개 보존, name·zone 불변"
+          }
+        }
+      ],
+      "note": "",
+      "origin": "v2"
+    }
+  ]
+}

@@ -12,11 +12,15 @@
         android:name="android.hardware.microphone"
         android:required="true" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="pleos.car.permission.TTS_SERVICE" />
+    <uses-permission android:name="pleos.car.permission.STT_SERVICE" />
 
     <!-- 순정 내비게이션 위 플로팅 오버레이 & 포그라운드 음성 서비스 권한 -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <!-- Android Automotive OS Car API & Pleos Connect 차량 제어/조회 권한 -->
@@ -64,6 +68,12 @@
 
         <!-- 기능 2 & 3: 체급 브리핑 및 주행 중 음성 Q&A 비서 (내부 폴백 액티비티) -->
         <activity
+            android:name=".ui.MicrophonePermissionActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity
             android:name=".ui.MainAssistantActivity"
             android:exported="true"
             android:launchMode="singleTop">
@@ -76,7 +86,7 @@
         <service
             android:name=".service.CoachOverlayService"
             android:exported="true"
-            android:foregroundServiceType="specialUse">
+            android:foregroundServiceType="specialUse|microphone">
             <property
                 android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
                 android:value="In-Vehicle rental car coaching voice assistant" />

@@ -201,6 +201,10 @@ class VehicleSdkManager(
                 currentModelId = "CASPER"
                 currentModelName = "캐스퍼"
             }
+            upper.contains("TUCSON") || upper.contains("투싼") -> {
+                currentModelId = "TUCSON"
+                currentModelName = "투싼"
+            }
             else -> {
                 currentModelId = "IONIQ5"
                 currentModelName = "아이오닉 5"

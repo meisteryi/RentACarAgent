@@ -10,6 +10,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven("https://nexus-playground.pleos.ai/repository/maven-releases/")
         // Pleos Connect Maven repository (if hosted internally or via local/remote repo)
         maven { url = java.net.URI("https://jitpack.io") }
     }

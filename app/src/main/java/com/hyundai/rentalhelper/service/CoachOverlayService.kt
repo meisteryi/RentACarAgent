@@ -13,7 +13,9 @@ import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.os.SystemClock
 import android.provider.Settings
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.Gravity
@@ -31,10 +33,10 @@ import com.hyundai.rentalhelper.databinding.LayoutFloatingBriefingBannerBinding
 import com.hyundai.rentalhelper.databinding.LayoutFloatingCoachBubbleBinding
 
 /**
- * [순정 지도 위 플로팅 아이콘 및 상단 브리핑 오버레이 서비스]
- * - 에뮬레이터 기본 순정 내비게이션(Navi42) 화면 위에 직접 떠 있는 플로팅 위젯
- * - 드래그하여 원하는 위치로 이동 가능
- * - 터치 시 퀵 질문 메뉴 오픈 및 음성 질문 지원
+ * [Floating coach overlay service above the native navigation surface]
+ * - Displays a floating widget over the native Navi42 navigation screen
+ * - Can be dragged to a preferred position
+ * - Opens quick questions and voice input when tapped
  */
 class CoachOverlayService : Service() {
 
@@ -42,20 +44,32 @@ class CoachOverlayService : Service() {
         private const val TAG = "CoachOverlayService"
         private const val NOTIFICATION_CHANNEL_ID = "rental_car_coach_channel"
         private const val NOTIFICATION_ID = 1001
+        private const val WAKE_PROMPT_TEXT = RendyVoicePrompts.WAKE_PROMPT_TEXT
+        private const val WAKE_PROMPT_UTTERANCE_ID = "rendy_wake_prompt"
+        private const val LISTENING_STATUS_HOLD_MS = 550L
+        private const val RETRY_PROMPT_DELAY_MS = 300L
+        private const val RETRY_STATUS_DURATION_MS = 2_500L
 
         const val ACTION_START_COACHING = "com.hyundai.rentalhelper.action.START_COACHING"
         const val ACTION_TRIGGER_BRIEFING = "com.hyundai.rentalhelper.action.TRIGGER_BRIEFING"
         const val ACTION_VOICE_QUERY = "com.hyundai.rentalhelper.action.VOICE_QUERY"
+        const val ACTION_TEST_RENDY_GREETING = "com.hyundai.rentalhelper.action.TEST_RENDY_GREETING"
+        const val ACTION_TOGGLE_PLEOS_STT = "com.hyundai.rentalhelper.action.TOGGLE_PLEOS_STT"
+        const val ACTION_START_PLEOS_STT = "com.hyundai.rentalhelper.action.START_PLEOS_STT"
+        /** Debug builds only: runs the post-detection wake flow (prompt TTS -> Pleos STT) without Vosk audio. */
+        const val ACTION_SIMULATE_WAKE_WORD = "com.hyundai.rentalhelper.action.SIMULATE_WAKE_WORD"
+        /** Debug builds only: offline wake-word detection test on WAV files in files/wakeeval (no microphone). */
+        const val ACTION_WAKEWORD_SELFTEST = "com.hyundai.rentalhelper.action.WAKEWORD_SELFTEST"
         const val EXTRA_QUERY = "query"
     }
 
     private var windowManager: WindowManager? = null
 
-    // 1. 순정 지도 위 항상 떠 있는 플로팅 아이콘
+    // Floating widget above native navigation
     private var bubbleBinding: LayoutFloatingCoachBubbleBinding? = null
     private var bubbleLayoutParams: WindowManager.LayoutParams? = null
 
-    // 2. 상단 음성 안내 & 답변 팝업 배너
+    // Voice guidance and answer banner
     private var bannerBinding: LayoutFloatingBriefingBannerBinding? = null
     private var bannerLayoutParams: WindowManager.LayoutParams? = null
 
@@ -67,6 +81,19 @@ class CoachOverlayService : Service() {
     private var currentRentalModel: HyundaiCarModel? = null
     private var isBriefingGiven = false
     private val mainHandler = Handler(Looper.getMainLooper())
+    private var sttNotificationText = "Navigation coach running"
+    private var wakeWordController: RendyWakeWordController? = null
+    private val listeningCue = RendyListeningCue()
+    private var wakeResumeRunnable: Runnable? = null
+    private var isServiceDestroying = false
+    private var voiceStatusOverlay: RendyVoiceStatusOverlay? = null
+    private var wakeInteractionActive = false
+    private var wakePromptPending = false
+    private var wakePromptPlaybackDoneAtMs = 0L
+    private var wakeSttRetryCount = 0
+    private var wakeAnswerLookup = false
+    private var wakeUxSessionId = 0L
+    private var listeningStatusRunnable: Runnable? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -81,6 +108,7 @@ class CoachOverlayService : Service() {
         initWindowManager()
         createFloatingBubble()
         createFloatingBanner()
+        initWakeWord()
     }
 
     private fun startForegroundNotification() {
@@ -96,11 +124,7 @@ class CoachOverlayService : Service() {
             manager?.createNotificationChannel(channel)
         }
 
-        val notification: Notification = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-            .setContentTitle("현대 렌터카 적응 코칭 비서")
-            .setContentText("순정 지도 위에 플로팅 음성 비서가 실행 중입니다.")
-            .setSmallIcon(android.R.drawable.ic_btn_speak_now)
-            .build()
+        val notification: Notification = buildForegroundNotification()
 
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -113,38 +137,163 @@ class CoachOverlayService : Service() {
                 startForeground(NOTIFICATION_ID, notification)
             }
         } catch (e: Exception) {
-            Log.e(TAG, "startForeground 예외 (오버레이는 계속 표시)", e)
+            Log.e(TAG, "startForeground failed; overlay may still be visible", e)
             try {
                 startForeground(NOTIFICATION_ID, notification)
             } catch (ignored: Exception) {}
         }
     }
 
+
+    private fun buildForegroundNotification(): Notification {
+        val launchIntent = Intent(this, com.hyundai.rentalhelper.ui.MicrophonePermissionActivity::class.java)
+        val pendingIntent = android.app.PendingIntent.getActivity(
+            this,
+            71,
+            launchIntent,
+            android.app.PendingIntent.FLAG_UPDATE_CURRENT or android.app.PendingIntent.FLAG_IMMUTABLE
+        )
+        return NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+            .setContentTitle("RentACarAgent voice assistant")
+            .setContentText(sttNotificationText)
+            .setSmallIcon(android.R.drawable.ic_btn_speak_now)
+            .setOngoing(true)
+            .addAction(android.R.drawable.ic_btn_speak_now, "Push to talk", pendingIntent)
+            .build()
+    }
+
+    private fun refreshSttNotification(text: String) {
+        sttNotificationText = text
+        val manager = getSystemService(NotificationManager::class.java) ?: return
+        manager.notify(NOTIFICATION_ID, buildForegroundNotification())
+    }
+
     private fun initVoiceEngine() {
-        voiceEngine = VoiceAssistantEngine(this, buttonDb)
+        voiceEngine = (application as RentalCoachApplication).voiceAssistantEngine
+        voiceEngine.onTtsPlaybackStateChanged = { isBusy ->
+            mainHandler.post {
+                if (isServiceDestroying) return@post
+                if (isBusy) {
+                    stopWakeWordListening("TTS playback")
+                } else if (wakePromptPending) {
+                    startWakeSttAfterPrompt()
+                } else if (wakeInteractionActive && !voiceEngine.isSttBusy) {
+                    finishWakeInteraction("voice response completed")
+                } else if (!wakeInteractionActive) {
+                    scheduleWakeWordResume("TTS completed", 500L)
+                }
+            }
+        }
 
         voiceEngine.onSpokenSubtitle = { spokenText ->
+            mainHandler.post {
+            if (wakeInteractionActive && wakeAnswerLookup) {
+                showWakeVoiceStatus(RendyVoicePrompts.ANSWERING_STATUS, animate = true)
+                Log.i("RendyVoiceUX", "Voice answer playback started")
+            }
             val carName = currentRentalModel?.modelNameKo ?: "현대 렌터카"
             showBanner(
-                title = "🗣️ [실시간 음성 자막 - TTS 발화 중]",
+                title = "[Live speech subtitle - TTS playback]",
                 body = spokenText,
-                subtext = "🔊 차량 스피커 음성과 100% 동일한 실시간 자막입니다.",
-                category = "💡 $carName 실시간 음성 가이드"
+                subtext = "Live subtitle for the spoken vehicle guidance.",
+                category = "💡 $carName 음성 Q&A 답변"
             )
+            }
         }
 
         voiceEngine.onSpeechResultReceived = { query, title, answer ->
+            mainHandler.post {
+            if (wakeInteractionActive && wakeAnswerLookup) {
+                showWakeVoiceStatus(RendyVoicePrompts.ANSWERING_STATUS, animate = true)
+                Log.i("RendyVoiceUX", "Voice answer playback started")
+            }
             val carName = currentRentalModel?.modelNameKo ?: "현대 렌터카"
             showBanner(
-                title = "🗣️ [실시간 음성 자막 - $title]",
+                title = "[Voice answer - $title]",
                 body = answer,
                 subtext = "질문: \"$query\"",
-                category = "💡 $carName 음성 Q&amp;A 답변"
+                category = "$carName voice Q&A answer"
             )
+            }
+        }
+
+        voiceEngine.onSttStateChanged = { state, message ->
+            mainHandler.post {
+                val indicator = when (state) {
+                    VoiceAssistantEngine.SttState.IDLE -> "MIC"
+                    VoiceAssistantEngine.SttState.LISTENING -> "STOP"
+                    VoiceAssistantEngine.SttState.PROCESSING -> "..."
+                    VoiceAssistantEngine.SttState.RESULT -> "OK"
+                    VoiceAssistantEngine.SttState.ERROR -> "!"
+                }
+                bubbleBinding?.btnMicPtt?.text = indicator
+                refreshSttNotification("STT $state${message?.let { ": $it" } ?: ""}")
+
+                if (wakeInteractionActive) {
+                    when (state) {
+                        VoiceAssistantEngine.SttState.LISTENING -> {
+                            showWakeVoiceStatus(RendyVoicePrompts.LISTENING_STATUS, animate = true)
+                            scheduleListeningStatusAdvance()
+                        }
+                        VoiceAssistantEngine.SttState.PROCESSING -> {
+                            if (message == "Processing speech") showWakeVoiceStatus(RendyVoicePrompts.HEARING_STATUS, animate = true)
+                        }
+                        VoiceAssistantEngine.SttState.RESULT -> {
+                            wakeAnswerLookup = true
+                            cancelListeningStatusAdvance()
+                            showWakeVoiceStatus(RendyVoicePrompts.ANSWER_LOOKUP_STATUS, animate = true)
+                        }
+                        VoiceAssistantEngine.SttState.IDLE,
+                        VoiceAssistantEngine.SttState.ERROR -> {
+                            cancelListeningStatusAdvance()
+                            if (!voiceEngine.isTtsBusy && !voiceEngine.isSttBusy) {
+                                if (state == VoiceAssistantEngine.SttState.ERROR) {
+                                    offerWakeSttRetry(message)
+                                } else {
+                                    finishWakeInteraction("STT $state")
+                                }
+                            }
+                        }
+                    }
+                } else if (state == VoiceAssistantEngine.SttState.IDLE ||
+                    state == VoiceAssistantEngine.SttState.RESULT ||
+                    state == VoiceAssistantEngine.SttState.ERROR
+                ) {
+                    scheduleWakeWordResume("STT $state", 900L)
+                }
+            }
+        }
+
+        voiceEngine.onSttCaptureReady = { trigger ->
+            mainHandler.post {
+                // Status "네, 말씀하세요!" is shown on SttState.LISTENING, which is set at the same confirmed-capture moment.
+                if (!isServiceDestroying && com.hyundai.rentalhelper.BuildConfig.RENDY_READY_CUE == RendyListeningCue.MODE_AFTER_CAPTURE) {
+                    listeningCue.play()
+                    Log.i("RendyVoiceUX", "Ready cue requested after confirmed capture: trigger=$trigger")
+                }
+            }
+        }
+
+        voiceEngine.onSttTextReceived = { transcript ->
+            mainHandler.post {
+                Log.i("RendySTT", "Final transcript delivered to onSttTextReceived: $transcript")
+                if (wakeInteractionActive) {
+                    wakeAnswerLookup = true
+                    cancelListeningStatusAdvance()
+                    showWakeVoiceStatus(RendyVoicePrompts.ANSWER_LOOKUP_STATUS, animate = true)
+                }
+                val model = currentRentalModel
+                    ?: buttonDb.findModelById(vehicleSdkManager.getCurrentState().modelId)
+                if (model == null) {
+                    Log.w("RendySTT", "Cannot answer transcript because the current rental car model is unavailable")
+                } else {
+                    voiceEngine.processQuestion(model, transcript)
+                }
+            }
         }
 
         voiceEngine.onErrorOccurred = { errorMsg ->
-            showBanner("⚠️ 음성 비서 알림", errorMsg, "다시 말씀해 주세요.")
+            showBanner("Voice assistant notice", errorMsg, "Please try again.")
         }
     }
 
@@ -152,6 +301,9 @@ class CoachOverlayService : Service() {
         vehicleSdkManager = VehicleSdkManager(this) { vehicleState ->
             val model = buttonDb.findModelById(vehicleState.modelId)
                 ?: buttonDb.findModelByNameOrFuzzy(vehicleState.modelName)
+            if (currentRentalModel != null && model?.modelId != currentRentalModel?.modelId) {
+                voiceEngine.resetConversation("car_changed")
+            }
             currentRentalModel = model
 
             bubbleBinding?.tvBubbleBadge?.text = model?.modelNameKo ?: vehicleState.modelName
@@ -168,13 +320,249 @@ class CoachOverlayService : Service() {
         windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
     }
 
+    private fun initWakeWord() {
+        wakeWordController = RendyWakeWordController(
+            this,
+            onDetected = { detection ->
+                val detectedOnMainQueueAt = SystemClock.elapsedRealtime()
+                mainHandler.postAtFrontOfQueue {
+                    handleWakeDetected(detection.text, detection.confidence, detection.detectedAtElapsedMs,
+                        detection.firstVoiceAtElapsedMs, detectedOnMainQueueAt)
+                }
+            },
+            onListening = {
+                mainHandler.post {
+                    if (!isServiceDestroying && !voiceEngine.isTtsBusy && !voiceEngine.isSttBusy) {
+                        Log.i("RendyWakeWord", "Wake-word microphone is capture-ready")
+                        refreshSttNotification("Wake word listening")
+                    }
+                }
+            }
+        )
+        wakeWordController?.prepare()
+        if (checkSelfPermission(android.Manifest.permission.RECORD_AUDIO) == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            scheduleWakeWordResume("service started", 400L)
+        } else {
+            Log.i("RendyWakeWord", "Wake word idle until RECORD_AUDIO is granted; PTT permission flow remains available")
+        }
+    }
+
     /**
-     * 순정 지도 우측 하단에 항상 떠 있는 현대 순정형 플로팅 아이콘 생성
+     * Wake word "렌디" detected (Vosk, or the debug-only ACTION_SIMULATE_WAKE_WORD): speak
+     * [RendyVoicePrompts.WAKE_PROMPT_TEXT], then open Pleos STT only after that playback ends
+     * (onTtsPlaybackStateChanged -> startWakeSttAfterPrompt).
+     */
+    private fun handleWakeDetected(
+        text: String,
+        confidence: Float,
+        detectedAtElapsedMs: Long,
+        firstVoiceAtElapsedMs: Long,
+        detectedOnMainQueueAt: Long
+    ) {
+        if (isServiceDestroying || wakeInteractionActive) return
+        val promptRequestAt = SystemClock.elapsedRealtime()
+        Log.i(
+            "RendyVoiceUX",
+            "Wake pipeline: audioToMainMs=${detectedOnMainQueueAt - detectedAtElapsedMs}, voiceToPromptRequestMs=${if (firstVoiceAtElapsedMs > 0L) promptRequestAt - firstVoiceAtElapsedMs else -1L}, text=${text}, confidence=${confidence}"
+        )
+        Log.i("RendyWakeWord", "Microphone released; starting spoken response before Pleos STT")
+        wakeInteractionActive = true
+        wakeAnswerLookup = false
+        wakePromptPending = true
+        wakePromptPlaybackDoneAtMs = 0L
+        wakeSttRetryCount = 0
+        wakeUxSessionId++
+        cancelListeningStatusAdvance()
+        showWakeVoiceStatus(RendyVoicePrompts.PREPARING_STATUS, animate = true)
+        Log.i("RendyVoiceUX", "Wake prompt requested: handlerMs=${SystemClock.elapsedRealtime() - promptRequestAt}")
+        voiceEngine.speak(
+            text = WAKE_PROMPT_TEXT,
+            utteranceId = WAKE_PROMPT_UTTERANCE_ID,
+            queueMode = TextToSpeech.QUEUE_FLUSH,
+            onCompleted = {
+                wakePromptPlaybackDoneAtMs = SystemClock.elapsedRealtime()
+                Log.i("RendyVoiceUX", "Wake prompt playback completed; waiting for TTS audio focus release")
+            },
+            onFailed = { reason ->
+                Log.e("RendyVoiceUX", "Wake prompt failed; continuing to STT when audio is released: $reason")
+                mainHandler.post { startWakeSttAfterPrompt() }
+            }
+        )
+    }
+
+    private fun startWakeSttAfterPrompt() {
+        if (!wakeInteractionActive || !wakePromptPending || isServiceDestroying) return
+        if (voiceEngine.isTtsBusy) {
+            Log.i("RendyVoiceUX", "Waiting for TTS playback and audio focus to finish before opening STT")
+            return
+        }
+        wakePromptPending = false
+        val now = SystemClock.elapsedRealtime()
+        val promptEndToSttRequestMs = if (wakePromptPlaybackDoneAtMs > 0L) now - wakePromptPlaybackDoneAtMs else -1L
+        Log.i("RendyVoiceUX", "Wake prompt/focus release to Pleos STT request: elapsedMs=$promptEndToSttRequestMs, retry=$wakeSttRetryCount")
+        Log.i("RendyVoiceUX", "Wake prompt finished; handing microphone to Pleos STT")
+        showWakeVoiceStatus(RendyVoicePrompts.PREPARING_STATUS, animate = true)
+        val trigger = if (wakeSttRetryCount == 0) "WAKE_WORD_RENDI" else "WAKE_WORD_RETRY"
+        val diagnosticDelay = debugSttDelayMs
+        debugSttDelayMs = 0L
+        if (diagnosticDelay > 0L) {
+            // Debug-only latency experiment (SIMULATE_WAKE_WORD extra "stt_delay_ms"); never set in normal use.
+            val session = wakeUxSessionId
+            Log.i("RendyVoiceUX", "Diagnostic STT request delay: ${diagnosticDelay}ms")
+            mainHandler.postDelayed({
+                if (wakeInteractionActive && session == wakeUxSessionId && !isServiceDestroying) voiceEngine.startPleosRecognition(trigger)
+            }, diagnosticDelay)
+        } else {
+            voiceEngine.startPleosRecognition(trigger)
+        }
+    }
+
+    /** Debug builds only: extra wait before the wake STT request, for latency experiments. */
+    private var debugSttDelayMs = 0L
+
+    private fun offerWakeSttRetry(reason: String?) {
+        if (!wakeInteractionActive || isServiceDestroying) return
+        if (wakeSttRetryCount == 0) {
+            wakeSttRetryCount = 1
+            wakePromptPending = true
+            wakePromptPlaybackDoneAtMs = 0L
+            wakeAnswerLookup = false
+            showWakeVoiceStatus("잘 못 들었어요. 다시 말씀해 주세요.", animate = true)
+            Log.i("RendyVoiceUX", "Offering one spoken STT retry: reason=$reason")
+            mainHandler.postDelayed({
+                if (!wakeInteractionActive || !wakePromptPending || isServiceDestroying) return@postDelayed
+                if (voiceEngine.isSttBusy || voiceEngine.isTtsBusy) {
+                    Log.i("RendyVoiceUX", "Retry prompt deferred because audio/session is still busy")
+                    return@postDelayed
+                }
+                voiceEngine.speak(
+                    text = RendyVoicePrompts.RETRY_PROMPT_TEXT,
+                    utteranceId = "rendy_stt_retry_prompt",
+                    queueMode = TextToSpeech.QUEUE_FLUSH,
+                    onCompleted = {
+                        wakePromptPlaybackDoneAtMs = SystemClock.elapsedRealtime()
+                        Log.i("RendyVoiceUX", "Retry prompt playback completed")
+                    },
+                    onFailed = { failure ->
+                        Log.e("RendyVoiceUX", "Retry prompt failed; STT will start if the engine is idle: $failure")
+                        mainHandler.post { startWakeSttAfterPrompt() }
+                    }
+                )
+            }, RETRY_PROMPT_DELAY_MS)
+        } else {
+            wakePromptPending = false
+            showWakeVoiceStatus("질문을 듣지 못했어요. 마이크 버튼으로 다시 말해 주세요.", animate = false)
+            Log.w("RendyVoiceUX", "Wake STT retry exhausted: reason=$reason; PTT remains available")
+            mainHandler.postDelayed({
+                if (wakeInteractionActive && !voiceEngine.isTtsBusy && !voiceEngine.isSttBusy) {
+                    finishWakeInteraction("STT retry exhausted")
+                }
+            }, RETRY_STATUS_DURATION_MS)
+        }
+    }
+
+    private fun showWakeVoiceStatus(message: String, animate: Boolean) {
+        if (!Settings.canDrawOverlays(this)) {
+            Log.w("RendyVoiceUX", "Overlay permission unavailable; voice prompt/STT continue without overlay")
+            return
+        }
+        try {
+            val overlay = voiceStatusOverlay ?: RendyVoiceStatusOverlay(this, windowManager!!)
+                .also { voiceStatusOverlay = it }
+            overlay.show(message, animate)
+        } catch (e: Exception) {
+            Log.e("RendyVoiceUX", "Could not update voice status overlay", e)
+        }
+    }
+
+    private fun scheduleListeningStatusAdvance() {
+        cancelListeningStatusAdvance()
+        val session = wakeUxSessionId
+        listeningStatusRunnable = Runnable {
+            if (wakeInteractionActive && session == wakeUxSessionId && voiceEngine.isSttBusy) {
+                showWakeVoiceStatus(RendyVoicePrompts.HEARING_STATUS, animate = true)
+            }
+        }.also { mainHandler.postDelayed(it, LISTENING_STATUS_HOLD_MS) }
+    }
+
+    private fun cancelListeningStatusAdvance() {
+        listeningStatusRunnable?.let(mainHandler::removeCallbacks)
+        listeningStatusRunnable = null
+    }
+
+    private fun finishWakeInteraction(reason: String) {
+        if (!wakeInteractionActive) return
+        wakeInteractionActive = false
+        wakePromptPending = false
+        wakeAnswerLookup = false
+        wakeUxSessionId++
+        cancelListeningStatusAdvance()
+        voiceStatusOverlay?.hide()
+        Log.i("RendyVoiceUX", "Wake voice interaction ended: $reason; returning to wake-word standby")
+        if (!isServiceDestroying) scheduleWakeWordResume("wake interaction ended: $reason", 650L)
+    }
+
+    private fun promoteForegroundServiceForMicrophone() {
+        if (checkSelfPermission(android.Manifest.permission.RECORD_AUDIO) != android.content.pm.PackageManager.PERMISSION_GRANTED) return
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                startForeground(
+                    NOTIFICATION_ID,
+                    buildForegroundNotification(),
+                    ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE or
+                        ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE
+                )
+            }
+            Log.i("RendyWakeWord", "Foreground service microphone type active with RECORD_AUDIO permission")
+        } catch (e: Exception) {
+            Log.e("RendyWakeWord", "Could not activate microphone foreground service; wake word disabled", e)
+        }
+    }
+
+    private fun stopWakeWordListening(reason: String) {
+        wakeResumeRunnable?.let(mainHandler::removeCallbacks)
+        wakeResumeRunnable = null
+        wakeWordController?.stop()
+        refreshSttNotification("Wake word paused: $reason")
+        Log.i("RendyWakeWord", "Wake word listening paused: $reason")
+    }
+
+    private fun scheduleWakeWordResume(reason: String, delayMs: Long) {
+        if (isServiceDestroying) return
+        wakeResumeRunnable?.let(mainHandler::removeCallbacks)
+        wakeResumeRunnable = Runnable {
+            if (isServiceDestroying) return@Runnable
+            if (checkSelfPermission(android.Manifest.permission.RECORD_AUDIO) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                Log.w("RendyWakeWord", "Wake word not resumed: RECORD_AUDIO permission missing")
+                return@Runnable
+            }
+            if (::voiceEngine.isInitialized && voiceEngine.isTtsBusy) {
+                Log.i("RendyWakeWord", "Wake word not resumed while TTS is active")
+                return@Runnable
+            }
+            if (::voiceEngine.isInitialized && voiceEngine.isSttBusy) {
+                Log.i("RendyWakeWord", "Wake word not resumed until the Pleos STT session has released the microphone")
+                return@Runnable
+            }
+            val controller = wakeWordController
+            if (controller?.isConfigured() != true) {
+                Log.i("RendyWakeWord", "Wake word prerequisites missing; PTT remains available ($reason)")
+                return@Runnable
+            }
+            promoteForegroundServiceForMicrophone()
+            val started = controller.start()
+            if (started) refreshSttNotification(if (controller.isRunning) "Wake word listening" else "Wake word preparing")
+            else Log.i("RendyWakeWord", "Wake word remains unavailable; existing PTT is unchanged ($reason)")
+        }.also { mainHandler.postDelayed(it, delayMs) }
+    }
+
+    /**
+     * Creates the floating icon shown above the native navigation surface.
      */
     @SuppressLint("ClickableViewAccessibility")
     private fun createFloatingBubble() {
         if (!Settings.canDrawOverlays(this)) {
-            Log.w(TAG, "SYSTEM_ALERT_WINDOW 권한 없음")
+            Log.w(TAG, "SYSTEM_ALERT_WINDOW permission missing")
             return
         }
 
@@ -198,20 +586,20 @@ class CoachOverlayService : Service() {
             y = 240
         }
 
-        // 터치 및 드래그 제스처 등록
+        // Attach the overlay to the current display
         setupBubbleTouchListener()
         setupBubbleClickListeners()
 
         try {
             windowManager?.addView(bubbleBinding?.root, bubbleLayoutParams)
-            Log.i(TAG, "순정 지도 위 플로팅 아이콘 등록 완료")
+            Log.i(TAG, "Floating coach bubble attached")
         } catch (e: Exception) {
-            Log.e(TAG, "플로팅 아이콘 addView 실패", e)
+            Log.e(TAG, "Could not attach floating coach bubble", e)
         }
     }
 
     /**
-     * 상단 음성 브리핑 / Q&A 팝업 배너 생성 (평소에는 GONE, 필요 시 노출)
+     * Creates the voice guidance and Q&A banner.
      */
     private fun createFloatingBanner() {
         if (!Settings.canDrawOverlays(this)) return
@@ -243,9 +631,9 @@ class CoachOverlayService : Service() {
 
         try {
             windowManager?.addView(bannerBinding?.root, bannerLayoutParams)
-            Log.i(TAG, "상단 플로팅 배너 등록 완료")
+            Log.i(TAG, "Floating briefing banner attached")
         } catch (e: Exception) {
-            Log.e(TAG, "상단 배너 addView 실패", e)
+            Log.e(TAG, "Could not attach floating briefing banner", e)
         }
     }
 
@@ -288,7 +676,7 @@ class CoachOverlayService : Service() {
                     }
                     MotionEvent.ACTION_UP -> {
                         if (!isDragging) {
-                            // 단순 탭 시 퀵 메뉴 토글
+                            // Keep the overlay within the visible display bounds
                             toggleBubbleMenu()
                         }
                         return true
@@ -305,24 +693,26 @@ class CoachOverlayService : Service() {
         try {
             windowManager?.updateViewLayout(bubbleBinding?.root, bubbleLayoutParams)
         } catch (e: Exception) {
-            Log.e(TAG, "updateViewLayout 실패", e)
+            Log.e(TAG, "updateViewLayout failed", e)
         }
     }
 
     private fun setupBubbleClickListeners() {
         val binding = bubbleBinding ?: return
 
+        binding.btnMicPtt.setOnClickListener { requestPleosSttFromUserAction() }
+
         binding.btnQuickDefog.setOnClickListener {
             toggleBubbleMenu()
-            simulateQuery("창문에 성에가 꼈어 어떡하지?")
+            simulateQuery("앞유리 김 서렸어. 어떻게 없애?")
         }
         binding.btnQuickCruise.setOnClickListener {
             toggleBubbleMenu()
-            simulateQuery("스마트크루즈 어떻게 켜?")
+            simulateQuery("크루즈 컨트롤은 어떻게 켜?")
         }
         binding.btnQuickGear.setOnClickListener {
             toggleBubbleMenu()
-            simulateQuery("기어 변속 어떻게 해?")
+            simulateQuery("기어 변속은 어떻게 해?")
         }
         binding.btnQuickBriefing.setOnClickListener {
             toggleBubbleMenu()
@@ -330,14 +720,105 @@ class CoachOverlayService : Service() {
         }
     }
 
+    private fun requestPleosSttFromUserAction() {
+        if (checkSelfPermission(android.Manifest.permission.RECORD_AUDIO) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            stopWakeWordListening("permission request")
+            Log.i("RendySTT", "PTT clicked; opening Android runtime microphone permission UI")
+            startActivity(Intent(this, com.hyundai.rentalhelper.ui.MicrophonePermissionActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            return
+        }
+        togglePttRecognition("PTT_BUTTON")
+    }
+
+    private fun togglePttRecognition(trigger: String) {
+        if (voiceEngine.isSttBusy) {
+            stopWakeWordListening("PTT stopping recognition")
+            voiceEngine.stopPleosRecognition()
+            return
+        }
+        promoteForegroundServiceForMicrophone()
+        val controller = wakeWordController
+        if (controller == null) {
+            voiceEngine.startPleosRecognition(trigger)
+            return
+        }
+        controller.stopAndRunAfterRelease {
+            mainHandler.post {
+                if (!isServiceDestroying) voiceEngine.startPleosRecognition(trigger)
+            }
+        }
+    }
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (intent?.action == ACTION_TOGGLE_PLEOS_STT || intent?.action == ACTION_START_PLEOS_STT) {
+            if (checkSelfPermission(android.Manifest.permission.RECORD_AUDIO) == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                if (intent.action == ACTION_START_PLEOS_STT) togglePttRecognition("PTT_ACTION")
+                else togglePttRecognition("PTT_TOGGLE_ACTION")
+            } else {
+                stopWakeWordListening("permission request")
+                startActivity(Intent(this, com.hyundai.rentalhelper.ui.MicrophonePermissionActivity::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            }
+            return START_STICKY
+        }
+
+        if (intent?.action == ACTION_WAKEWORD_SELFTEST) {
+            if (com.hyundai.rentalhelper.BuildConfig.DEBUG) {
+                Thread({ runCatching { RendyWakeWordSelfTest.run(applicationContext) }
+                    .onFailure { Log.e(TAG, "Wake self-test failed", it) } }, "RendyWakeSelfTest").start()
+            } else {
+                Log.w(TAG, "Wake self-test ignored in release builds")
+            }
+            return START_STICKY
+        }
+
+        if (intent?.action == ACTION_SIMULATE_WAKE_WORD) {
+            if (com.hyundai.rentalhelper.BuildConfig.DEBUG) {
+                Log.i(TAG, "Debug wake-word simulation: same handler as a Vosk detection (acoustic detection itself not exercised)")
+                stopWakeWordListening("simulated wake word")
+                debugSttDelayMs = intent.getLongExtra("stt_delay_ms", 0L).coerceIn(0L, 5_000L)
+                val now = SystemClock.elapsedRealtime()
+                handleWakeDetected("렌디(simulated)", 1.0f, now, -1L, now)
+            } else {
+                Log.w(TAG, "Wake-word simulation ignored in release builds")
+            }
+            return START_STICKY
+        }
+
+        if (intent?.action == ACTION_TEST_RENDY_GREETING) {
+            Log.i(TAG, "Manual RENDY greeting test requested; Navi42 visibility is not observable here")
+            voiceEngine.speak(
+                text = VoiceAssistantEngine.RENDY_INTRO_TEXT,
+                utteranceId = "rendy_intro_manual_test",
+                queueMode = TextToSpeech.QUEUE_FLUSH,
+                onFailed = { reason -> Log.e(TAG, "Manual RENDY greeting failed: $reason") }
+            )
+            return START_STICKY
+        }
+
+        if (intent == null || intent.action == ACTION_START_COACHING) {
+            val app = application as RentalCoachApplication
+            if (app.claimRendyIntroForCurrentSession()) {
+                Log.i(TAG, "Automatic RENDY intro requested after Service start; no Navi42 foreground-ready signal is available")
+                voiceEngine.speak(
+                    text = VoiceAssistantEngine.RENDY_INTRO_TEXT,
+                    utteranceId = VoiceAssistantEngine.RENDY_INTRO_UTTERANCE_ID,
+                    queueMode = TextToSpeech.QUEUE_ADD,
+                    onFailed = { reason -> Log.e(TAG, "Automatic RENDY intro failed: $reason") }
+                )
+            }
+        }
+
         val model = currentRentalModel
             ?: buttonDb.findModelById(vehicleSdkManager.getCurrentState().modelId)
 
         if (intent?.action == ACTION_VOICE_QUERY) {
             val query = intent.getStringExtra(EXTRA_QUERY) ?: ""
             if (query.isNotBlank()) {
-                simulateQuery(query)
+                // Same entry as a final STT transcript (classifier -> DB policy -> dialogue -> TTS), so text
+                // injection exercises the real question path. The bubble demo buttons still use simulateQuery().
+                if (model != null) voiceEngine.processQuestion(model, query) else simulateQuery(query)
             }
             return START_STICKY
         }
@@ -351,21 +832,22 @@ class CoachOverlayService : Service() {
     }
 
     /**
-     * [기능 2: 순정 지도 위 상단 배너 노출 + TTS 음성 브리핑]
+     * Starts phase 2: native navigation, floating Q&A, and voice briefing.
      */
     private fun triggerAdaptationBriefing(rentalModel: HyundaiCarModel) {
         val usualSegment = userPreferences.getUsualCarSegment() ?: CarSegment.SEDAN
         val briefingText = buttonDb.generateAdaptationBriefing(rentalModel, usualSegment)
 
         showBanner(
-            title = "🗣️ [실시간 음성 자막 - 체급 브리핑]",
+            title = "[Voice briefing - vehicle adaptation]",
             body = briefingText,
-            subtext = "평소 운전: ${usualSegment.displayName} ➔ 현재 렌터카: ${rentalModel.modelNameKo}",
-            category = "💡 ${rentalModel.modelNameKo} 적응 브리핑"
+            subtext = "Selected segment: ${usualSegment.displayName}; model: ${rentalModel.modelNameKo}",
+            category = "💡 ${rentalModel.modelNameKo} 음성 안내"
         )
 
-        // 차량 스피커 음성(TTS) 즉각 출력
-        voiceEngine.speak(briefingText)
+        // Read the finished voice guide using Pleos TTS
+        // Keep this after/alongside the one-time greeting instead of flushing it.
+        voiceEngine.speak(briefingText, queueMode = TextToSpeech.QUEUE_ADD)
     }
 
     private fun showBanner(
@@ -379,14 +861,14 @@ class CoachOverlayService : Service() {
         banner.tvBannerBody.text = "\"$body\""
         banner.tvBannerSubtext.text = subtext
         val carName = currentRentalModel?.modelNameKo ?: "현대 렌터카"
-        banner.tvBannerCategory.text = category ?: "💡 $carName 맞춤 코치 안내"
+        banner.tvBannerCategory.text = category ?: "$carName voice guidance"
         banner.root.visibility = View.VISIBLE
         try {
             windowManager?.updateViewLayout(banner.root, bannerLayoutParams)
         } catch (e: Exception) {}
 
         mainHandler.removeCallbacks(autoHideBannerRunnable)
-        // 15초 후 자동 닫힘 (음성 자막 정독 시간 보장)
+        // Automatically hide the banner after the voice response
         mainHandler.postDelayed(autoHideBannerRunnable, 15000)
     }
 
@@ -403,18 +885,25 @@ class CoachOverlayService : Service() {
         val model = currentRentalModel ?: return
         val (title, answer) = buttonDb.matchVoiceQuery(model, query)
         showBanner(
-            title = "🗣️ [실시간 음성 자막 - $title]",
+            title = "[Voice answer - $title]",
             body = answer,
             subtext = "질문: \"$query\"",
-            category = "💡 ${model.modelNameKo} 핀포인트 안내"
+            category = "${model.modelNameKo} voice guidance"
         )
         voiceEngine.speak(answer)
     }
 
     override fun onDestroy() {
+        isServiceDestroying = true
         super.onDestroy()
         mainHandler.removeCallbacksAndMessages(null)
-        voiceEngine.destroy()
+        Log.i(TAG, "Service stopping; releasing TTS/audio focus resources")
+        wakeWordController?.release()
+        wakeWordController = null
+        cancelListeningStatusAdvance()
+        voiceStatusOverlay?.destroy()
+        voiceStatusOverlay = null
+        voiceEngine.detachForServiceStop()
         vehicleSdkManager.stop()
 
         bubbleBinding?.root?.let {

@@ -46,7 +46,9 @@ class StartupCarSelectActivity : AppCompatActivity() {
         // 맨 처음 차종 선택 화면에서는 플로팅 위젯이 뜨지 않도록 기존 코칭 서비스 확실히 정지
         stopService(Intent(this, CoachOverlayService::class.java))
 
-        userPreferences = (application as RentalCoachApplication).userPreferences
+        val app = application as RentalCoachApplication
+        if (savedInstanceState == null) app.beginRendyTtsSession()
+        userPreferences = app.userPreferences
 
         // 시뮬레이터 및 시연 환경: 앱이 켜질 때마다 항상 '시동 직후 차종 선택' 화면이 나타나도록 보장
         binding = ActivityStartupCarSelectBinding.inflate(layoutInflater)
@@ -144,7 +146,7 @@ class StartupCarSelectActivity : AppCompatActivity() {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
             }
             startActivity(navIntent)
-            Log.i(TAG, "실제 현대 순정 내비게이션(Navi42) 호출 성공")
+            Log.i(TAG, "Navi42 startActivity 요청이 반환됨; 화면 표시 완료는 이 코드에서 확인할 수 없습니다.")
         } catch (e: Exception) {
             Log.w(TAG, "순정 내비 호출 실패, 시스템 맵 인텐트로 폴백 시도", e)
             try {
@@ -154,6 +156,8 @@ class StartupCarSelectActivity : AppCompatActivity() {
                 startActivity(fallbackIntent)
             } catch (fallbackEx: Exception) {
                 // 앱 내부 내비 화면으로 폴백
+                // The Service already owns a TTS engine; stop it before the Activity fallback creates its own.
+                stopService(Intent(this, CoachOverlayService::class.java))
                 val internalNav = Intent(this, MainAssistantActivity::class.java)
                 startActivity(internalNav)
             }
