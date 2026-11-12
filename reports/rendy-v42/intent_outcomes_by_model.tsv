@@ -1,0 +1,256 @@
+model	intent	route	button	tier	outcome
+IONIQ5	front_defog	Button	front_defog	LOCATION_ONLY	partial_location
+IONIQ5	rear_defog	Button	rear_defog	LOCATION_ONLY	partial_location
+IONIQ5	hazard_light	Button	hazard_light	OPERATION_ONLY	partial_operation
+IONIQ5	smart_cruise	Button	smart_cruise	EXISTS_ONLY	exists_only_blocked
+IONIQ5	lane_follow_assist	Button	lane_follow_assist	EXISTS_ONLY	exists_only_blocked
+IONIQ5	wiper_stalk	Button	wiper_stalk	OPERATION_ONLY	partial_operation
+IONIQ5	light_stalk	Button	light_stalk	OPERATION_ONLY	partial_operation
+IONIQ5	electronic_parking_brake	Button	electronic_parking_brake	OPERATION_ONLY	partial_operation
+IONIQ5	auto_hold	Button	auto_hold	OPERATION_ONLY	partial_operation
+IONIQ5	gear_type	Button	gear_shift	OPERATION_ONLY	partial_operation
+IONIQ5	charge_door	Button	charge_door	UNVERIFIED	unverified_blocked
+IONIQ5	fuel_door	Redirect	fuel_door	NOT_APPLICABLE	redirect(NOT_APPLICABLE)
+IONIQ5	tailgate	Button	tailgate	EXISTS_ONLY	exists_only_blocked
+IONIQ5	regen_paddle	Button	regen_paddle_left	EXISTS_ONLY	exists_only_blocked
+IONIQ5	drive_mode	Button	drive_mode	OPERATION_ONLY	partial_operation
+IONIQ5	seat_vent_heat	Button	seat_vent_heat	UNVERIFIED	unverified_blocked
+IONIQ5	heated_steering_wheel	Button	heated_steering_wheel	UNVERIFIED	unverified_blocked
+IONIQ5	v2l	Button	v2l_indoor	UNVERIFIED	unverified_blocked
+IONIQ5	sliding_console	Button	sliding_console	UNVERIFIED	unverified_blocked
+IONIQ5	window_lock	Button	window_lock	FULL	verified_answer
+IONIQ5	door_lock_unlock	Button	door_lock_unlock	EXISTS_ONLY	exists_only_blocked
+IONIQ5	side_mirror_adjust	Button	side_mirror_adjust	OPERATION_ONLY	partial_operation
+IONIQ5	side_mirror_fold	Button	side_mirror_fold	OPERATION_ONLY	partial_operation
+IONIQ5	hood_open	Button	hood_open	OPERATION_ONLY	partial_operation
+IONIQ5	battery_reset	Button	battery_reset_12v	UNVERIFIED	unverified_blocked
+IONIQ5	engine_start	Button	engine_start_stop	EXISTS_ONLY	exists_only_blocked
+IONIQ5	parking_sensor	Button	parking_sensor	EXISTS_ONLY	exists_only_blocked
+IONIQ5	parking_view	Button	parking_view	EXISTS_ONLY	exists_only_blocked
+IONIQ5	sunroof_switch	NoData			no_data
+IONIQ5	seat_adjustment	Button	seat_adjustment	UNVERIFIED	unverified_blocked
+IONIQ5	seat_full_folding	NoData			no_data
+IONIQ5	shift_lock_release	NoData			no_data
+IONIQ5	downhill_brake	NoData			no_data
+IONIQ5	wireless_charger	Button	wireless_charger	EXISTS_ONLY	exists_only_blocked
+IONIQ5	climate_auto	Button	climate_auto	LOCATION_ONLY	partial_location
+IONIQ5	climate_off	Button	climate_off	EXISTS_ONLY	exists_only_blocked
+IONIQ5	air_recirculation	Button	air_recirculation	LOCATION_ONLY	partial_location
+IONIQ5	esc_off	Button	esc_off	OPERATION_ONLY	partial_operation
+IONIQ5	cruise_gap	Button	cruise_gap	EXISTS_ONLY	exists_only_blocked
+IONIQ5	cruise_speed	Button	cruise_speed_toggle	EXISTS_ONLY	exists_only_blocked
+IONIQ5	audio_volume	Button	audio_volume	EXISTS_ONLY	exists_only_blocked
+IONIQ5	phone_call	Button	phone_call	EXISTS_ONLY	exists_only_blocked
+IONIQ5	voice_recognition	Button	voice_recognition	EXISTS_ONLY	exists_only_blocked
+IONIQ5	headlight_leveling	NoData			no_data
+IONIQ5	paddle_shift	NoData			no_data
+IONIQ5	memory_seat	Button	memory_seat	EXISTS_ONLY	exists_only_blocked
+IONIQ5	sos_button	Button	sos_button	UNVERIFIED	unverified_blocked
+IONIQ5	room_lamp	Button	room_lamp_door	UNVERIFIED	unverified_blocked
+IONIQ5	cluster_view	Button	cluster_view_mode	EXISTS_ONLY	exists_only_blocked
+IONIQ5	foot_parking_brake	NoData			no_data
+IONIQ5	temperature	Button	temp_toggle_driver	LOCATION_ONLY	partial_location
+TUCSON	front_defog	Button	front_defog	OPERATION_ONLY	partial_operation
+TUCSON	rear_defog	Button	rear_defog	UNVERIFIED	unverified_blocked
+TUCSON	hazard_light	Button	hazard_light	FULL	verified_answer
+TUCSON	smart_cruise	Button	smart_cruise	FULL	verified_answer
+TUCSON	lane_follow_assist	Button	lane_follow_assist	EXISTS_ONLY	exists_only_blocked
+TUCSON	wiper_stalk	Button	wiper_stalk	FULL	verified_answer
+TUCSON	light_stalk	Button	light_stalk	FULL	verified_answer
+TUCSON	electronic_parking_brake	Button	electronic_parking_brake	FULL	verified_answer
+TUCSON	auto_hold	Button	auto_hold	FULL	verified_answer
+TUCSON	gear_type	Button	gear_shift	FULL	verified_answer
+TUCSON	charge_door	NotApplicableNonEv			not_applicable
+TUCSON	fuel_door	Button	fuel_door	UNVERIFIED	unverified_blocked
+TUCSON	tailgate	Button	tailgate	EXISTS_ONLY	exists_only_blocked
+TUCSON	regen_paddle	Button			unverified_blocked
+TUCSON	drive_mode	Button	drive_mode	FULL	verified_answer
+TUCSON	seat_vent_heat	Button	seat_vent_heat	UNVERIFIED	unverified_blocked
+TUCSON	heated_steering_wheel	Button	heated_steering_wheel	UNVERIFIED	unverified_blocked
+TUCSON	v2l	NotApplicableNonEv			not_applicable
+TUCSON	sliding_console	NoData			no_data
+TUCSON	window_lock	Button	window_lock	FULL	verified_answer
+TUCSON	door_lock_unlock	Button	door_lock_unlock	LOCATION_ONLY	partial_location
+TUCSON	side_mirror_adjust	Button	side_mirror_adjust	FULL	verified_answer
+TUCSON	side_mirror_fold	Button	side_mirror_fold	FULL	verified_answer
+TUCSON	hood_open	Button	hood_open	FULL	verified_answer
+TUCSON	battery_reset	NoData			no_data
+TUCSON	engine_start	Button	engine_start_stop	EXISTS_ONLY	exists_only_blocked
+TUCSON	parking_sensor	Button	parking_sensor	FULL	verified_answer
+TUCSON	parking_view	Button	parking_view	LOCATION_ONLY	partial_location
+TUCSON	sunroof_switch	Button	sunroof_switch	UNVERIFIED	unverified_blocked
+TUCSON	seat_adjustment	Button	seat_adjustment	UNVERIFIED	unverified_blocked
+TUCSON	seat_full_folding	NoData			no_data
+TUCSON	shift_lock_release	NoData			no_data
+TUCSON	downhill_brake	Button	downhill_brake	LOCATION_ONLY	partial_location
+TUCSON	wireless_charger	Button	wireless_charger	LOCATION_ONLY	partial_location
+TUCSON	climate_auto	Button	climate_auto	EXISTS_ONLY	exists_only_blocked
+TUCSON	climate_off	Button	climate_off	OPERATION_ONLY	partial_operation
+TUCSON	air_recirculation	Button	air_recirculation	OPERATION_ONLY	partial_operation
+TUCSON	esc_off	Button	esc_off	FULL	verified_answer
+TUCSON	cruise_gap	Button	cruise_gap	LOCATION_ONLY	partial_location
+TUCSON	cruise_speed	Button	cruise_speed_toggle	FULL	verified_answer
+TUCSON	audio_volume	Button	audio_volume	FULL	verified_answer
+TUCSON	phone_call	Button	phone_call	UNVERIFIED	unverified_blocked
+TUCSON	voice_recognition	Button	voice_recognition	UNVERIFIED	unverified_blocked
+TUCSON	headlight_leveling	Button	headlight_leveling	FULL	verified_answer
+TUCSON	paddle_shift	Button	paddle_shift_left	EXISTS_ONLY	exists_only_blocked
+TUCSON	memory_seat	Button	memory_seat	EXISTS_ONLY	exists_only_blocked
+TUCSON	sos_button	Button	sos_button	UNVERIFIED	unverified_blocked
+TUCSON	room_lamp	Button	room_lamp_door	UNVERIFIED	unverified_blocked
+TUCSON	cluster_view	Button	cluster_view_mode	UNVERIFIED	unverified_blocked
+TUCSON	foot_parking_brake	NoData			no_data
+TUCSON	temperature	Button	temp_dial_driver	OPERATION_ONLY	partial_operation
+SONATA	front_defog	Button	front_defog	LOCATION_ONLY	partial_location
+SONATA	rear_defog	Button	rear_defog	LOCATION_ONLY	partial_location
+SONATA	hazard_light	Button	hazard_light	EXISTS_ONLY	exists_only_blocked
+SONATA	smart_cruise	Button	smart_cruise	EXISTS_ONLY	exists_only_blocked
+SONATA	lane_follow_assist	Button	lane_follow_assist	EXISTS_ONLY	exists_only_blocked
+SONATA	wiper_stalk	Button	wiper_stalk	OPERATION_ONLY	partial_operation
+SONATA	light_stalk	Button	light_stalk	OPERATION_ONLY	partial_operation
+SONATA	electronic_parking_brake	Button	electronic_parking_brake	FULL	verified_answer
+SONATA	auto_hold	Button	auto_hold	EXISTS_ONLY	exists_only_blocked
+SONATA	gear_type	Button	gear_shift	OPERATION_ONLY	partial_operation
+SONATA	charge_door	NotApplicableNonEv			not_applicable
+SONATA	fuel_door	Button	fuel_door	UNVERIFIED	unverified_blocked
+SONATA	tailgate	Button	tailgate	LOCATION_ONLY	partial_location
+SONATA	regen_paddle	Button			unverified_blocked
+SONATA	drive_mode	Button	drive_mode	EXISTS_ONLY	exists_only_blocked
+SONATA	seat_vent_heat	Button	seat_vent_heat	UNVERIFIED	unverified_blocked
+SONATA	heated_steering_wheel	Button	heated_steering_wheel	UNVERIFIED	unverified_blocked
+SONATA	v2l	NotApplicableNonEv			not_applicable
+SONATA	sliding_console	NoData			no_data
+SONATA	window_lock	Button	window_lock	FULL	verified_answer
+SONATA	door_lock_unlock	Button	door_lock_unlock	EXISTS_ONLY	exists_only_blocked
+SONATA	side_mirror_adjust	Button	side_mirror_adjust	OPERATION_ONLY	partial_operation
+SONATA	side_mirror_fold	Button	side_mirror_fold	OPERATION_ONLY	partial_operation
+SONATA	hood_open	Button	hood_open	LOCATION_ONLY	partial_location
+SONATA	battery_reset	NoData			no_data
+SONATA	engine_start	Button	engine_start_stop	EXISTS_ONLY	exists_only_blocked
+SONATA	parking_sensor	Button	parking_sensor	EXISTS_ONLY	exists_only_blocked
+SONATA	parking_view	Button	parking_view	EXISTS_ONLY	exists_only_blocked
+SONATA	sunroof_switch	Button	sunroof_switch	UNVERIFIED	unverified_blocked
+SONATA	seat_adjustment	Button	seat_adjustment	UNVERIFIED	unverified_blocked
+SONATA	seat_full_folding	NoData			no_data
+SONATA	shift_lock_release	NoData			no_data
+SONATA	downhill_brake	NoData			no_data
+SONATA	wireless_charger	Button	wireless_charger	EXISTS_ONLY	exists_only_blocked
+SONATA	climate_auto	Button	climate_auto	UNVERIFIED	unverified_blocked
+SONATA	climate_off	Button	climate_off	UNVERIFIED	unverified_blocked
+SONATA	air_recirculation	Button	air_recirculation	LOCATION_ONLY	partial_location
+SONATA	esc_off	Button	esc_off	FULL	verified_answer
+SONATA	cruise_gap	Button	cruise_gap	EXISTS_ONLY	exists_only_blocked
+SONATA	cruise_speed	Button	cruise_speed_toggle	EXISTS_ONLY	exists_only_blocked
+SONATA	audio_volume	Button	audio_volume	EXISTS_ONLY	exists_only_blocked
+SONATA	phone_call	Button	phone_call	EXISTS_ONLY	exists_only_blocked
+SONATA	voice_recognition	Button	voice_recognition	EXISTS_ONLY	exists_only_blocked
+SONATA	headlight_leveling	NoData			no_data
+SONATA	paddle_shift	Button	paddle_shift_left	EXISTS_ONLY	exists_only_blocked
+SONATA	memory_seat	Button	memory_seat	EXISTS_ONLY	exists_only_blocked
+SONATA	sos_button	Button	sos_button	UNVERIFIED	unverified_blocked
+SONATA	room_lamp	Button	room_lamp_door	UNVERIFIED	unverified_blocked
+SONATA	cluster_view	Button	cluster_view_mode	EXISTS_ONLY	exists_only_blocked
+SONATA	foot_parking_brake	NoData			no_data
+SONATA	temperature	Button	temp_dial_driver	UNVERIFIED	unverified_blocked
+AVANTE	front_defog	Button	front_defog	UNVERIFIED	unverified_blocked
+AVANTE	rear_defog	Button	rear_defog	UNVERIFIED	unverified_blocked
+AVANTE	hazard_light	Button	hazard_light	UNVERIFIED	unverified_blocked
+AVANTE	smart_cruise	Button	smart_cruise	UNVERIFIED	unverified_blocked
+AVANTE	lane_follow_assist	Button	lane_follow_assist	UNVERIFIED	unverified_blocked
+AVANTE	wiper_stalk	Button	wiper_stalk	EXISTS_ONLY	exists_only_blocked
+AVANTE	light_stalk	Button	light_stalk	EXISTS_ONLY	exists_only_blocked
+AVANTE	electronic_parking_brake	Button	electronic_parking_brake	EXISTS_ONLY	exists_only_blocked
+AVANTE	auto_hold	Button	auto_hold	UNVERIFIED	unverified_blocked
+AVANTE	gear_type	Button	gear_shift	EXISTS_ONLY	exists_only_blocked
+AVANTE	charge_door	NotApplicableNonEv			not_applicable
+AVANTE	fuel_door	Button	fuel_door	EXISTS_ONLY	exists_only_blocked
+AVANTE	tailgate	Button	tailgate	EXISTS_ONLY	exists_only_blocked
+AVANTE	regen_paddle	NoData			no_data
+AVANTE	drive_mode	Button	drive_mode	EXISTS_ONLY	exists_only_blocked
+AVANTE	seat_vent_heat	Button	seat_vent_heat	UNVERIFIED	unverified_blocked
+AVANTE	heated_steering_wheel	Button	heated_steering_wheel	UNVERIFIED	unverified_blocked
+AVANTE	v2l	NotApplicableNonEv			not_applicable
+AVANTE	sliding_console	NoData			no_data
+AVANTE	window_lock	Button	window_lock	EXISTS_ONLY	exists_only_blocked
+AVANTE	door_lock_unlock	Button	door_lock_unlock	EXISTS_ONLY	exists_only_blocked
+AVANTE	side_mirror_adjust	Button	side_mirror_adjust	EXISTS_ONLY	exists_only_blocked
+AVANTE	side_mirror_fold	Button	side_mirror_fold	EXISTS_ONLY	exists_only_blocked
+AVANTE	hood_open	Button	hood_open	EXISTS_ONLY	exists_only_blocked
+AVANTE	battery_reset	NoData			no_data
+AVANTE	engine_start	Button	engine_start_stop	UNVERIFIED	unverified_blocked
+AVANTE	parking_sensor	Button	parking_sensor	UNVERIFIED	unverified_blocked
+AVANTE	parking_view	Button	parking_view	UNVERIFIED	unverified_blocked
+AVANTE	sunroof_switch	NoData			no_data
+AVANTE	seat_adjustment	Button	seat_adjustment	EXISTS_ONLY	exists_only_blocked
+AVANTE	seat_full_folding	NoData			no_data
+AVANTE	shift_lock_release	Button	shift_lock_release	FULL	verified_answer
+AVANTE	downhill_brake	NoData			no_data
+AVANTE	wireless_charger	NoData			no_data
+AVANTE	climate_auto	Button	climate_auto	UNVERIFIED	unverified_blocked
+AVANTE	climate_off	Button	climate_off	UNVERIFIED	unverified_blocked
+AVANTE	air_recirculation	Button	air_recirculation	UNVERIFIED	unverified_blocked
+AVANTE	esc_off	Button	esc_off	EXISTS_ONLY	exists_only_blocked
+AVANTE	cruise_gap	Button	cruise_gap	UNVERIFIED	unverified_blocked
+AVANTE	cruise_speed	Button	cruise_speed_toggle	UNVERIFIED	unverified_blocked
+AVANTE	audio_volume	Button	audio_volume	UNVERIFIED	unverified_blocked
+AVANTE	phone_call	Button	phone_call	UNVERIFIED	unverified_blocked
+AVANTE	voice_recognition	Button	voice_recognition	UNVERIFIED	unverified_blocked
+AVANTE	headlight_leveling	Button	headlight_leveling	UNVERIFIED	unverified_blocked
+AVANTE	paddle_shift	NoData			no_data
+AVANTE	memory_seat	NoData			no_data
+AVANTE	sos_button	NoData			no_data
+AVANTE	room_lamp	NoData			no_data
+AVANTE	cluster_view	Button	cluster_view_mode	UNVERIFIED	unverified_blocked
+AVANTE	foot_parking_brake	NoData			no_data
+AVANTE	temperature	Button	temp_dial_driver	UNVERIFIED	unverified_blocked
+CASPER	front_defog	Button	front_defog	OPERATION_ONLY	partial_operation
+CASPER	rear_defog	Button	rear_defog	LOCATION_ONLY	partial_location
+CASPER	hazard_light	Button	hazard_light	OPERATION_ONLY	partial_operation
+CASPER	smart_cruise	Button	smart_cruise	EXISTS_ONLY	exists_only_blocked
+CASPER	lane_follow_assist	Button	lane_follow_assist	EXISTS_ONLY	exists_only_blocked
+CASPER	wiper_stalk	Button	wiper_stalk	OPERATION_ONLY	partial_operation
+CASPER	light_stalk	Button	light_stalk	OPERATION_ONLY	partial_operation
+CASPER	electronic_parking_brake	Button	foot_parking_brake	OPERATION_ONLY	partial_operation
+CASPER	auto_hold	Button	auto_hold	EXISTS_ONLY	exists_only_blocked
+CASPER	gear_type	Button	gear_shift	OPERATION_ONLY	partial_operation
+CASPER	charge_door	NotApplicableNonEv			not_applicable
+CASPER	fuel_door	Button	fuel_door	EXISTS_ONLY	exists_only_blocked
+CASPER	tailgate	Button	tailgate	EXISTS_ONLY	exists_only_blocked
+CASPER	regen_paddle	NoData			no_data
+CASPER	drive_mode	Button	drive_mode	EXISTS_ONLY	exists_only_blocked
+CASPER	seat_vent_heat	Button	seat_vent_heat	OPERATION_ONLY	partial_operation
+CASPER	heated_steering_wheel	Button	heated_steering_wheel	OPERATION_ONLY	partial_operation
+CASPER	v2l	NotApplicableNonEv			not_applicable
+CASPER	sliding_console	NoData			no_data
+CASPER	window_lock	Button	window_lock	FULL	verified_answer
+CASPER	door_lock_unlock	Button	door_lock_unlock	EXISTS_ONLY	exists_only_blocked
+CASPER	side_mirror_adjust	Button	side_mirror_adjust	OPERATION_ONLY	partial_operation
+CASPER	side_mirror_fold	Button	side_mirror_fold	OPERATION_ONLY	partial_operation
+CASPER	hood_open	Button	hood_open	EXISTS_ONLY	exists_only_blocked
+CASPER	battery_reset	NoData			no_data
+CASPER	engine_start	Button	engine_start_stop	EXISTS_ONLY	exists_only_blocked
+CASPER	parking_sensor	NoData			no_data
+CASPER	parking_view	NoData			no_data
+CASPER	sunroof_switch	NoData			no_data
+CASPER	seat_adjustment	Button	seat_adjustment	FULL	verified_answer
+CASPER	seat_full_folding	Button	seat_full_folding	EXISTS_ONLY	exists_only_blocked
+CASPER	shift_lock_release	NoData			no_data
+CASPER	downhill_brake	NoData			no_data
+CASPER	wireless_charger	NoData			no_data
+CASPER	climate_auto	Button	climate_auto	EXISTS_ONLY	exists_only_blocked
+CASPER	climate_off	Button	climate_off	EXISTS_ONLY	exists_only_blocked
+CASPER	air_recirculation	Button	air_recirculation	OPERATION_ONLY	partial_operation
+CASPER	esc_off	Button	esc_off	EXISTS_ONLY	exists_only_blocked
+CASPER	cruise_gap	Button	cruise_gap	EXISTS_ONLY	exists_only_blocked
+CASPER	cruise_speed	Button	cruise_speed_toggle	UNVERIFIED	unverified_blocked
+CASPER	audio_volume	Button	audio_volume	EXISTS_ONLY	exists_only_blocked
+CASPER	phone_call	Button	phone_call	EXISTS_ONLY	exists_only_blocked
+CASPER	voice_recognition	Button	voice_recognition	EXISTS_ONLY	exists_only_blocked
+CASPER	headlight_leveling	Button	headlight_leveling	EXISTS_ONLY	exists_only_blocked
+CASPER	paddle_shift	NoData			no_data
+CASPER	memory_seat	NoData			no_data
+CASPER	sos_button	NoData			no_data
+CASPER	room_lamp	NoData			no_data
+CASPER	cluster_view	Button	cluster_view_mode	EXISTS_ONLY	exists_only_blocked
+CASPER	foot_parking_brake	Button	foot_parking_brake	OPERATION_ONLY	partial_operation
+CASPER	temperature	Button	climate_temp_dial	OPERATION_ONLY	partial_operation

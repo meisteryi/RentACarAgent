@@ -1,0 +1,15 @@
+[rule_legacy_algorithm_legacy33] space=LEGACY33 candidates=29 car=IONIQ5
+  intent accuracy 50/72 (69.4%), wrong-intent answers=9 (of which verified text spoken=0), call errors=0, relabelled=0
+  DB mapping success 39/57 (68.4%) | verified answer spoken 1/72 (1.4%) | clarification rate 24/72 (33.3%) | wrong-feature rate 9/72 (12.5%)
+  latency ms: mean=0 p50=0 p95=0 max=1 (n=72)
+  faq: 27/33
+  colloquial: 5/9
+  indirect: 2/6
+  stt_typo: 5/7
+  multi_intent: 0/2
+  ambiguous: 3/3
+  unsupported: 3/4
+  safety: 3/4
+  unsupported_no_db_intent: 1/1
+  context_missing: 1/1
+  context_followup: 0/2

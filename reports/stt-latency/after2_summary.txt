@@ -1,0 +1,21 @@
+run	TTS end -> STT request	STT request -> onReady	STT request -> capture (first RMS)	TTS end -> capture	STT request -> first partial	TTS end -> final	TTS end -> listening cue end
+run_1.txt	8	1255	1491	1499	None	None	1722
+run_2.txt	36	1116	1363	1399	None	None	1602
+run_3.txt	18	980	1190	1208	None	None	1401
+run_4.txt	14	941	1175	1189	None	None	1359
+run_5.txt	9	243	577	586	None	None	849
+run_6.txt	6	279	514	520	None	None	720
+run_7.txt	27	223	467	494	None	None	682
+run_8.txt	3	236	482	485	None	None	654
+run_9.txt	6	313	581	587	None	None	770
+run_10.txt	14	460	784	798	None	None	984
+run_11.txt	35	1266	1498	1533	None	None	1713
+run_12.txt	7	1127	1369	1376	None	None	None
+
+TTS end -> STT request: n=12 mean=15 median=12 min=3 max=36
+STT request -> onReady: n=12 mean=703 median=700 min=223 max=1266
+STT request -> capture (first RMS): n=12 mean=958 median=980 min=467 max=1498
+TTS end -> capture: n=12 mean=973 median=994 min=485 max=1533
+STT request -> first partial: n=0
+TTS end -> final: n=0
+TTS end -> listening cue end: n=11 mean=1132 median=984 min=654 max=1722

@@ -1,0 +1,1 @@
+33c302d86dc4a6f15266768affec68df  files/rendy-wakeword/vosk-model-small-ko-0.22-liteg/graph/words.txt

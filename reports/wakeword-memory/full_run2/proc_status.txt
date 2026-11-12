@@ -1,0 +1,4 @@
+VmRSS:	  633852 kB
+RssAnon:	  535308 kB
+RssFile:	   97484 kB
+VmSwap:	   12480 kB

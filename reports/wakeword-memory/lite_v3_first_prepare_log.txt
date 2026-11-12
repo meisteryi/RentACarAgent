@@ -1,0 +1,3 @@
+11-11 02:05:12.794 27863 28011 I RendyWakeWord: Lite wake-word graph prepared: words=503352, dir=/data/user/10/com.hyundai.rentalhelper/files/rendy-wakeword/vosk-model-small-ko-0.22-liteg
+11-11 02:05:15.792 27863 28011 I RendyWakeWord: Vosk model timing: variant=lite, fileValidationMs=0, archiveExtractionMs=0, litePrepareMs=4259, nativeModelInitMs=2925, totalMs=7280, filesAlreadyPrepared=true
+11-11 02:05:15.793 27863 28061 I RendyWakeWord: Wake word model ready: processCached=true, waitMs=6928

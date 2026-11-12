@@ -1,0 +1,15 @@
+{
+  "name": "rendy-intent-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "RENDY Gemini intent proxy: classifies a driver utterance into one allow-listed FAQ intent ID. No runtime dependencies.",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=20.12.0"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "check-models": "node server.mjs --check-models",
+    "test": "node --test"
+  }
+}

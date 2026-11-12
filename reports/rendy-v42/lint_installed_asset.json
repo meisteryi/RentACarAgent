@@ -1,0 +1,14 @@
+{
+ "db": "hyundai_buttons_db.json",
+ "buttons": 237,
+ "models": 5,
+ "faq_intents": 33,
+ "summary": {
+  "keyword_in_multiple_intents": 1
+ },
+ "issues": {
+  "keyword_in_multiple_intents": [
+   "열선: ['rear_defog', 'seat_vent_heat']"
+  ]
+ }
+}

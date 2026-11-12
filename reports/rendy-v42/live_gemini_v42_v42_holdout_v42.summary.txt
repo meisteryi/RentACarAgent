@@ -1,0 +1,11 @@
+[live_gemini_v42_v42_holdout_v42] space=V42 candidates=51 car=IONIQ5
+  intent accuracy 30/32 (93.8%), wrong-intent answers=2 (of which verified text spoken=0), call errors=0, relabelled=0
+  DB mapping success 21/24 (87.5%) | verified answer spoken 0/32 (0.0%) | clarification rate 6/32 (18.8%) | wrong-feature rate 2/32 (6.3%)
+  latency ms: mean=972 p50=935 p95=1146 max=1256 (n=32)
+  indirect: 8/8
+  faq: 9/9
+  colloquial: 7/7
+  ambiguous: 1/3
+  multi_intent: 1/1
+  safety: 1/1
+  unsupported: 3/3

@@ -108,3 +108,54 @@ adb shell am broadcast -a com.hyundai.rentalhelper.SET_CAR_SPEED --ef speed 0.0
 adb shell am broadcast -a com.hyundai.rentalhelper.SET_CAR_GEAR --es gear PARK
 ```
 
+---
+
+## 5. 렌디(음성 비서) 개발 환경 재현
+
+새로 clone한 PC에서 앱과 Gemini 의도 분석 프록시를 실행하는 방법입니다.
+
+### 1) 빌드 도구
+
+- JDK 17 이상 (Android Studio 내장 JBR 21에서 확인), Android SDK 34
+- Gradle 8.7과 AGP 8.3.2는 wrapper가 자동으로 받습니다.
+- Pleos TTS/STT SDK는 `settings.gradle.kts`의 공개 Maven 저장소(`nexus-playground.pleos.ai`)에서 받습니다.
+- SDK 경로는 Android Studio가 `local.properties`에 자동으로 기록합니다. 명령줄에서는 `ANDROID_HOME`을 지정해도 됩니다.
+
+```bash
+./gradlew :app:testDebugUnitTest :app:assembleDebug
+```
+
+### 2) "렌디" 호출어 모델 (필수, git 제외)
+
+Vosk 한국어 모델 zip(82.8 MiB)은 용량 때문에 저장소에 없습니다. 내려받아 아래 경로에 그대로 두세요. 압축은 풀지 않습니다.
+
+```bash
+curl -L -o app/src/main/assets/rendy/vosk-model-small-ko-0.22.zip \
+  https://alphacephei.com/vosk/models/vosk-model-small-ko-0.22.zip
+# SHA-256: EEA36124087FED26C59996A4761519458E3BD185E8EA9D9865AD8760C4A1D989
+```
+
+zip이 없어도 빌드와 단위 테스트는 통과하지만, 앱에서 "렌디" 호출어가 동작하지 않습니다. 모델 출처와 라이선스는 `app/src/main/assets/rendy/README.txt`에 있습니다.
+
+### 3) Gemini 의도 분석 (선택)
+
+기본값(`rendy.llm.enabled=false`)은 네트워크 없이 키워드 규칙으로 동작합니다. Gemini 분류를 쓰려면 다음 두 가지를 설정합니다.
+
+- 각자의 API 키로 `server/rendy-intent-proxy`를 실행합니다. 설치, 실행, 환경변수, API는 [server/rendy-intent-proxy/README.md](server/rendy-intent-proxy/README.md)를 참고하세요.
+- `local.properties`에 아래 값을 추가합니다. API 키는 앱에 넣지 않습니다.
+
+```properties
+rendy.llm.enabled=true
+rendy.llm.proxyEndpoint=http://10.0.2.2:8787/v1/rendy/classify
+rendy.llm.proxyToken=
+```
+
+### 4) 문서
+
+| 문서 | 내용 |
+|---|---|
+| `RENDY_GEMINI_INTENT_PROXY.md` | 앱–프록시 계약, 답변 정책, 설정 플래그 |
+| `RENDY_final_integration_guide.md`, `RENDY_final_changelog.md`, `RENDY_final_verification_report.md` | 버튼 DB v4.2 연동 가이드, 변경 내역, 공식 매뉴얼 검증 결과 |
+| `rendy_db_lint.py` | DB 정합성 검사. `python rendy_db_lint.py app/src/main/assets/hyundai_buttons_db.json` |
+| `reports/` | 측정 보고서 (DB v4.2, STT 지연, 호출어 메모리, STT 병렬화, 호출어 오인식) |
+

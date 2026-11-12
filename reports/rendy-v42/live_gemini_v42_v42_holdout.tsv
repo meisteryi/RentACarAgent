@@ -1,0 +1,25 @@
+id	category	query	previous	expected	actual	match	route	tier	raw	confidence	ms	retries	note
+h01	indirect	유리창에 김 서려서 앞이 하나도 안 보여요		front_defog	front_defog	true	Button	EXISTS_ONLY	front_defog	0.99	1164	0	
+h02	indirect	뒤에 유리가 하얗게 얼었어		rear_defog	rear_defog	true	Button	EXISTS_ONLY	rear_defog	0.95	1152	0	
+h03	indirect	앞차가 사고 났는데 뒤차한테 알려야 돼		hazard_light	hazard_light	true	Button	EXISTS_ONLY	hazard_light	0.85	951	0	
+h04	colloquial	고속도로에서 시속 백으로 계속 가게 해줘		smart_cruise	smart_cruise	true	Button	EXISTS_ONLY	smart_cruise	0.95	879	0	
+h05	indirect	비가 엄청 와서 앞이 안 보여		wiper_stalk	wiper_stalk	true	Button	EXISTS_ONLY	wiper_stalk	0.95	686	0	
+h06	colloquial	터널 들어가는데 불 어떻게 켜		light_stalk	light_stalk	true	Button	EXISTS_ONLY	light_stalk	0.95	944	0	
+h07	colloquial	주차하고 내릴 때 브레이크 채우는 거 어디야		electronic_parking_brake	electronic_parking_brake	true	Button	EXISTS_ONLY	electronic_parking_brake	0.95	965	0	
+h08	faq	후진 기어 넣는 법		gear_type	gear_type	true	Button	EXISTS_ONLY	gear_type	0.95	1104	0	
+h09	colloquial	충전기 꽂는 데가 어디 있어		charge_door	charge_door	true	Button	UNVERIFIED	charge_door	0.95	859	0	
+h10	colloquial	짐 실어야 하는데 뒤 어떻게 열어		tailgate	tailgate	true	Button	EXISTS_ONLY	tailgate	0.98	1017	0	
+h11	indirect	엉덩이가 너무 차가워		seat_vent_heat	seat_vent_heat	true	Button	UNVERIFIED	seat_vent_heat	0.95	992	0	
+h12	indirect	운전대가 얼음장 같아		heated_steering_wheel	heated_steering_wheel	true	Button	UNVERIFIED	heated_steering_wheel	0.98	1044	0	
+h13	indirect	캠핑장에서 전기밥솥 쓰고 싶어		v2l	v2l	true	Button	UNVERIFIED	v2l	0.95	1002	0	
+h14	colloquial	좁은 골목이라 거울 접어야겠어		side_mirror_fold	side_mirror_fold	true	Button	EXISTS_ONLY	side_mirror_fold	0.98	1262	0	
+h15	faq	차 키 없이 시동 어떻게 걸어요		engine_start	engine_start	true	Button	EXISTS_ONLY	engine_start	0.85	850	0	
+h16	colloquial	주차할 때 뒤에 카메라 보고 싶어		parking_view	parking_view	true	Button	EXISTS_ONLY	parking_view	0.99	923	0	
+h17	indirect	의자가 너무 뒤로 가 있어서 페달이 안 닿아		seat_adjustment	seat_adjustment	true	Button	UNVERIFIED	seat_adjustment	0.95	1020	0	
+h18	faq	에코 모드로 바꾸고 싶어		drive_mode	drive_mode	true	Button	EXISTS_ONLY	drive_mode	1.0	906	0	
+h19	stt_typo	비상 깜박이 어디써		hazard_light	hazard_light	true	Button	EXISTS_ONLY	hazard_light	0.98	775	0	
+h20	multi_intent	와이퍼랑 라이트 둘 다 알려줘		CLARIFY	CLARIFY	true			clarify:model_requires_clarification	1.0	704	0	
+h21	unsupported	블루투스로 핸드폰 연결하는 법		CLARIFY	CLARIFY	true			clarify:model_requires_clarification	1.0	1078	0	
+h22	safety	졸음 오는데 어떻게 해야 돼		CLARIFY	CLARIFY	true			clarify:model_requires_clarification	0.0	997	0	
+h23	ambiguous	저거 좀 켜줘		CLARIFY	CLARIFY	true			clarify:model_requires_clarification	0.0	1080	0	
+h24	unsupported	라디오 볼륨 줄여줘		audio_volume	audio_volume	true	Button	EXISTS_ONLY	audio_volume	0.95	938	0	label_space_changed

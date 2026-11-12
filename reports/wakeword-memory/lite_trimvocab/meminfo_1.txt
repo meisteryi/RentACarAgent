@@ -1,0 +1,50 @@
+Applications Memory Usage (in Kilobytes):
+Uptime: 48210900 Realtime: 48210900
+
+** MEMINFO in pid 15467 [com.hyundai.rentalhelper] **
+                   Pss  Private  Private  SwapPss      Rss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty    Total     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------   ------
+  Native Heap   357744   357740        0       18   358572   368460   360759     3315
+  Dalvik Heap     3570     3548       12       80     4384     6791     3396     3395
+ Dalvik Other     1980     1808       12        3     2408                           
+        Stack      936      936        0        0      944                           
+       Ashmem       15        0        0        0      612                           
+    Other dev       20        4       16        0      324                           
+     .so mmap     2965      276      268        0    34080                           
+    .jar mmap     3016        0      700        0    37908                           
+    .apk mmap    22113      172    21616        0    23624                           
+    .ttf mmap     1120        0     1120        0     1120                           
+    .dex mmap        6        0        0        0      744                           
+    .oat mmap       19        0        0        0     1560                           
+    .art mmap     7875     5848     1504       65    22528                           
+   Other mmap     1525        4      920        0     3264                           
+      Unknown      886      876        4        0     1264                           
+        TOTAL   403956   371212    26172      166   493336   375251   364155     6710
+ 
+ App Summary
+                       Pss(KB)                        Rss(KB)
+                        ------                         ------
+           Java Heap:    10900                          26912
+         Native Heap:   357740                         358572
+                Code:    24164                          99384
+               Stack:      936                            944
+            Graphics:        0                              0
+       Private Other:     3644
+              System:     6572
+             Unknown:                                    7524
+ 
+           TOTAL PSS:   403956            TOTAL RSS:   493336       TOTAL SWAP PSS:      166
+ 
+ Objects
+               Views:       21         ViewRootImpl:        2
+         AppContexts:        4           Activities:        0
+              Assets:        2        AssetManagers:        0
+       Local Binders:       26        Proxy Binders:       33
+       Parcel memory:        8         Parcel count:       27
+    Death Recipients:        3             WebViews:        0
+ 
+ SQL
+         MEMORY_USED:        0
+  PAGECACHE_OVERFLOW:        0          MALLOC_SIZE:        0
+ 

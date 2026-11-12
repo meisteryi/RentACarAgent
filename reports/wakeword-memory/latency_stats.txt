@@ -1,0 +1,19 @@
+off (no Vosk)  STT request -> onReady   n=12 mean= 1654 median= 1970 min=  617 max= 2285 <=1000ms: 3/12
+off (no Vosk)  STT request -> capture   n=12 mean= 1908 median= 2226 min=  881 max= 2561 <=1000ms: 1/12
+off (no Vosk)  TTS end -> capture       n=12 mean= 1943 median= 2256 min=  940 max= 2595 <=1000ms: 1/12
+full           STT request -> onReady   n=24 mean= 2067 median= 2217 min=  676 max= 4370 <=1000ms: 5/24
+full           STT request -> capture   n=24 mean= 2374 median= 2502 min=  990 max= 4752 <=1000ms: 1/24
+full           TTS end -> capture       n=24 mean= 2415 median= 2538 min= 1009 max= 4777 <=1000ms: 0/24
+lite           STT request -> onReady   n=24 mean= 1866 median= 1974 min=  498 max= 2947 <=1000ms: 4/24
+lite           STT request -> capture   n=24 mean= 2162 median= 2261 min=  833 max= 3277 <=1000ms: 2/24
+lite           TTS end -> capture       n=24 mean= 2197 median= 2292 min=  862 max= 3327 <=1000ms: 2/24
+lite+vocab     STT request -> onReady   n=10 mean= 2329 median= 2198 min=  925 max= 5541 <=1000ms: 2/10
+lite+vocab     STT request -> capture   n= 9 mean= 2288 median= 2233 min= 1192 max= 3695 <=1000ms: 0/9
+lite+vocab     TTS end -> capture       n= 9 mean= 2328 median= 2267 min= 1237 max= 3737 <=1000ms: 0/9
+
+TTS end -> capture  off (no Vosk) vs full: median diff=-282 ms, permutation p=0.06
+TTS end -> capture  off (no Vosk) vs lite: median diff=-36 ms, permutation p=0.76
+TTS end -> capture  off (no Vosk) vs lite+vocab: median diff=-11 ms, permutation p=1.00
+TTS end -> capture  full vs lite: median diff=+246 ms, permutation p=0.10
+TTS end -> capture  full vs lite+vocab: median diff=+272 ms, permutation p=0.29
+TTS end -> capture  lite vs lite+vocab: median diff=+25 ms, permutation p=0.87

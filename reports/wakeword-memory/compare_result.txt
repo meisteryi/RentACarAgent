@@ -1,0 +1,14 @@
+host full vs host lite differing files: 0
+device full vs device lite: 8 differing files ['neg/neg_18__snr20.wav', 'neg/neg_19__snrclean.wav', 'neg/neg_29__snrclean.wav', 'neg/neg_30__snr20.wav', 'neg/neg_30__snrclean.wav', 'neg/neg_32__snr20.wav', 'neg/neg_41__snr20.wav', 'pos/pos_25_x-fast_x-high__snr10.wav']
+device full vs host full: 6 differing files ['neg/neg_19__snrclean.wav', 'neg/neg_30__snr20.wav', 'neg/neg_30__snrclean.wav', 'neg/neg_32__snr20.wav', 'neg/neg_41__snr20.wav', 'pos/pos_17_fast_low__snr20.wav']
+device lite vs host lite: 4 differing files ['neg/neg_18__snr20.wav', 'neg/neg_29__snrclean.wav', 'pos/pos_17_fast_low__snr20.wav', 'pos/pos_25_x-fast_x-high__snr10.wav']
+  neg/neg_18__snr20.wav full (False, ['·»µð·»µð:0.50419']) | lite (True, ['·»µð:1.0'])
+  neg/neg_19__snrclean.wav full (True, ['·»µð:1.0']) | lite (False, ['<UNK>:0.623663'])
+  neg/neg_29__snrclean.wav full (True, ['·»µð:1.0']) | lite (False, ['·»µð·»µð:0.518454'])
+  neg/neg_30__snr20.wav full (True, ['·»µð:1.0']) | lite (False, ['·»µð<UNK>:0.521127'])
+  neg/neg_30__snrclean.wav full (True, ['·»µð:1.0']) | lite (False, ['·»µð<UNK>:0.45944'])
+  neg/neg_32__snr20.wav full (False, ['·»µð·»µð:0.637216']) | lite (True, ['·»µð:1.0'])
+  neg/neg_41__snr20.wav full (True, ['·»µð:1.0']) | lite (False, ['·»µð·»µð:0.921329'])
+  pos/pos_25_x-fast_x-high__snr10.wav full (True, ['·»µð:1.0']) | lite (False, ['<UNK><UNK><UNK><UNK>·»µð:0.690299'])
+device lite run1 vs run2 differing: 5 ['neg/neg_1__snr5.wav', 'neg/neg_30__snrclean.wav', 'neg/neg_40__snrclean.wav', 'pos/pos_19_fast_high__snr5.wav', 'pos/pos_25_x-fast_x-high__snr10.wav']
+device lite+vocab vs host lite+vocab differing: 6 ['neg/neg_18__snr20.wav', 'neg/neg_27__snrclean.wav', 'neg/neg_30__snr10.wav', 'neg/neg_32__snr20.wav', 'neg/neg_40__snrclean.wav', 'pos/pos_17_fast_low__snr20.wav']

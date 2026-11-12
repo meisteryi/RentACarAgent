@@ -1,0 +1,21 @@
+model	turn	query	intent	button	tier	source	text
+IONIQ5	1	라이트 어디 있어?	light_stalk	light_stalk	OPERATION_ONLY	LLM	라이트는 조명 스위치 끝을 잡고 돌려서 켜고 꺼요. 정확한 위치는 아직 확인되지 않았어요.
+IONIQ5	2	못 찾겠어	light_stalk	light_stalk	OPERATION_ONLY	FOLLOW_UP	이 차에서 정확한 위치는 아직 확인되지 않았어요. 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+IONIQ5	3	찾았어	light_stalk	light_stalk	OPERATION_ONLY	FOLLOW_UP	조명 스위치 끝을 잡고 돌려서 원하는 위치에 맞추세요.
+IONIQ5	4	그다음은?	light_stalk	light_stalk	OPERATION_ONLY	FOLLOW_UP	AUTO는 주변 밝기에 따라 자동으로 켜지고, 전조등 위치에 두면 미등과 전조등이 함께 켜져요.
+IONIQ5	1	와이퍼 어떻게 켜?	wiper_stalk	wiper_stalk	OPERATION_ONLY	LLM	와이퍼는 시동을 켠 상태에서 와이퍼 스위치를 MIST, LO, HI 같은 위치로 옮겨 작동해요. 정확한 위치는 아직 확인되지 않았어요.
+IONIQ5	1	기어 어떻게 바꿔?	gear_type	gear_shift	OPERATION_ONLY	LLM	기어는 브레이크를 밟은 채 전자식 변속 다이얼을 D나 R 위치로 돌려서 바꾸고, 주차할 때는 브레이크를 밟은 채 P 버튼을 눌러요. 정확한 위치는 아직 확인되지 않았어요.
+IONIQ5	2	찾았어	gear_type	gear_shift	OPERATION_ONLY	FOLLOW_UP	브레이크를 밟은 채 변속 다이얼을 D나 R 위치로 돌리세요.
+IONIQ5	3	그다음은?	gear_type	gear_shift	OPERATION_ONLY	FOLLOW_UP	주차할 때는 브레이크를 밟은 채 P 버튼을 누르세요.
+IONIQ5	1	주차 브레이크 어떻게 풀어?	electronic_parking_brake	electronic_parking_brake	OPERATION_ONLY	LLM	주차 브레이크는 브레이크를 밟은 채 EPB 스위치를 당기면 걸리고, 시동을 켠 상태에서 브레이크를 밟은 채 누르면 풀려요. 정확한 위치는 아직 확인되지 않았어요.
+IONIQ5	1	사이드미러 접는 법	side_mirror_fold	side_mirror_fold	OPERATION_ONLY	LLM	사이드미러는 실외 미러 접이 버튼을 누르면 접히고, 다시 누르면 펴져요. 정확한 위치는 아직 확인되지 않았어요. 조작은 차를 세운 뒤에 해 주세요.
+TUCSON	1	라이트 어디 있어?	light_stalk	light_stalk	FULL	LLM	라이트는 운전대 왼쪽에 있는 조명 스위치예요. 스위치 끝을 잡고 돌려서 OFF, AUTO, 미등, 전조등 중에 고르면 되고, AUTO는 주변 밝기에 따라 자동으로 켜져요.
+TUCSON	2	찾았어	light_stalk	light_stalk	FULL	FOLLOW_UP	조명 스위치 끝을 잡고 돌려서 원하는 위치에 맞추세요.
+TUCSON	1	비상등 어디야?	hazard_light	hazard_light	FULL	LLM	비상등은 센터페시아 가운데에 있는 삼각형 표시 버튼이에요. 누르면 시동과 관계없이 모든 방향지시등이 함께 깜빡여요.
+TUCSON	1	앞유리 김 서렸어	front_defog	front_defog	OPERATION_ONLY	LLM	앞유리 서리 제거 버튼을 누르면 버튼 표시등이 켜지고, 다시 누르면 꺼져요. 정확한 위치는 아직 확인되지 않았어요.
+SONATA	1	창문 잠금 버튼 어디야?	window_lock	window_lock	FULL	LLM	창문 잠금 버튼은 운전석 문에 있어요. 눌러서 표시등이 켜지면 뒷좌석 창문 스위치가 잠겨요.
+SONATA	1	와이퍼 어떻게 켜?	wiper_stalk	wiper_stalk	OPERATION_ONLY	LLM	와이퍼는 와이퍼 스위치를 MIST, INT, LO, HI 같은 위치로 옮겨 작동해요. 정확한 위치는 아직 확인되지 않았어요.
+AVANTE	1	라이트 어디 있어?	light_stalk	light_stalk	EXISTS_ONLY	LLM	라이트 기능은 이 차 설명서에 있지만 정확한 위치와 조작법은 아직 확인 중이라, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+CASPER	1	주차 브레이크 어떻게 걸어?	electronic_parking_brake	foot_parking_brake	OPERATION_ONLY	LLM	캐스퍼는 발로 밟는 주차 브레이크라서, 브레이크를 밟은 채 주차 브레이크 페달을 끝까지 밟으면 걸리고 한 번 더 끝까지 밟았다 떼면 풀려요. 정확한 위치는 아직 확인되지 않았어요.
+CASPER	2	찾았어	electronic_parking_brake	foot_parking_brake	OPERATION_ONLY	FOLLOW_UP	차를 세우고 브레이크 페달을 밟은 상태에서 주차 브레이크 페달을 끝까지 밟으세요.
+CASPER	3	그다음은?	electronic_parking_brake	foot_parking_brake	OPERATION_ONLY	FOLLOW_UP	풀 때는 브레이크 페달을 밟은 채 주차 브레이크 페달을 한 번 더 끝까지 밟았다가 발을 떼세요.

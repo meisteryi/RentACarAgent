@@ -1,0 +1,21 @@
+model	turn	query	intent	button	tier	source	text
+IONIQ5	1	라이트 어디 있어?	light_stalk	light_stalk	EXISTS_ONLY	LLM	라이트 기능은 이 차 설명서에 있지만 정확한 위치와 조작법은 아직 확인 중이라, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+IONIQ5	2	못 찾겠어	light_stalk	light_stalk	EXISTS_ONLY	FOLLOW_UP	정확한 위치와 조작법은 아직 확인된 정보가 없어요. 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+IONIQ5	3	찾았어	light_stalk	light_stalk	EXISTS_ONLY	FOLLOW_UP	정확한 위치와 조작법은 아직 확인된 정보가 없어요. 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+IONIQ5	4	그다음은?	light_stalk	light_stalk	EXISTS_ONLY	FOLLOW_UP	정확한 위치와 조작법은 아직 확인된 정보가 없어요. 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+IONIQ5	1	와이퍼 어떻게 켜?	wiper_stalk	wiper_stalk	EXISTS_ONLY	LLM	와이퍼 기능은 이 차 설명서에 있지만 정확한 위치와 조작법은 아직 확인 중이라, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+IONIQ5	1	기어 어떻게 바꿔?	gear_type	gear_shift	EXISTS_ONLY	LLM	기어 변속 기능은 이 차 설명서에 있지만 정확한 위치와 조작법은 아직 확인 중이라, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+IONIQ5	2	찾았어	gear_type	gear_shift	EXISTS_ONLY	FOLLOW_UP	정확한 위치와 조작법은 아직 확인된 정보가 없어요. 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+IONIQ5	3	그다음은?	gear_type	gear_shift	EXISTS_ONLY	FOLLOW_UP	정확한 위치와 조작법은 아직 확인된 정보가 없어요. 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+IONIQ5	1	주차 브레이크 어떻게 풀어?	electronic_parking_brake	electronic_parking_brake	EXISTS_ONLY	LLM	주차 브레이크 기능은 이 차 설명서에 있지만 정확한 위치와 조작법은 아직 확인 중이라, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+IONIQ5	1	사이드미러 접는 법	side_mirror_fold	side_mirror_fold	EXISTS_ONLY	LLM	사이드미러 접기 기능은 이 차 설명서에 있지만 정확한 위치와 조작법은 아직 확인 중이라, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+TUCSON	1	라이트 어디 있어?	light_stalk	light_stalk	EXISTS_ONLY	LLM	라이트 기능은 이 차 설명서에 있지만 정확한 위치와 조작법은 아직 확인 중이라, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+TUCSON	2	찾았어	light_stalk	light_stalk	EXISTS_ONLY	FOLLOW_UP	정확한 위치와 조작법은 아직 확인된 정보가 없어요. 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+TUCSON	1	비상등 어디야?	hazard_light	hazard_light	EXISTS_ONLY	LLM	비상등 기능은 이 차 설명서에 있지만 정확한 위치와 조작법은 아직 확인 중이라, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+TUCSON	1	앞유리 김 서렸어	front_defog	front_defog	EXISTS_ONLY	LLM	앞유리 김서림 제거 기능은 이 차 설명서에 있지만 정확한 위치와 조작법은 아직 확인 중이라, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+SONATA	1	창문 잠금 버튼 어디야?	window_lock	window_lock	EXISTS_ONLY	LLM	창문 잠금 기능은 이 차 설명서에 있지만 정확한 위치와 조작법은 아직 확인 중이라, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+SONATA	1	와이퍼 어떻게 켜?	wiper_stalk	wiper_stalk	EXISTS_ONLY	LLM	와이퍼 기능은 이 차 설명서에 있지만 정확한 위치와 조작법은 아직 확인 중이라, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+AVANTE	1	라이트 어디 있어?	light_stalk	light_stalk	EXISTS_ONLY	LLM	라이트 기능은 이 차 설명서에 있지만 정확한 위치와 조작법은 아직 확인 중이라, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+CASPER	1	주차 브레이크 어떻게 걸어?	electronic_parking_brake	foot_parking_brake	EXISTS_ONLY	LLM	주차 브레이크 기능은 이 차 설명서에 있지만 정확한 위치와 조작법은 아직 확인 중이라, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+CASPER	2	찾았어	electronic_parking_brake	foot_parking_brake	EXISTS_ONLY	FOLLOW_UP	정확한 위치와 조작법은 아직 확인된 정보가 없어요. 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+CASPER	3	그다음은?	electronic_parking_brake	foot_parking_brake	EXISTS_ONLY	FOLLOW_UP	정확한 위치와 조작법은 아직 확인된 정보가 없어요. 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.

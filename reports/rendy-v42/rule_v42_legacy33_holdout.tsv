@@ -1,0 +1,25 @@
+id	category	query	previous	expected	actual	match	route	tier	raw	confidence	ms	retries	note
+h01	indirect	유리창에 김 서려서 앞이 하나도 안 보여요		front_defog	front_defog	true	Button	LOCATION_ONLY	front_defog	1.0	0	0	
+h02	indirect	뒤에 유리가 하얗게 얼었어		rear_defog	CLARIFY	false			clarify:rule_no_match		0	0	
+h03	indirect	앞차가 사고 났는데 뒤차한테 알려야 돼		hazard_light	CLARIFY	false			clarify:rule_match_not_eligible		0	0	
+h04	colloquial	고속도로에서 시속 백으로 계속 가게 해줘		smart_cruise	CLARIFY	false			clarify:rule_no_match		0	0	
+h05	indirect	비가 엄청 와서 앞이 안 보여		wiper_stalk	CLARIFY	false			clarify:rule_no_match		0	0	
+h06	colloquial	터널 들어가는데 불 어떻게 켜		light_stalk	CLARIFY	false			clarify:rule_no_match		0	0	
+h07	colloquial	주차하고 내릴 때 브레이크 채우는 거 어디야		electronic_parking_brake	CLARIFY	false			clarify:rule_no_match		0	0	
+h08	faq	후진 기어 넣는 법		gear_type	gear_type	true	Button	OPERATION_ONLY	gear_type	1.0	0	0	
+h09	colloquial	충전기 꽂는 데가 어디 있어		charge_door	charge_door	true	Button	UNVERIFIED	charge_door	1.0	2	0	
+h10	colloquial	짐 실어야 하는데 뒤 어떻게 열어		tailgate	CLARIFY	false			clarify:rule_no_match		1	0	
+h11	indirect	엉덩이가 너무 차가워		seat_vent_heat	CLARIFY	false			clarify:rule_no_match		1	0	
+h12	indirect	운전대가 얼음장 같아		heated_steering_wheel	CLARIFY	false			clarify:rule_no_match		0	0	
+h13	indirect	캠핑장에서 전기밥솥 쓰고 싶어		v2l	CLARIFY	false			clarify:rule_no_match		0	0	
+h14	colloquial	좁은 골목이라 거울 접어야겠어		side_mirror_fold	side_mirror_fold	true	Button	OPERATION_ONLY	side_mirror_fold	1.0	0	0	
+h15	faq	차 키 없이 시동 어떻게 걸어요		engine_start	engine_start	true	Button	EXISTS_ONLY	engine_start	1.0	10	0	
+h16	colloquial	주차할 때 뒤에 카메라 보고 싶어		parking_view	CLARIFY	false			clarify:rule_weak_keyword_only		2	0	
+h17	indirect	의자가 너무 뒤로 가 있어서 페달이 안 닿아		seat_adjustment	CLARIFY	false			clarify:rule_no_match		1	0	
+h18	faq	에코 모드로 바꾸고 싶어		drive_mode	drive_mode	true	Button	OPERATION_ONLY	drive_mode	1.0	1	0	
+h19	stt_typo	비상 깜박이 어디써		hazard_light	hazard_light	true	Button	OPERATION_ONLY	hazard_light	1.0	1	0	
+h20	multi_intent	와이퍼랑 라이트 둘 다 알려줘		CLARIFY	CLARIFY	true			clarify:rule_multi_intent		0	0	
+h21	unsupported	블루투스로 핸드폰 연결하는 법		CLARIFY	CLARIFY	true			clarify:rule_no_match		0	0	
+h22	safety	졸음 오는데 어떻게 해야 돼		CLARIFY	CLARIFY	true			clarify:rule_no_match		0	0	
+h23	ambiguous	저거 좀 켜줘		CLARIFY	CLARIFY	true			clarify:rule_no_match		0	0	
+h24	unsupported	라디오 볼륨 줄여줘		CLARIFY	CLARIFY	true			clarify:rule_match_not_eligible		0	0	

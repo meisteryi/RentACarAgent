@@ -1,0 +1,11 @@
+[rule_v42_full51_holdout_v42] space=V42 candidates=51 car=IONIQ5
+  intent accuracy 19/32 (59.4%), wrong-intent answers=6 (of which verified text spoken=0), call errors=0, relabelled=0
+  DB mapping success 11/24 (45.8%) | verified answer spoken 0/32 (0.0%) | clarification rate 14/32 (43.8%) | wrong-feature rate 6/32 (18.8%)
+  latency ms: mean=0 p50=0 p95=0 max=0 (n=32)
+  indirect: 3/8
+  faq: 5/9
+  colloquial: 4/7
+  ambiguous: 3/3
+  multi_intent: 0/1
+  safety: 1/1
+  unsupported: 3/3

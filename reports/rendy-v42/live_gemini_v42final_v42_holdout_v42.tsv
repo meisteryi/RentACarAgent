@@ -1,0 +1,33 @@
+id	category	query	previous	expected	actual	match	route	tier	raw	confidence	ms	retries	note
+v42_01	indirect	핸드폰 올려두면 충전되는 데가 어디야		wireless_charger	wireless_charger	true	Button	EXISTS_ONLY	wireless_charger	0.99	1216	0	
+v42_02	faq	에어컨 바람 완전히 꺼줘		climate_off	climate_off	true	Button	EXISTS_ONLY	climate_off	0.98	1096	0	
+v42_03	indirect	터널이라 바깥 공기 안 들어오게 하고 싶어		air_recirculation	air_recirculation	true	Button	EXISTS_ONLY	air_recirculation	0.95	987	0	
+v42_04	indirect	눈길에서 바퀴가 계속 헛돌아		esc_off	esc_off	true	Button	EXISTS_ONLY	esc_off	0.95	932	0	
+v42_05	colloquial	크루즈 켰는데 앞차랑 간격 좀 더 벌리고 싶어		cruise_gap	cruise_gap	true	Button	EXISTS_ONLY	cruise_gap	0.95	836	0	
+v42_06	faq	크루즈 설정 속도 올리는 법		cruise_speed	cruise_speed	true	Button	EXISTS_ONLY	cruise_speed	0.95	842	0	
+v42_07	indirect	노래 소리가 너무 커		audio_volume	audio_volume	true	Button	EXISTS_ONLY	audio_volume	0.95	841	0	
+v42_08	colloquial	전화 왔는데 핸들에서 받는 버튼		phone_call	phone_call	true	Button	EXISTS_ONLY	phone_call	0.98	930	0	
+v42_09	indirect	짐 가득 실었더니 헤드라이트가 너무 위를 비춰		headlight_leveling	headlight_leveling	true	NoData		headlight_leveling	0.95	947	0	
+v42_10	colloquial	지금 운전 자세 저장해두고 싶어		memory_seat	memory_seat	true	Button	EXISTS_ONLY	memory_seat	0.98	843	0	
+v42_11	faq	사고 나면 누르는 긴급 버튼 어디야		sos_button	sos_button	true	Button	UNVERIFIED	sos_button	0.99	788	0	
+v42_12	colloquial	밤이라 차 안이 깜깜해 천장 불 좀 켜고 싶어		room_lamp	room_lamp	true	Button	UNVERIFIED	room_lamp	0.99	755	0	
+v42_13	faq	계기판에 타이어 공기압 띄우는 법		cluster_view	cluster_view	true	Button	EXISTS_ONLY	cluster_view	0.95	758	0	
+v42_14	indirect	차 안이 너무 추워		temperature	temperature	true	Button	EXISTS_ONLY	temperature	0.95	855	0	
+v42_15	colloquial	에어컨이 알아서 온도 맞추게 하는 모드		climate_auto	climate_auto	true	Button	EXISTS_ONLY	climate_auto	0.95	914	0	
+v42_16	faq	핸들에 있는 음성 명령 버튼 뭐야		voice_recognition	voice_recognition	true	Button	EXISTS_ONLY	voice_recognition	0.95	1065	0	
+v42_17	faq	회생제동 단계 올리는 패들 어디 있어		regen_paddle	regen_paddle	true	Button	EXISTS_ONLY	regen_paddle	0.98	857	0	
+v42_18	indirect	비가 와서 앞유리에 물방울이 계속 맺혀		wiper_stalk	wiper_stalk	true	Button	EXISTS_ONLY	wiper_stalk	0.99	900	0	
+v42_19	faq	뒷유리에 김이 꼈어		rear_defog	rear_defog	true	Button	EXISTS_ONLY	rear_defog	0.95	1058	0	
+v42_20	ambiguous	창문이 뿌옇게 돼서 하나도 안 보여		CLARIFY	front_defog	false	Button	EXISTS_ONLY	front_defog	0.85	1254	0	
+v42_21	ambiguous	열선 좀 켜줘		CLARIFY	CLARIFY	true			clarify:model_requires_clarification	1.0	1149	0	
+v42_22	ambiguous	깜빡이 켜는 법		CLARIFY	light_stalk	false	Button	EXISTS_ONLY	light_stalk	0.95	933	0	
+v42_23	multi_intent	볼륨 줄이고 에어컨도 꺼줘		CLARIFY	CLARIFY	true			clarify:model_requires_clarification	0.0	1205	0	
+v42_24	safety	고속도로에서 졸리면 어떻게 해야 돼		CLARIFY	CLARIFY	true			clarify:model_requires_clarification	1.0	871	0	
+v42_25	unsupported	내비 목적지 바꿔줘		CLARIFY	CLARIFY	true			clarify:model_requires_clarification	0.0	898	0	
+v42_26	unsupported	오늘 날씨 어때		CLARIFY	CLARIFY	true			clarify:model_requires_clarification	0.0	1090	0	
+v42_27	colloquial	주차할 때 삐삐 소리 끄고 싶어		parking_sensor	parking_sensor	true	Button	EXISTS_ONLY	parking_sensor	0.98	942	0	
+v42_28	colloquial	해 졌는데 앞이 어두워 라이트 켜야겠어		light_stalk	light_stalk	true	Button	EXISTS_ONLY	light_stalk	0.95	1042	0	
+v42_29	indirect	가파른 내리막에서 속도 알아서 줄여주는 기능		downhill_brake	downhill_brake	true	NoData		downhill_brake	0.99	1053	0	
+v42_30	unsupported	블랙박스 카메라 어디 있어		CLARIFY	CLARIFY	true			clarify:model_requires_clarification	1.0	806	0	
+v42_31	faq	차 문 전부 한 번에 잠그는 버튼		door_lock_unlock	door_lock_unlock	true	Button	EXISTS_ONLY	door_lock_unlock	0.98	1051	0	
+v42_32	faq	발로 밟는 주차 브레이크 풀어야 해		foot_parking_brake	foot_parking_brake	true	NoData		foot_parking_brake	0.95	1090	0	

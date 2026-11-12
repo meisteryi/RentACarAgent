@@ -1,0 +1,66 @@
+model	intent	button	tier_before	tier_after	text_after
+IONIQ5	light_stalk	light_stalk	EXISTS_ONLY	OPERATION_ONLY	라이트는 조명 스위치 끝을 잡고 돌려서 켜고 꺼요. 정확한 위치는 아직 확인되지 않았어요.
+IONIQ5	wiper_stalk	wiper_stalk	EXISTS_ONLY	OPERATION_ONLY	와이퍼는 시동을 켠 상태에서 와이퍼 스위치를 MIST, LO, HI 같은 위치로 옮겨 작동해요. 정확한 위치는 아직 확인되지 않았어요.
+IONIQ5	hazard_light	hazard_light	EXISTS_ONLY	OPERATION_ONLY	비상등은 비상 경고등 버튼으로 켜요. 정확한 위치는 아직 확인되지 않았어요.
+IONIQ5	gear_type	gear_shift	EXISTS_ONLY	OPERATION_ONLY	기어는 브레이크를 밟은 채 전자식 변속 다이얼을 D나 R 위치로 돌려서 바꾸고, 주차할 때는 브레이크를 밟은 채 P 버튼을 눌러요. 정확한 위치는 아직 확인되지 않았어요.
+IONIQ5	electronic_parking_brake	electronic_parking_brake	EXISTS_ONLY	OPERATION_ONLY	주차 브레이크는 브레이크를 밟은 채 EPB 스위치를 당기면 걸리고, 시동을 켠 상태에서 브레이크를 밟은 채 누르면 풀려요. 정확한 위치는 아직 확인되지 않았어요.
+IONIQ5	front_defog	front_defog	EXISTS_ONLY	LOCATION_ONLY	앞유리 서리 제거 버튼은 히터·에어컨 조작부에 있어요. 조작 방법은 아직 확인되지 않았어요.
+IONIQ5	rear_defog	rear_defog	EXISTS_ONLY	LOCATION_ONLY	뒷유리 열선 버튼은 히터·에어컨 조작부에 있어요. 조작 방법은 아직 확인되지 않았어요.
+IONIQ5	window_lock	window_lock	FULL	FULL	뒷좌석 창문 잠금 버튼은 운전석 문 팔걸이에 있어요. 누르면 뒷좌석 창문 스위치가 잠겨요.
+IONIQ5	side_mirror_adjust	side_mirror_adjust	EXISTS_ONLY	OPERATION_ONLY	사이드미러는 미러 조절 레버로 운전석은 L, 동승석은 R을 고른 뒤 미러 조절 스위치를 눌러 맞춰요. 정확한 위치는 아직 확인되지 않았어요. 조작은 차를 세운 뒤에 해 주세요.
+IONIQ5	side_mirror_fold	side_mirror_fold	EXISTS_ONLY	OPERATION_ONLY	사이드미러는 실외 미러 접이 버튼을 누르면 접히고, 다시 누르면 펴져요. 정확한 위치는 아직 확인되지 않았어요. 조작은 차를 세운 뒤에 해 주세요.
+IONIQ5	seat_vent_heat	seat_vent_heat	UNVERIFIED	UNVERIFIED	시트 열선·통풍 기능은 아직 확인된 안내가 없어서, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+IONIQ5	heated_steering_wheel	heated_steering_wheel	UNVERIFIED	UNVERIFIED	핸들 열선 기능은 아직 확인된 안내가 없어서, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+IONIQ5	drive_mode	drive_mode	EXISTS_ONLY	OPERATION_ONLY	주행 모드는 DRIVE MODE 버튼을 누를 때마다 NORMAL, ECO, SPORT 순으로 바뀌고, 길게 누르면 SNOW 모드가 돼요. 정확한 위치는 아직 확인되지 않았어요.
+TUCSON	light_stalk	light_stalk	EXISTS_ONLY	FULL	라이트는 운전대 왼쪽에 있는 조명 스위치예요. 스위치 끝을 잡고 돌려서 OFF, AUTO, 미등, 전조등 중에 고르면 되고, AUTO는 주변 밝기에 따라 자동으로 켜져요.
+TUCSON	wiper_stalk	wiper_stalk	EXISTS_ONLY	FULL	와이퍼는 운전대 오른쪽에 있는 와이퍼·와셔 스위치예요. 레버를 위아래로 움직여 MIST, OFF, LO, HI 같은 위치를 고르고, 뒷유리 와이퍼는 레버 끝을 돌려요.
+TUCSON	hazard_light	hazard_light	EXISTS_ONLY	FULL	비상등은 센터페시아 가운데에 있는 삼각형 표시 버튼이에요. 누르면 시동과 관계없이 모든 방향지시등이 함께 깜빡여요.
+TUCSON	gear_type	gear_shift	FULL	FULL	투싼은 기어봉이 없고, 운전대 오른쪽 뒤 레버 끝을 돌려서 바꿔요. 브레이크를 밟은 채 위로 돌리면 D, 아래로 돌리면 R이에요.
+TUCSON	electronic_parking_brake	electronic_parking_brake	FULL	FULL	주차 브레이크 스위치는 운전대 왼쪽 아래, 왼쪽 무릎 앞에 있어요. 브레이크를 밟은 채 당기면 걸리고, 밟은 채 누르면 풀려요.
+TUCSON	front_defog	front_defog	EXISTS_ONLY	OPERATION_ONLY	앞유리 서리 제거 버튼을 누르면 버튼 표시등이 켜지고, 다시 누르면 꺼져요. 정확한 위치는 아직 확인되지 않았어요.
+TUCSON	rear_defog	rear_defog	UNVERIFIED	UNVERIFIED	뒷유리 열선 기능은 아직 확인된 안내가 없어서, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+TUCSON	window_lock	window_lock	FULL	FULL	창문 잠금 버튼은 운전석 문 팔걸이에 있어요. 누르면 조수석과 뒷좌석 창문 스위치가 잠겨요.
+TUCSON	side_mirror_adjust	side_mirror_adjust	FULL	FULL	사이드미러 조절 스위치는 운전석 문 팔걸이에 있어요. L이나 R을 고른 뒤 둥근 스위치를 누르세요. 조작은 차를 세운 뒤에 해 주세요.
+TUCSON	side_mirror_fold	side_mirror_fold	FULL	FULL	사이드미러 접기 버튼은 운전석 문 팔걸이에 있어요. 시속 15km 이하에서 누르세요. 조작은 차를 세운 뒤에 해 주세요.
+TUCSON	seat_vent_heat	seat_vent_heat	UNVERIFIED	UNVERIFIED	시트 열선·통풍 기능은 아직 확인된 안내가 없어서, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+TUCSON	heated_steering_wheel	heated_steering_wheel	UNVERIFIED	UNVERIFIED	핸들 열선 기능은 아직 확인된 안내가 없어서, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+TUCSON	drive_mode	drive_mode	FULL	FULL	주행 모드는 가운데 콘솔의 드라이브 모드 스위치로 바꿔요. 누를 때마다 ECO, NORMAL, SPORT, MY DRIVE 순이에요.
+SONATA	light_stalk	light_stalk	EXISTS_ONLY	OPERATION_ONLY	라이트는 조명 스위치 끝을 잡고 돌려서 켜고 꺼요. 정확한 위치는 아직 확인되지 않았어요.
+SONATA	wiper_stalk	wiper_stalk	EXISTS_ONLY	OPERATION_ONLY	와이퍼는 와이퍼 스위치를 MIST, INT, LO, HI 같은 위치로 옮겨 작동해요. 정확한 위치는 아직 확인되지 않았어요.
+SONATA	hazard_light	hazard_light	EXISTS_ONLY	EXISTS_ONLY	비상등 기능은 이 차 설명서에 있지만 정확한 위치와 조작법은 아직 확인 중이라, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+SONATA	gear_type	gear_shift	EXISTS_ONLY	OPERATION_ONLY	기어는 브레이크를 밟은 채 전자식 변속 다이얼을 D나 R 위치로 돌려서 바꾸고, 주차할 때는 브레이크를 밟은 채 P 버튼을 눌러요. 정확한 위치는 아직 확인되지 않았어요.
+SONATA	electronic_parking_brake	electronic_parking_brake	FULL	FULL	주차 브레이크 스위치는 운전대 왼쪽 아래, 왼쪽 무릎 앞에 있어요. 브레이크를 밟은 채 당기면 걸리고, 밟은 채 누르면 풀려요.
+SONATA	front_defog	front_defog	EXISTS_ONLY	LOCATION_ONLY	앞유리 서리 제거 버튼은 히터·에어컨 조작부에 있어요. 조작 방법은 아직 확인되지 않았어요.
+SONATA	rear_defog	rear_defog	EXISTS_ONLY	LOCATION_ONLY	뒷유리 열선 버튼은 히터·에어컨 조작부에 있어요. 조작 방법은 아직 확인되지 않았어요.
+SONATA	window_lock	window_lock	EXISTS_ONLY	FULL	창문 잠금 버튼은 운전석 문에 있어요. 눌러서 표시등이 켜지면 뒷좌석 창문 스위치가 잠겨요.
+SONATA	side_mirror_adjust	side_mirror_adjust	EXISTS_ONLY	OPERATION_ONLY	사이드미러는 레버를 L(왼쪽)이나 R(오른쪽)으로 민 다음 미러 조절 스위치를 눌러 맞춰요. 정확한 위치는 아직 확인되지 않았어요. 조작은 차를 세운 뒤에 해 주세요.
+SONATA	side_mirror_fold	side_mirror_fold	EXISTS_ONLY	OPERATION_ONLY	사이드미러는 실외 미러 접이 버튼을 누르면 접히고, 다시 누르면 펴져요. 정확한 위치는 아직 확인되지 않았어요. 조작은 차를 세운 뒤에 해 주세요.
+SONATA	seat_vent_heat	seat_vent_heat	UNVERIFIED	UNVERIFIED	시트 열선·통풍 기능은 아직 확인된 안내가 없어서, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+SONATA	heated_steering_wheel	heated_steering_wheel	UNVERIFIED	UNVERIFIED	핸들 열선 기능은 아직 확인된 안내가 없어서, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+SONATA	drive_mode	drive_mode	EXISTS_ONLY	EXISTS_ONLY	주행 모드 기능은 이 차 설명서에 있지만 정확한 위치와 조작법은 아직 확인 중이라, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+AVANTE	light_stalk	light_stalk	EXISTS_ONLY	EXISTS_ONLY	라이트 기능은 이 차 설명서에 있지만 정확한 위치와 조작법은 아직 확인 중이라, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+AVANTE	wiper_stalk	wiper_stalk	EXISTS_ONLY	EXISTS_ONLY	와이퍼 기능은 이 차 설명서에 있지만 정확한 위치와 조작법은 아직 확인 중이라, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+AVANTE	hazard_light	hazard_light	UNVERIFIED	UNVERIFIED	비상등 기능은 아직 확인된 안내가 없어서, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요. 비상 정차 시에는 안전한 곳으로 이동한 뒤 차 밖으로 대피하세요.
+AVANTE	gear_type	gear_shift	EXISTS_ONLY	EXISTS_ONLY	기어 변속 기능은 이 차 설명서에 있지만 정확한 위치와 조작법은 아직 확인 중이라, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+AVANTE	electronic_parking_brake	electronic_parking_brake	EXISTS_ONLY	EXISTS_ONLY	주차 브레이크 기능은 이 차 설명서에 있지만 정확한 위치와 조작법은 아직 확인 중이라, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+AVANTE	front_defog	front_defog	UNVERIFIED	UNVERIFIED	앞유리 김서림 제거 기능은 아직 확인된 안내가 없어서, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요. 시야가 확보될 때까지 안전한 곳에 정차하는 것이 좋아요.
+AVANTE	rear_defog	rear_defog	UNVERIFIED	UNVERIFIED	뒷유리 열선 기능은 아직 확인된 안내가 없어서, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+AVANTE	window_lock	window_lock	EXISTS_ONLY	EXISTS_ONLY	창문 잠금 기능은 이 차 설명서에 있지만 정확한 위치와 조작법은 아직 확인 중이라, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+AVANTE	side_mirror_adjust	side_mirror_adjust	EXISTS_ONLY	EXISTS_ONLY	사이드미러 조절 기능은 이 차 설명서에 있지만 정확한 위치와 조작법은 아직 확인 중이라, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+AVANTE	side_mirror_fold	side_mirror_fold	EXISTS_ONLY	EXISTS_ONLY	사이드미러 접기 기능은 이 차 설명서에 있지만 정확한 위치와 조작법은 아직 확인 중이라, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+AVANTE	seat_vent_heat	seat_vent_heat	UNVERIFIED	UNVERIFIED	시트 열선·통풍 기능은 아직 확인된 안내가 없어서, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+AVANTE	heated_steering_wheel	heated_steering_wheel	UNVERIFIED	UNVERIFIED	핸들 열선 기능은 아직 확인된 안내가 없어서, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+AVANTE	drive_mode	drive_mode	EXISTS_ONLY	EXISTS_ONLY	주행 모드 기능은 이 차 설명서에 있지만 정확한 위치와 조작법은 아직 확인 중이라, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.
+CASPER	light_stalk	light_stalk	EXISTS_ONLY	OPERATION_ONLY	라이트는 조명 스위치 끝을 잡고 돌려서 켜고 꺼요. 정확한 위치는 아직 확인되지 않았어요.
+CASPER	wiper_stalk	wiper_stalk	EXISTS_ONLY	OPERATION_ONLY	와이퍼는 시동을 켠 상태에서 와이퍼 스위치를 MIST, INT, LO, HI 같은 위치로 옮겨 작동해요. 정확한 위치는 아직 확인되지 않았어요.
+CASPER	hazard_light	hazard_light	EXISTS_ONLY	OPERATION_ONLY	비상등은 비상 경고등 버튼을 누르면 켜져요. 정확한 위치는 아직 확인되지 않았어요.
+CASPER	gear_type	gear_shift	EXISTS_ONLY	OPERATION_ONLY	기어는 변속 레버로 바꾸고, 후진은 브레이크를 밟은 채 변속 레버 버튼을 누르고 R로 옮겨요. 정확한 위치는 아직 확인되지 않았어요.
+CASPER	electronic_parking_brake	foot_parking_brake	EXISTS_ONLY	OPERATION_ONLY	캐스퍼는 발로 밟는 주차 브레이크라서, 브레이크를 밟은 채 주차 브레이크 페달을 끝까지 밟으면 걸리고 한 번 더 끝까지 밟았다 떼면 풀려요. 정확한 위치는 아직 확인되지 않았어요.
+CASPER	front_defog	front_defog	UNVERIFIED	OPERATION_ONLY	수동 에어컨 사양은 바람 방향 선택 노브를 앞유리 습기 제거 위치로 돌리면 앞유리 쪽으로 바람이 나와요. 정확한 위치는 아직 확인되지 않았어요. 시야가 확보될 때까지 안전한 곳에 정차하는 것이 좋아요.
+CASPER	rear_defog	rear_defog	UNVERIFIED	LOCATION_ONLY	뒷유리 열선 버튼은 히터·에어컨 조작부에 있어요. 조작 방법은 아직 확인되지 않았어요.
+CASPER	window_lock	window_lock	EXISTS_ONLY	FULL	창문 잠금 버튼은 운전석 문에 있어요. 누르면 뒷좌석 창문 스위치가 잠겨요.
+CASPER	side_mirror_adjust	side_mirror_adjust	EXISTS_ONLY	OPERATION_ONLY	사이드미러는 레버를 왼쪽(운전석)이나 오른쪽(동승석)으로 민 다음 미러 조절 스위치를 눌러 맞춰요. 정확한 위치는 아직 확인되지 않았어요. 조작은 차를 세운 뒤에 해 주세요.
+CASPER	side_mirror_fold	side_mirror_fold	EXISTS_ONLY	OPERATION_ONLY	사이드미러는 실외 미러 접이 버튼을 누르면 접히고, 다시 누르면 펴져요. 정확한 위치는 아직 확인되지 않았어요. 조작은 차를 세운 뒤에 해 주세요.
+CASPER	seat_vent_heat	seat_vent_heat	EXISTS_ONLY	OPERATION_ONLY	시동이 걸린 상태에서 해당 좌석의 열선이나 통풍 버튼을 누르면 켜지고, 누를 때마다 강, 약, 꺼짐 순으로 바뀌어요. 정확한 위치는 아직 확인되지 않았어요.
+CASPER	heated_steering_wheel	heated_steering_wheel	EXISTS_ONLY	OPERATION_ONLY	시동이 걸린 상태에서 스티어링 휠 열선 버튼을 누르면 표시등이 켜지고 핸들이 따뜻해져요. 정확한 위치는 아직 확인되지 않았어요.
+CASPER	drive_mode	drive_mode	EXISTS_ONLY	EXISTS_ONLY	주행 모드 기능은 이 차 설명서에 있지만 정확한 위치와 조작법은 아직 확인 중이라, 차를 세운 뒤 설명서나 렌터카 업체에 확인해 주세요.

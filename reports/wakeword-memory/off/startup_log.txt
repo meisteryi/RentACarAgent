@@ -1,0 +1,43 @@
+11-11 01:46:47.298 31127 31127 I RendyWakeWord: Vosk model prewarm queued on background executor
+11-11 01:46:47.546 31127 31304 E RendyWakeWord: Wake word model preparation failed: java.io.IOException: Wake word model disabled by debug.rendy.wakeword=off; PTT remains available
+11-11 01:46:47.546 31127 31304 E RendyWakeWord: java.util.concurrent.ExecutionException: java.io.IOException: Wake word model disabled by debug.rendy.wakeword=off
+11-11 01:46:47.546 31127 31304 E RendyWakeWord: 	at java.util.concurrent.FutureTask.report(FutureTask.java:122)
+11-11 01:46:47.546 31127 31304 E RendyWakeWord: 	at java.util.concurrent.FutureTask.get(FutureTask.java:191)
+11-11 01:46:47.546 31127 31304 E RendyWakeWord: 	at com.hyundai.rentalhelper.service.RendyWakeWordModelCache.getOrLoad(RendyWakeWordModelCache.kt:44)
+11-11 01:46:47.546 31127 31304 E RendyWakeWord: 	at com.hyundai.rentalhelper.service.RendyWakeWordController.loadModelAndStartIfRequested(RendyWakeWordController.kt:122)
+11-11 01:46:47.546 31127 31304 E RendyWakeWord: 	at com.hyundai.rentalhelper.service.RendyWakeWordController.prepare$lambda$4(RendyWakeWordController.kt:67)
+11-11 01:46:47.546 31127 31304 E RendyWakeWord: 	at com.hyundai.rentalhelper.service.RendyWakeWordController.$r8$lambda$AwJwP_Z89ekVXpVrQS5Ox8Dodp0(Unknown Source:0)
+11-11 01:46:47.546 31127 31304 E RendyWakeWord: 	at com.hyundai.rentalhelper.service.RendyWakeWordController$$ExternalSyntheticLambda3.run(D8$$SyntheticClass:0)
+11-11 01:46:47.546 31127 31304 E RendyWakeWord: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+11-11 01:46:47.546 31127 31304 E RendyWakeWord: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+11-11 01:46:47.546 31127 31304 E RendyWakeWord: 	at java.lang.Thread.run(Thread.java:1012)
+11-11 01:46:47.546 31127 31304 E RendyWakeWord: Caused by: java.io.IOException: Wake word model disabled by debug.rendy.wakeword=off
+11-11 01:46:47.546 31127 31304 E RendyWakeWord: 	at com.hyundai.rentalhelper.service.RendyWakeWordModelCache.load(RendyWakeWordModelCache.kt:62)
+11-11 01:46:47.546 31127 31304 E RendyWakeWord: 	at com.hyundai.rentalhelper.service.RendyWakeWordModelCache.prepare$lambda$6$lambda$5(RendyWakeWordModelCache.kt:33)
+11-11 01:46:47.546 31127 31304 E RendyWakeWord: 	at com.hyundai.rentalhelper.service.RendyWakeWordModelCache.$r8$lambda$19VfpKhTtBKICL9-NQJnK5A4TnU(Unknown Source:0)
+11-11 01:46:47.546 31127 31304 E RendyWakeWord: 	at com.hyundai.rentalhelper.service.RendyWakeWordModelCache$$ExternalSyntheticLambda2.call(D8$$SyntheticClass:0)
+11-11 01:46:47.546 31127 31304 E RendyWakeWord: 	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
+11-11 01:46:47.546 31127 31304 E RendyWakeWord: 	... 3 more
+11-11 01:46:49.150 31127 31127 I RendyWakeWord: Wake word microphone stop requested
+11-11 01:46:49.165 31127 31127 I RendyWakeWord: Wake word listening paused: TTS playback
+11-11 01:47:03.391 31127 31127 I RendyWakeWord: Foreground service microphone type active with RECORD_AUDIO permission
+11-11 01:47:03.391 31127 31127 I RendyWakeWord: Wake word requested: phrase=렌디, model=vosk-model-small-ko-0.22, threshold=0.7, endSilence=0.65s
+11-11 01:47:03.395 31127 31304 E RendyWakeWord: Wake word model preparation failed: java.io.IOException: Wake word model disabled by debug.rendy.wakeword=off; PTT remains available
+11-11 01:47:03.395 31127 31304 E RendyWakeWord: java.util.concurrent.ExecutionException: java.io.IOException: Wake word model disabled by debug.rendy.wakeword=off
+11-11 01:47:03.395 31127 31304 E RendyWakeWord: 	at java.util.concurrent.FutureTask.report(FutureTask.java:122)
+11-11 01:47:03.395 31127 31304 E RendyWakeWord: 	at java.util.concurrent.FutureTask.get(FutureTask.java:191)
+11-11 01:47:03.395 31127 31304 E RendyWakeWord: 	at com.hyundai.rentalhelper.service.RendyWakeWordModelCache.getOrLoad(RendyWakeWordModelCache.kt:44)
+11-11 01:47:03.395 31127 31304 E RendyWakeWord: 	at com.hyundai.rentalhelper.service.RendyWakeWordController.loadModelAndStartIfRequested(RendyWakeWordController.kt:122)
+11-11 01:47:03.395 31127 31304 E RendyWakeWord: 	at com.hyundai.rentalhelper.service.RendyWakeWordController.start$lambda$8(RendyWakeWordController.kt:104)
+11-11 01:47:03.395 31127 31304 E RendyWakeWord: 	at com.hyundai.rentalhelper.service.RendyWakeWordController.$r8$lambda$LGnP48h78G65vVpPcJR6zPczd4s(Unknown Source:0)
+11-11 01:47:03.395 31127 31304 E RendyWakeWord: 	at com.hyundai.rentalhelper.service.RendyWakeWordController$$ExternalSyntheticLambda1.run(D8$$SyntheticClass:0)
+11-11 01:47:03.395 31127 31304 E RendyWakeWord: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+11-11 01:47:03.395 31127 31304 E RendyWakeWord: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+11-11 01:47:03.395 31127 31304 E RendyWakeWord: 	at java.lang.Thread.run(Thread.java:1012)
+11-11 01:47:03.395 31127 31304 E RendyWakeWord: Caused by: java.io.IOException: Wake word model disabled by debug.rendy.wakeword=off
+11-11 01:47:03.395 31127 31304 E RendyWakeWord: 	at com.hyundai.rentalhelper.service.RendyWakeWordModelCache.load(RendyWakeWordModelCache.kt:62)
+11-11 01:47:03.395 31127 31304 E RendyWakeWord: 	at com.hyundai.rentalhelper.service.RendyWakeWordModelCache.prepare$lambda$6$lambda$5(RendyWakeWordModelCache.kt:33)
+11-11 01:47:03.395 31127 31304 E RendyWakeWord: 	at com.hyundai.rentalhelper.service.RendyWakeWordModelCache.$r8$lambda$19VfpKhTtBKICL9-NQJnK5A4TnU(Unknown Source:0)
+11-11 01:47:03.395 31127 31304 E RendyWakeWord: 	at com.hyundai.rentalhelper.service.RendyWakeWordModelCache$$ExternalSyntheticLambda2.call(D8$$SyntheticClass:0)
+11-11 01:47:03.395 31127 31304 E RendyWakeWord: 	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
+11-11 01:47:03.395 31127 31304 E RendyWakeWord: 	... 3 more

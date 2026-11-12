@@ -1,0 +1,1 @@
+11-11 02:06:41.477 27863  5577 I RendyWakeSelfTest: Wake self-test done: variant=lite, detected/total: neg=174/240, pos=78/100, totalPssKb=473048, elapsedMs=40219

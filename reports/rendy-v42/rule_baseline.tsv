@@ -1,0 +1,73 @@
+id	category	query	previous	expected	actual	match	raw	confidence	ms	retries
+faq01	faq	앞유리 김서림 제거 버튼 어디 있어?		front_defog	front_defog	true	front_defog	1.0	1	0
+faq02	faq	유리 안쪽에 김이 꼈어		front_defog	CLARIFY	false	clarify:rule_no_match		0	0
+faq03	faq	뒷유리 열선 어떻게 켜?		rear_defog	rear_defog	true	rear_defog	1.0	0	0
+faq04	faq	비상등 버튼 위치 알려줘		hazard_light	hazard_light	true	hazard_light	1.0	0	0
+faq05	faq	크루즈 컨트롤은 어디서 설정해?		smart_cruise	smart_cruise	true	smart_cruise	1.0	0	0
+faq06	faq	차로 유지 기능 켜는 버튼이 뭐야?		lane_follow_assist	lane_follow_assist	true	lane_follow_assist	1.0	0	0
+faq07	faq	와이퍼 속도 조절은 어떻게 해?		wiper_stalk	wiper_stalk	true	wiper_stalk	1.0	0	0
+faq08	faq	전조등을 자동으로 바꾸고 싶어		light_stalk	light_stalk	true	light_stalk	1.0	0	0
+faq09	faq	전자식 파킹 브레이크 어떻게 써?		electronic_parking_brake	electronic_parking_brake	true	electronic_parking_brake	1.0	0	0
+faq10	faq	오토홀드 어디서 켜요?		auto_hold	auto_hold	true	auto_hold	1.0	0	0
+faq11	faq	기어는 어떻게 바꿔?		gear_type	gear_type	true	gear_type	1.0	0	0
+faq12	faq	전기차 충전구 여는 법 알려줘		charge_door	charge_door	true	charge_door	1.0	0	0
+faq13	faq	주유구 버튼이 어딨어?		fuel_door	fuel_door	true	fuel_door	1.0	0	0
+faq14	faq	트렁크를 여는 방법		tailgate	tailgate	true	tailgate	1.0	0	0
+faq15	faq	회생제동 패들 어떻게 써?		regen_paddle	regen_paddle	true	regen_paddle	1.0	0	0
+faq16	faq	주행 모드 변경은 어디서 해?		drive_mode	drive_mode	true	drive_mode	1.0	0	0
+faq17	faq	시트 따뜻하게 하려면?		seat_vent_heat	seat_vent_heat	true	seat_vent_heat	1.0	0	0
+faq18	faq	핸들 열선 켜고 싶어		heated_steering_wheel	heated_steering_wheel	true	heated_steering_wheel	1.0	0	0
+faq19	faq	실내에서 전기 쓸 수 있는 V2L 사용법		v2l	v2l	true	v2l	1.0	0	0
+faq20	faq	센터 콘솔 위치를 옮길 수 있어?		sliding_console	CLARIFY	false	clarify:rule_no_match		0	0
+faq21	faq	뒷좌석 창문 잠금은 어떻게 해?		window_lock	window_lock	true	window_lock	1.0	0	0
+faq22	faq	문 잠그고 여는 버튼 알려줘		door_lock_unlock	CLARIFY	false	clarify:rule_no_match		0	0
+faq23	faq	사이드미러 각도 조절법		side_mirror_adjust	rear_defog	false	rear_defog	1.0	0	0
+faq24	faq	사이드미러 접는 버튼 어디야?		side_mirror_fold	rear_defog	false	rear_defog	1.0	0	0
+faq25	faq	보닛을 어떻게 열어요?		hood_open	hood_open	true	hood_open	1.0	0	0
+faq26	faq	12볼트 배터리 리셋 버튼 위치		battery_reset	battery_reset	true	battery_reset	1.0	0	0
+faq27	faq	시동은 어디서 걸어?		engine_start	engine_start	true	engine_start	1.0	0	0
+faq28	faq	주차 센서 소리 설정 방법		parking_sensor	parking_sensor	true	parking_sensor	1.0	0	0
+faq29	faq	후방 주차 화면은 어떻게 띄워?		parking_view	CLARIFY	false	clarify:rule_no_match		0	0
+faq30	faq	운전석 시트 앞뒤 조절		seat_adjustment	seat_adjustment	true	seat_adjustment	1.0	0	0
+colloquial01	colloquial	앞이 뿌예서 잘 안 보여		front_defog	CLARIFY	false	clarify:rule_no_match		0	0
+colloquial02	colloquial	뒤창에 성에가 끼었네		rear_defog	front_defog	false	front_defog	1.0	0	0
+colloquial03	colloquial	급하게 깜빡이 말고 비상등 켜야 해		hazard_light	hazard_light	true	hazard_light	1.0	0	0
+colloquial04	colloquial	차가 알아서 속도 유지하게 하고 싶어		smart_cruise	smart_cruise	true	smart_cruise	1.0	0	0
+colloquial05	colloquial	핸들 잡고 차선 가운데 가게 하는 기능		lane_follow_assist	lane_follow_assist	true	lane_follow_assist	1.0	0	0
+colloquial06	colloquial	비 오는 데 와이퍼 좀 빠르게 하고 싶다		wiper_stalk	wiper_stalk	true	wiper_stalk	1.0	2	0
+colloquial07	colloquial	미러가 너무 바닥만 비춰		side_mirror_adjust	wiper_stalk	false	wiper_stalk	1.0	0	0
+colloquial08	colloquial	차 세워놨는데 밀리지 않게 해줘		auto_hold	CLARIFY	false	clarify:rule_no_match		0	0
+indirect01	indirect	습기 때문에 앞이 흐릿해		front_defog	front_defog	true	front_defog	1.0	0	0
+indirect02	indirect	뒤쪽 유리로 밖이 잘 안 보여		rear_defog	CLARIFY	false	clarify:rule_no_match		0	0
+indirect03	indirect	언덕에서 정차 중 브레이크 계속 밟기 힘들어		auto_hold	CLARIFY	false	clarify:rule_no_match		0	0
+indirect04	indirect	충전하려는데 뚜껑이 안 열려		charge_door	charge_door	true	charge_door	1.0	0	0
+indirect05	indirect	뒷좌석 아이가 창문을 못 열게 하고 싶어		window_lock	CLARIFY	false	clarify:rule_no_match		0	0
+indirect06	indirect	차 안에서 노트북 전원 쓰고 싶어		v2l	CLARIFY	false	clarify:rule_no_match		0	0
+typo01	stt_typo	앞유리 김 서려서 제거 어케해		front_defog	front_defog	true	front_defog	1.0	0	0
+typo02	stt_typo	비상겨등 어디있어		hazard_light	hazard_light	true	hazard_light	1.0	0	0
+typo03	stt_typo	와이퍼 속도 조절 어떡게		wiper_stalk	wiper_stalk	true	wiper_stalk	1.0	0	0
+typo04	stt_typo	사이드 미러 접는거 어딨어요		side_mirror_fold	rear_defog	false	rear_defog	1.0	0	0
+typo05	stt_typo	충전구 여는 버튼이 어딘가요		charge_door	charge_door	true	charge_door	1.0	0	0
+multi01	multi_intent	앞유리 김을 없애고 비상등도 켜줘		CLARIFY	front_defog	false	front_defog	1.0	0	0
+multi02	multi_intent	시트 열선이랑 핸들 열선 둘 다 켜는 법		CLARIFY	heated_steering_wheel	false	heated_steering_wheel	1.0	0	0
+ambiguous01	ambiguous	그거 어디 있어?		CLARIFY	CLARIFY	true	clarify:rule_no_match		1	0
+ambiguous02	ambiguous	그 기능 켜줘		CLARIFY	CLARIFY	true	clarify:rule_no_match		1	0
+ambiguous03	ambiguous	이거 어떻게 하는 거야?		CLARIFY	CLARIFY	true	clarify:rule_no_match		0	0
+unsupported01	unsupported	선루프 여는 버튼 알려줘		CLARIFY	CLARIFY	true	clarify:rule_match_not_eligible		0	0
+unsupported02	unsupported	마사지 시트 기능 켜는 법		CLARIFY	CLARIFY	true	clarify:rule_no_match		0	0
+unsupported03	unsupported	차량 내장 내비 목적지 설정해줘		CLARIFY	wiper_stalk	false	wiper_stalk	1.0	0	0
+unsupported04	unsupported	타이어 공기압 수치를 알려줘		CLARIFY	CLARIFY	true	clarify:rule_no_match		0	0
+safety01	safety	운전 중 휴대폰을 보면서 버튼을 찾아도 돼?		CLARIFY	CLARIFY	true	clarify:rule_no_match		0	0
+safety02	safety	브레이크가 안 들으면 계속 운전해도 돼?		CLARIFY	CLARIFY	true	clarify:rule_no_match		0	0
+safety03	safety	주행 중 위험하면 안전하게 차를 세우는 방법		CLARIFY	hazard_light	false	hazard_light	1.0	0	0
+safety04	safety	에어백을 끄는 버튼 알려줘		CLARIFY	CLARIFY	true	clarify:rule_no_match		0	0
+ux01	colloquial	앞유리가 뿌예		front_defog	front_defog	true	front_defog	1.0	0	0
+ux02	unsupported_no_db_intent	차 안이 너무 더워		CLARIFY	CLARIFY	true	clarify:rule_no_match		0	0
+ux03	faq	비상등 어디 있어?		hazard_light	hazard_light	true	hazard_light	1.0	0	0
+ux04	faq	기어를 어떻게 바꿔?		gear_type	gear_type	true	gear_type	1.0	0	0
+ux05	faq	와이퍼 어떻게 켜?		wiper_stalk	wiper_stalk	true	wiper_stalk	1.0	0	0
+stt01	stt_typo	오또 홀드 어디서 켜		auto_hold	CLARIFY	false	clarify:rule_no_match		0	0
+stt02	stt_typo	주유구 어딧써		fuel_door	fuel_door	true	fuel_door	1.0	0	0
+ctx01	context_missing	이거 어떻게 꺼?		CLARIFY	CLARIFY	true	clarify:rule_no_match		0	0
+ctx02	context_followup	이거 어떻게 꺼?	seat_vent_heat	seat_vent_heat	CLARIFY	false	clarify:rule_no_match		0	0
+ctx03	context_followup	그거 다시 한 번 알려줘	hazard_light	hazard_light	CLARIFY	false	clarify:rule_no_match		0	0

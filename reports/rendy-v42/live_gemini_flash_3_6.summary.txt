@@ -1,0 +1,13 @@
+[live_gemini_flash_3_6] accuracy 71/72 (98.6%), wrong-intent answers=1, call errors=0
+  latency ms: mean=1531 p50=1528 p95=1738 max=2041 (n=72)
+  faq: 33/33
+  colloquial: 8/9
+  indirect: 6/6
+  stt_typo: 7/7
+  multi_intent: 2/2
+  ambiguous: 3/3
+  unsupported: 4/4
+  safety: 4/4
+  unsupported_no_db_intent: 1/1
+  context_missing: 1/1
+  context_followup: 2/2

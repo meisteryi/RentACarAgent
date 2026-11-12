@@ -1,0 +1,361 @@
+model	id	category	expected	actual	route	ok
+IONIQ5	faq01	faq	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+IONIQ5	faq02	faq	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+IONIQ5	faq03	faq	rear_defog	rear_defog	Button(intentId=rear_defog, buttonId=rear_defog, viaFallback=false)	true
+IONIQ5	faq04	faq	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true
+IONIQ5	faq05	faq	smart_cruise	smart_cruise	Button(intentId=smart_cruise, buttonId=smart_cruise, viaFallback=false)	true
+IONIQ5	faq06	faq	lane_follow_assist	lane_follow_assist	Button(intentId=lane_follow_assist, buttonId=lane_follow_assist, viaFallback=false)	true
+IONIQ5	faq07	faq	wiper_stalk	wiper_stalk	Button(intentId=wiper_stalk, buttonId=wiper_stalk, viaFallback=false)	true
+IONIQ5	faq08	faq	light_stalk	light_stalk	Button(intentId=light_stalk, buttonId=light_stalk, viaFallback=false)	true
+IONIQ5	faq09	faq	electronic_parking_brake	electronic_parking_brake	Button(intentId=electronic_parking_brake, buttonId=electronic_parking_brake, viaFallback=false)	true
+IONIQ5	faq10	faq	auto_hold	auto_hold	Button(intentId=auto_hold, buttonId=auto_hold, viaFallback=false)	true
+IONIQ5	faq11	faq	gear_type	gear_type	Button(intentId=gear_type, buttonId=gear_shift, viaFallback=false)	true
+IONIQ5	faq12	faq	charge_door	charge_door	Button(intentId=charge_door, buttonId=charge_door, viaFallback=false)	true
+IONIQ5	faq13	faq	fuel_door	fuel_door	Redirect(intentId=fuel_door, buttonId=fuel_door, targetButtonId=charge_door)	true
+IONIQ5	faq14	faq	tailgate	tailgate	Button(intentId=tailgate, buttonId=tailgate, viaFallback=false)	true
+IONIQ5	faq15	faq	regen_paddle	regen_paddle	Button(intentId=regen_paddle, buttonId=regen_paddle_left, viaFallback=false)	true
+IONIQ5	faq16	faq	drive_mode	drive_mode	Button(intentId=drive_mode, buttonId=drive_mode, viaFallback=false)	true
+IONIQ5	faq17	faq	seat_vent_heat	seat_vent_heat	Button(intentId=seat_vent_heat, buttonId=seat_vent_heat, viaFallback=false)	true
+IONIQ5	faq18	faq	heated_steering_wheel	heated_steering_wheel	Button(intentId=heated_steering_wheel, buttonId=heated_steering_wheel, viaFallback=false)	true
+IONIQ5	faq19	faq	v2l	v2l	Button(intentId=v2l, buttonId=v2l_indoor, viaFallback=false)	true
+IONIQ5	faq20	faq	sliding_console	sliding_console	Button(intentId=sliding_console, buttonId=sliding_console, viaFallback=false)	true
+IONIQ5	faq21	faq	window_lock	window_lock	Button(intentId=window_lock, buttonId=window_lock, viaFallback=false)	true
+IONIQ5	faq22	faq	door_lock_unlock	door_lock_unlock	Button(intentId=door_lock_unlock, buttonId=door_lock_unlock, viaFallback=false)	true
+IONIQ5	faq23	faq	side_mirror_adjust	side_mirror_adjust	Button(intentId=side_mirror_adjust, buttonId=side_mirror_adjust, viaFallback=false)	true
+IONIQ5	faq24	faq	side_mirror_fold	side_mirror_fold	Button(intentId=side_mirror_fold, buttonId=side_mirror_fold, viaFallback=false)	true
+IONIQ5	faq25	faq	hood_open	hood_open	Button(intentId=hood_open, buttonId=hood_open, viaFallback=false)	true
+IONIQ5	faq26	faq	battery_reset	battery_reset	Button(intentId=battery_reset, buttonId=battery_reset_12v, viaFallback=false)	true
+IONIQ5	faq27	faq	engine_start	engine_start	Button(intentId=engine_start, buttonId=engine_start_stop, viaFallback=false)	true
+IONIQ5	faq28	faq	parking_sensor	parking_sensor	Button(intentId=parking_sensor, buttonId=parking_sensor, viaFallback=false)	true
+IONIQ5	faq29	faq	parking_view	parking_view	Button(intentId=parking_view, buttonId=parking_view, viaFallback=false)	true
+IONIQ5	faq30	faq	seat_adjustment	seat_adjustment	Button(intentId=seat_adjustment, buttonId=seat_adjustment, viaFallback=false)	true
+IONIQ5	colloquial01	colloquial	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+IONIQ5	colloquial02	colloquial	rear_defog	rear_defog	Button(intentId=rear_defog, buttonId=rear_defog, viaFallback=false)	true
+IONIQ5	colloquial03	colloquial	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true
+IONIQ5	colloquial04	colloquial	smart_cruise	smart_cruise	Button(intentId=smart_cruise, buttonId=smart_cruise, viaFallback=false)	true
+IONIQ5	colloquial05	colloquial	lane_follow_assist	lane_follow_assist	Button(intentId=lane_follow_assist, buttonId=lane_follow_assist, viaFallback=false)	true
+IONIQ5	colloquial06	colloquial	wiper_stalk	wiper_stalk	Button(intentId=wiper_stalk, buttonId=wiper_stalk, viaFallback=false)	true
+IONIQ5	colloquial07	colloquial	side_mirror_adjust	side_mirror_adjust	Button(intentId=side_mirror_adjust, buttonId=side_mirror_adjust, viaFallback=false)	true
+IONIQ5	colloquial08	colloquial	auto_hold	auto_hold	Button(intentId=auto_hold, buttonId=auto_hold, viaFallback=false)	true
+IONIQ5	indirect01	indirect	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+IONIQ5	indirect02	indirect	rear_defog	rear_defog	Button(intentId=rear_defog, buttonId=rear_defog, viaFallback=false)	true
+IONIQ5	indirect03	indirect	auto_hold	auto_hold	Button(intentId=auto_hold, buttonId=auto_hold, viaFallback=false)	true
+IONIQ5	indirect04	indirect	charge_door	charge_door	Button(intentId=charge_door, buttonId=charge_door, viaFallback=false)	true
+IONIQ5	indirect05	indirect	window_lock	window_lock	Button(intentId=window_lock, buttonId=window_lock, viaFallback=false)	true
+IONIQ5	indirect06	indirect	v2l	v2l	Button(intentId=v2l, buttonId=v2l_indoor, viaFallback=false)	true
+IONIQ5	typo01	stt_typo	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+IONIQ5	typo02	stt_typo	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true
+IONIQ5	typo03	stt_typo	wiper_stalk	wiper_stalk	Button(intentId=wiper_stalk, buttonId=wiper_stalk, viaFallback=false)	true
+IONIQ5	typo04	stt_typo	side_mirror_fold	side_mirror_fold	Button(intentId=side_mirror_fold, buttonId=side_mirror_fold, viaFallback=false)	true
+IONIQ5	typo05	stt_typo	charge_door	charge_door	Button(intentId=charge_door, buttonId=charge_door, viaFallback=false)	true
+IONIQ5	multi01	multi_intent	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+IONIQ5	multi02	multi_intent	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+IONIQ5	ambiguous01	ambiguous	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+IONIQ5	ambiguous02	ambiguous	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+IONIQ5	ambiguous03	ambiguous	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+IONIQ5	unsupported01	unsupported	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+IONIQ5	unsupported02	unsupported	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+IONIQ5	unsupported03	unsupported	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+IONIQ5	unsupported04	unsupported	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+IONIQ5	safety01	safety	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+IONIQ5	safety02	safety	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+IONIQ5	safety03	safety	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+IONIQ5	safety04	safety	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+IONIQ5	ux01	colloquial	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+IONIQ5	ux02	unsupported_no_db_intent	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+IONIQ5	ux03	faq	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true
+IONIQ5	ux04	faq	gear_type	gear_type	Button(intentId=gear_type, buttonId=gear_shift, viaFallback=false)	true
+IONIQ5	ux05	faq	wiper_stalk	wiper_stalk	Button(intentId=wiper_stalk, buttonId=wiper_stalk, viaFallback=false)	true
+IONIQ5	stt01	stt_typo	auto_hold	auto_hold	Button(intentId=auto_hold, buttonId=auto_hold, viaFallback=false)	true
+IONIQ5	stt02	stt_typo	fuel_door	fuel_door	Redirect(intentId=fuel_door, buttonId=fuel_door, targetButtonId=charge_door)	true
+IONIQ5	ctx01	context_missing	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+IONIQ5	ctx02	context_followup	seat_vent_heat	seat_vent_heat	Button(intentId=seat_vent_heat, buttonId=seat_vent_heat, viaFallback=false)	true
+IONIQ5	ctx03	context_followup	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true
+TUCSON	faq01	faq	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+TUCSON	faq02	faq	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+TUCSON	faq03	faq	rear_defog	rear_defog	Button(intentId=rear_defog, buttonId=rear_defog, viaFallback=false)	true
+TUCSON	faq04	faq	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true
+TUCSON	faq05	faq	smart_cruise	smart_cruise	Button(intentId=smart_cruise, buttonId=smart_cruise, viaFallback=false)	true
+TUCSON	faq06	faq	lane_follow_assist	lane_follow_assist	Button(intentId=lane_follow_assist, buttonId=lane_follow_assist, viaFallback=false)	true
+TUCSON	faq07	faq	wiper_stalk	wiper_stalk	Button(intentId=wiper_stalk, buttonId=wiper_stalk, viaFallback=false)	true
+TUCSON	faq08	faq	light_stalk	light_stalk	Button(intentId=light_stalk, buttonId=light_stalk, viaFallback=false)	true
+TUCSON	faq09	faq	electronic_parking_brake	electronic_parking_brake	Button(intentId=electronic_parking_brake, buttonId=electronic_parking_brake, viaFallback=false)	true
+TUCSON	faq10	faq	auto_hold	auto_hold	Button(intentId=auto_hold, buttonId=auto_hold, viaFallback=false)	true
+TUCSON	faq11	faq	gear_type	gear_type	Button(intentId=gear_type, buttonId=gear_shift, viaFallback=false)	true
+TUCSON	faq12	faq	charge_door	charge_door	NotApplicableNonEv(intentId=charge_door)	true
+TUCSON	faq13	faq	fuel_door	fuel_door	Button(intentId=fuel_door, buttonId=fuel_door, viaFallback=false)	true
+TUCSON	faq14	faq	tailgate	tailgate	Button(intentId=tailgate, buttonId=tailgate, viaFallback=false)	true
+TUCSON	faq15	faq	regen_paddle	regen_paddle	Button(intentId=regen_paddle, buttonId=paddle_shift_left, viaFallback=true)	true
+TUCSON	faq16	faq	drive_mode	drive_mode	Button(intentId=drive_mode, buttonId=drive_mode, viaFallback=false)	true
+TUCSON	faq17	faq	seat_vent_heat	seat_vent_heat	Button(intentId=seat_vent_heat, buttonId=seat_vent_heat, viaFallback=false)	true
+TUCSON	faq18	faq	heated_steering_wheel	heated_steering_wheel	Button(intentId=heated_steering_wheel, buttonId=heated_steering_wheel, viaFallback=false)	true
+TUCSON	faq19	faq	v2l	v2l	NotApplicableNonEv(intentId=v2l)	true
+TUCSON	faq20	faq	sliding_console	sliding_console	NoData(intentId=sliding_console, reason=model_routing_no_data)	true
+TUCSON	faq21	faq	window_lock	window_lock	Button(intentId=window_lock, buttonId=window_lock, viaFallback=false)	true
+TUCSON	faq22	faq	door_lock_unlock	door_lock_unlock	Button(intentId=door_lock_unlock, buttonId=door_lock_unlock, viaFallback=false)	true
+TUCSON	faq23	faq	side_mirror_adjust	side_mirror_adjust	Button(intentId=side_mirror_adjust, buttonId=side_mirror_adjust, viaFallback=false)	true
+TUCSON	faq24	faq	side_mirror_fold	side_mirror_fold	Button(intentId=side_mirror_fold, buttonId=side_mirror_fold, viaFallback=false)	true
+TUCSON	faq25	faq	hood_open	hood_open	Button(intentId=hood_open, buttonId=hood_open, viaFallback=false)	true
+TUCSON	faq26	faq	battery_reset	battery_reset	NoData(intentId=battery_reset, reason=model_routing_no_data)	true
+TUCSON	faq27	faq	engine_start	engine_start	Button(intentId=engine_start, buttonId=engine_start_stop, viaFallback=false)	true
+TUCSON	faq28	faq	parking_sensor	parking_sensor	Button(intentId=parking_sensor, buttonId=parking_sensor, viaFallback=false)	true
+TUCSON	faq29	faq	parking_view	parking_view	Button(intentId=parking_view, buttonId=parking_view, viaFallback=false)	true
+TUCSON	faq30	faq	seat_adjustment	seat_adjustment	Button(intentId=seat_adjustment, buttonId=seat_adjustment, viaFallback=false)	true
+TUCSON	colloquial01	colloquial	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+TUCSON	colloquial02	colloquial	rear_defog	rear_defog	Button(intentId=rear_defog, buttonId=rear_defog, viaFallback=false)	true
+TUCSON	colloquial03	colloquial	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true
+TUCSON	colloquial04	colloquial	smart_cruise	smart_cruise	Button(intentId=smart_cruise, buttonId=smart_cruise, viaFallback=false)	true
+TUCSON	colloquial05	colloquial	lane_follow_assist	lane_follow_assist	Button(intentId=lane_follow_assist, buttonId=lane_follow_assist, viaFallback=false)	true
+TUCSON	colloquial06	colloquial	wiper_stalk	wiper_stalk	Button(intentId=wiper_stalk, buttonId=wiper_stalk, viaFallback=false)	true
+TUCSON	colloquial07	colloquial	side_mirror_adjust	side_mirror_adjust	Button(intentId=side_mirror_adjust, buttonId=side_mirror_adjust, viaFallback=false)	true
+TUCSON	colloquial08	colloquial	auto_hold	auto_hold	Button(intentId=auto_hold, buttonId=auto_hold, viaFallback=false)	true
+TUCSON	indirect01	indirect	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+TUCSON	indirect02	indirect	rear_defog	rear_defog	Button(intentId=rear_defog, buttonId=rear_defog, viaFallback=false)	true
+TUCSON	indirect03	indirect	auto_hold	auto_hold	Button(intentId=auto_hold, buttonId=auto_hold, viaFallback=false)	true
+TUCSON	indirect04	indirect	charge_door	charge_door	NotApplicableNonEv(intentId=charge_door)	true
+TUCSON	indirect05	indirect	window_lock	window_lock	Button(intentId=window_lock, buttonId=window_lock, viaFallback=false)	true
+TUCSON	indirect06	indirect	v2l	v2l	NotApplicableNonEv(intentId=v2l)	true
+TUCSON	typo01	stt_typo	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+TUCSON	typo02	stt_typo	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true
+TUCSON	typo03	stt_typo	wiper_stalk	wiper_stalk	Button(intentId=wiper_stalk, buttonId=wiper_stalk, viaFallback=false)	true
+TUCSON	typo04	stt_typo	side_mirror_fold	side_mirror_fold	Button(intentId=side_mirror_fold, buttonId=side_mirror_fold, viaFallback=false)	true
+TUCSON	typo05	stt_typo	charge_door	charge_door	NotApplicableNonEv(intentId=charge_door)	true
+TUCSON	multi01	multi_intent	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+TUCSON	multi02	multi_intent	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+TUCSON	ambiguous01	ambiguous	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+TUCSON	ambiguous02	ambiguous	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+TUCSON	ambiguous03	ambiguous	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+TUCSON	unsupported01	unsupported	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+TUCSON	unsupported02	unsupported	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+TUCSON	unsupported03	unsupported	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+TUCSON	unsupported04	unsupported	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+TUCSON	safety01	safety	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+TUCSON	safety02	safety	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+TUCSON	safety03	safety	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+TUCSON	safety04	safety	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+TUCSON	ux01	colloquial	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+TUCSON	ux02	unsupported_no_db_intent	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+TUCSON	ux03	faq	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true
+TUCSON	ux04	faq	gear_type	gear_type	Button(intentId=gear_type, buttonId=gear_shift, viaFallback=false)	true
+TUCSON	ux05	faq	wiper_stalk	wiper_stalk	Button(intentId=wiper_stalk, buttonId=wiper_stalk, viaFallback=false)	true
+TUCSON	stt01	stt_typo	auto_hold	auto_hold	Button(intentId=auto_hold, buttonId=auto_hold, viaFallback=false)	true
+TUCSON	stt02	stt_typo	fuel_door	fuel_door	Button(intentId=fuel_door, buttonId=fuel_door, viaFallback=false)	true
+TUCSON	ctx01	context_missing	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+TUCSON	ctx02	context_followup	seat_vent_heat	seat_vent_heat	Button(intentId=seat_vent_heat, buttonId=seat_vent_heat, viaFallback=false)	true
+TUCSON	ctx03	context_followup	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true
+SONATA	faq01	faq	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+SONATA	faq02	faq	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+SONATA	faq03	faq	rear_defog	rear_defog	Button(intentId=rear_defog, buttonId=rear_defog, viaFallback=false)	true
+SONATA	faq04	faq	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true
+SONATA	faq05	faq	smart_cruise	smart_cruise	Button(intentId=smart_cruise, buttonId=smart_cruise, viaFallback=false)	true
+SONATA	faq06	faq	lane_follow_assist	lane_follow_assist	Button(intentId=lane_follow_assist, buttonId=lane_follow_assist, viaFallback=false)	true
+SONATA	faq07	faq	wiper_stalk	wiper_stalk	Button(intentId=wiper_stalk, buttonId=wiper_stalk, viaFallback=false)	true
+SONATA	faq08	faq	light_stalk	light_stalk	Button(intentId=light_stalk, buttonId=light_stalk, viaFallback=false)	true
+SONATA	faq09	faq	electronic_parking_brake	electronic_parking_brake	Button(intentId=electronic_parking_brake, buttonId=electronic_parking_brake, viaFallback=false)	true
+SONATA	faq10	faq	auto_hold	auto_hold	Button(intentId=auto_hold, buttonId=auto_hold, viaFallback=false)	true
+SONATA	faq11	faq	gear_type	gear_type	Button(intentId=gear_type, buttonId=gear_shift, viaFallback=false)	true
+SONATA	faq12	faq	charge_door	charge_door	NotApplicableNonEv(intentId=charge_door)	true
+SONATA	faq13	faq	fuel_door	fuel_door	Button(intentId=fuel_door, buttonId=fuel_door, viaFallback=false)	true
+SONATA	faq14	faq	tailgate	tailgate	Button(intentId=tailgate, buttonId=tailgate, viaFallback=false)	true
+SONATA	faq15	faq	regen_paddle	regen_paddle	Button(intentId=regen_paddle, buttonId=paddle_shift_left, viaFallback=true)	true
+SONATA	faq16	faq	drive_mode	drive_mode	Button(intentId=drive_mode, buttonId=drive_mode, viaFallback=false)	true
+SONATA	faq17	faq	seat_vent_heat	seat_vent_heat	Button(intentId=seat_vent_heat, buttonId=seat_vent_heat, viaFallback=false)	true
+SONATA	faq18	faq	heated_steering_wheel	heated_steering_wheel	Button(intentId=heated_steering_wheel, buttonId=heated_steering_wheel, viaFallback=false)	true
+SONATA	faq19	faq	v2l	v2l	NotApplicableNonEv(intentId=v2l)	true
+SONATA	faq20	faq	sliding_console	sliding_console	NoData(intentId=sliding_console, reason=model_routing_no_data)	true
+SONATA	faq21	faq	window_lock	window_lock	Button(intentId=window_lock, buttonId=window_lock, viaFallback=false)	true
+SONATA	faq22	faq	door_lock_unlock	door_lock_unlock	Button(intentId=door_lock_unlock, buttonId=door_lock_unlock, viaFallback=false)	true
+SONATA	faq23	faq	side_mirror_adjust	side_mirror_adjust	Button(intentId=side_mirror_adjust, buttonId=side_mirror_adjust, viaFallback=false)	true
+SONATA	faq24	faq	side_mirror_fold	side_mirror_fold	Button(intentId=side_mirror_fold, buttonId=side_mirror_fold, viaFallback=false)	true
+SONATA	faq25	faq	hood_open	hood_open	Button(intentId=hood_open, buttonId=hood_open, viaFallback=false)	true
+SONATA	faq26	faq	battery_reset	battery_reset	NoData(intentId=battery_reset, reason=model_routing_no_data)	true
+SONATA	faq27	faq	engine_start	engine_start	Button(intentId=engine_start, buttonId=engine_start_stop, viaFallback=false)	true
+SONATA	faq28	faq	parking_sensor	parking_sensor	Button(intentId=parking_sensor, buttonId=parking_sensor, viaFallback=false)	true
+SONATA	faq29	faq	parking_view	parking_view	Button(intentId=parking_view, buttonId=parking_view, viaFallback=false)	true
+SONATA	faq30	faq	seat_adjustment	seat_adjustment	Button(intentId=seat_adjustment, buttonId=seat_adjustment, viaFallback=false)	true
+SONATA	colloquial01	colloquial	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+SONATA	colloquial02	colloquial	rear_defog	rear_defog	Button(intentId=rear_defog, buttonId=rear_defog, viaFallback=false)	true
+SONATA	colloquial03	colloquial	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true
+SONATA	colloquial04	colloquial	smart_cruise	smart_cruise	Button(intentId=smart_cruise, buttonId=smart_cruise, viaFallback=false)	true
+SONATA	colloquial05	colloquial	lane_follow_assist	lane_follow_assist	Button(intentId=lane_follow_assist, buttonId=lane_follow_assist, viaFallback=false)	true
+SONATA	colloquial06	colloquial	wiper_stalk	wiper_stalk	Button(intentId=wiper_stalk, buttonId=wiper_stalk, viaFallback=false)	true
+SONATA	colloquial07	colloquial	side_mirror_adjust	side_mirror_adjust	Button(intentId=side_mirror_adjust, buttonId=side_mirror_adjust, viaFallback=false)	true
+SONATA	colloquial08	colloquial	auto_hold	auto_hold	Button(intentId=auto_hold, buttonId=auto_hold, viaFallback=false)	true
+SONATA	indirect01	indirect	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+SONATA	indirect02	indirect	rear_defog	rear_defog	Button(intentId=rear_defog, buttonId=rear_defog, viaFallback=false)	true
+SONATA	indirect03	indirect	auto_hold	auto_hold	Button(intentId=auto_hold, buttonId=auto_hold, viaFallback=false)	true
+SONATA	indirect04	indirect	charge_door	charge_door	NotApplicableNonEv(intentId=charge_door)	true
+SONATA	indirect05	indirect	window_lock	window_lock	Button(intentId=window_lock, buttonId=window_lock, viaFallback=false)	true
+SONATA	indirect06	indirect	v2l	v2l	NotApplicableNonEv(intentId=v2l)	true
+SONATA	typo01	stt_typo	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+SONATA	typo02	stt_typo	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true
+SONATA	typo03	stt_typo	wiper_stalk	wiper_stalk	Button(intentId=wiper_stalk, buttonId=wiper_stalk, viaFallback=false)	true
+SONATA	typo04	stt_typo	side_mirror_fold	side_mirror_fold	Button(intentId=side_mirror_fold, buttonId=side_mirror_fold, viaFallback=false)	true
+SONATA	typo05	stt_typo	charge_door	charge_door	NotApplicableNonEv(intentId=charge_door)	true
+SONATA	multi01	multi_intent	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+SONATA	multi02	multi_intent	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+SONATA	ambiguous01	ambiguous	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+SONATA	ambiguous02	ambiguous	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+SONATA	ambiguous03	ambiguous	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+SONATA	unsupported01	unsupported	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+SONATA	unsupported02	unsupported	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+SONATA	unsupported03	unsupported	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+SONATA	unsupported04	unsupported	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+SONATA	safety01	safety	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+SONATA	safety02	safety	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+SONATA	safety03	safety	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+SONATA	safety04	safety	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+SONATA	ux01	colloquial	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+SONATA	ux02	unsupported_no_db_intent	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+SONATA	ux03	faq	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true
+SONATA	ux04	faq	gear_type	gear_type	Button(intentId=gear_type, buttonId=gear_shift, viaFallback=false)	true
+SONATA	ux05	faq	wiper_stalk	wiper_stalk	Button(intentId=wiper_stalk, buttonId=wiper_stalk, viaFallback=false)	true
+SONATA	stt01	stt_typo	auto_hold	auto_hold	Button(intentId=auto_hold, buttonId=auto_hold, viaFallback=false)	true
+SONATA	stt02	stt_typo	fuel_door	fuel_door	Button(intentId=fuel_door, buttonId=fuel_door, viaFallback=false)	true
+SONATA	ctx01	context_missing	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+SONATA	ctx02	context_followup	seat_vent_heat	seat_vent_heat	Button(intentId=seat_vent_heat, buttonId=seat_vent_heat, viaFallback=false)	true
+SONATA	ctx03	context_followup	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true
+AVANTE	faq01	faq	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+AVANTE	faq02	faq	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+AVANTE	faq03	faq	rear_defog	rear_defog	Button(intentId=rear_defog, buttonId=rear_defog, viaFallback=false)	true
+AVANTE	faq04	faq	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true
+AVANTE	faq05	faq	smart_cruise	smart_cruise	Button(intentId=smart_cruise, buttonId=smart_cruise, viaFallback=false)	true
+AVANTE	faq06	faq	lane_follow_assist	lane_follow_assist	Button(intentId=lane_follow_assist, buttonId=lane_follow_assist, viaFallback=false)	true
+AVANTE	faq07	faq	wiper_stalk	wiper_stalk	Button(intentId=wiper_stalk, buttonId=wiper_stalk, viaFallback=false)	true
+AVANTE	faq08	faq	light_stalk	light_stalk	Button(intentId=light_stalk, buttonId=light_stalk, viaFallback=false)	true
+AVANTE	faq09	faq	electronic_parking_brake	electronic_parking_brake	Button(intentId=electronic_parking_brake, buttonId=electronic_parking_brake, viaFallback=false)	true
+AVANTE	faq10	faq	auto_hold	auto_hold	Button(intentId=auto_hold, buttonId=auto_hold, viaFallback=false)	true
+AVANTE	faq11	faq	gear_type	gear_type	Button(intentId=gear_type, buttonId=gear_shift, viaFallback=false)	true
+AVANTE	faq12	faq	charge_door	charge_door	NotApplicableNonEv(intentId=charge_door)	true
+AVANTE	faq13	faq	fuel_door	fuel_door	Button(intentId=fuel_door, buttonId=fuel_door, viaFallback=false)	true
+AVANTE	faq14	faq	tailgate	tailgate	Button(intentId=tailgate, buttonId=tailgate, viaFallback=false)	true
+AVANTE	faq15	faq	regen_paddle	regen_paddle	NoData(intentId=regen_paddle, reason=model_routing_no_data)	true
+AVANTE	faq16	faq	drive_mode	drive_mode	Button(intentId=drive_mode, buttonId=drive_mode, viaFallback=false)	true
+AVANTE	faq17	faq	seat_vent_heat	seat_vent_heat	Button(intentId=seat_vent_heat, buttonId=seat_vent_heat, viaFallback=false)	true
+AVANTE	faq18	faq	heated_steering_wheel	heated_steering_wheel	Button(intentId=heated_steering_wheel, buttonId=heated_steering_wheel, viaFallback=false)	true
+AVANTE	faq19	faq	v2l	v2l	NotApplicableNonEv(intentId=v2l)	true
+AVANTE	faq20	faq	sliding_console	sliding_console	NoData(intentId=sliding_console, reason=model_routing_no_data)	true
+AVANTE	faq21	faq	window_lock	window_lock	Button(intentId=window_lock, buttonId=window_lock, viaFallback=false)	true
+AVANTE	faq22	faq	door_lock_unlock	door_lock_unlock	Button(intentId=door_lock_unlock, buttonId=door_lock_unlock, viaFallback=false)	true
+AVANTE	faq23	faq	side_mirror_adjust	side_mirror_adjust	Button(intentId=side_mirror_adjust, buttonId=side_mirror_adjust, viaFallback=false)	true
+AVANTE	faq24	faq	side_mirror_fold	side_mirror_fold	Button(intentId=side_mirror_fold, buttonId=side_mirror_fold, viaFallback=false)	true
+AVANTE	faq25	faq	hood_open	hood_open	Button(intentId=hood_open, buttonId=hood_open, viaFallback=false)	true
+AVANTE	faq26	faq	battery_reset	battery_reset	NoData(intentId=battery_reset, reason=model_routing_no_data)	true
+AVANTE	faq27	faq	engine_start	engine_start	Button(intentId=engine_start, buttonId=engine_start_stop, viaFallback=false)	true
+AVANTE	faq28	faq	parking_sensor	parking_sensor	Button(intentId=parking_sensor, buttonId=parking_sensor, viaFallback=false)	true
+AVANTE	faq29	faq	parking_view	parking_view	Button(intentId=parking_view, buttonId=parking_view, viaFallback=false)	true
+AVANTE	faq30	faq	seat_adjustment	seat_adjustment	Button(intentId=seat_adjustment, buttonId=seat_adjustment, viaFallback=false)	true
+AVANTE	colloquial01	colloquial	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+AVANTE	colloquial02	colloquial	rear_defog	rear_defog	Button(intentId=rear_defog, buttonId=rear_defog, viaFallback=false)	true
+AVANTE	colloquial03	colloquial	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true
+AVANTE	colloquial04	colloquial	smart_cruise	smart_cruise	Button(intentId=smart_cruise, buttonId=smart_cruise, viaFallback=false)	true
+AVANTE	colloquial05	colloquial	lane_follow_assist	lane_follow_assist	Button(intentId=lane_follow_assist, buttonId=lane_follow_assist, viaFallback=false)	true
+AVANTE	colloquial06	colloquial	wiper_stalk	wiper_stalk	Button(intentId=wiper_stalk, buttonId=wiper_stalk, viaFallback=false)	true
+AVANTE	colloquial07	colloquial	side_mirror_adjust	side_mirror_adjust	Button(intentId=side_mirror_adjust, buttonId=side_mirror_adjust, viaFallback=false)	true
+AVANTE	colloquial08	colloquial	auto_hold	auto_hold	Button(intentId=auto_hold, buttonId=auto_hold, viaFallback=false)	true
+AVANTE	indirect01	indirect	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+AVANTE	indirect02	indirect	rear_defog	rear_defog	Button(intentId=rear_defog, buttonId=rear_defog, viaFallback=false)	true
+AVANTE	indirect03	indirect	auto_hold	auto_hold	Button(intentId=auto_hold, buttonId=auto_hold, viaFallback=false)	true
+AVANTE	indirect04	indirect	charge_door	charge_door	NotApplicableNonEv(intentId=charge_door)	true
+AVANTE	indirect05	indirect	window_lock	window_lock	Button(intentId=window_lock, buttonId=window_lock, viaFallback=false)	true
+AVANTE	indirect06	indirect	v2l	v2l	NotApplicableNonEv(intentId=v2l)	true
+AVANTE	typo01	stt_typo	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+AVANTE	typo02	stt_typo	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true
+AVANTE	typo03	stt_typo	wiper_stalk	wiper_stalk	Button(intentId=wiper_stalk, buttonId=wiper_stalk, viaFallback=false)	true
+AVANTE	typo04	stt_typo	side_mirror_fold	side_mirror_fold	Button(intentId=side_mirror_fold, buttonId=side_mirror_fold, viaFallback=false)	true
+AVANTE	typo05	stt_typo	charge_door	charge_door	NotApplicableNonEv(intentId=charge_door)	true
+AVANTE	multi01	multi_intent	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+AVANTE	multi02	multi_intent	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+AVANTE	ambiguous01	ambiguous	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+AVANTE	ambiguous02	ambiguous	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+AVANTE	ambiguous03	ambiguous	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+AVANTE	unsupported01	unsupported	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+AVANTE	unsupported02	unsupported	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+AVANTE	unsupported03	unsupported	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+AVANTE	unsupported04	unsupported	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+AVANTE	safety01	safety	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+AVANTE	safety02	safety	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+AVANTE	safety03	safety	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+AVANTE	safety04	safety	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+AVANTE	ux01	colloquial	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+AVANTE	ux02	unsupported_no_db_intent	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+AVANTE	ux03	faq	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true
+AVANTE	ux04	faq	gear_type	gear_type	Button(intentId=gear_type, buttonId=gear_shift, viaFallback=false)	true
+AVANTE	ux05	faq	wiper_stalk	wiper_stalk	Button(intentId=wiper_stalk, buttonId=wiper_stalk, viaFallback=false)	true
+AVANTE	stt01	stt_typo	auto_hold	auto_hold	Button(intentId=auto_hold, buttonId=auto_hold, viaFallback=false)	true
+AVANTE	stt02	stt_typo	fuel_door	fuel_door	Button(intentId=fuel_door, buttonId=fuel_door, viaFallback=false)	true
+AVANTE	ctx01	context_missing	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+AVANTE	ctx02	context_followup	seat_vent_heat	seat_vent_heat	Button(intentId=seat_vent_heat, buttonId=seat_vent_heat, viaFallback=false)	true
+AVANTE	ctx03	context_followup	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true
+CASPER	faq01	faq	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+CASPER	faq02	faq	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+CASPER	faq03	faq	rear_defog	rear_defog	Button(intentId=rear_defog, buttonId=rear_defog, viaFallback=false)	true
+CASPER	faq04	faq	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true
+CASPER	faq05	faq	smart_cruise	smart_cruise	Button(intentId=smart_cruise, buttonId=smart_cruise, viaFallback=false)	true
+CASPER	faq06	faq	lane_follow_assist	lane_follow_assist	Button(intentId=lane_follow_assist, buttonId=lane_follow_assist, viaFallback=false)	true
+CASPER	faq07	faq	wiper_stalk	wiper_stalk	Button(intentId=wiper_stalk, buttonId=wiper_stalk, viaFallback=false)	true
+CASPER	faq08	faq	light_stalk	light_stalk	Button(intentId=light_stalk, buttonId=light_stalk, viaFallback=false)	true
+CASPER	faq09	faq	electronic_parking_brake	electronic_parking_brake	Button(intentId=electronic_parking_brake, buttonId=foot_parking_brake, viaFallback=false)	true
+CASPER	faq10	faq	auto_hold	auto_hold	Button(intentId=auto_hold, buttonId=auto_hold, viaFallback=false)	true
+CASPER	faq11	faq	gear_type	gear_type	Button(intentId=gear_type, buttonId=gear_shift, viaFallback=false)	true
+CASPER	faq12	faq	charge_door	charge_door	NotApplicableNonEv(intentId=charge_door)	true
+CASPER	faq13	faq	fuel_door	fuel_door	Button(intentId=fuel_door, buttonId=fuel_door, viaFallback=false)	true
+CASPER	faq14	faq	tailgate	tailgate	Button(intentId=tailgate, buttonId=tailgate, viaFallback=false)	true
+CASPER	faq15	faq	regen_paddle	regen_paddle	NoData(intentId=regen_paddle, reason=model_routing_no_data)	true
+CASPER	faq16	faq	drive_mode	drive_mode	Button(intentId=drive_mode, buttonId=drive_mode, viaFallback=false)	true
+CASPER	faq17	faq	seat_vent_heat	seat_vent_heat	Button(intentId=seat_vent_heat, buttonId=seat_vent_heat, viaFallback=false)	true
+CASPER	faq18	faq	heated_steering_wheel	heated_steering_wheel	Button(intentId=heated_steering_wheel, buttonId=heated_steering_wheel, viaFallback=false)	true
+CASPER	faq19	faq	v2l	v2l	NotApplicableNonEv(intentId=v2l)	true
+CASPER	faq20	faq	sliding_console	sliding_console	NoData(intentId=sliding_console, reason=model_routing_no_data)	true
+CASPER	faq21	faq	window_lock	window_lock	Button(intentId=window_lock, buttonId=window_lock, viaFallback=false)	true
+CASPER	faq22	faq	door_lock_unlock	door_lock_unlock	Button(intentId=door_lock_unlock, buttonId=door_lock_unlock, viaFallback=false)	true
+CASPER	faq23	faq	side_mirror_adjust	side_mirror_adjust	Button(intentId=side_mirror_adjust, buttonId=side_mirror_adjust, viaFallback=false)	true
+CASPER	faq24	faq	side_mirror_fold	side_mirror_fold	Button(intentId=side_mirror_fold, buttonId=side_mirror_fold, viaFallback=false)	true
+CASPER	faq25	faq	hood_open	hood_open	Button(intentId=hood_open, buttonId=hood_open, viaFallback=false)	true
+CASPER	faq26	faq	battery_reset	battery_reset	NoData(intentId=battery_reset, reason=model_routing_no_data)	true
+CASPER	faq27	faq	engine_start	engine_start	Button(intentId=engine_start, buttonId=engine_start_stop, viaFallback=false)	true
+CASPER	faq28	faq	parking_sensor	parking_sensor	NoData(intentId=parking_sensor, reason=model_routing_no_data)	true
+CASPER	faq29	faq	parking_view	parking_view	NoData(intentId=parking_view, reason=model_routing_no_data)	true
+CASPER	faq30	faq	seat_adjustment	seat_adjustment	Button(intentId=seat_adjustment, buttonId=seat_adjustment, viaFallback=false)	true
+CASPER	colloquial01	colloquial	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+CASPER	colloquial02	colloquial	rear_defog	rear_defog	Button(intentId=rear_defog, buttonId=rear_defog, viaFallback=false)	true
+CASPER	colloquial03	colloquial	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true
+CASPER	colloquial04	colloquial	smart_cruise	smart_cruise	Button(intentId=smart_cruise, buttonId=smart_cruise, viaFallback=false)	true
+CASPER	colloquial05	colloquial	lane_follow_assist	lane_follow_assist	Button(intentId=lane_follow_assist, buttonId=lane_follow_assist, viaFallback=false)	true
+CASPER	colloquial06	colloquial	wiper_stalk	wiper_stalk	Button(intentId=wiper_stalk, buttonId=wiper_stalk, viaFallback=false)	true
+CASPER	colloquial07	colloquial	side_mirror_adjust	side_mirror_adjust	Button(intentId=side_mirror_adjust, buttonId=side_mirror_adjust, viaFallback=false)	true
+CASPER	colloquial08	colloquial	auto_hold	auto_hold	Button(intentId=auto_hold, buttonId=auto_hold, viaFallback=false)	true
+CASPER	indirect01	indirect	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+CASPER	indirect02	indirect	rear_defog	rear_defog	Button(intentId=rear_defog, buttonId=rear_defog, viaFallback=false)	true
+CASPER	indirect03	indirect	auto_hold	auto_hold	Button(intentId=auto_hold, buttonId=auto_hold, viaFallback=false)	true
+CASPER	indirect04	indirect	charge_door	charge_door	NotApplicableNonEv(intentId=charge_door)	true
+CASPER	indirect05	indirect	window_lock	window_lock	Button(intentId=window_lock, buttonId=window_lock, viaFallback=false)	true
+CASPER	indirect06	indirect	v2l	v2l	NotApplicableNonEv(intentId=v2l)	true
+CASPER	typo01	stt_typo	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+CASPER	typo02	stt_typo	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true
+CASPER	typo03	stt_typo	wiper_stalk	wiper_stalk	Button(intentId=wiper_stalk, buttonId=wiper_stalk, viaFallback=false)	true
+CASPER	typo04	stt_typo	side_mirror_fold	side_mirror_fold	Button(intentId=side_mirror_fold, buttonId=side_mirror_fold, viaFallback=false)	true
+CASPER	typo05	stt_typo	charge_door	charge_door	NotApplicableNonEv(intentId=charge_door)	true
+CASPER	multi01	multi_intent	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+CASPER	multi02	multi_intent	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+CASPER	ambiguous01	ambiguous	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+CASPER	ambiguous02	ambiguous	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+CASPER	ambiguous03	ambiguous	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+CASPER	unsupported01	unsupported	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+CASPER	unsupported02	unsupported	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+CASPER	unsupported03	unsupported	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+CASPER	unsupported04	unsupported	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+CASPER	safety01	safety	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+CASPER	safety02	safety	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+CASPER	safety03	safety	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+CASPER	safety04	safety	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+CASPER	ux01	colloquial	front_defog	front_defog	Button(intentId=front_defog, buttonId=front_defog, viaFallback=false)	true
+CASPER	ux02	unsupported_no_db_intent	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+CASPER	ux03	faq	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true
+CASPER	ux04	faq	gear_type	gear_type	Button(intentId=gear_type, buttonId=gear_shift, viaFallback=false)	true
+CASPER	ux05	faq	wiper_stalk	wiper_stalk	Button(intentId=wiper_stalk, buttonId=wiper_stalk, viaFallback=false)	true
+CASPER	stt01	stt_typo	auto_hold	auto_hold	Button(intentId=auto_hold, buttonId=auto_hold, viaFallback=false)	true
+CASPER	stt02	stt_typo	fuel_door	fuel_door	Button(intentId=fuel_door, buttonId=fuel_door, viaFallback=false)	true
+CASPER	ctx01	context_missing	CLARIFY	CLARIFY(fixture_ambiguous_or_unsupported)	null	true
+CASPER	ctx02	context_followup	seat_vent_heat	seat_vent_heat	Button(intentId=seat_vent_heat, buttonId=seat_vent_heat, viaFallback=false)	true
+CASPER	ctx03	context_followup	hazard_light	hazard_light	Button(intentId=hazard_light, buttonId=hazard_light, viaFallback=false)	true

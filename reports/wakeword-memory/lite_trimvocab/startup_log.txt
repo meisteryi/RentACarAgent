@@ -1,0 +1,226 @@
+11-11 02:11:04.103 15467 15467 I RendyWakeWord: Vosk model prewarm queued on background executor
+11-11 02:11:06.041 15467 15467 I RendyWakeWord: Wake word microphone stop requested
+11-11 02:11:06.069 15467 15467 I RendyWakeWord: Wake word listening paused: TTS playback
+11-11 02:11:13.191 15467 15675 I RendyWakeWord: Lite wake-word graph prepared: words=6, dir=/data/user/10/com.hyundai.rentalhelper/files/rendy-wakeword/vosk-model-small-ko-0.22-liteg
+11-11 02:11:20.462 15467 15675 I RendyWakeWord: Vosk model timing: variant=lite, fileValidationMs=0, archiveExtractionMs=0, litePrepareMs=9078, nativeModelInitMs=7156, totalMs=16356, filesAlreadyPrepared=true
+11-11 02:11:20.463 15467 15727 I RendyWakeWord: Wake word model ready: processCached=true, waitMs=15902
+11-11 02:11:23.531 15467 15467 I RendyWakeWord: Foreground service microphone type active with RECORD_AUDIO permission
+11-11 02:11:23.533 15467 15467 I RendyWakeWord: Wake word requested: phrase=렌디, model=vosk-model-small-ko-0.22, threshold=0.7, endSilence=0.65s
+11-11 02:11:23.665 15467 15727 I RendyWakeWord: Wake word microphone active: requestedRate=16000, actualRate=16000, channels=1, encoding=PCM_16BIT, readChunkBytes=2048, minBufferBytes=960, bufferBytes=8192, source=VOICE_RECOGNITION
+11-11 02:11:23.676 15467 15467 I RendyWakeWord: Wake-word microphone is capture-ready
+11-11 02:11:24.585 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=28672, chunks=14, rms=4.9, dbfs=-76.5, voiceThreshold=180.0, silenceMs=1046
+11-11 02:11:25.168 15467 15727 I RendyWakeWord: Partial candidate: text=<UNK>, source=partial, json={
+11-11 02:11:25.168 15467 15727 I RendyWakeWord:   "partial" : "<UNK>"
+11-11 02:11:25.168 15467 15727 I RendyWakeWord: }
+11-11 02:11:25.604 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=61440, chunks=30, rms=4.9, dbfs=-76.5, voiceThreshold=180.0, silenceMs=2068
+11-11 02:11:26.637 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=94208, chunks=46, rms=5.0, dbfs=-76.3, voiceThreshold=180.0, silenceMs=3101
+11-11 02:11:27.407 15467 15727 I RendyWakeWord: Partial candidate: text=<UNK> <UNK>, source=partial, json={
+11-11 02:11:27.407 15467 15727 I RendyWakeWord:   "partial" : "<UNK> <UNK>"
+11-11 02:11:27.407 15467 15727 I RendyWakeWord: }
+11-11 02:11:27.658 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=126976, chunks=62, rms=4.7, dbfs=-76.8, voiceThreshold=180.0, silenceMs=4122
+11-11 02:11:28.677 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=159744, chunks=78, rms=5.0, dbfs=-76.4, voiceThreshold=180.0, silenceMs=5142
+11-11 02:11:29.167 15467 15727 I RendyWakeWord: Recognition candidate: source=segment, text=<UNK> <UNK>, normalized=<UNK><UNK>, confidence=0.799238, json={
+11-11 02:11:29.167 15467 15727 I RendyWakeWord:   "result" : [{
+11-11 02:11:29.167 15467 15727 I RendyWakeWord:       "conf" : 0.799238,
+11-11 02:11:29.167 15467 15727 I RendyWakeWord:       "end" : 0.870000,
+11-11 02:11:29.167 15467 15727 I RendyWakeWord:       "start" : 0.840000,
+11-11 02:11:29.167 15467 15727 I RendyWakeWord:       "word" : "<UNK>"
+11-11 02:11:29.167 15467 15727 I RendyWakeWord:     }, {
+11-11 02:11:29.167 15467 15727 I RendyWakeWord:       "conf" : 1.000000,
+11-11 02:11:29.167 15467 15727 I RendyWakeWord:       "end" : 2.476467,
+11-11 02:11:29.167 15467 15727 I RendyWakeWord:       "start" : 2.446467,
+11-11 02:11:29.167 15467 15727 I RendyWakeWord:       "word" : "<UNK>"
+11-11 02:11:29.167 15467 15727 I RendyWakeWord:     }],
+11-11 02:11:29.167 15467 15727 I RendyWakeWord:   "text" : "<UNK> <UNK>"
+11-11 02:11:29.167 15467 15727 I RendyWakeWord: }
+11-11 02:11:29.167 15467 15727 I RendyWakeWord: Wake word rejected: reason=text_mismatch, candidate=<UNK><UNK>, confidence=0.799238, required=0.7, source=segment
+11-11 02:11:29.720 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=192512, chunks=94, rms=4.9, dbfs=-76.6, voiceThreshold=180.0, silenceMs=6180
+11-11 02:11:30.742 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=225280, chunks=110, rms=4.8, dbfs=-76.6, voiceThreshold=180.0, silenceMs=7207
+11-11 02:11:31.753 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=258048, chunks=126, rms=5.0, dbfs=-76.3, voiceThreshold=180.0, silenceMs=8218
+11-11 02:11:32.772 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=290816, chunks=142, rms=4.8, dbfs=-76.7, voiceThreshold=180.0, silenceMs=9237
+11-11 02:11:33.810 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=323584, chunks=158, rms=5.0, dbfs=-76.4, voiceThreshold=180.0, silenceMs=10275
+11-11 02:11:34.212 15467 15727 I RendyWakeWord: Recognition candidate: source=segment, text=<UNK>, normalized=<UNK>, confidence=0.511324, json={
+11-11 02:11:34.212 15467 15727 I RendyWakeWord:   "result" : [{
+11-11 02:11:34.212 15467 15727 I RendyWakeWord:       "conf" : 0.511324,
+11-11 02:11:34.212 15467 15727 I RendyWakeWord:       "end" : 7.440000,
+11-11 02:11:34.212 15467 15727 I RendyWakeWord:       "start" : 7.410000,
+11-11 02:11:34.212 15467 15727 I RendyWakeWord:       "word" : "<UNK>"
+11-11 02:11:34.212 15467 15727 I RendyWakeWord:     }],
+11-11 02:11:34.212 15467 15727 I RendyWakeWord:   "text" : "<UNK>"
+11-11 02:11:34.212 15467 15727 I RendyWakeWord: }
+11-11 02:11:34.213 15467 15727 I RendyWakeWord: Wake word rejected: reason=text_mismatch, candidate=<UNK>, confidence=0.511324, required=0.7, source=segment
+11-11 02:11:34.827 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=356352, chunks=174, rms=4.9, dbfs=-76.5, voiceThreshold=180.0, silenceMs=11292
+11-11 02:11:35.398 15467 15727 I RendyWakeWord: Partial candidate: text=<UNK>, source=partial, json={
+11-11 02:11:35.398 15467 15727 I RendyWakeWord:   "partial" : "<UNK>"
+11-11 02:11:35.398 15467 15727 I RendyWakeWord: }
+11-11 02:11:35.847 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=389120, chunks=190, rms=5.0, dbfs=-76.4, voiceThreshold=180.0, silenceMs=12313
+11-11 02:11:36.867 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=421888, chunks=206, rms=4.9, dbfs=-76.4, voiceThreshold=180.0, silenceMs=13332
+11-11 02:11:37.916 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=454656, chunks=222, rms=4.7, dbfs=-76.8, voiceThreshold=180.0, silenceMs=14377
+11-11 02:11:38.921 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=487424, chunks=238, rms=4.9, dbfs=-76.4, voiceThreshold=180.0, silenceMs=15386
+11-11 02:11:39.202 15467 15727 I RendyWakeWord: Recognition candidate: source=segment, text=<UNK>, normalized=<UNK>, confidence=0.840867, json={
+11-11 02:11:39.202 15467 15727 I RendyWakeWord:   "result" : [{
+11-11 02:11:39.202 15467 15727 I RendyWakeWord:       "conf" : 0.840867,
+11-11 02:11:39.202 15467 15727 I RendyWakeWord:       "end" : 11.784803,
+11-11 02:11:39.202 15467 15727 I RendyWakeWord:       "start" : 11.754803,
+11-11 02:11:39.202 15467 15727 I RendyWakeWord:       "word" : "<UNK>"
+11-11 02:11:39.202 15467 15727 I RendyWakeWord:     }],
+11-11 02:11:39.202 15467 15727 I RendyWakeWord:   "text" : "<UNK>"
+11-11 02:11:39.202 15467 15727 I RendyWakeWord: }
+11-11 02:11:39.202 15467 15727 I RendyWakeWord: Wake word rejected: reason=text_mismatch, candidate=<UNK>, confidence=0.840867, required=0.7, source=segment
+11-11 02:11:39.943 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=520192, chunks=254, rms=4.9, dbfs=-76.4, voiceThreshold=180.0, silenceMs=16408
+11-11 02:11:40.964 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=552960, chunks=270, rms=4.9, dbfs=-76.5, voiceThreshold=180.0, silenceMs=17429
+11-11 02:11:41.996 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=585728, chunks=286, rms=5.0, dbfs=-76.3, voiceThreshold=180.0, silenceMs=18462
+11-11 02:11:43.038 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=618496, chunks=302, rms=4.8, dbfs=-76.7, voiceThreshold=180.0, silenceMs=19504
+11-11 02:11:44.113 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=653312, chunks=319, rms=4.9, dbfs=-76.6, voiceThreshold=180.0, silenceMs=20577
+11-11 02:11:44.247 15467 15727 I RendyWakeWord: Recognition candidate: source=segment, text=<UNK>, normalized=<UNK>, confidence=0.528005, json={
+11-11 02:11:44.247 15467 15727 I RendyWakeWord:   "result" : [{
+11-11 02:11:44.247 15467 15727 I RendyWakeWord:       "conf" : 0.528005,
+11-11 02:11:44.247 15467 15727 I RendyWakeWord:       "end" : 18.900000,
+11-11 02:11:44.247 15467 15727 I RendyWakeWord:       "start" : 18.870000,
+11-11 02:11:44.247 15467 15727 I RendyWakeWord:       "word" : "<UNK>"
+11-11 02:11:44.247 15467 15727 I RendyWakeWord:     }],
+11-11 02:11:44.247 15467 15727 I RendyWakeWord:   "text" : "<UNK>"
+11-11 02:11:44.247 15467 15727 I RendyWakeWord: }
+11-11 02:11:44.247 15467 15727 I RendyWakeWord: Wake word rejected: reason=text_mismatch, candidate=<UNK>, confidence=0.528005, required=0.7, source=segment
+11-11 02:11:44.682 15467 15727 I RendyWakeWord: Partial candidate: text=<UNK>, source=partial, json={
+11-11 02:11:44.682 15467 15727 I RendyWakeWord:   "partial" : "<UNK>"
+11-11 02:11:44.682 15467 15727 I RendyWakeWord: }
+11-11 02:11:45.132 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=686080, chunks=335, rms=4.9, dbfs=-76.5, voiceThreshold=180.0, silenceMs=21597
+11-11 02:11:46.153 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=718848, chunks=351, rms=4.9, dbfs=-76.4, voiceThreshold=180.0, silenceMs=22618
+11-11 02:11:47.171 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=751616, chunks=367, rms=4.8, dbfs=-76.7, voiceThreshold=180.0, silenceMs=23636
+11-11 02:11:48.209 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=784384, chunks=383, rms=4.9, dbfs=-76.4, voiceThreshold=180.0, silenceMs=24673
+11-11 02:11:49.228 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=817152, chunks=399, rms=4.9, dbfs=-76.5, voiceThreshold=180.0, silenceMs=25692
+11-11 02:11:49.309 15467 15727 I RendyWakeWord: Recognition candidate: source=segment, text=<UNK>, normalized=<UNK>, confidence=1.0, json={
+11-11 02:11:49.309 15467 15727 I RendyWakeWord:   "result" : [{
+11-11 02:11:49.309 15467 15727 I RendyWakeWord:       "conf" : 1.000000,
+11-11 02:11:49.309 15467 15727 I RendyWakeWord:       "end" : 20.220000,
+11-11 02:11:49.309 15467 15727 I RendyWakeWord:       "start" : 20.160000,
+11-11 02:11:49.309 15467 15727 I RendyWakeWord:       "word" : "<UNK>"
+11-11 02:11:49.309 15467 15727 I RendyWakeWord:     }],
+11-11 02:11:49.309 15467 15727 I RendyWakeWord:   "text" : "<UNK>"
+11-11 02:11:49.309 15467 15727 I RendyWakeWord: }
+11-11 02:11:49.309 15467 15727 I RendyWakeWord: Wake word rejected: reason=text_mismatch, candidate=<UNK>, confidence=1.0, required=0.7, source=segment
+11-11 02:11:50.247 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=849920, chunks=415, rms=4.9, dbfs=-76.5, voiceThreshold=180.0, silenceMs=26712
+11-11 02:11:51.267 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=882688, chunks=431, rms=4.9, dbfs=-76.4, voiceThreshold=180.0, silenceMs=27733
+11-11 02:11:52.302 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=915456, chunks=447, rms=4.8, dbfs=-76.7, voiceThreshold=180.0, silenceMs=28767
+11-11 02:11:53.322 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=948224, chunks=463, rms=5.0, dbfs=-76.3, voiceThreshold=180.0, silenceMs=29787
+11-11 02:11:54.343 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=980992, chunks=479, rms=4.8, dbfs=-76.7, voiceThreshold=180.0, silenceMs=30808
+11-11 02:11:54.361 15467 15727 I RendyWakeWord: Recognition candidate: source=segment, text=, normalized=, confidence=0.0, json={
+11-11 02:11:54.361 15467 15727 I RendyWakeWord:   "text" : ""
+11-11 02:11:54.361 15467 15727 I RendyWakeWord: }
+11-11 02:11:54.361 15467 15727 I RendyWakeWord: Wake word rejected: reason=empty_result, candidate=, confidence=0.0, required=0.7, source=segment
+11-11 02:11:55.363 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1013760, chunks=495, rms=4.9, dbfs=-76.5, voiceThreshold=180.0, silenceMs=31829
+11-11 02:11:56.399 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1046528, chunks=511, rms=4.9, dbfs=-76.4, voiceThreshold=180.0, silenceMs=32864
+11-11 02:11:57.416 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1079296, chunks=527, rms=4.7, dbfs=-76.8, voiceThreshold=180.0, silenceMs=33882
+11-11 02:11:58.437 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1112064, chunks=543, rms=4.9, dbfs=-76.4, voiceThreshold=180.0, silenceMs=34902
+11-11 02:11:59.353 15467 15727 I RendyWakeWord: Recognition candidate: source=segment, text=<UNK>, normalized=<UNK>, confidence=0.540609, json={
+11-11 02:11:59.353 15467 15727 I RendyWakeWord:   "result" : [{
+11-11 02:11:59.353 15467 15727 I RendyWakeWord:       "conf" : 0.540609,
+11-11 02:11:59.353 15467 15727 I RendyWakeWord:       "end" : 32.130000,
+11-11 02:11:59.353 15467 15727 I RendyWakeWord:       "start" : 32.100000,
+11-11 02:11:59.353 15467 15727 I RendyWakeWord:       "word" : "<UNK>"
+11-11 02:11:59.353 15467 15727 I RendyWakeWord:     }],
+11-11 02:11:59.353 15467 15727 I RendyWakeWord:   "text" : "<UNK>"
+11-11 02:11:59.353 15467 15727 I RendyWakeWord: }
+11-11 02:11:59.353 15467 15727 I RendyWakeWord: Wake word rejected: reason=text_mismatch, candidate=<UNK>, confidence=0.540609, required=0.7, source=segment
+11-11 02:11:59.473 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1144832, chunks=559, rms=4.9, dbfs=-76.6, voiceThreshold=180.0, silenceMs=35938
+11-11 02:12:00.492 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1177600, chunks=575, rms=4.8, dbfs=-76.6, voiceThreshold=180.0, silenceMs=36957
+11-11 02:12:01.514 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1210368, chunks=591, rms=5.0, dbfs=-76.4, voiceThreshold=180.0, silenceMs=37979
+11-11 02:12:02.278 15467 15727 I RendyWakeWord: Partial candidate: text=<UNK>, source=partial, json={
+11-11 02:12:02.278 15467 15727 I RendyWakeWord:   "partial" : "<UNK>"
+11-11 02:12:02.278 15467 15727 I RendyWakeWord: }
+11-11 02:12:02.532 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1243136, chunks=607, rms=4.7, dbfs=-76.8, voiceThreshold=180.0, silenceMs=38997
+11-11 02:12:03.567 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1275904, chunks=623, rms=4.9, dbfs=-76.4, voiceThreshold=180.0, silenceMs=40032
+11-11 02:12:04.410 15467 15727 I RendyWakeWord: Recognition candidate: source=segment, text=<UNK>, normalized=<UNK>, confidence=0.899804, json={
+11-11 02:12:04.410 15467 15727 I RendyWakeWord:   "result" : [{
+11-11 02:12:04.410 15467 15727 I RendyWakeWord:       "conf" : 0.899804,
+11-11 02:12:04.410 15467 15727 I RendyWakeWord:       "end" : 38.010000,
+11-11 02:12:04.410 15467 15727 I RendyWakeWord:       "start" : 37.980000,
+11-11 02:12:04.410 15467 15727 I RendyWakeWord:       "word" : "<UNK>"
+11-11 02:12:04.410 15467 15727 I RendyWakeWord:     }],
+11-11 02:12:04.410 15467 15727 I RendyWakeWord:   "text" : "<UNK>"
+11-11 02:12:04.410 15467 15727 I RendyWakeWord: }
+11-11 02:12:04.410 15467 15727 I RendyWakeWord: Wake word rejected: reason=text_mismatch, candidate=<UNK>, confidence=0.899804, required=0.7, source=segment
+11-11 02:12:04.592 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1308672, chunks=639, rms=4.9, dbfs=-76.6, voiceThreshold=180.0, silenceMs=41057
+11-11 02:12:05.611 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1341440, chunks=655, rms=4.9, dbfs=-76.5, voiceThreshold=180.0, silenceMs=42074
+11-11 02:12:06.627 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1374208, chunks=671, rms=5.0, dbfs=-76.4, voiceThreshold=180.0, silenceMs=43092
+11-11 02:12:07.662 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1406976, chunks=687, rms=4.7, dbfs=-76.8, voiceThreshold=180.0, silenceMs=44127
+11-11 02:12:08.683 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1439744, chunks=703, rms=4.9, dbfs=-76.4, voiceThreshold=180.0, silenceMs=45148
+11-11 02:12:09.459 15467 15727 I RendyWakeWord: Recognition candidate: source=segment, text=<UNK>, normalized=<UNK>, confidence=0.523363, json={
+11-11 02:12:09.459 15467 15727 I RendyWakeWord:   "result" : [{
+11-11 02:12:09.459 15467 15727 I RendyWakeWord:       "conf" : 0.523363,
+11-11 02:12:09.459 15467 15727 I RendyWakeWord:       "end" : 41.790000,
+11-11 02:12:09.459 15467 15727 I RendyWakeWord:       "start" : 41.760000,
+11-11 02:12:09.459 15467 15727 I RendyWakeWord:       "word" : "<UNK>"
+11-11 02:12:09.459 15467 15727 I RendyWakeWord:     }],
+11-11 02:12:09.459 15467 15727 I RendyWakeWord:   "text" : "<UNK>"
+11-11 02:12:09.459 15467 15727 I RendyWakeWord: }
+11-11 02:12:09.460 15467 15727 I RendyWakeWord: Wake word rejected: reason=text_mismatch, candidate=<UNK>, confidence=0.523363, required=0.7, source=segment
+11-11 02:12:09.702 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1472512, chunks=719, rms=4.8, dbfs=-76.7, voiceThreshold=180.0, silenceMs=46167
+11-11 02:12:10.721 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1505280, chunks=735, rms=4.8, dbfs=-76.6, voiceThreshold=180.0, silenceMs=47187
+11-11 02:12:11.758 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1538048, chunks=751, rms=4.9, dbfs=-76.4, voiceThreshold=180.0, silenceMs=48223
+11-11 02:12:12.777 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1570816, chunks=767, rms=4.7, dbfs=-76.8, voiceThreshold=180.0, silenceMs=49242
+11-11 02:12:13.796 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1603584, chunks=783, rms=4.9, dbfs=-76.4, voiceThreshold=180.0, silenceMs=50262
+11-11 02:12:14.528 15467 15727 I RendyWakeWord: Recognition candidate: source=segment, text=, normalized=, confidence=0.0, json={
+11-11 02:12:14.528 15467 15727 I RendyWakeWord:   "text" : ""
+11-11 02:12:14.528 15467 15727 I RendyWakeWord: }
+11-11 02:12:14.529 15467 15727 I RendyWakeWord: Wake word rejected: reason=empty_result, candidate=, confidence=0.0, required=0.7, source=segment
+11-11 02:12:14.833 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1636352, chunks=799, rms=4.9, dbfs=-76.5, voiceThreshold=180.0, silenceMs=51298
+11-11 02:12:15.853 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1669120, chunks=815, rms=4.9, dbfs=-76.5, voiceThreshold=180.0, silenceMs=52318
+11-11 02:12:16.677 15467 15727 I RendyWakeWord: Partial candidate: text=<UNK>, source=partial, json={
+11-11 02:12:16.677 15467 15727 I RendyWakeWord:   "partial" : "<UNK>"
+11-11 02:12:16.677 15467 15727 I RendyWakeWord: }
+11-11 02:12:16.871 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1701888, chunks=831, rms=4.9, dbfs=-76.4, voiceThreshold=180.0, silenceMs=53336
+11-11 02:12:17.636 15467 15727 I RendyWakeWord: Partial candidate: text=<UNK> 렌디, source=partial, json={
+11-11 02:12:17.636 15467 15727 I RendyWakeWord:   "partial" : "<UNK> 렌디"
+11-11 02:12:17.636 15467 15727 I RendyWakeWord: }
+11-11 02:12:17.898 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1734656, chunks=847, rms=4.7, dbfs=-76.8, voiceThreshold=180.0, silenceMs=54359
+11-11 02:12:17.970 15467 15727 I RendyWakeWord: Partial candidate: text=<UNK>, source=partial, json={
+11-11 02:12:17.970 15467 15727 I RendyWakeWord:   "partial" : "<UNK>"
+11-11 02:12:17.970 15467 15727 I RendyWakeWord: }
+11-11 02:12:18.929 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1767424, chunks=863, rms=5.0, dbfs=-76.4, voiceThreshold=180.0, silenceMs=55394
+11-11 02:12:19.519 15467 15727 I RendyWakeWord: Recognition candidate: source=segment, text=<UNK>, normalized=<UNK>, confidence=1.0, json={
+11-11 02:12:19.519 15467 15727 I RendyWakeWord:   "result" : [{
+11-11 02:12:19.519 15467 15727 I RendyWakeWord:       "conf" : 1.000000,
+11-11 02:12:19.519 15467 15727 I RendyWakeWord:       "end" : 52.980000,
+11-11 02:12:19.519 15467 15727 I RendyWakeWord:       "start" : 52.950000,
+11-11 02:12:19.519 15467 15727 I RendyWakeWord:       "word" : "<UNK>"
+11-11 02:12:19.519 15467 15727 I RendyWakeWord:     }],
+11-11 02:12:19.519 15467 15727 I RendyWakeWord:   "text" : "<UNK>"
+11-11 02:12:19.519 15467 15727 I RendyWakeWord: }
+11-11 02:12:19.520 15467 15727 I RendyWakeWord: Wake word rejected: reason=text_mismatch, candidate=<UNK>, confidence=1.0, required=0.7, source=segment
+11-11 02:12:19.947 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1800192, chunks=879, rms=4.8, dbfs=-76.6, voiceThreshold=180.0, silenceMs=56412
+11-11 02:12:20.966 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1832960, chunks=895, rms=4.8, dbfs=-76.7, voiceThreshold=180.0, silenceMs=57432
+11-11 02:12:21.988 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1865728, chunks=911, rms=5.0, dbfs=-76.3, voiceThreshold=180.0, silenceMs=58453
+11-11 02:12:23.027 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1898496, chunks=927, rms=4.8, dbfs=-76.7, voiceThreshold=180.0, silenceMs=59492
+11-11 02:12:24.041 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1931264, chunks=943, rms=5.0, dbfs=-76.4, voiceThreshold=180.0, silenceMs=60506
+11-11 02:12:24.575 15467 15727 I RendyWakeWord: Recognition candidate: source=segment, text=, normalized=, confidence=0.0, json={
+11-11 02:12:24.575 15467 15727 I RendyWakeWord:   "text" : ""
+11-11 02:12:24.575 15467 15727 I RendyWakeWord: }
+11-11 02:12:24.575 15467 15727 I RendyWakeWord: Wake word rejected: reason=empty_result, candidate=, confidence=0.0, required=0.7, source=segment
+11-11 02:12:25.061 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1964032, chunks=959, rms=4.9, dbfs=-76.5, voiceThreshold=180.0, silenceMs=61527
+11-11 02:12:26.082 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=1996800, chunks=975, rms=4.9, dbfs=-76.5, voiceThreshold=180.0, silenceMs=62547
+11-11 02:12:27.118 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=2029568, chunks=991, rms=4.9, dbfs=-76.4, voiceThreshold=180.0, silenceMs=63582
+11-11 02:12:27.236 15467 15727 I RendyWakeWord: Partial candidate: text=<UNK>, source=partial, json={
+11-11 02:12:27.236 15467 15727 I RendyWakeWord:   "partial" : "<UNK>"
+11-11 02:12:27.236 15467 15727 I RendyWakeWord: }
+11-11 02:12:28.137 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=2062336, chunks=1007, rms=4.7, dbfs=-76.8, voiceThreshold=180.0, silenceMs=64602
+11-11 02:12:29.156 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=2095104, chunks=1023, rms=4.9, dbfs=-76.4, voiceThreshold=180.0, silenceMs=65622
+11-11 02:12:29.630 15467 15727 I RendyWakeWord: Recognition candidate: source=segment, text=<UNK>, normalized=<UNK>, confidence=0.837452, json={
+11-11 02:12:29.630 15467 15727 I RendyWakeWord:   "result" : [{
+11-11 02:12:29.630 15467 15727 I RendyWakeWord:       "conf" : 0.837452,
+11-11 02:12:29.630 15467 15727 I RendyWakeWord:       "end" : 62.760000,
+11-11 02:12:29.630 15467 15727 I RendyWakeWord:       "start" : 62.730000,
+11-11 02:12:29.630 15467 15727 I RendyWakeWord:       "word" : "<UNK>"
+11-11 02:12:29.630 15467 15727 I RendyWakeWord:     }],
+11-11 02:12:29.630 15467 15727 I RendyWakeWord:   "text" : "<UNK>"
+11-11 02:12:29.630 15467 15727 I RendyWakeWord: }
+11-11 02:12:29.630 15467 15727 I RendyWakeWord: Wake word rejected: reason=text_mismatch, candidate=<UNK>, confidence=0.837452, required=0.7, source=segment
+11-11 02:12:30.194 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=2127872, chunks=1039, rms=4.9, dbfs=-76.5, voiceThreshold=180.0, silenceMs=66657
+11-11 02:12:31.076 15467 15727 I RendyWakeWord: Partial candidate: text=<UNK>, source=partial, json={
+11-11 02:12:31.076 15467 15727 I RendyWakeWord:   "partial" : "<UNK>"
+11-11 02:12:31.076 15467 15727 I RendyWakeWord: }
+11-11 02:12:31.212 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=2160640, chunks=1055, rms=4.9, dbfs=-76.5, voiceThreshold=180.0, silenceMs=67678
+11-11 02:12:32.233 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=2193408, chunks=1071, rms=5.0, dbfs=-76.4, voiceThreshold=180.0, silenceMs=68698
+11-11 02:12:33.252 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=2226176, chunks=1087, rms=4.8, dbfs=-76.7, voiceThreshold=180.0, silenceMs=69717
+11-11 02:12:34.287 15467 15727 I RendyWakeWord: Audio metrics: sampleRate=16000, chunkBytes=2048, totalBytes=2258944, chunks=1103, rms=5.0, dbfs=-76.4, voiceThreshold=180.0, silenceMs=70752
