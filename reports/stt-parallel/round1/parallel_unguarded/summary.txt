@@ -1,0 +1,11 @@
+===== round1/parallel_unguarded
+run_1.txt: requests=1 earlyBeforePromptEnd=True reqToPromptEnd=2009 parallelKeep=True discarded=False ttsEnd->record=-665 ttsEnd->capture=-402 promptStopped=False textsBeforePromptEnd=[] textsWithPromptWords=[]
+run_2.txt: requests=1 earlyBeforePromptEnd=True reqToPromptEnd=2924 parallelKeep=True discarded=False ttsEnd->record=-1503 ttsEnd->capture=-1181 promptStopped=False textsBeforePromptEnd=[] textsWithPromptWords=[]
+run_3.txt: requests=1 earlyBeforePromptEnd=True reqToPromptEnd=2907 parallelKeep=True discarded=False ttsEnd->record=-1479 ttsEnd->capture=-1053 promptStopped=False textsBeforePromptEnd=[] textsWithPromptWords=[]
+run_4.txt: requests=1 earlyBeforePromptEnd=True reqToPromptEnd=2721 parallelKeep=True discarded=False ttsEnd->record=-1080 ttsEnd->capture=-754 promptStopped=False textsBeforePromptEnd=[] textsWithPromptWords=[]
+run_5.txt: requests=1 earlyBeforePromptEnd=True reqToPromptEnd=1809 parallelKeep=True discarded=False ttsEnd->record=-869 ttsEnd->capture=-305 promptStopped=False textsBeforePromptEnd=[] textsWithPromptWords=[]
+run_6.txt: requests=1 earlyBeforePromptEnd=True reqToPromptEnd=2969 parallelKeep=True discarded=False ttsEnd->record=-1247 ttsEnd->capture=-867 promptStopped=False textsBeforePromptEnd=[] textsWithPromptWords=[]
+summary: runs=6 kept=6 discarded=0 promptInterrupted=0 runsWithPromptWordsRecognized=0
+  TTS end -> capture: n=6 mean=-760 median=-810 min=-1181 max=-305 <=1000ms=6/6
+  TTS end -> service AudioRecord start: n=6 mean=-1140 median=-1164 min=-1503 max=-665 <=1000ms=6/6
+  first STT request -> ready: n=6 mean=1466 median=1518 min=932 max=1781 <=1000ms=1/6

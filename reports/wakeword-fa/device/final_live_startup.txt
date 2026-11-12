@@ -1,0 +1,2 @@
+11-11 06:43:26.948 10049 10249 I RendyWakeWord: Wake word microphone active: requestedRate=16000, actualRate=16000, channels=1, encoding=PCM_16BIT, readChunkBytes=2048, minBufferBytes=960, bufferBytes=8192, source=VOICE_
+11-11 06:43:26.949 10049 10049 I RendyWakeWord: Wake-word microphone is capture-ready

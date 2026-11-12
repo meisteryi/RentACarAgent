@@ -96,6 +96,13 @@ class VoiceAssistantEngine(
     @Volatile private var activeSttRequestedAtMs = 0L
     @Volatile private var activeSttTrigger = "unknown"
     private var sttState = SttState.IDLE
+    /** Parallel wake STT: the pending/active session was requested while the wake prompt was playing. */
+    private var sttStartOverlapsPrompt = false
+    private var sttStartOverlapGuarded = true
+    @Volatile private var activeSttOverlapsPrompt = false
+    private var activeSttOverlapGuarded = true
+    /** elapsedRealtime when the last utterance finished playing and no speech remained (TTS onDone). */
+    @Volatile private var lastSpeechDoneAtMs = 0L
     private var sttAudioFocusRequest: AudioFocusRequest? = null
     private var hasSttAudioFocus = false
     private val pendingSpeech = ArrayDeque<SpeechRequest>()
@@ -159,6 +166,11 @@ class VoiceAssistantEngine(
     var onTtsPlaybackStateChanged: ((isBusy: Boolean) -> Unit)? = null
     /** Called once per STT session when real microphone capture is confirmed (audio after onReady). */
     var onSttCaptureReady: ((trigger: String) -> Unit)? = null
+    /**
+     * Parallel wake STT only: the early session was discarded before it could record the prompt
+     * (see [SttPromptOverlapGuard]); the caller should fall back to a sequential request after the prompt.
+     */
+    var onPromptOverlapSttDiscarded: ((reason: String) -> Unit)? = null
     /** Final raw transcript hook for a later Q&A layer; this callback does not trigger answers. */
     var onSttTextReceived: ((query: String) -> Unit)? = null
 
@@ -258,9 +270,18 @@ class VoiceAssistantEngine(
 
         override fun onReady() {
             if (isCurrentSession()) {
+                val readyAt = SystemClock.elapsedRealtime()
+                if (activeSttOverlapsPrompt) {
+                    val decision = SttPromptOverlapGuard.onServiceReady(isTtsBusy, lastSpeechDoneAtMs, readyAt, activeSttOverlapGuarded)
+                    Log.i(STT_TAG, "session=$sessionId parallel STT ready: keep=${decision.keep}, reason=${decision.reason}, requestToReadyMs=${readyAt - activeSttRequestedAtMs}, readyAfterPromptMs=${decision.readyAfterPromptMs}")
+                    if (!decision.keep) {
+                        discardPromptOverlapSession(sessionId, decision.reason)
+                        return
+                    }
+                }
                 captureGate.onReady()
-                sessionReadyAtMs = SystemClock.elapsedRealtime()
-                Log.i(STT_TAG, "session=$sessionId Pleos STT ready: trigger=$activeSttTrigger, requestToReadyMs=${SystemClock.elapsedRealtime() - activeSttRequestedAtMs}")
+                sessionReadyAtMs = readyAt
+                Log.i(STT_TAG, "session=$sessionId Pleos STT ready: trigger=$activeSttTrigger, requestToReadyMs=${readyAt - activeSttRequestedAtMs}")
             }
         }
 
@@ -492,7 +513,19 @@ class VoiceAssistantEngine(
         }
     }
 
-    fun startPleosRecognition(trigger: String = "PTT") {
+    /**
+     * Parallel wake STT: request Pleos STT while the wake prompt is playing so the service's engine setup overlaps
+     * the prompt. The STT audio focus is taken only when the prompt ends (taking it earlier would make the prompt's
+     * own focus listener stop playback), and the session is discarded if the service becomes ready to record
+     * before the prompt has finished ([SttPromptOverlapGuard]).
+     */
+    fun startPleosRecognitionDuringPrompt(trigger: String, guarded: Boolean = true) {
+        startPleosRecognition(trigger, overlapPrompt = true, overlapGuarded = guarded)
+    }
+
+    fun startPleosRecognition(trigger: String = "PTT") = startPleosRecognition(trigger, overlapPrompt = false, overlapGuarded = true)
+
+    private fun startPleosRecognition(trigger: String, overlapPrompt: Boolean, overlapGuarded: Boolean) {
         if (pleosSttRequestActive || pleosSttStartPending || sttSessionFinalizing) {
             Log.w(STT_TAG, "Duplicate STT start ignored; active=$pleosSttRequestActive, pending=$pleosSttStartPending, finalizing=$sttSessionFinalizing")
             return
@@ -504,7 +537,7 @@ class VoiceAssistantEngine(
             setSttState(SttState.ERROR, "Microphone permission required")
             return
         }
-        if (activeSpeech.isNotEmpty() || pendingSpeech.isNotEmpty()) {
+        if (!overlapPrompt && (activeSpeech.isNotEmpty() || pendingSpeech.isNotEmpty())) {
             Log.w(STT_TAG, "PTT blocked while TTS is active or queued")
             setSttState(SttState.ERROR, "Wait for speech playback to finish")
             return
@@ -518,9 +551,11 @@ class VoiceAssistantEngine(
         pleosSttHasFinalResult = false
         sttStartRequestedAtMs = SystemClock.elapsedRealtime()
         sttStartTrigger = trigger
+        sttStartOverlapsPrompt = overlapPrompt
+        sttStartOverlapGuarded = overlapGuarded
         pleosSttStartPending = true
         setSttState(SttState.PROCESSING, "Preparing microphone")
-        Log.i(STT_TAG, "STT pipeline: trigger=$trigger, requestedAt=$sttStartRequestedAtMs")
+        Log.i(STT_TAG, "STT pipeline: trigger=$trigger, requestedAt=$sttStartRequestedAtMs, overlapsPrompt=$overlapPrompt, guarded=$overlapGuarded")
         Log.i(STT_TAG, "STT readiness baseline: sdkInitialized=$pleosSttInitialized, appScopedEngine=true")
         if (pleosSttInitialized) beginPleosRecognition()
     }
@@ -533,13 +568,16 @@ class VoiceAssistantEngine(
             Log.w(STT_TAG, "Duplicate Pleos request prevented")
             return
         }
-        if (activeSpeech.isNotEmpty() || pendingSpeech.isNotEmpty()) {
+        val overlap = sttStartOverlapsPrompt
+        val promptBusy = activeSpeech.isNotEmpty() || pendingSpeech.isNotEmpty()
+        if (promptBusy && !overlap) {
             pleosSttStartPending = false
             setSttState(SttState.ERROR, "Wait for speech playback to finish")
             return
         }
         val focusRequestStartedAt = SystemClock.elapsedRealtime()
-        if (!requestSttAudioFocus()) {
+        // Parallel wake STT defers the STT focus to prompt completion (see startPleosRecognitionDuringPrompt).
+        if (!(overlap && promptBusy) && !requestSttAudioFocus()) {
             pleosSttStartPending = false
             setSttState(SttState.ERROR, "STT audio focus unavailable")
             return
@@ -552,6 +590,8 @@ class VoiceAssistantEngine(
             activeSttSessionId = sttSessionSequence
             activeSttRequestedAtMs = sttStartRequestedAtMs.takeIf { it > 0L } ?: focusRequestStartedAt
             activeSttTrigger = sttStartTrigger
+            activeSttOverlapsPrompt = overlap
+            activeSttOverlapGuarded = sttStartOverlapGuarded
             sttSessionFinalizing = true
             sttSessionEnded = false
             val listener = createPleosSttListener(activeSttSessionId)
@@ -593,6 +633,26 @@ class VoiceAssistantEngine(
             if (pleosSttHasFinalResult) SttState.RESULT else SttState.IDLE,
             if (pleosSttHasFinalResult) "Text recognized" else "Listening stopped"
         )
+    }
+
+    /**
+     * Parallel wake STT: stop a session that would record the prompt. Finalized without publishing an IDLE/ERROR
+     * state (the wake UX would read that as "no speech"); the caller restarts STT sequentially.
+     */
+    private fun discardPromptOverlapSession(sessionId: Long, reason: String) {
+        if (sessionId != activeSttSessionId) return
+        pleosSttManualStop = true
+        try {
+            pleosStt?.stop()
+        } catch (e: Exception) {
+            Log.w(STT_TAG, "session=$sessionId stop of discarded parallel session failed: ${e.message}")
+        }
+        pleosSttRequestActive = false
+        releaseSttAudioFocus()
+        finalizeSttSession(sessionId, SttState.PROCESSING, "Preparing microphone", publishState = false)
+        pleosSttManualStop = false
+        Log.w(STT_TAG, "session=$sessionId parallel STT discarded before recording: $reason")
+        onPromptOverlapSttDiscarded?.invoke(reason)
     }
 
     private fun scheduleSttFinalization(
@@ -641,8 +701,9 @@ class VoiceAssistantEngine(
         sttWatchdogRunnable = null
     }
 
-    private fun finalizeSttSession(sessionId: Long, state: SttState, message: String) {
+    private fun finalizeSttSession(sessionId: Long, state: SttState, message: String, publishState: Boolean = true) {
         if (sessionId != activeSttSessionId) return
+        activeSttOverlapsPrompt = false
         cancelSttWatchdog()
         sttFinalizeRunnable?.let(sttHandler::removeCallbacks)
         sttFinalizeRunnable = null
@@ -656,7 +717,7 @@ class VoiceAssistantEngine(
         pleosSttRequestActive = false
         sttSessionFinalizing = false
         sttSessionEnded = false
-        setSttState(state, message)
+        if (publishState) setSttState(state, message) else sttState = state
         Log.i(STT_TAG, "session=$sessionId finalized; next request requires a new explicit action")
         activeSttSessionId = 0L
     }
@@ -1013,15 +1074,26 @@ class VoiceAssistantEngine(
             if (pendingSpeech.isNotEmpty() && isTtsReady) {
                 dispatchNextPendingSpeech()
             } else {
-                releaseAudioFocus()
+                onAllSpeechEnded()
                 onTtsPlaybackStateChanged?.invoke(false)
             }
+        }
+    }
+
+    /** Playback finished or was stopped and nothing is queued: release TTS focus; parallel wake STT takes its own. */
+    private fun onAllSpeechEnded() {
+        lastSpeechDoneAtMs = SystemClock.elapsedRealtime()
+        releaseAudioFocus()
+        if (activeSttOverlapsPrompt && pleosSttRequestActive && !hasSttAudioFocus) {
+            val granted = requestSttAudioFocus()
+            Log.i(STT_TAG, "session=$activeSttSessionId parallel STT took audio focus at prompt end: granted=$granted")
         }
     }
 
     private fun failActiveSpeech(reason: String) {
         val requests = activeSpeech.values.toList()
         activeSpeech.clear()
+        if (requests.isNotEmpty() && pendingSpeech.isEmpty()) lastSpeechDoneAtMs = SystemClock.elapsedRealtime()
         requests.forEach { it.onFailed?.invoke(reason) }
         onTtsPlaybackStateChanged?.invoke(isTtsBusy)
     }

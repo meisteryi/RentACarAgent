@@ -1,0 +1,24 @@
+===== K=2.0w0.3
+stage1                   pos  79 (24/23/20/12) | neg 172/240 | FLEURS dev 128.2/h test 116.9/h | after-speech gap(ms):clean/10dB of 25 -> 100:10/13 200:12/13 300:11/13 500:13/19 800:19/23 1200:21/24 | tail FA clean/10dB 12/10
+region<=1500 pre/post<60 pos  77 (24/23/19/11) | neg 166/240 | FLEURS dev  31.1/h test  22.5/h | after-speech gap(ms):clean/10dB of 25 -> 100:0/12 200:0/12 300:11/13 500:13/19 800:19/23 1200:21/24 | tail FA clean/10dB 0/5
+region<=1500 pre/post<120 pos  79 (24/23/20/12) | neg 168/240 | FLEURS dev  50.5/h test  47.2/h | after-speech gap(ms):clean/10dB of 25 -> 100:5/13 200:12/13 300:11/13 500:13/19 800:19/23 1200:21/24 | tail FA clean/10dB 0/9
+region<=2000 pre/post<60 pos  77 (24/23/19/11) | neg 166/240 | FLEURS dev  31.1/h test  27.7/h | after-speech gap(ms):clean/10dB of 25 -> 100:2/12 200:0/12 300:11/13 500:13/19 800:19/23 1200:21/24 | tail FA clean/10dB 0/5
+region<=1200 pre/post<60 pos  69 (20/19/19/11) | neg 166/240 | FLEURS dev  20.7/h test  17.2/h | after-speech gap(ms):clean/10dB of 25 -> 100:0/11 200:0/12 300:8/11 500:10/19 800:16/22 1200:17/22 | tail FA clean/10dB 0/5
+===== K=2.0w0.45
+stage1                   pos  79 (24/23/20/12) | neg 172/240 | FLEURS dev 128.2/h test 116.9/h | after-speech gap(ms):clean/10dB of 25 -> 100:10/13 200:12/13 300:11/13 500:13/19 800:19/23 1200:21/24 | tail FA clean/10dB 12/10
+region<=1500 pre/post<60 pos  77 (24/23/19/11) | neg 160/240 | FLEURS dev  19.4/h test  12.0/h | after-speech gap(ms):clean/10dB of 25 -> 100:0/10 200:0/12 300:0/13 500:13/19 800:19/23 1200:21/22 | tail FA clean/10dB 0/4
+region<=1500 pre/post<120 pos  78 (24/23/20/11) | neg 165/240 | FLEURS dev  32.4/h test  21.7/h | after-speech gap(ms):clean/10dB of 25 -> 100:1/13 200:3/13 300:3/13 500:13/19 800:19/23 1200:21/24 | tail FA clean/10dB 0/8
+region<=2000 pre/post<60 pos  77 (24/23/19/11) | neg 160/240 | FLEURS dev  19.4/h test  15.0/h | after-speech gap(ms):clean/10dB of 25 -> 100:0/10 200:0/12 300:0/13 500:13/19 800:19/23 1200:21/22 | tail FA clean/10dB 0/4
+region<=1200 pre/post<60 pos  69 (20/19/19/11) | neg 160/240 | FLEURS dev  10.4/h test   9.0/h | after-speech gap(ms):clean/10dB of 25 -> 100:0/9 200:0/12 300:0/11 500:10/19 800:16/22 1200:17/20 | tail FA clean/10dB 0/4
+===== K=2.0
+stage1                   pos  79 (24/23/20/12) | neg 172/240 | FLEURS dev 128.2/h test 116.9/h | after-speech gap(ms):clean/10dB of 25 -> 100:10/13 200:12/13 300:11/13 500:13/19 800:19/23 1200:21/24 | tail FA clean/10dB 12/10
+region<=1500 pre/post<60 pos  77 (24/23/19/11) | neg 155/240 | FLEURS dev   9.1/h test   4.5/h | after-speech gap(ms):clean/10dB of 25 -> 100:0/10 200:0/12 300:0/12 500:0/17 800:19/23 1200:21/22 | tail FA clean/10dB 0/4
+region<=1500 pre/post<120 pos  78 (24/23/20/11) | neg 164/240 | FLEURS dev  22.0/h test   9.7/h | after-speech gap(ms):clean/10dB of 25 -> 100:0/13 200:2/13 300:2/12 500:13/19 800:19/23 1200:21/24 | tail FA clean/10dB 0/7
+region<=2000 pre/post<60 pos  77 (24/23/19/11) | neg 155/240 | FLEURS dev   9.1/h test   6.0/h | after-speech gap(ms):clean/10dB of 25 -> 100:0/10 200:0/12 300:0/12 500:0/17 800:19/23 1200:21/22 | tail FA clean/10dB 0/4
+region<=1200 pre/post<60 pos  69 (20/19/19/11) | neg 155/240 | FLEURS dev   6.5/h test   2.2/h | after-speech gap(ms):clean/10dB of 25 -> 100:0/9 200:0/12 300:0/10 500:0/17 800:16/22 1200:17/20 | tail FA clean/10dB 0/4
+===== K=3.0
+stage1                   pos  79 (24/23/20/12) | neg 172/240 | FLEURS dev 128.2/h test 116.9/h | after-speech gap(ms):clean/10dB of 25 -> 100:10/13 200:12/13 300:11/13 500:13/19 800:19/23 1200:21/24 | tail FA clean/10dB 12/10
+region<=1500 pre/post<60 pos  76 (24/23/20/9) | neg 158/240 | FLEURS dev  13.0/h test  11.2/h | after-speech gap(ms):clean/10dB of 25 -> 100:2/13 200:3/13 300:3/12 500:5/19 800:19/22 1200:21/23 | tail FA clean/10dB 0/7
+region<=1500 pre/post<120 pos  76 (24/23/20/9) | neg 165/240 | FLEURS dev  37.6/h test  23.2/h | after-speech gap(ms):clean/10dB of 25 -> 100:5/13 200:7/13 300:7/13 500:13/19 800:19/22 1200:21/23 | tail FA clean/10dB 0/10
+region<=2000 pre/post<60 pos  76 (24/23/20/9) | neg 158/240 | FLEURS dev  13.0/h test  12.7/h | after-speech gap(ms):clean/10dB of 25 -> 100:2/13 200:3/13 300:3/12 500:5/19 800:19/22 1200:21/23 | tail FA clean/10dB 0/7
+region<=1200 pre/post<60 pos  70 (20/21/20/9) | neg 158/240 | FLEURS dev  10.4/h test  10.5/h | after-speech gap(ms):clean/10dB of 25 -> 100:1/13 200:1/13 300:1/12 500:3/19 800:16/22 1200:17/23 | tail FA clean/10dB 0/7

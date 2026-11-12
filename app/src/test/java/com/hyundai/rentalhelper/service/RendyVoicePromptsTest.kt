@@ -41,7 +41,17 @@ class RendyVoicePromptsTest {
         assertTrue(service.contains("WAKE_PROMPT_TEXT = RendyVoicePrompts.WAKE_PROMPT_TEXT"))
         val handler = service.substringAfter("private fun handleWakeDetected(").substringBefore("private fun startWakeSttAfterPrompt")
         assertTrue("wake handler must speak the wake prompt", handler.contains("text = WAKE_PROMPT_TEXT"))
-        assertFalse("wake handler must not open STT directly", handler.contains("startPleosRecognition"))
+        // The only STT start allowed in the handler is the guarded parallel request (SttPromptOverlapGuard),
+        // and only after the prompt has been dispatched; never the plain sequential start.
+        assertFalse("wake handler must not open STT directly", handler.contains("startPleosRecognition("))
+        if (handler.contains("startPleosRecognitionDuringPrompt")) {
+            assertTrue(handler.indexOf("voiceEngine.speak(") < handler.indexOf("startPleosRecognitionDuringPrompt"))
+            assertTrue(handler.contains("guarded = sttMode == SttPromptOverlapGuard.Mode.PARALLEL"))
+        }
+        val engine = mainSrc.resolve("com/hyundai/rentalhelper/service/VoiceAssistantEngine.kt").readText(Charsets.UTF_8)
+        val ready = engine.substringAfter("override fun onReady() {\n            if (isCurrentSession())").substringBefore("override fun onStartedRecognition")
+        assertTrue("parallel sessions must pass the prompt-overlap guard at onReady",
+            ready.contains("SttPromptOverlapGuard.onServiceReady") && ready.contains("discardPromptOverlapSession"))
         val start = service.substringAfter("private fun startWakeSttAfterPrompt() {").substringBefore("private fun offerWakeSttRetry")
         assertTrue("STT must wait while TTS is busy", start.contains("if (voiceEngine.isTtsBusy)"))
         assertTrue(start.contains("startPleosRecognition"))

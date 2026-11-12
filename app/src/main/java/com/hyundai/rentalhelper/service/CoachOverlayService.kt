@@ -89,6 +89,8 @@ class CoachOverlayService : Service() {
     private var voiceStatusOverlay: RendyVoiceStatusOverlay? = null
     private var wakeInteractionActive = false
     private var wakePromptPending = false
+    /** Parallel wake STT: a Pleos STT request was made during the wake prompt and has not been discarded. */
+    private var wakeParallelSttActive = false
     private var wakePromptPlaybackDoneAtMs = 0L
     private var wakeSttRetryCount = 0
     private var wakeAnswerLookup = false
@@ -264,6 +266,18 @@ class CoachOverlayService : Service() {
             }
         }
 
+        voiceEngine.onPromptOverlapSttDiscarded = { reason ->
+            mainHandler.post {
+                if (!wakeParallelSttActive) return@post
+                wakeParallelSttActive = false
+                Log.i("RendyVoiceUX", "Parallel wake STT discarded ($reason); sequential request after the prompt")
+                if (wakeInteractionActive && !isServiceDestroying && !voiceEngine.isTtsBusy) {
+                    wakePromptPending = true
+                    startWakeSttAfterPrompt()
+                }
+            }
+        }
+
         voiceEngine.onSttCaptureReady = { trigger ->
             mainHandler.post {
                 // Status "네, 말씀하세요!" is shown on SttState.LISTENING, which is set at the same confirmed-capture moment.
@@ -388,6 +402,24 @@ class CoachOverlayService : Service() {
                 mainHandler.post { startWakeSttAfterPrompt() }
             }
         )
+        val sttMode = wakeSttMode()
+        if (sttMode != SttPromptOverlapGuard.Mode.SEQUENTIAL && wakePromptPending && voiceEngine.isTtsBusy) {
+            wakeParallelSttActive = true
+            Log.i("RendyVoiceUX", "Wake STT mode=${sttMode.property}: requesting Pleos STT during the prompt")
+            voiceEngine.startPleosRecognitionDuringPrompt("WAKE_WORD_RENDI", guarded = sttMode == SttPromptOverlapGuard.Mode.PARALLEL)
+        }
+    }
+
+    /**
+     * Wake STT start: "parallel" (default) or "sequential" (build flag rendy.voice.wakeSttMode). Debug builds may
+     * override with debug.rendy.wake.sttMode=sequential|parallel|parallel_unguarded; the unguarded mode is a debug
+     * diagnostic and is never honoured from the build flag.
+     */
+    private fun wakeSttMode(): SttPromptOverlapGuard.Mode {
+        val debug = RendyWakeWordModelCache.debugProperty("debug.rendy.wake.sttMode")
+        if (debug != null) return SttPromptOverlapGuard.Mode.from(debug)
+        val built = SttPromptOverlapGuard.Mode.from(com.hyundai.rentalhelper.BuildConfig.RENDY_WAKE_STT_MODE)
+        return if (built == SttPromptOverlapGuard.Mode.PARALLEL_UNGUARDED) SttPromptOverlapGuard.Mode.SEQUENTIAL else built
     }
 
     private fun startWakeSttAfterPrompt() {
@@ -396,6 +428,13 @@ class CoachOverlayService : Service() {
             Log.i("RendyVoiceUX", "Waiting for TTS playback and audio focus to finish before opening STT")
             return
         }
+        if (wakeParallelSttActive && voiceEngine.isSttBusy) {
+            wakePromptPending = false
+            val sincePromptMs = if (wakePromptPlaybackDoneAtMs > 0L) SystemClock.elapsedRealtime() - wakePromptPlaybackDoneAtMs else -1L
+            Log.i("RendyVoiceUX", "Wake prompt finished; parallel Pleos STT already requested during the prompt (promptEndToHandlerMs=$sincePromptMs)")
+            return
+        }
+        wakeParallelSttActive = false
         wakePromptPending = false
         val now = SystemClock.elapsedRealtime()
         val promptEndToSttRequestMs = if (wakePromptPlaybackDoneAtMs > 0L) now - wakePromptPlaybackDoneAtMs else -1L
@@ -494,6 +533,7 @@ class CoachOverlayService : Service() {
         if (!wakeInteractionActive) return
         wakeInteractionActive = false
         wakePromptPending = false
+        wakeParallelSttActive = false
         wakeAnswerLookup = false
         wakeUxSessionId++
         cancelListeningStatusAdvance()

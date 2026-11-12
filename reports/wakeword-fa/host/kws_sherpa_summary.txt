@@ -1,0 +1,9 @@
+kws_smoke.json pos score1.0_thr0.25 activations 22 files_with_activation 22 hours 0.051 rtf 0.143
+kws_smoke.json pos score1.5_thr0.25 activations 22 files_with_activation 22 hours 0.051 rtf 0.152
+kws_smoke.json pos score1.0_thr0.15 activations 25 files_with_activation 25 hours 0.051 rtf 0.16
+kws_smoke.json pos score2.0_thr0.1 activations 30 files_with_activation 30 hours 0.051 rtf 0.156
+kws_smoke2.json pos score3.0_thr0.05 activations 32 files_with_activation 32 hours 0.051 rtf 0.145
+kws_smoke2.json pos score4.0_thr0.02 activations 37 files_with_activation 37 hours 0.051 rtf 0.158
+kws_smoke2.json neg score3.0_thr0.05 activations 0 files_with_activation 0 hours 0.116 rtf 0.15
+kws_smoke2.json neg score4.0_thr0.02 activations 1 files_with_activation 1 hours 0.116 rtf 0.21
+kws_fleurs.json fleurs score4.0_thr0.02 activations 0 files_with_activation 0 hours 2.107 rtf 0.137

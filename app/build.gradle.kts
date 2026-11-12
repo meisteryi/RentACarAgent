@@ -35,6 +35,14 @@ android {
         // Wake word: derive the grammar-only "lite G" Vosk model (same decisions, less native memory). See RendyWakeWordLiteGraph.
         buildConfigField("boolean", "RENDY_WAKEWORD_LITE_GRAPH",
             rendyProperty("rendy.wakeword.liteGraph", "true").toBoolean().toString())
+        // Wake word stage 2: reject "렌디" candidates that are part of ongoing speech. See RendyWakeIsolationCheck.
+        buildConfigField("boolean", "RENDY_WAKE_ISOLATION",
+            rendyProperty("rendy.wakeword.isolation", "true").toBoolean().toString())
+        // Wake STT start: "parallel" (default; Pleos STT requested during the wake prompt, discarded and re-requested
+        // if the service would start recording before the prompt ends; emulator median TTS end -> capture 1.2 s vs
+        // 2.5 s, reports/stt-parallel) or "sequential" (request after the prompt). See SttPromptOverlapGuard.
+        buildConfigField("String", "RENDY_WAKE_STT_MODE",
+            "\"${escapeForBuildConfig(rendyProperty("rendy.voice.wakeSttMode", "parallel"))}\"")
         // Ready cue after confirmed STT capture: "off" (default) or "after_capture". See RendyListeningCue.
         buildConfigField("String", "RENDY_READY_CUE",
             "\"${escapeForBuildConfig(rendyProperty("rendy.voice.readyCue", "off"))}\"")

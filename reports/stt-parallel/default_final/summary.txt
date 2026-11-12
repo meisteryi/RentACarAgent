@@ -1,0 +1,9 @@
+===== default_final
+run_1.txt: requests=2 earlyBeforePromptEnd=True reqToPromptEnd=4123 parallelKeep=False discarded=True ttsEnd->record=-1187 ttsEnd->capture=1076 promptStopped=False textsBeforePromptEnd=[] textsWithPromptWords=[]
+run_2.txt: requests=1 earlyBeforePromptEnd=True reqToPromptEnd=1951 parallelKeep=True discarded=False ttsEnd->record=802 ttsEnd->capture=1015 promptStopped=False textsBeforePromptEnd=[] textsWithPromptWords=[]
+run_3.txt: requests=2 earlyBeforePromptEnd=True reqToPromptEnd=1832 parallelKeep=False discarded=True ttsEnd->record=-682 ttsEnd->capture=1509 promptStopped=False textsBeforePromptEnd=[] textsWithPromptWords=[]
+summary: runs=3 kept=1 discarded=2 promptInterrupted=0 runsWithPromptWordsRecognized=0
+  TTS end -> capture: n=3 mean=1200 median=1076 min=1015 max=1509 <=1000ms=0/3
+  TTS end -> service AudioRecord start: n=3 mean=-356 median=-682 min=-1187 max=802 <=1000ms=3/3
+  first STT request -> ready: n=3 mean=3571 median=3067 min=2768 max=4878 <=1000ms=0/3
+  discarded session: service recorder open (record start -> close): n=2 mean=26 median=26 min=23 max=28 <=1000ms=2/2

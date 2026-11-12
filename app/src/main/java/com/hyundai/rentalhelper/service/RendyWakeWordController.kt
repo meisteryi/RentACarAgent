@@ -147,12 +147,11 @@ class RendyWakeWordController(
         }
         var recognizer: Recognizer? = null
         var recorder: AudioRecord? = null
+        // Same bytes as the recognizer, so frame indices line up with Vosk word times (stage-2 isolation check).
+        val energy = RendyWakeIsolationCheck.FrameEnergyTracker(capacityFrames = 600)   // 12 s >= 8 s max segment + context
         val captureStartedAt = SystemClock.elapsedRealtime()
         try {
-            recognizer = Recognizer(modelForSession, SAMPLE_RATE_HZ.toFloat(), KEYWORD_GRAMMAR).apply {
-                setWords(true)
-                setEndpointerDelays(5.0f, END_OF_SPEECH_SECONDS, 8.0f)
-            }
+            recognizer = createRecognizer(modelForSession)
             val minimumBuffer = AudioRecord.getMinBufferSize(
                 SAMPLE_RATE_HZ,
                 AudioFormat.CHANNEL_IN_MONO,
@@ -212,10 +211,11 @@ class RendyWakeWordController(
                     lastMetricsAt = readAt
                 }
 
+                energy.feed(readBuffer, read)
                 val segmentEnded = recognizer.acceptWaveForm(readBuffer, read)
                 if (segmentEnded) {
                     val hypothesis = recognizer.result
-                    if (inspectResult(hypothesis, requestGeneration, "segment", firstVoiceAt, lastVoiceAt)) return
+                    if (inspectResult(hypothesis, requestGeneration, "segment", firstVoiceAt, lastVoiceAt, energy)) return
                     firstVoiceAt = 0L
                     lastVoiceAt = 0L
                     lastPartial = ""
@@ -269,7 +269,8 @@ class RendyWakeWordController(
         requestGeneration: Int,
         source: String,
         firstVoiceAt: Long,
-        lastVoiceAt: Long
+        lastVoiceAt: Long,
+        energy: RendyWakeIsolationCheck.FrameEnergyTracker
     ): Boolean {
         if (!isCurrent(requestGeneration) || detectionDelivered) return false
         val decision = decide(hypothesis)
@@ -278,6 +279,14 @@ class RendyWakeWordController(
         val confidence = decision.confidence
         Log.i(TAG, "Recognition candidate: source=$source, text=$text, normalized=$normalized, confidence=$confidence, json=$hypothesis")
         if (decision.accepted) {
+            val isolation = verifyIsolation(decision, energy)
+            if (isolation != null) {
+                Log.i(TAG, "Wake candidate stage-2 isolation: isolated=${isolation.isolated}, reason=${isolation.reason}, regionMs=${isolation.regionMs}, preVoicedMs=${isolation.preVoicedMs}, postVoicedMs=${isolation.postVoicedMs}, floor=${"%.1f".format(isolation.floor)}")
+                if (!isolation.isolated) {
+                    Log.i(TAG, "Wake word rejected: reason=not_isolated (${isolation.reason}), candidate=$normalized, confidence=$confidence, source=$source")
+                    return false
+                }
+            }
             val detectedAt = SystemClock.elapsedRealtime()
             synchronized(lock) {
                 if (!desiredListening || generation != requestGeneration || detectionDelivered) return false
@@ -419,14 +428,48 @@ class RendyWakeWordController(
         internal val GRAMMAR_WORDS = listOf(WAKE_PHRASE, "<UNK>")
         internal val KEYWORD_GRAMMAR = GRAMMAR_WORDS.joinToString(", ", "[", "]") { "\"$it\"" }
 
-        internal data class Decision(val text: String, val normalized: String, val confidence: Float, val accepted: Boolean)
+        /** The wake recognizer exactly as used for live capture (grammar, word timing, endpointing); shared with the self-test. */
+        internal fun createRecognizer(model: org.vosk.Model): Recognizer =
+            Recognizer(model, SAMPLE_RATE_HZ.toFloat(), KEYWORD_GRAMMAR).apply {
+                setWords(true)
+                setEndpointerDelays(5.0f, END_OF_SPEECH_SECONDS, 8.0f)
+            }
 
-        /** The single wake accept rule (also used by the debug self-test): text == "렌디" and min word conf >= threshold. */
+        internal data class Decision(
+            val text: String,
+            val normalized: String,
+            val confidence: Float,
+            val accepted: Boolean,
+            /** First word start / last word end in seconds of the recognizer stream; -1 when absent. */
+            val wordStartSec: Double = -1.0,
+            val wordEndSec: Double = -1.0
+        )
+
+        /** Stage 1, the single wake accept rule (also used by the debug self-test): text == "렌디" and min word conf >= threshold. */
         internal fun decide(hypothesisJson: String): Decision {
-            val text = try { JSONObject(hypothesisJson).optString("text").trim() } catch (_: Exception) { "" }
+            val json = try { JSONObject(hypothesisJson) } catch (_: Exception) { null }
+            val text = json?.optString("text")?.trim().orEmpty()
             val normalized = text.replace(Regex("\\s+"), "").replace(Regex("[\\p{Punct}\\p{P}]+$"), "")
             val confidence = extractConfidence(hypothesisJson)
-            return Decision(text, normalized, confidence, normalized == WAKE_PHRASE && confidence >= MIN_CONFIDENCE)
+            val words = json?.optJSONArray("result")
+            val start = words?.takeIf { it.length() > 0 }?.optJSONObject(0)?.optDouble("start", -1.0) ?: -1.0
+            val end = words?.takeIf { it.length() > 0 }?.optJSONObject(words.length() - 1)?.optDouble("end", -1.0) ?: -1.0
+            return Decision(text, normalized, confidence, normalized == WAKE_PHRASE && confidence >= MIN_CONFIDENCE, start, end)
+        }
+
+        /**
+         * Stage 2 for an accepted stage-1 decision: [RendyWakeIsolationCheck], or null when the check is disabled
+         * (build flag rendy.wakeword.isolation, debug override debug.rendy.wake.isolation=on|off) or word times are missing.
+         */
+        internal fun verifyIsolation(decision: Decision, energy: RendyWakeIsolationCheck.FrameEnergyTracker): RendyWakeIsolationCheck.Result? {
+            if (!isolationEnabled() || decision.wordStartSec < 0 || decision.wordEndSec < 0) return null
+            return energy.evaluate(decision.wordStartSec, decision.wordEndSec)
+        }
+
+        internal fun isolationEnabled(): Boolean = when (RendyWakeWordModelCache.debugProperty("debug.rendy.wake.isolation")) {
+            "on" -> true
+            "off" -> false
+            else -> com.hyundai.rentalhelper.BuildConfig.RENDY_WAKE_ISOLATION
         }
 
         private fun extractConfidence(json: String): Float {

@@ -1,0 +1,20 @@
+===== sequential
+run_1.txt: requests=1 earlyBeforePromptEnd=False reqToPromptEnd=None parallelKeep=None discarded=False ttsEnd->record=None ttsEnd->capture=None promptStopped=False textsBeforePromptEnd=[] textsWithPromptWords=[]
+run_2.txt: requests=1 earlyBeforePromptEnd=False reqToPromptEnd=None parallelKeep=None discarded=False ttsEnd->record=2697 ttsEnd->capture=3084 promptStopped=False textsBeforePromptEnd=[] textsWithPromptWords=[]
+run_3.txt: requests=1 earlyBeforePromptEnd=False reqToPromptEnd=None parallelKeep=None discarded=False ttsEnd->record=2451 ttsEnd->capture=2731 promptStopped=False textsBeforePromptEnd=[] textsWithPromptWords=[]
+run_4.txt: requests=1 earlyBeforePromptEnd=False reqToPromptEnd=None parallelKeep=None discarded=False ttsEnd->record=2760 ttsEnd->capture=3126 promptStopped=False textsBeforePromptEnd=[] textsWithPromptWords=[]
+run_5.txt: requests=1 earlyBeforePromptEnd=False reqToPromptEnd=None parallelKeep=None discarded=False ttsEnd->record=1093 ttsEnd->capture=1527 promptStopped=False textsBeforePromptEnd=[] textsWithPromptWords=[]
+run_6.txt: requests=1 earlyBeforePromptEnd=False reqToPromptEnd=None parallelKeep=None discarded=False ttsEnd->record=2612 ttsEnd->capture=2939 promptStopped=False textsBeforePromptEnd=[] textsWithPromptWords=[]
+run_7.txt: requests=1 earlyBeforePromptEnd=False reqToPromptEnd=None parallelKeep=None discarded=False ttsEnd->record=2422 ttsEnd->capture=2719 promptStopped=False textsBeforePromptEnd=[] textsWithPromptWords=[]
+run_8.txt: requests=1 earlyBeforePromptEnd=False reqToPromptEnd=None parallelKeep=None discarded=False ttsEnd->record=2139 ttsEnd->capture=2406 promptStopped=False textsBeforePromptEnd=[] textsWithPromptWords=[]
+run_9.txt: requests=1 earlyBeforePromptEnd=False reqToPromptEnd=None parallelKeep=None discarded=False ttsEnd->record=2227 ttsEnd->capture=2468 promptStopped=False textsBeforePromptEnd=[] textsWithPromptWords=[]
+run_10.txt: requests=1 earlyBeforePromptEnd=False reqToPromptEnd=None parallelKeep=None discarded=False ttsEnd->record=1977 ttsEnd->capture=2199 promptStopped=False textsBeforePromptEnd=[] textsWithPromptWords=[]
+run_11.txt: requests=1 earlyBeforePromptEnd=False reqToPromptEnd=None parallelKeep=None discarded=False ttsEnd->record=2253 ttsEnd->capture=2524 promptStopped=False textsBeforePromptEnd=[] textsWithPromptWords=[]
+run_12.txt: requests=1 earlyBeforePromptEnd=False reqToPromptEnd=None parallelKeep=None discarded=False ttsEnd->record=2417 ttsEnd->capture=2713 promptStopped=False textsBeforePromptEnd=[] textsWithPromptWords=[]
+run_13.txt: requests=1 earlyBeforePromptEnd=False reqToPromptEnd=None parallelKeep=None discarded=False ttsEnd->record=691 ttsEnd->capture=1070 promptStopped=False textsBeforePromptEnd=[] textsWithPromptWords=[]
+run_14.txt: requests=1 earlyBeforePromptEnd=False reqToPromptEnd=None parallelKeep=None discarded=False ttsEnd->record=939 ttsEnd->capture=1270 promptStopped=False textsBeforePromptEnd=[] textsWithPromptWords=[]
+run_15.txt: requests=1 earlyBeforePromptEnd=False reqToPromptEnd=None parallelKeep=None discarded=False ttsEnd->record=2292 ttsEnd->capture=2553 promptStopped=False textsBeforePromptEnd=[] textsWithPromptWords=[]
+summary: runs=15 kept=0 discarded=0 promptInterrupted=0 runsWithPromptWordsRecognized=0
+  TTS end -> capture: n=14 mean=2381 median=2538 min=1070 max=3126 <=1000ms=0/14
+  TTS end -> service AudioRecord start: n=14 mean=2069 median=2272 min=691 max=2760 <=1000ms=2/14
+  first STT request -> ready: n=14 mean=2048 median=2249 min=746 max=2761 <=1000ms=2/14

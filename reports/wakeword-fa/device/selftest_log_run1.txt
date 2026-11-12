@@ -1,0 +1,1 @@
+11-11 06:16:04.479 12813 18937 I RendyWakeSelfTest: Wake self-test done: variant=lite, fleurs_stream: files=608, hours=2.107, stage1=317, stage1+2=29; neg: files=240, hours=0.116, stage1=174, stage1+2=163; pos: files=100, hours=0.051, stage1=79, stage1+2=77; posctx: files=300, hours=0.504, stage1=182, stage1+2=133;  totalPssKb=412110, elapsedMs=762344
