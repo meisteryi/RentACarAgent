@@ -14,6 +14,17 @@
     <string name="btn_confirm_car">선택 완료</string>
     <string name="btn_skip_car">건너뛰기</string>
 
+    <!-- Return Info Screen -->
+    <string name="title_return_info">반납지와 일시를 입력해 주세요</string>
+    <string name="subtitle_return_info">반납 시간이 임박하면 목적지 안내와 함께 미리 알려 드립니다.</string>
+    <string name="label_return_location">반납지</string>
+    <string name="hint_return_location">예: 김포공항 렌터카 하우스, 서울역</string>
+    <string name="label_return_datetime">반납 일시</string>
+    <string name="label_return_date">날짜</string>
+    <string name="label_return_time">시간</string>
+    <string name="btn_confirm_return">입력 완료</string>
+    <string name="btn_back_return">← 이전</string>
+
     <!-- Main Assistant -->
     <string name="status_connected_car">현재 탑승 렌터카: %s</string>
     <string name="status_briefing_ready">체급 적응 브리핑이 준비되었습니다.</string>
