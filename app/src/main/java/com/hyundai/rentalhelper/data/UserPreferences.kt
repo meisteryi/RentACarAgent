@@ -11,7 +11,8 @@ enum class CarSegment(val code: String, val displayName: String, val description
     SEDAN("SEDAN", "세단", "아반떼, 쏘나타, 그랜저 등 일반 승용차"),
     SUV("SUV", "SUV", "투싼, 싼타페, 팰리세이드 등 다목적 차량"),
     VAN("VAN", "승합차", "스타리아, 카니발 등 대형 패밀리/승합차"),
-    TRUCK("TRUCK", "트럭/상용차", "포터, 봉고 등 화물 상용차");
+    TRUCK("TRUCK", "트럭/상용차", "포터, 봉고 등 화물 상용차"),
+    NONE("NONE", "없음", "차량 미보유 / 운전 초보");
 
     companion object {
         fun fromCode(code: String?): CarSegment? {

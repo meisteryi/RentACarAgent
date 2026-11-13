@@ -275,6 +275,7 @@ class CarButtonDatabase private constructor(context: Context) {
                 CarSegment.SUV -> "탑승하신 ${rentalName}는 전기차 전용 플랫폼으로 바닥에 배터리가 있어 일반 내연기관 SUV보다 무게중심이 낮고 주행이 안정적입니다. 기어는 핸들 오른쪽 뒤 칼럼 레버로 조작합니다.$scc"
                 CarSegment.VAN -> "탑승하신 ${rentalName}는 전기차로 대형 승합차 못지않은 3미터 휠베이스의 넓은 공간을 제공합니다. 핸들 뒤 패들쉬프트로 회생제동 세기를 맞추어 편안하게 주행하세요."
                 CarSegment.TRUCK -> "탑승하신 ${rentalName}는 전기 모터의 즉각적인 토크와 조용한 승차감이 특징입니다. 기어는 핸들 오른쪽 뒤 칼럼 레버를 돌려 D단으로 변속하세요."
+                CarSegment.NONE -> "탑승하신 ${rentalName}는 순수 전기차로 시트와 사이드미러를 먼저 맞춘 뒤, 브레이크를 밟고 핸들 오른쪽 뒤 칼럼 레버 끝단을 앞으로 돌려 D단으로 천천히 출발하세요.$scc"
             }
         }
 
@@ -307,6 +308,9 @@ class CarButtonDatabase private constructor(context: Context) {
             }
             CarSegment.TRUCK -> { // 트럭을 몰던 운전자
                 "${rentalName}에 탑승하셨습니다. 상용차에 비해 브레이크 반응이 즉각적이니 페달을 부드럽게 밟아주세요."
+            }
+            CarSegment.NONE -> { // 평소 자차 없음 / 운전 초보
+                "${rentalName}에 탑승하셨습니다. 시트 포지션과 사이드미러 각도를 먼저 맞춘 뒤 브레이크를 밟고 기어를 D단에 넣어 여유 있게 출발하세요."
             }
         }
     }

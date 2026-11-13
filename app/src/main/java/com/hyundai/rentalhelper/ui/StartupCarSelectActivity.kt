@@ -60,6 +60,7 @@ class StartupCarSelectActivity : AppCompatActivity() {
         cardMap[CarSegment.SUV] = binding.cardSuv
         cardMap[CarSegment.VAN] = binding.cardVan
         cardMap[CarSegment.TRUCK] = binding.cardTruck
+        cardMap[CarSegment.NONE] = binding.cardNone
 
         userPreferences.getUsualCarSegment()?.let {
             selectSegment(it)
