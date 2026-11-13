@@ -26,12 +26,14 @@ import ai.pleos.playground.tts.listener.OnInitializeListener
 import android.util.Log
 import com.hyundai.rentalhelper.data.CarButtonDatabase
 import com.hyundai.rentalhelper.data.HyundaiCarModel
+import com.hyundai.rentalhelper.intent.DrivingState
 import com.hyundai.rentalhelper.intent.GeminiFlashProxyIntentClassifier
 import com.hyundai.rentalhelper.intent.HttpUrlConnectionProxyTransport
 import com.hyundai.rentalhelper.intent.RendyIntentFeatureFlags
 import com.hyundai.rentalhelper.intent.RendyQuestionCoordinator
 import com.hyundai.rentalhelper.intent.RendyQuestionPipeline
 import com.hyundai.rentalhelper.intent.RuleBasedIntentClassifier
+import com.hyundai.rentalhelper.intent.VoiceAnswer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -50,6 +52,7 @@ class VoiceAssistantEngine(
         private const val TAG = "RendyTTS"
         private const val STT_TAG = "RendySTT"
         private const val INTENT_TAG = "RendyIntent"
+        private const val DIALOGUE_TAG = "RendyDialogue"
         const val RENDY_INTRO_TEXT = "안녕하세요! 렌터카 AI 비서 렌디예요."
         const val RENDY_INTRO_UTTERANCE_ID = "rendy_intro"
         private const val UTTERANCE_ID_BRIEFING = "utterance_briefing"
@@ -110,6 +113,15 @@ class VoiceAssistantEngine(
     private var utteranceSequence = 0L
     private val intentScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private val questionCoordinator = RendyQuestionCoordinator(intentScope)
+
+    /** Vehicle motion for the guidance policy (set by the Service from VehicleSdkManager). UNKNOWN until then. */
+    @Volatile var drivingStateProvider: () -> DrivingState = { DrivingState.UNKNOWN }
+
+    /**
+     * Called on the main thread for every answer just before it is spoken, so the Service can decide whether to
+     * open the short follow-up listening window after playback.
+     */
+    var onAnswerDelivered: ((VoiceAnswer) -> Unit)? = null
     /** Built once so follow-up context survives between questions; null when LLM mode cannot run. */
     private val llmPipeline: RendyQuestionPipeline? by lazy {
         val endpoint = RendyIntentFeatureFlags.GEMINI_PROXY_ENDPOINT
@@ -119,19 +131,23 @@ class VoiceAssistantEngine(
         ) return@lazy null
         Log.i(INTENT_TAG, "LLM intent routing enabled: db=${buttonDb.getDatabaseVersion()}, intents=${knowledge.intents.size}, " +
             "extraAllowlist=${RendyIntentFeatureFlags.VERIFIED_INTENT_IDS.size}")
+        val gemini = GeminiFlashProxyIntentClassifier(
+            endpoint = endpoint,
+            minimumConfidence = RendyIntentFeatureFlags.MINIMUM_MODEL_CONFIDENCE,
+            totalTimeoutMs = RendyIntentFeatureFlags.PROXY_TIMEOUT_MS,
+            transport = HttpUrlConnectionProxyTransport(authToken = RendyIntentFeatureFlags.PROXY_TOKEN),
+            allowLocalHttp = RendyIntentFeatureFlags.ALLOW_LOCAL_HTTP_PROXY
+        )
         RendyQuestionPipeline(
-            classifier = GeminiFlashProxyIntentClassifier(
-                endpoint = endpoint,
-                minimumConfidence = RendyIntentFeatureFlags.MINIMUM_MODEL_CONFIDENCE,
-                totalTimeoutMs = RendyIntentFeatureFlags.PROXY_TIMEOUT_MS,
-                transport = HttpUrlConnectionProxyTransport(authToken = RendyIntentFeatureFlags.PROXY_TOKEN),
-                allowLocalHttp = RendyIntentFeatureFlags.ALLOW_LOCAL_HTTP_PROXY
-            ),
+            classifier = gemini,
             fallbackClassifier = RuleBasedIntentClassifier(knowledge.intents),
             knowledge = knowledge,
             contextWindowMs = RendyIntentFeatureFlags.CONTEXT_WINDOW_MS,
             clock = SystemClock::elapsedRealtime,
-            restrictToIntents = RendyIntentFeatureFlags.VERIFIED_INTENT_IDS
+            restrictToIntents = RendyIntentFeatureFlags.VERIFIED_INTENT_IDS,
+            drivingState = { drivingStateProvider() },
+            // Follow-up turns: one /v1/rendy/turn call (dialogue act + intent) with the conversation state.
+            turnClassifier = gemini
         )
     }
 
@@ -145,7 +161,8 @@ class VoiceAssistantEngine(
             knowledge = knowledge,
             contextWindowMs = RendyIntentFeatureFlags.CONTEXT_WINDOW_MS,
             clock = SystemClock::elapsedRealtime,
-            restrictToIntents = RendyIntentFeatureFlags.VERIFIED_INTENT_IDS
+            restrictToIntents = RendyIntentFeatureFlags.VERIFIED_INTENT_IDS,
+            drivingState = { drivingStateProvider() }
         )
     }
 
@@ -614,6 +631,25 @@ class VoiceAssistantEngine(
         }
     }
 
+    /**
+     * Debug builds only (CoachOverlayService ACTION_DEBUG_STT_RESULT): deliver [text] as the final result of the
+     * active, capture-confirmed Pleos STT session and stop it, exactly like a real final result. Used to drive the
+     * real wake / follow-up window flow on an emulator without a usable microphone. NOT acoustic recognition.
+     */
+    fun debugDeliverSttResult(text: String): Boolean {
+        if (!com.hyundai.rentalhelper.BuildConfig.DEBUG) return false
+        if (!pleosSttRequestActive || activeSttSessionId == 0L || pleosSttHasFinalResult || sttState != SttState.LISTENING) {
+            Log.w(STT_TAG, "DEBUG transcript injection ignored: no capture-confirmed STT session (state=$sttState)")
+            return false
+        }
+        pleosSttHasFinalResult = true
+        Log.i(STT_TAG, "session=$activeSttSessionId DEBUG injected final result (text injection, not acoustic): trigger=$activeSttTrigger")
+        onSttTextReceived?.invoke(text)
+        setSttState(SttState.RESULT, "Text recognized")
+        stopPleosRecognition()
+        return true
+    }
+
     fun stopPleosRecognition() {
         val engine = pleosStt
         if (!pleosSttRequestActive && !pleosSttStartPending) return
@@ -877,15 +913,18 @@ class VoiceAssistantEngine(
         }
     }
 
-    /** 질문 텍스트 분석 및 답변 TTS 재생 */
-    fun processQuestion(carModel: HyundaiCarModel, query: String) {
-        // Flag OFF (default): keyword rules only, no network. Flag ON: Gemini proxy with rule fallback.
-        // Both use the same DB verification policy and follow-up dialogue.
-        val pipeline = if (RendyIntentFeatureFlags.ENABLE_LLM_CLASSIFIER) {
+    private fun activePipeline(): RendyQuestionPipeline? =
+        if (RendyIntentFeatureFlags.ENABLE_LLM_CLASSIFIER) {
             llmPipeline ?: rulePipeline.also {
                 Log.w(INTENT_TAG, "LLM classifier enabled without a valid HTTPS proxy endpoint; using rules")
             }
         } else rulePipeline
+
+    /** 질문 텍스트 분석 및 답변 TTS 재생 */
+    fun processQuestion(carModel: HyundaiCarModel, query: String) {
+        // Flag OFF (default): keyword rules only, no network. Flag ON: Gemini proxy with rule fallback.
+        // Both use the same DB verification policy and follow-up dialogue.
+        val pipeline = activePipeline()
         if (pipeline == null) {
             questionCoordinator.cancelPending()
             deliverDatabaseFallback(query, carModel)
@@ -897,15 +936,50 @@ class VoiceAssistantEngine(
                 // Dialogue state advances only for the answer that is actually spoken.
                 pipeline.commit(answer, id)
                 // Never log the transcript or proxy payload here; ids and reasons only.
-                Log.i(INTENT_TAG, "Question answered: request=$id, model=${carModel.modelId}, source=${answer.source}, " +
+                Log.i(INTENT_TAG, "Question answered: request=$id, model=${carModel.selectionId}, source=${answer.source}, " +
                     "intent=${answer.intentId}, button=${answer.buttonId}, tier=${answer.tier}, reason=${answer.reason}")
+                logDialogue("answer", id, answer, pipeline)
                 onSpeechResultReceived?.invoke(query, answer.title, answer.text)
+                onAnswerDelivered?.invoke(answer)
                 speak(answer.text, UTTERANCE_ID_QA)
             }
         )
-        Log.i(INTENT_TAG, "Question classification started: request=$requestId, model=${carModel.modelId}, " +
+        Log.i(INTENT_TAG, "Question classification started: request=$requestId, model=${carModel.selectionId}, " +
             "llm=${pipeline === llmPipeline}")
+        // Raw STT text (exactly what the recognizer returned) under the same request id as the interpretation
+        // line (RendyDialogue "answer: request=..": act/intent/reason), so the two are never confused in logs.
+        Log.i(STT_TAG, "STT raw input: request=$requestId, text=$query")
     }
+
+    /**
+     * After the vehicle signal reports PARKED: speak the single resume offer for guidance held while driving.
+     * Returns false when there is nothing to offer (or it was offered already for this hold).
+     */
+    fun offerGuidanceResume(carModel: HyundaiCarModel): Boolean {
+        val pipeline = activePipeline() ?: return false
+        val offer = pipeline.resumeOffer(carModel) ?: return false
+        cancelPendingQuestion("resume_offer")
+        pipeline.commit(offer)
+        logDialogue("resume_offer", null, offer, pipeline)
+        onSpeechResultReceived?.invoke("(정차 감지)", offer.title, offer.text)
+        onAnswerDelivered?.invoke(offer)
+        speak(offer.text, UTTERANCE_ID_QA)
+        return true
+    }
+
+    /** Act, stage and a hash of the spoken text (for exact-repeat checks in logs); never the driver transcript. */
+    private fun logDialogue(kind: String, requestId: Long?, answer: VoiceAnswer, pipeline: RendyQuestionPipeline) {
+        val s = pipeline.currentState()
+        val driving = try { drivingStateProvider().name } catch (_: Exception) { "ERROR" }
+        Log.i(DIALOGUE_TAG, "$kind: request=$requestId, interpreted: act=${answer.act}, intent=${answer.intentId}, source=${answer.source}, stage=${s?.stage}, step=${s?.stepIndex}, " +
+            "resumeOffered=${s?.resumeOffered}, driving=$driving, repeatable=${answer.repeatable}, " +
+            "asks=${answer.asksQuestion}, ends=${answer.endsConversation}, spokenSha=${sha8(answer.text)}, " +
+            "spokenLen=${answer.text.length}, reason=${answer.reason}")
+    }
+
+    private fun sha8(text: String): String =
+        java.security.MessageDigest.getInstance("SHA-256").digest(text.toByteArray(Charsets.UTF_8))
+            .take(4).joinToString("") { String.format("%02x", it) }
 
     /** Forget the follow-up context (e.g. the user picked another car or the app is closing). */
     fun resetConversation(cause: String) {
@@ -1123,6 +1197,7 @@ class VoiceAssistantEngine(
         onTtsPlaybackStateChanged = null
         onSttTextReceived = null
         onSttCaptureReady = null
+        onAnswerDelivered = null
         resetConversation("service_detached")
         stopPleosRecognition()
         stopSpeaking()

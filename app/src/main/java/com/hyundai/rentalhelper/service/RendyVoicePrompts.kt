@@ -28,6 +28,12 @@ object RendyVoicePrompts {
     /** On-screen status while the answer is played. */
     const val ANSWERING_STATUS = "답변하는 중"
 
+    /**
+     * On-screen status (not spoken) while the short follow-up window listens after an answer. The wake response
+     * stays [WAKE_PROMPT_TEXT] and is never replaced by this.
+     */
+    const val FOLLOW_UP_STATUS = "더 궁금한 점이 있으면 말씀하세요"
+
     /** Spoken once when the first STT attempt heard nothing. */
     const val RETRY_PROMPT_TEXT = "한 번 더 말씀해 주세요."
 }

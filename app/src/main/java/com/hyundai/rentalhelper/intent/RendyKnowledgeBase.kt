@@ -6,6 +6,7 @@ import com.hyundai.rentalhelper.data.FaqIntent
 import com.hyundai.rentalhelper.data.HyundaiCarModel
 import com.hyundai.rentalhelper.data.HyundaiDatabase
 import com.hyundai.rentalhelper.data.OverlayEntry
+import com.hyundai.rentalhelper.data.RendyVehicleVariants
 import com.hyundai.rentalhelper.data.VerificationOverlay
 
 /** Where an intent leads for one car model (from v4.2 `model_routing`, else the intent's response_key). */
@@ -51,6 +52,7 @@ data class ButtonGuidance(
     private val overlayLocation: String? get() = overlay?.location?.text?.trim()?.takeIf { it.isNotEmpty() }
     private val overlayOperation: String? get() = overlay?.operation?.text?.trim()?.takeIf { it.isNotEmpty() }
     private val overlayAppearance: String? get() = overlay?.appearance?.text?.trim()?.takeIf { it.isNotEmpty() }
+    private val overlayClue: String? get() = overlay?.clue?.text?.trim()?.takeIf { it.isNotEmpty() }
     val locationIsExact: Boolean get() = dbFull || overlay?.location?.scope == "exact"
 
     /**
@@ -61,6 +63,11 @@ data class ButtonGuidance(
         if (!tier.speakable) return null
         if (dbFull) return button.spokenAnswer?.trim()?.takeIf { it.isNotEmpty() }
         if (overlayLocation == null && overlayOperation == null) return null
+        val opFirst = overlayOperation?.let { sentences(it).firstOrNull() }
+        if (exactWithAppearance && opFirst != null) {
+            // Everything verified: where to look -> what it looks like -> the first action, one sentence each.
+            return listOf(sentences(overlayLocation!!).first(), sentences(overlayAppearance!!).first(), opFirst).joinToString(" ")
+        }
         val notice = when {
             overlayOperation == null -> NOTICE_OPERATION_UNCONFIRMED
             !locationIsExact && overlayLocation != null -> NOTICE_EXACT_POSITION_UNCONFIRMED
@@ -76,6 +83,12 @@ data class ButtonGuidance(
         val look = overlayAppearance?.takeIf { budget > 0 }
         return listOfNotNull(loc, look, op, notice).joinToString(" ")
     }
+
+    /** Exact verified position plus a verified appearance: guidance names both together. */
+    val exactWithAppearance: Boolean get() = tier.speakable && locationIsExact && overlayLocation != null && overlayAppearance != null
+
+    /** One more verified clue for "못 찾겠어" (e.g. the neighbouring button it must not be confused with). */
+    val clueSentence: String? get() = if (tier.speakable) overlayClue else null
 
     /** Verified appearance clue (overlay), used when the position itself is not confirmed. */
     val appearanceSentence: String? get() = if (tier.speakable) overlayAppearance else null
@@ -138,16 +151,17 @@ class RendyKnowledgeBase(val database: HyundaiDatabase, overlay: VerificationOve
     val rejectedOverlayEntries: List<String>
 
     /** Accepted overlay entries keyed by (modelId, buttonId). */
-    private val overlayByButton: Map<Pair<String, String>, OverlayEntry>
+    /** Keyed by (modelId, buttonId, designGeneration); a null design is the design-neutral entry. */
+    private val overlayByButton: Map<Triple<String, String, String?>, OverlayEntry>
 
     init {
-        val accepted = mutableMapOf<Pair<String, String>, OverlayEntry>()
+        val accepted = mutableMapOf<Triple<String, String, String?>, OverlayEntry>()
         val rejected = mutableListOf<String>()
         for (e in overlay?.entries.orEmpty()) {
-            val key = "${e.model}.${e.button}"
+            val key = "${e.model}.${e.button}" + (e.designGeneration?.let { "@$it" } ?: "")
             val car = database.models.firstOrNull { it.modelId == e.model }
             val button = car?.buttons?.get(e.button.orEmpty())
-            val fields = listOfNotNull(e.location, e.operation, e.appearance)
+            val fields = listOfNotNull(e.location, e.operation, e.appearance, e.clue)
             when {
                 car == null || button == null -> rejected += "$key: unknown model/button"
                 button.verification?.status == STATUS_NOT_APPLICABLE -> rejected += "$key: button is NOT_APPLICABLE"
@@ -155,8 +169,10 @@ class RendyKnowledgeBase(val database: HyundaiDatabase, overlay: VerificationOve
                 fields.any { it.text.isNullOrBlank() || it.evidence.isNullOrBlank() || it.source.isNullOrBlank() } ->
                     rejected += "$key: field without text/evidence/source"
                 e.location != null && e.location.scope !in setOf("exact", "component") -> rejected += "$key: invalid location scope"
-                (car.modelId to e.button!!) in accepted -> rejected += "$key: duplicate entry"
-                else -> accepted[car.modelId to e.button] = e
+                e.designGeneration != null && e.designGeneration !in RendyVehicleVariants.generationsFor(car.modelId) ->
+                    rejected += "$key: unknown design_generation"
+                Triple(car.modelId, e.button!!, e.designGeneration) in accepted -> rejected += "$key: duplicate entry"
+                else -> accepted[Triple(car.modelId, e.button, e.designGeneration)] = e
             }
         }
         overlayByButton = accepted
@@ -164,7 +180,9 @@ class RendyKnowledgeBase(val database: HyundaiDatabase, overlay: VerificationOve
     }
 
     /** Overlay entry used for a button, if any (for reports). */
-    fun overlayFor(car: HyundaiCarModel, buttonId: String): OverlayEntry? = overlayByButton[car.modelId to buttonId]
+    fun overlayFor(car: HyundaiCarModel, buttonId: String): OverlayEntry? =
+        car.designGeneration?.let { overlayByButton[Triple(car.modelId, buttonId, it)] }
+            ?: overlayByButton[Triple(car.modelId, buttonId, null)]
 
     /** Proposed v4.2 intents that were not accepted, with the reason. Reported, never silently dropped. */
     val rejectedProposals: List<String>
@@ -262,7 +280,9 @@ class RendyKnowledgeBase(val database: HyundaiDatabase, overlay: VerificationOve
         val status = v?.status
         val dbFull = status in EVIDENCED_STATUSES && v?.locationVerified == true && v.operationVerified == true &&
             v.answerPolicy in SPEAKABLE_POLICIES && !button.spokenAnswer.isNullOrBlank()
-        val o = if (dbFull || status == STATUS_NOT_APPLICABLE) null else overlayByButton[car.modelId to buttonId]
+        // The car's own design entry wins; a design-neutral entry is used only when there is none. One entry is
+        // used whole, so location, appearance and operation never come from two different designs.
+        val o = if (dbFull || status == STATUS_NOT_APPLICABLE) null else overlayFor(car, buttonId)
         val tier = when {
             status == STATUS_NOT_APPLICABLE -> GuidanceTier.NOT_APPLICABLE
             dbFull -> GuidanceTier.FULL
@@ -273,7 +293,8 @@ class RendyKnowledgeBase(val database: HyundaiDatabase, overlay: VerificationOve
             else -> GuidanceTier.UNVERIFIED
         }
         val reason = "status=${status ?: "none"},loc=${v?.locationVerified},op=${v?.operationVerified},policy=${v?.answerPolicy}" +
-            (o?.let { ",overlay=${listOfNotNull(it.location?.let { l -> "loc:${l.scope}" }, it.operation?.let { "op" }).joinToString("+")}" } ?: "")
+            (o?.let { ",overlay=${listOfNotNull(it.location?.let { l -> "loc:${l.scope}" }, it.operation?.let { "op" }).joinToString("+")}" } ?: "") +
+            (o?.let { ",design=${it.designGeneration ?: "neutral"}" } ?: "")
         return ButtonGuidance(buttonId, button, tier, reason, o)
     }
 

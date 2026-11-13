@@ -124,7 +124,8 @@ class RendyQuestionPipelineTest {
     @Test
     fun fullFollowUpDialogueOnAVerifiedButton() = runBlocking {
         val s = Scripted().apply { next = "electronic_parking_brake" }
-        val p = pipeline(s)
+        // Detailed guidance (location walk-through, steps) needs a PARKED signal; see detailedGuidanceIsHeldUnlessParked.
+        val p = pipeline(s, DrivingState.PARKED)
         val b = button(tucson, "electronic_parking_brake")
         val g = kb.guidance(tucson, "electronic_parking_brake")!!
 
@@ -132,6 +133,7 @@ class RendyQuestionPipelineTest {
         val nf1 = p.answerAndCommit("못 찾겠어", tucson)
         assertEquals(AnswerSource.FOLLOW_UP, nf1.source)
         assertTrue(nf1.text.startsWith(g.locationSentence!!))
+        assertTrue(nf1.text.endsWith(RendyDialogueText.FOUND_QUESTION))
         assertFalse("unverified detailed_location must not be read", nf1.text.contains(b.detailedLocation!!))
         val nf2 = p.answerAndCommit("아직도 안 보여", tucson)
         assertEquals(RendyAnswerComposer.NOT_FOUND_AGAIN_TEXT, nf2.text)
@@ -149,7 +151,7 @@ class RendyQuestionPipelineTest {
     @Test
     fun stepsAreReadOnePerTurn() = runBlocking {
         val s = Scripted().apply { next = "window_lock" }
-        val p = pipeline(s)
+        val p = pipeline(s, DrivingState.PARKED)
         val steps = button(ioniq, "window_lock").operationSteps!!
         assertEquals(2, steps.size)
         p.answerAndCommit("창문 잠금 어디야", ioniq)
@@ -167,11 +169,16 @@ class RendyQuestionPipelineTest {
         // Location only + the DB's own stop instruction ("시트 조절은 정차 중에 하세요.").
         assertEquals("${g.locationSentence} ${g.safetyNote()}", first.text)
         assertFalse(g.steps.any { first.text.contains(it) })
-        assertEquals(RendyAnswerComposer.PARKED_STEPS_TEXT, driving.answerAndCommit("찾았어", casper).text)
+        // Steps are held until a PARKED signal (was PARKED_STEPS_TEXT before the dialogue manager).
+        assertEquals(RendyDialogueText.HOLD_DRIVING, driving.answerAndCommit("찾았어", casper).text)
 
         val unknown = pipeline(s, DrivingState.UNKNOWN)
         unknown.answerAndCommit("시트 조절", casper)
-        assertTrue(unknown.answerAndCommit("찾았어", casper).text.startsWith("차를 세운 상태에서 해 주세요."))
+        assertEquals(RendyDialogueText.HOLD_UNKNOWN, unknown.answerAndCommit("찾았어", casper).text)
+
+        val parked = pipeline(s, DrivingState.PARKED)
+        parked.answerAndCommit("시트 조절", casper)
+        assertEquals(g.steps[0], parked.answerAndCommit("찾았어", casper).text)
     }
 
     @Test
@@ -220,7 +227,7 @@ class RendyQuestionPipelineTest {
     @Test
     fun uncommittedAnswerDoesNotChangeTheConversation() = runBlocking {
         val s = Scripted().apply { next = "electronic_parking_brake" }
-        val p = pipeline(s)
+        val p = pipeline(s, DrivingState.PARKED)
         p.answerAndCommit("주차 브레이크", tucson)
         p.answer("찾았어", tucson) // computed but superseded (never delivered) -> not committed
         assertEquals(-1, p.currentState()!!.stepIndex)

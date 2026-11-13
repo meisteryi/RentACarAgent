@@ -100,7 +100,7 @@ object RendyAnswerComposer {
             val title = if (g.overlay == null) g.button.name else feature
             return VoiceAnswer(
                 title, text, source, intentId, reason, g.buttonId, tier,
-                DialogueStateUpdate.Set(car.modelId, intentId, g.buttonId, tier, text)
+                DialogueStateUpdate.Set(car.selectionId, intentId, g.buttonId, tier, text)
             )
         }
         // One sentence each, so the safety note (hedged_safety) still keeps the answer within two sentences.
@@ -113,7 +113,7 @@ object RendyAnswerComposer {
         val text = if (g.answerPolicy == "hedged_safety") listOfNotNull(base, g.safetyNote()).joinToString(" ") else base
         return VoiceAnswer(
             feature, text, source, intentId, reason, g.buttonId, tier,
-            DialogueStateUpdate.Set(car.modelId, intentId, g.buttonId, tier, text)
+            DialogueStateUpdate.Set(car.selectionId, intentId, g.buttonId, tier, text)
         )
     }
 
@@ -130,7 +130,7 @@ object RendyAnswerComposer {
         return if (target != null && target.tier.speakable && target.spokenAnswer != null && targetIntent != null) {
             val text = "$absence ${target.spokenAnswer}"
             VoiceAnswer(target.button.name, text, source, targetIntent, "$reason|redirect", target.buttonId, target.tier,
-                DialogueStateUpdate.Set(car.modelId, targetIntent, target.buttonId, target.tier, text))
+                DialogueStateUpdate.Set(car.selectionId, targetIntent, target.buttonId, target.tier, text))
         } else {
             VoiceAnswer(feature, "$absence $targetName 위치는 아직 확인된 안내가 없어요.", source, route.intentId,
                 "$reason|redirect|target_tier=${target?.tier}", route.buttonId, from?.tier, DialogueStateUpdate.Clear)

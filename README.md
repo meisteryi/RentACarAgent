@@ -158,4 +158,5 @@ rendy.llm.proxyToken=
 | `RENDY_final_integration_guide.md`, `RENDY_final_changelog.md`, `RENDY_final_verification_report.md` | 버튼 DB v4.2 연동 가이드, 변경 내역, 공식 매뉴얼 검증 결과 |
 | `rendy_db_lint.py` | DB 정합성 검사. `python rendy_db_lint.py app/src/main/assets/hyundai_buttons_db.json` |
 | `reports/` | 측정 보고서 (DB v4.2, STT 지연, 호출어 메모리, STT 병렬화, 호출어 오인식) |
+| `reports/dialogue-followup/README.md` | 후속 대화(반복·상세 안내·정차 후 재개) 구조, 실제 Gemini 평가, 데모 재현 방법 |
 

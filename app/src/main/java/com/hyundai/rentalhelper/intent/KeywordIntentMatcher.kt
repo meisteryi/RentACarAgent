@@ -127,8 +127,11 @@ class RuleBasedIntentClassifier(private val allIntents: List<FaqIntent>) : Inten
                 // "이거 어떻게 꺼?" right after an answered question refers to that same control.
                 val previous = context.previousIntentId?.takeIf { prev -> candidates.any { it.id == prev } }
                 val normalized = KeywordIntentMatcher.normalize(query)
+                val assistant = RendyAssistantIntents.ruleMatch(normalized)?.takeIf { id -> candidates.any { it.id == id } }
                 if (previous != null && DEMONSTRATIVES.any { normalized.contains(it) }) {
                     IntentClassification.Classified(previous, RULE_CONFIDENCE)
+                } else if (assistant != null) {
+                    IntentClassification.Classified(assistant, RULE_CONFIDENCE)
                 } else {
                     IntentClassification.Clarification(null, "rule_no_match")
                 }

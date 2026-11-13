@@ -136,6 +136,7 @@ class IntentEvaluationTest {
             } ?: "CLARIFY"
             val actual = when (route) {
                 is QuestionRoute.Answer -> route.intentId
+                is QuestionRoute.Assistant -> route.intentId
                 is QuestionRoute.Clarify -> "CLARIFY"
                 is QuestionRoute.Fallback -> "ERROR"
             }

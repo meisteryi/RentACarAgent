@@ -50,9 +50,29 @@ class RendyQaSuiteTest {
         assertEquals("button failures (mock)", 0, counts["FAIL_BUTTON"] ?: 0)
     }
 
+    /** [mockClassifierRoutingPolicyAndDialogue] with a PARKED signal (see [ruleEngineOnQaSuiteParked]). */
+    @Test
+    fun mockClassifierParked() = runBlocking {
+        val counts = run("qa133_mock_parked", Mode.MOCK, null, notRestricted = DrivingState.PARKED)
+        assertEquals("safety failures", 0, counts["FAIL_SAFETY"] ?: 0)
+        assertEquals("intent failures (mock)", 0, counts["FAIL_INTENT"] ?: 0)
+        assertEquals("button failures (mock)", 0, counts["FAIL_BUTTON"] ?: 0)
+    }
+
     @Test
     fun ruleEngineOnQaSuite() = runBlocking {
         val counts = run("qa133_rules", Mode.RULES, RuleBasedIntentClassifier(kb.intents))
+        assertEquals("safety failures", 0, counts["FAIL_SAFETY"] ?: 0)
+    }
+
+    /**
+     * Same as [ruleEngineOnQaSuite] but with a PARKED vehicle signal for turns that are not ux_restricted. Since the
+     * dialogue manager, step-by-step follow-ups (location walk-through, operation steps) are given only when parked;
+     * with UNKNOWN (the default run) they are held. This run shows the follow-up content itself is unchanged.
+     */
+    @Test
+    fun ruleEngineOnQaSuiteParked() = runBlocking {
+        val counts = run("qa133_rules_parked", Mode.RULES, RuleBasedIntentClassifier(kb.intents), notRestricted = DrivingState.PARKED)
         assertEquals("safety failures", 0, counts["FAIL_SAFETY"] ?: 0)
     }
 
@@ -72,7 +92,10 @@ class RendyQaSuiteTest {
 
     private enum class Mode { MOCK, RULES, LIVE }
 
-    private suspend fun run(name: String, mode: Mode, classifier: IntentClassifier?, delayMs: Long = 0): Map<String, Int> {
+    private suspend fun run(
+        name: String, mode: Mode, classifier: IntentClassifier?, delayMs: Long = 0,
+        notRestricted: DrivingState = DrivingState.UNKNOWN
+    ): Map<String, Int> {
         val rows = mutableListOf("case\tturn\tcategory\tmodel\tuser\texpected_intent\texpected_button\tsource\tintent\tbutton\ttier\toutcome\tdetail\ttext")
         val counts = sortedMapOf<String, Int>()
         val byCategory = sortedMapOf<String, MutableMap<String, Int>>()
@@ -97,7 +120,7 @@ class RendyQaSuiteTest {
                 val expected = resolveExpectedIntent(rawExpected)
                 val expectedButton = turn.str("expected_button")
                 val expect = turn.getAsJsonObject("expect") ?: JsonObject()
-                driving = if (expect.bool("ux_restricted")) DrivingState.DRIVING else DrivingState.UNKNOWN
+                driving = if (expect.bool("ux_restricted")) DrivingState.DRIVING else notRestricted
                 if (mode == Mode.MOCK) switchable.scripted = expected.takeIf { kb.intent(it) != null }
                 val answer = pipeline.answer(user, car)
                 pipeline.commit(answer)

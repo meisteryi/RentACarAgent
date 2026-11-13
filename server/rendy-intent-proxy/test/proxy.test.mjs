@@ -112,6 +112,87 @@ test('upstream errors map to non-2xx so the app falls back', async () => {
   assert.deepEqual(await res.json(), { error: 'upstream_timeout' });
 });
 
+// ---------------------------------------------------------------- /v1/rendy/turn (follow-up dialogue acts)
+
+const turnRequest = {
+  query: '어? 뭐라고?',
+  allowed_intents: request.allowed_intents,
+  dialogue: {
+    last_rendy_utterance: '앞유리 성에 제거 버튼은 공조 패널에 있어요.',
+    rendy_asked_question: false,
+    last_driver_question: '앞유리 김 어떻게 없애?',
+    current_intent: 'front_defog',
+    stage: 'ANSWERED',
+    pending_detail: false,
+    driving_state: 'DRIVING',
+    car_model: '투싼',
+  },
+};
+const postTurn = (body, token = 'tok') => fetch(`${base}/v1/rendy/turn`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+  body: typeof body === 'string' ? body : JSON.stringify(body),
+});
+
+test('turn returns exactly {dialogue_act, intent, confidence} and sends the conversation state', async () => {
+  upstreamReply = () => geminiText({ dialogue_act: 'REPEAT', intent: 'UNKNOWN', confidence: 0.88 });
+  const res = await postTurn(turnRequest);
+  assert.equal(res.status, 200);
+  assert.deepEqual(await res.json(), { dialogue_act: 'REPEAT', intent: 'UNKNOWN', confidence: 0.88 });
+  const prompt = lastUpstream.body.contents[0].parts[0].text;
+  assert.match(prompt, /stage: ANSWERED/);
+  assert.match(prompt, /current feature: front_defog/);
+  assert.match(prompt, /RENDY's last utterance: """앞유리 성에 제거 버튼은 공조 패널에 있어요\."""/);
+  assert.match(prompt, /was a question to the driver: no/);
+  assert.match(prompt, /driving state: DRIVING/);
+  assert.match(prompt, /Driver's latest utterance: """어\? 뭐라고\?"""/);
+  const schema = lastUpstream.body.generationConfig.responseJsonSchema;
+  assert.deepEqual(schema.properties.dialogue_act.enum,
+    ['NEW_QUESTION', 'REPEAT', 'NEED_DETAIL', 'CONFIRM', 'FOUND', 'DENY', 'CANCEL', 'UNCLEAR']);
+  assert.deepEqual(schema.properties.intent.enum, ['front_defog', 'hazard_light', 'UNKNOWN']);
+  // The turn prompt carries no Korean example phrases of its own (only the request's data).
+  assert.ok(!/[가-힣]/.test(lastUpstream.body.systemInstruction.parts[0].text));
+});
+
+test('turn NEW_QUESTION keeps an allowed intent; other acts never carry one', async () => {
+  upstreamReply = () => geminiText({ dialogue_act: 'NEW_QUESTION', intent: 'hazard_light', confidence: 0.9 });
+  assert.deepEqual(await (await postTurn({ ...turnRequest, query: '비상등은 어딨어?' })).json(),
+    { dialogue_act: 'NEW_QUESTION', intent: 'hazard_light', confidence: 0.9 });
+  upstreamReply = () => geminiText({ dialogue_act: 'FOUND', intent: 'front_defog', confidence: 0.8 });
+  assert.deepEqual(await (await postTurn(turnRequest)).json(), { dialogue_act: 'FOUND', intent: 'UNKNOWN', confidence: 0.8 });
+});
+
+test('turn rejects invalid state before calling Gemini', async () => {
+  const d = turnRequest.dialogue;
+  for (const bad of [
+    { ...turnRequest, dialogue: undefined },
+    { ...turnRequest, dialogue: { ...d, stage: 'TELEPORT' } },
+    { ...turnRequest, dialogue: { ...d, driving_state: 'FLYING' } },
+    { ...turnRequest, dialogue: { ...d, current_intent: 'not_offered' } },
+    { ...turnRequest, dialogue: { ...d, last_rendy_utterance: 'x'.repeat(301) } },
+    { ...turnRequest, dialogue: { ...d, rendy_asked_question: 'yes' } },
+    { ...turnRequest, query: '' },
+  ]) {
+    lastUpstream = null;
+    assert.equal((await postTurn(bad)).status, 400, JSON.stringify(bad).slice(0, 80));
+    assert.equal(lastUpstream, null);
+  }
+  assert.equal((await postTurn(turnRequest, null)).status, 401);
+});
+
+test('turn model output outside the schema becomes 502', async () => {
+  for (const out of [
+    { dialogue_act: 'TELEPORT', intent: 'UNKNOWN', confidence: 0.9 },
+    { dialogue_act: 'NEW_QUESTION', intent: 'sunroof_switch', confidence: 0.9 },
+    { dialogue_act: 'REPEAT', intent: 'UNKNOWN', confidence: 2 },
+    { dialogue_act: 'REPEAT', intent: 'UNKNOWN', confidence: 0.9, text: '다시 말해요' },
+    { intent: 'UNKNOWN', confidence: 0.9 },
+  ]) {
+    upstreamReply = () => geminiText(out);
+    assert.equal((await postTurn(turnRequest)).status, 502, JSON.stringify(out));
+  }
+});
+
 test('healthz reports key presence without the key', async () => {
   const body = await (await fetch(`${base}/healthz`)).json();
   assert.deepEqual(body, { ok: true, model: 'test-model', keyConfigured: true });

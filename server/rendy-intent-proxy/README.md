@@ -97,6 +97,45 @@ curl http://127.0.0.1:8787/healthz
 | 503 | `key_not_configured` |
 | 504 | `upstream_timeout`, `upstream_network` |
 
+### `POST /v1/rendy/turn` (후속 발화)
+
+렌디가 방금 한 말이 있을 때(앱의 대화 문맥 60초, 정차 대기 중이면 30분) 앱은 `/classify` 대신 이 경로를 **한 번만** 호출합니다. Gemini가 발화의 의미와 대화 상태를 함께 보고 대화 행위(dialogue act)를 고르고, 새 질문이면 의도 ID도 함께 고릅니다. 앱은 이 라벨만 보고 무엇을 말할지, 상태를 어떻게 바꿀지 스스로 정합니다.
+
+요청: `/classify`의 `query`, `allowed_intents`에 `dialogue` 객체를 더합니다(`previous_intent`는 쓰지 않음).
+
+```json
+{
+  "query": "어? 뭐라고?",
+  "allowed_intents": [{"id": "smart_cruise", "examples": ["크루즈"], "label": "스마트 크루즈 / 스마트 크루즈 컨트롤(SCC) 스위치"}],
+  "dialogue": {
+    "last_rendy_utterance": "투싼은 운전대 왼쪽의 ‘주행 보조’ 버튼으로 스마트 크루즈를 켜요. ...",
+    "rendy_asked_question": false,
+    "last_driver_question": "크루즈 컨트롤 어떻게 켜?",
+    "current_intent": "smart_cruise",
+    "stage": "ANSWERED",
+    "pending_detail": false,
+    "driving_state": "DRIVING",
+    "car_model": "투싼"
+  }
+}
+```
+
+- `stage`: `NONE`, `ANSWERED`, `HELD_FOR_PARKING`, `RESUME_OFFERED`, `GUIDE_LOCATE`, `GUIDE_STEP`, `GUIDE_DONE`
+- `driving_state`: `DRIVING`, `PARKED`, `UNKNOWN`
+- 문자열 300자(`car_model` 40자) 이하, `current_intent`는 `allowed_intents`에 있어야 함. 위반 시 `400`
+
+성공 응답 (`200`, 정확히 세 필드):
+
+```json
+{"dialogue_act": "REPEAT", "intent": "UNKNOWN", "confidence": 0.92}
+```
+
+- `dialogue_act`: `NEW_QUESTION`, `REPEAT`, `NEED_DETAIL`, `CONFIRM`, `FOUND`, `DENY`, `CANCEL`, `UNCLEAR`
+- `intent`는 `NEW_QUESTION`일 때만 의미가 있습니다. 다른 행위에 의도가 붙어 오면 서버가 `UNKNOWN`으로 바꿉니다.
+- 프롬프트에는 한국어 예시 문장을 넣지 않았습니다. 특정 표현 목록이 아니라 의미와 문맥으로 고르게 하고, 평가 문장(`app/src/test/resources/dialogue_act_cases.json`)이 프롬프트에 노출되지 않게 하기 위해서입니다.
+- 앱 쪽 추가 검증: 확신도 0.55 미만은 `UNCLEAR`, `CONFIRM`/`FOUND`/`DENY`는 0.7 미만이면 `UNCLEAR`(무리하게 진행하지 않음).
+- 오류 코드와 앱의 대체 동작은 `/classify`와 같습니다. 실패하면 앱은 DB의 `follow_up_phrases`(정확 일치)와 키워드 규칙으로만 처리하고 Gemini를 다시 부르지 않습니다.
+
 ### `GET /healthz`
 
 `{"ok": true, "model": "<GEMINI_MODEL>", "keyConfigured": true|false}`를 반환합니다. 키 값은 반환하지 않습니다.
@@ -124,7 +163,7 @@ rendy.llm.proxyToken=
 
 | 테스트 | 명령 | 키 필요 |
 |---|---|---|
-| 서버 오프라인 테스트 (가짜 Gemini upstream, 7개) | `npm test` | 아니오 |
+| 서버 오프라인 테스트 (가짜 Gemini upstream, 11개: `/classify` 7, `/turn` 4) | `npm test` | 아니오 |
 | 앱 단위 테스트 (요청 생성, 응답 검증, 후보 제한 포함) | 루트에서 `./gradlew :app:testDebugUnitTest` | 아니오 |
 | 앱 → 프록시 → Gemini 실측 (의도 정확도, QA 133개) | 아래 참고 | 예 |
 
@@ -133,8 +172,10 @@ rendy.llm.proxyToken=
 ```bash
 RENDY_INTENT_PROXY_URL=http://127.0.0.1:8787/v1/rendy/classify \
 RENDY_PROXY_TOKEN=<서버와 같은 값, 없으면 생략> \
-./gradlew :app:testDebugUnitTest --tests "*IntentEvaluationTest*" --tests "*RendyQaSuiteTest*"
+./gradlew :app:testDebugUnitTest --tests "*IntentEvaluationTest*" --tests "*RendyQaSuiteTest*" --tests "*DialogueActEvaluationTest*" --rerun
 ```
+
+`DialogueActEvaluationTest`는 후속 발화 84개(`/v1/rendy/turn`)의 대화 행위 정확도와 지연을 `dialogue_act_<RENDY_EVAL_LABEL>.summary.txt`로 남깁니다. 환경변수만 바뀌면 Gradle이 테스트를 건너뛰므로 `--rerun`을 붙이세요.
 
 결과는 `app/build/reports/rendy-intent/`에 생깁니다. `RENDY_INTENT_PROXY_URL`이 없으면 이 두 테스트는 skip됩니다.
 

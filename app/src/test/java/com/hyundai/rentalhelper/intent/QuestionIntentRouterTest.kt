@@ -47,6 +47,7 @@ class QuestionIntentRouterTest {
                 if (!ok) failures++
                 val actual = when (route) {
                     is QuestionRoute.Answer -> route.intentId
+                    is QuestionRoute.Assistant -> route.intentId
                     is QuestionRoute.Clarify -> "CLARIFY(${route.reason})"
                     is QuestionRoute.Fallback -> "FALLBACK"
                 }
@@ -97,8 +98,9 @@ class QuestionIntentRouterTest {
             }
         }
         QuestionIntentRouter(spy, kb).route("q", IntentTestFixtures.car("CASPER"))
-        assertEquals(kb.intents.map { it.intent }, offered.map { it.id })
-        assertEquals(51, offered.size)
+        // The 51 DB intents plus the non-vehicle assistant topics (driver location).
+        assertEquals(kb.intents.map { it.intent } + RendyAssistantIntents.candidates.map { it.id }, offered.map { it.id })
+        assertEquals(51 + RendyAssistantIntents.candidates.size, offered.size)
         assertTrue(offered.size <= 64)
         offered.forEach { c ->
             assertTrue(c.id, c.examples.isNotEmpty() && c.examples.size <= 30 && c.examples.all { it.length <= 40 })

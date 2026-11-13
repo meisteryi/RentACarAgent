@@ -49,6 +49,14 @@ class CoachOverlayService : Service() {
         private const val LISTENING_STATUS_HOLD_MS = 550L
         private const val RETRY_PROMPT_DELAY_MS = 300L
         private const val RETRY_STATUS_DURATION_MS = 2_500L
+        /**
+         * Follow-up window: after an answer RENDY listens once more without the wake word, for at most this many
+         * turns per interaction. Each window is one Pleos STT session that ends on silence (EPD / no-speech
+         * watchdog), so this is never continuous listening.
+         */
+        private const val MAX_FOLLOW_UP_TURNS = 6
+        /** The parked signal must hold this long before the resume offer (avoids a brief 0 km/h in P flicker). */
+        private const val PARKED_STABLE_MS = 1_500L
 
         const val ACTION_START_COACHING = "com.hyundai.rentalhelper.action.START_COACHING"
         const val ACTION_TRIGGER_BRIEFING = "com.hyundai.rentalhelper.action.TRIGGER_BRIEFING"
@@ -60,6 +68,11 @@ class CoachOverlayService : Service() {
         const val ACTION_SIMULATE_WAKE_WORD = "com.hyundai.rentalhelper.action.SIMULATE_WAKE_WORD"
         /** Debug builds only: offline wake-word detection test on WAV files in files/wakeeval (no microphone). */
         const val ACTION_WAKEWORD_SELFTEST = "com.hyundai.rentalhelper.action.WAKEWORD_SELFTEST"
+        /**
+         * Debug builds only: the open (capture-confirmed) Pleos STT session returns extra "query" as its final result.
+         * Drives the real wake / follow-up window flow without acoustic input. It is text injection, not recognition.
+         */
+        const val ACTION_DEBUG_STT_RESULT = "com.hyundai.rentalhelper.action.DEBUG_STT_RESULT"
         const val EXTRA_QUERY = "query"
     }
 
@@ -96,6 +109,15 @@ class CoachOverlayService : Service() {
     private var wakeAnswerLookup = false
     private var wakeUxSessionId = 0L
     private var listeningStatusRunnable: Runnable? = null
+    /** An answer was just delivered in this interaction; open the follow-up window when its playback ends. */
+    private var followUpListenPending = false
+    /** The current Pleos STT session is a follow-up window (silence ends the interaction, no retry prompt). */
+    private var followUpSttActive = false
+    private var followUpTurns = 0
+    private var lastMotionState = com.hyundai.rentalhelper.intent.DrivingState.UNKNOWN
+    private var resumeCheckRunnable: Runnable? = null
+    /** PARKED arrived while RENDY was busy; check the resume offer when the interaction ends. */
+    private var resumeCheckPending = false
 
     override fun onCreate() {
         super.onCreate()
@@ -179,11 +201,24 @@ class CoachOverlayService : Service() {
                     stopWakeWordListening("TTS playback")
                 } else if (wakePromptPending) {
                     startWakeSttAfterPrompt()
+                } else if (wakeInteractionActive && followUpListenPending) {
+                    // A QUEUE_FLUSH answer first reports "not busy" while the previous queue is cleared; only open the
+                    // window once playback has really ended (TTS idle) so RENDY never records its own answer.
+                    if (!voiceEngine.isTtsBusy && !voiceEngine.isSttBusy) startFollowUpListening()
                 } else if (wakeInteractionActive && !voiceEngine.isSttBusy) {
                     finishWakeInteraction("voice response completed")
                 } else if (!wakeInteractionActive) {
+                    if (resumeCheckPending) scheduleResumeCheck("TTS completed", 600L)
                     scheduleWakeWordResume("TTS completed", 500L)
                 }
+            }
+        }
+
+        voiceEngine.onAnswerDelivered = { answer ->
+            // Main thread, just before the answer is spoken.
+            followUpListenPending = wakeInteractionActive && !answer.endsConversation && followUpTurns < MAX_FOLLOW_UP_TURNS
+            if (wakeInteractionActive && !followUpListenPending) {
+                Log.i("RendyVoiceUX", "No follow-up window after this answer: ends=${answer.endsConversation}, turns=$followUpTurns")
             }
         }
 
@@ -234,7 +269,10 @@ class CoachOverlayService : Service() {
                 if (wakeInteractionActive) {
                     when (state) {
                         VoiceAssistantEngine.SttState.LISTENING -> {
-                            showWakeVoiceStatus(RendyVoicePrompts.LISTENING_STATUS, animate = true)
+                            showWakeVoiceStatus(
+                                if (followUpSttActive) RendyVoicePrompts.FOLLOW_UP_STATUS else RendyVoicePrompts.LISTENING_STATUS,
+                                animate = true
+                            )
                             scheduleListeningStatusAdvance()
                         }
                         VoiceAssistantEngine.SttState.PROCESSING -> {
@@ -249,7 +287,11 @@ class CoachOverlayService : Service() {
                         VoiceAssistantEngine.SttState.ERROR -> {
                             cancelListeningStatusAdvance()
                             if (!voiceEngine.isTtsBusy && !voiceEngine.isSttBusy) {
-                                if (state == VoiceAssistantEngine.SttState.ERROR) {
+                                if (followUpSttActive) {
+                                    // Silence in the follow-up window: end quietly and go back to the wake word.
+                                    followUpSttActive = false
+                                    finishWakeInteraction("follow-up window closed: STT $state${message?.let { " ($it)" } ?: ""}")
+                                } else if (state == VoiceAssistantEngine.SttState.ERROR) {
                                     offerWakeSttRetry(message)
                                 } else {
                                     finishWakeInteraction("STT $state")
@@ -291,6 +333,10 @@ class CoachOverlayService : Service() {
         voiceEngine.onSttTextReceived = { transcript ->
             mainHandler.post {
                 Log.i("RendySTT", "Final transcript delivered to onSttTextReceived: $transcript")
+                if (followUpSttActive) {
+                    followUpSttActive = false
+                    Log.i("RendyVoiceUX", "Follow-up utterance received in window: turn=$followUpTurns")
+                }
                 if (wakeInteractionActive) {
                     wakeAnswerLookup = true
                     cancelListeningStatusAdvance()
@@ -315,19 +361,88 @@ class CoachOverlayService : Service() {
         vehicleSdkManager = VehicleSdkManager(this) { vehicleState ->
             val model = buttonDb.findModelById(vehicleState.modelId)
                 ?: buttonDb.findModelByNameOrFuzzy(vehicleState.modelName)
-            if (currentRentalModel != null && model?.modelId != currentRentalModel?.modelId) {
+            if (currentRentalModel != null && model?.selectionId != currentRentalModel?.selectionId) {
                 voiceEngine.resetConversation("car_changed")
             }
             currentRentalModel = model
 
             bubbleBinding?.tvBubbleBadge?.text = model?.modelNameKo ?: vehicleState.modelName
+            onVehicleMotion(vehicleState.motion)
 
             if (!isBriefingGiven && model != null) {
                 isBriefingGiven = true
                 triggerAdaptationBriefing(model)
             }
         }
+        voiceEngine.drivingStateProvider = { vehicleSdkManager.motion().state }
         vehicleSdkManager.start()
+    }
+
+    private fun onVehicleMotion(motion: VehicleMotion) {
+        if (motion.state == lastMotionState) return
+        Log.i("RendyDialogue", "Vehicle motion: ${lastMotionState} -> ${motion.state} (${motion.detail})")
+        lastMotionState = motion.state
+        if (motion.state == com.hyundai.rentalhelper.intent.DrivingState.PARKED) {
+            scheduleResumeCheck("parked", PARKED_STABLE_MS)
+        } else {
+            resumeCheckRunnable?.let(mainHandler::removeCallbacks)
+            resumeCheckRunnable = null
+            resumeCheckPending = false
+        }
+    }
+
+    private fun scheduleResumeCheck(reason: String, delayMs: Long) {
+        resumeCheckRunnable?.let(mainHandler::removeCallbacks)
+        resumeCheckRunnable = Runnable {
+            resumeCheckRunnable = null
+            maybeOfferGuidanceResume(reason)
+        }.also { mainHandler.postDelayed(it, delayMs) }
+    }
+
+    /**
+     * Speaks the single "아까 찾으시던 ..., 지금 알려드릴까요?" offer when guidance was held while driving and the
+     * vehicle signal is still PARKED. Then the follow-up window lets the driver answer without the wake word.
+     */
+    private fun maybeOfferGuidanceResume(reason: String) {
+        if (isServiceDestroying) return
+        resumeCheckPending = false
+        val model = currentRentalModel ?: return
+        if (vehicleSdkManager.motion().state != com.hyundai.rentalhelper.intent.DrivingState.PARKED) return
+        if (wakeInteractionActive || voiceEngine.isTtsBusy || voiceEngine.isSttBusy) {
+            resumeCheckPending = true
+            Log.i("RendyDialogue", "Resume check deferred until RENDY is idle ($reason)")
+            return
+        }
+        wakeInteractionActive = true
+        wakeAnswerLookup = true
+        wakePromptPending = false
+        followUpTurns = 0
+        followUpListenPending = false
+        followUpSttActive = false
+        wakeUxSessionId++
+        if (!voiceEngine.offerGuidanceResume(model)) {
+            wakeInteractionActive = false
+            wakeAnswerLookup = false
+            return
+        }
+        stopWakeWordListening("resume offer")
+        Log.i("RendyVoiceUX", "Resume offer spoken after parking ($reason); follow-up window opens after playback")
+    }
+
+    /** One more Pleos STT session right after RENDY's answer finished playing (TTS idle, focus released). */
+    private fun startFollowUpListening() {
+        followUpListenPending = false
+        if (!wakeInteractionActive || isServiceDestroying) return
+        followUpTurns++
+        followUpSttActive = true
+        wakeAnswerLookup = false
+        showWakeVoiceStatus(RendyVoicePrompts.PREPARING_STATUS, animate = true)
+        Log.i("RendyVoiceUX", "Follow-up window opened: turn=$followUpTurns/$MAX_FOLLOW_UP_TURNS (no wake word needed)")
+        voiceEngine.startPleosRecognition("FOLLOW_UP")
+        if (!voiceEngine.isSttBusy) {
+            followUpSttActive = false
+            finishWakeInteraction("follow-up STT could not start")
+        }
     }
 
     private fun initWindowManager() {
@@ -386,6 +501,9 @@ class CoachOverlayService : Service() {
         wakePromptPlaybackDoneAtMs = 0L
         wakeSttRetryCount = 0
         wakeUxSessionId++
+        followUpTurns = 0
+        followUpListenPending = false
+        followUpSttActive = false
         cancelListeningStatusAdvance()
         showWakeVoiceStatus(RendyVoicePrompts.PREPARING_STATUS, animate = true)
         Log.i("RendyVoiceUX", "Wake prompt requested: handlerMs=${SystemClock.elapsedRealtime() - promptRequestAt}")
@@ -535,11 +653,14 @@ class CoachOverlayService : Service() {
         wakePromptPending = false
         wakeParallelSttActive = false
         wakeAnswerLookup = false
+        followUpListenPending = false
+        followUpSttActive = false
         wakeUxSessionId++
         cancelListeningStatusAdvance()
         voiceStatusOverlay?.hide()
         Log.i("RendyVoiceUX", "Wake voice interaction ended: $reason; returning to wake-word standby")
         if (!isServiceDestroying) scheduleWakeWordResume("wake interaction ended: $reason", 650L)
+        if (!isServiceDestroying && resumeCheckPending) scheduleResumeCheck("interaction ended", 800L)
     }
 
     private fun promoteForegroundServiceForMicrophone() {
@@ -822,6 +943,17 @@ class CoachOverlayService : Service() {
                 handleWakeDetected("렌디(simulated)", 1.0f, now, -1L, now)
             } else {
                 Log.w(TAG, "Wake-word simulation ignored in release builds")
+            }
+            return START_STICKY
+        }
+
+        if (intent?.action == ACTION_DEBUG_STT_RESULT) {
+            if (com.hyundai.rentalhelper.BuildConfig.DEBUG) {
+                val text = intent.getStringExtra(EXTRA_QUERY).orEmpty()
+                val delivered = text.isNotBlank() && voiceEngine.debugDeliverSttResult(text)
+                Log.i(TAG, "Debug STT result injection: delivered=$delivered (text injection, not acoustic recognition)")
+            } else {
+                Log.w(TAG, "Debug STT result injection ignored in release builds")
             }
             return START_STICKY
         }

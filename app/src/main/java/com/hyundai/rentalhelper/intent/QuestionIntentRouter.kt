@@ -10,6 +10,9 @@ sealed class QuestionRoute {
         val reportedConfidence: Double
     ) : QuestionRoute()
 
+    /** A non-vehicle topic ([RendyAssistantIntents]); never routed through the vehicle DB. */
+    data class Assistant(val intentId: String, val reportedConfidence: Double) : QuestionRoute()
+
     data class Clarify(val reason: String) : QuestionRoute()
     data class Fallback(val reason: String) : QuestionRoute()
 }
@@ -27,8 +30,9 @@ class QuestionIntentRouter(
         carModel: HyundaiCarModel,
         context: ClassificationContext = ClassificationContext()
     ): QuestionRoute {
-        val candidates = knowledge.candidatesFor(carModel)
-        if (candidates.isEmpty()) return QuestionRoute.Clarify(REASON_NO_VERIFIED_INTENTS)
+        val vehicle = knowledge.candidatesFor(carModel)
+        if (vehicle.isEmpty()) return QuestionRoute.Clarify(REASON_NO_VERIFIED_INTENTS)
+        val candidates = vehicle + RendyAssistantIntents.candidates
         val candidateIds = candidates.mapTo(mutableSetOf()) { it.id }
         // Only forward context that is itself an offered intent for this car.
         val safeContext = context.copy(previousIntentId = context.previousIntentId?.takeIf { it in candidateIds })
@@ -37,6 +41,9 @@ class QuestionIntentRouter(
             is IntentClassification.Classified -> {
                 // Any classifier, including a misbehaving one, may only select from the offered candidates.
                 if (classification.intentId !in candidateIds) return QuestionRoute.Clarify("intent_not_offered")
+                if (RendyAssistantIntents.isAssistant(classification.intentId)) {
+                    return QuestionRoute.Assistant(classification.intentId, classification.confidence)
+                }
                 QuestionRoute.Answer(
                     intentId = classification.intentId,
                     route = knowledge.route(carModel, classification.intentId),

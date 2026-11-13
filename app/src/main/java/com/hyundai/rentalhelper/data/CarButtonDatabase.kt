@@ -71,8 +71,22 @@ data class HyundaiCarModel(
     @SerializedName("segment_detail") val segmentDetail: String,
     @SerializedName("specs") val specs: CarSpecs,
     @SerializedName("gear_type") val gearType: String,
-    @SerializedName("buttons") val buttons: Map<String, ButtonDetail>
-)
+    @SerializedName("buttons") val buttons: Map<String, ButtonDetail>,
+    // ---- Design variant (set only on variants from [RendyVehicleVariants]; null for a plain DB model) ----
+    /** Manufacturer model code, e.g. "NE1". */
+    @SerializedName("model_code") val modelCode: String? = null,
+    /** "facelift_the_new" / "pre_facelift"; null = design not known (only design-neutral data applies). */
+    @SerializedName("design_generation") val designGeneration: String? = null,
+    /** Selectable id of the variant (e.g. IONIQ5_NE1_FL); null for a plain DB model. */
+    @SerializedName("variant_id") val variantId: String? = null
+) {
+    /**
+     * Identity of the selected car for conversation context and car-change detection. [modelId] stays the DB
+     * model (routing and design-neutral data are shared by both designs); a design variant must not inherit a
+     * conversation held with the other design.
+     */
+    val selectionId: String get() = variantId ?: modelId
+}
 
 data class FaqIntent(
     @SerializedName("intent") val intent: String,
@@ -133,6 +147,10 @@ data class OverlayEntry(
     @SerializedName("location") val location: OverlayField? = null,
     @SerializedName("operation") val operation: OverlayField? = null,
     @SerializedName("appearance") val appearance: OverlayField? = null,
+    /** One more verified clue for "못 찾겠어" during guidance (e.g. which neighbouring button it is NOT). */
+    @SerializedName("clue") val clue: OverlayField? = null,
+    /** Design this entry was verified for; null = design-neutral (applies when no design-specific entry exists). */
+    @SerializedName("design_generation") val designGeneration: String? = null,
     @SerializedName("append_safety_note") val appendSafetyNote: Boolean? = null,
     @SerializedName("notes") val notes: String? = null
 )
@@ -215,7 +233,10 @@ class CarButtonDatabase private constructor(context: Context) {
      * 모델 ID로 차종 검색 (예: AVANTE, TUCSON, IONIQ5)
      */
     fun findModelById(modelId: String): HyundaiCarModel? {
-        return database?.models?.firstOrNull {
+        val models = database?.models ?: return null
+        // A design variant id (e.g. IONIQ5_NE1_FL) resolves to its base DB model carrying the variant's identity.
+        RendyVehicleVariants.resolve(models, modelId)?.let { return it }
+        return models.firstOrNull {
             it.modelId.equals(modelId, ignoreCase = true)
         }
     }
@@ -242,12 +263,18 @@ class CarButtonDatabase private constructor(context: Context) {
 
         // [특화] 아이오닉 5 순수 전기차 전용 체급 및 EV 조작 브리핑
         if (rentalModel.modelId.equals("IONIQ5", ignoreCase = true)) {
+            // SCC button side differs by design (handoff 2026-11-13); unknown design -> no side is stated.
+            val scc = when (rentalModel.designGeneration) {
+                RendyVehicleVariants.FACELIFT_THE_NEW -> " 스마트 크루즈는 핸들 왼쪽 버튼 묶음 맨 윗줄 바깥쪽의 주행 보조 버튼으로 켭니다."
+                RendyVehicleVariants.PRE_FACELIFT -> " 스마트 크루즈는 핸들 오른쪽 버튼 묶음 맨 윗줄 바깥쪽의 주행 보조 버튼으로 켭니다."
+                else -> ""
+            }
             return when (usualSegment) {
-                CarSegment.COMPACT -> "탑승하신 아이오닉 5는 100% 전기차로 평소 경차보다 차폭이 30센티미터 넓고 휠베이스가 3미터로 매우 깁니다. 특히 스마트 크루즈는 일반 차와 달리 핸들 '왼쪽'에 있고, 기어는 핸들 오른쪽 뒤 칼럼 레버를 돌려 조작합니다."
-                CarSegment.SEDAN -> "탑승하신 아이오닉 5는 순수 전기차로 평소 세단보다 휠베이스가 3미터에 달해 실내가 매우 넓고 시야가 높습니다. 스마트 크루즈는 핸들 '왼쪽'에 있으며, 기어는 핸들 오른쪽 뒤 칼럼 레버 끝단을 돌려 조작합니다."
-                CarSegment.SUV -> "탑승하신 아이오닉 5는 전기차 전용 플랫폼으로 바닥에 배터리가 있어 일반 내연기관 SUV보다 무게중심이 낮고 주행이 안정적입니다. 기어는 핸들 오른쪽 뒤 칼럼 레버, 크루즈는 핸들 '왼쪽'에 위치합니다."
-                CarSegment.VAN -> "탑승하신 아이오닉 5는 전기차로 대형 승합차 못지않은 3미터 휠베이스의 넓은 공간을 제공합니다. 핸들 뒤 패들쉬프트로 회생제동 세기를 맞추어 편안하게 주행하세요."
-                CarSegment.TRUCK -> "탑승하신 아이오닉 5는 전기 모터의 즉각적인 토크와 조용한 승차감이 특징입니다. 기어는 핸들 오른쪽 뒤 칼럼 레버를 돌려 D단으로 변속하세요."
+                CarSegment.COMPACT -> "탑승하신 ${rentalName}는 100% 전기차로 평소 경차보다 차폭이 30센티미터 넓고 휠베이스가 3미터로 매우 깁니다. 기어는 핸들 오른쪽 뒤 칼럼 레버를 돌려 조작합니다.$scc"
+                CarSegment.SEDAN -> "탑승하신 ${rentalName}는 순수 전기차로 평소 세단보다 휠베이스가 3미터에 달해 실내가 매우 넓고 시야가 높습니다. 기어는 핸들 오른쪽 뒤 칼럼 레버 끝단을 돌려 조작합니다.$scc"
+                CarSegment.SUV -> "탑승하신 ${rentalName}는 전기차 전용 플랫폼으로 바닥에 배터리가 있어 일반 내연기관 SUV보다 무게중심이 낮고 주행이 안정적입니다. 기어는 핸들 오른쪽 뒤 칼럼 레버로 조작합니다.$scc"
+                CarSegment.VAN -> "탑승하신 ${rentalName}는 전기차로 대형 승합차 못지않은 3미터 휠베이스의 넓은 공간을 제공합니다. 핸들 뒤 패들쉬프트로 회생제동 세기를 맞추어 편안하게 주행하세요."
+                CarSegment.TRUCK -> "탑승하신 ${rentalName}는 전기 모터의 즉각적인 토크와 조용한 승차감이 특징입니다. 기어는 핸들 오른쪽 뒤 칼럼 레버를 돌려 D단으로 변속하세요."
             }
         }
 

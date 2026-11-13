@@ -163,9 +163,11 @@ class RendyDbIntegrityTest {
                         val a = p.answerAndCommit(q, car)
                         checked++
                         oracle.violation(a.text)?.let { violations += "${car.modelId}/${intent.intent}/$driving/'$q': $it -> ${a.text}" }
-                        if (driving == DrivingState.DRIVING && q == "찾았어" && a.tier == GuidanceTier.FULL) {
-                            val g = kb.guidance(car, a.buttonId!!)!!
-                            if (g.requiresParked && a.text != RendyAnswerComposer.PARKED_STEPS_TEXT) violations += "${car.modelId}/${intent.intent}: steps read while driving"
+                        // Operation steps are detailed guidance: never read unless the vehicle signal says PARKED
+                        // (DRIVING and UNKNOWN both hold), for every button, not only requires_parked ones.
+                        if (driving != DrivingState.PARKED && (q == "찾았어" || q == "그다음은?") && a.buttonId != null) {
+                            val g = kb.guidance(car, a.buttonId!!)
+                            if (g != null && g.steps.any { a.text.contains(it) }) violations += "${car.modelId}/${intent.intent}/$driving: steps read while not parked"
                         }
                     }
                 }

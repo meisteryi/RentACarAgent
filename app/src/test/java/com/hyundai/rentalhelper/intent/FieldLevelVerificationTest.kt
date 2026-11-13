@@ -1,5 +1,6 @@
 package com.hyundai.rentalhelper.intent
 
+import com.hyundai.rentalhelper.data.RendyVehicleVariants
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -16,11 +17,11 @@ class FieldLevelVerificationTest {
     private val tucson = IntentTestFixtures.car("TUCSON")
     private val casper = IntentTestFixtures.car("CASPER")
 
-    private fun pipeline(intent: String, knowledge: RendyKnowledgeBase = kb) = RendyQuestionPipeline(
+    private fun pipeline(intent: String, knowledge: RendyKnowledgeBase = kb, driving: DrivingState = DrivingState.UNKNOWN) = RendyQuestionPipeline(
         object : IntentClassifier {
             override suspend fun classify(query: String, candidates: List<IntentCandidate>, context: ClassificationContext) =
                 IntentClassification.Classified(intent, 0.95)
-        }, RuleBasedIntentClassifier(knowledge.intents), knowledge
+        }, RuleBasedIntentClassifier(knowledge.intents), knowledge, drivingState = { driving }
     )
 
     private val notices = listOf("확인 중이라", "확인된 안내가 없어서")
@@ -31,7 +32,8 @@ class FieldLevelVerificationTest {
         assertEquals(GuidanceTier.EXISTS_ONLY, old.tier)
         assertTrue(old.text.contains("확인 중이라"))
 
-        val p = pipeline("light_stalk")
+        // Step-by-step operation is read only when parked (UNKNOWN/DRIVING hold it; see RendyQuestionPipelineTest).
+        val p = pipeline("light_stalk", driving = DrivingState.PARKED)
         val a = p.answerAndCommit("라이트 어디 있어?", ioniq)
         assertEquals(GuidanceTier.OPERATION_ONLY, a.tier)
         assertTrue(a.text, a.text.contains("조명 스위치 끝을 잡고 돌려서"))
@@ -91,7 +93,7 @@ class FieldLevelVerificationTest {
         assertTrue(entries.size >= 50)
         entries.forEach { e ->
             assertFalse("${e.model}.${e.button}: Avante has only US-manual evidence", e.model == "AVANTE")
-            listOfNotNull(e.location, e.operation, e.appearance).forEach { f ->
+            listOfNotNull(e.location, e.operation, e.appearance, e.clue).forEach { f ->
                 val source = f.source!!
                 assertTrue("${e.model}.${e.button} source", source.contains("hyundai.com"))
                 assertFalse("${e.model}.${e.button} overseas source", source.contains("en_us", ignoreCase = true) || source.contains("en_GN"))
@@ -99,8 +101,14 @@ class FieldLevelVerificationTest {
                 assertTrue("${e.model}.${e.button} text <=2 sentences: ${f.text}", ButtonGuidance.sentences(f.text!!).size <= 2)
             }
             // DB-verified buttons keep the DB answer; the overlay never targets them.
-            val g = kb.guidance(IntentTestFixtures.car(e.model!!), e.button!!)!!
+            // A design-specific entry is checked on a car of that design; it must be the entry actually used.
+            val car = e.designGeneration?.let { gen ->
+                RendyVehicleVariants.all.first { it.baseModelId == e.model && it.designGeneration == gen }
+                    .let { RendyVehicleVariants.apply(IntentTestFixtures.car(e.model!!), it) }
+            } ?: IntentTestFixtures.car(e.model!!)
+            val g = kb.guidance(car, e.button!!)!!
             assertNotNull("${e.model}.${e.button} overlay unused", g.overlay)
+            assertEquals("${e.model}.${e.button}@${e.designGeneration}", e, g.overlay)
         }
     }
 
