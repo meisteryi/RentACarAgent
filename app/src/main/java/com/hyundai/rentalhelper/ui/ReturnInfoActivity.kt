@@ -124,6 +124,7 @@ class ReturnInfoActivity : AppCompatActivity() {
         binding.chipTimeTomorrow18.setOnClickListener { applyQuickDayHour(daysOffset = 1, hour = 18) }
 
         binding.btnBack.setOnClickListener {
+            startActivity(Intent(this, StartupCarSelectActivity::class.java))
             finish()
         }
 
@@ -202,3 +203,4 @@ class ReturnInfoActivity : AppCompatActivity() {
         finish()
     }
 }
+

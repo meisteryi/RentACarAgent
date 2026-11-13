@@ -2,7 +2,6 @@ package com.hyundai.rentalhelper.ui
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.card.MaterialCardView
@@ -30,14 +29,6 @@ class StartupCarSelectActivity : AppCompatActivity() {
 
     private var selectedSegment: CarSegment? = null
     private val cardMap = mutableMapOf<CarSegment, MaterialCardView>()
-
-    private val returnInfoLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == RESULT_OK) {
-            finish()
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -127,6 +118,7 @@ class StartupCarSelectActivity : AppCompatActivity() {
      * 차종 선택 이후 반납지 및 반납 일시 입력 화면으로 이동
      */
     private fun navigateToReturnInfo() {
-        returnInfoLauncher.launch(Intent(this, ReturnInfoActivity::class.java))
+        startActivity(Intent(this, ReturnInfoActivity::class.java))
+        finish()
     }
 }
