@@ -88,6 +88,8 @@ class VoiceAssistantEngine(
     private var sttSessionFinalizing = false
     private var sttSessionEnded = false
     private val sttHandler = Handler(Looper.getMainLooper())
+    /** Main-thread handler for the subtitle preparer (dispatch can run on a Pleos binder thread). */
+    private val mainHandler = Handler(Looper.getMainLooper())
     private var sttFinalizeRunnable: Runnable? = null
     private var pleosSttStartPending = false
     private var pleosSttRequestActive = false
@@ -179,6 +181,23 @@ class VoiceAssistantEngine(
     var onSpeechResultReceived: ((query: String, title: String, answer: String) -> Unit)? = null
     var onErrorOccurred: ((errorMessage: String) -> Unit)? = null
     var onSpokenSubtitle: ((spokenText: String) -> Unit)? = null
+    /**
+     * TTS subtitle events from Pleos playback callbacks (EventListener.onStart / onDone / onStop / onError), tagged
+     * with the app utterance id. Called on the SDK callback thread; the receiver must check [speakingUtteranceId]
+     * when it handles a Start late, so a delayed Start never shows a sentence that is no longer playing.
+     */
+    var onTtsSubtitle: ((TtsSubtitleEvent) -> Unit)? = null
+
+    /**
+     * Optional, main thread: prepares the subtitle for [utteranceId] (drawn but not yet visible) and calls `ready`
+     * exactly once when it is on screen-ready; only then is the sentence handed to Pleos. Pleos has no
+     * prepare/pause API, so the only lever is WHEN speak() is called. Null = speak immediately.
+     */
+    var subtitlePreparer: ((utteranceId: String, text: String, ready: () -> Unit) -> Unit)? = null
+
+    /** Utterance whose playback Pleos reported started and not yet done/stopped; null when nothing is playing. */
+    @Volatile var speakingUtteranceId: String? = null
+        private set
     var onSttStateChanged: ((state: SttState, message: String?) -> Unit)? = null
     var onTtsPlaybackStateChanged: ((isBusy: Boolean) -> Unit)? = null
     /** Called once per STT session when real microphone capture is confirmed (audio after onReady). */
@@ -222,7 +241,11 @@ class VoiceAssistantEngine(
             val startedAt = SystemClock.elapsedRealtime()
             request?.startedAtElapsedMs = startedAt
             Log.i(TAG, "Pleos TTS utterance started: id=$id, requestToStartMs=${request?.let { startedAt - it.requestedAtElapsedMs } ?: -1L}")
-            request?.let { onSpokenSubtitle?.invoke(it.text) }
+            if (request != null) speakingUtteranceId = id
+            request?.let {
+                onSpokenSubtitle?.invoke(it.text)
+                onTtsSubtitle?.invoke(TtsSubtitleEvent.Start(id, it.text, startedAt))
+            }
         }
 
         override fun onDone() {
@@ -1088,6 +1111,32 @@ class VoiceAssistantEngine(
         activeSpeech[id] = request
         Log.i(TAG, "TTS pipeline: id=$id, requestToDispatchMs=${focusGrantedAt - request.requestedAtElapsedMs}, audioFocusCallMs=${focusGrantedAt - focusStartedAt}")
         onTtsPlaybackStateChanged?.invoke(true)
+        val preparer = subtitlePreparer
+        if (preparer == null) {
+            speakNow(engine, id, request)
+        } else {
+            val preparingAt = SystemClock.elapsedRealtime()
+            val prepare = {
+                preparer(id, request.text) {
+                    // A newer QUEUE_FLUSH / stop may have cancelled it while the subtitle was being prepared.
+                    if (activeSpeech[id] !== request) {
+                        Log.i(TAG, "TTS pipeline: id=$id cancelled while its subtitle was prepared; not spoken")
+                    } else {
+                        Log.i(TAG, "TTS pipeline: id=$id subtitle ready after ${SystemClock.elapsedRealtime() - preparingAt}ms")
+                        speakNow(engine, id, request)
+                    }
+                }
+            }
+            // On the main thread already (speak() from the UI flow): prepare now instead of queueing behind other
+            // main-thread work. From a Pleos binder thread (next queued sentence): hand over to the main thread.
+            if (Looper.myLooper() == Looper.getMainLooper()) prepare() else mainHandler.post { prepare() }
+        }
+    }
+
+    /** True while [utteranceId] is dispatched and not yet done, stopped, failed or cancelled. Main thread. */
+    fun isUtteranceActive(utteranceId: String): Boolean = activeSpeech.containsKey(utteranceId)
+
+    private fun speakNow(engine: PleosTextToSpeech, id: String, request: SpeechRequest) {
         try {
             engine.speak(request.text, true)
             Log.i(TAG, "Pleos TTS speak() dispatched (void API; no result code): id=$id")
@@ -1150,6 +1199,8 @@ class VoiceAssistantEngine(
     private fun finishUtterance(id: String?, failure: String?) {
         if (id == null) return
         val request = activeSpeech.remove(id) ?: return
+        if (speakingUtteranceId == id) speakingUtteranceId = null
+        onTtsSubtitle?.invoke(TtsSubtitleEvent.End(id, failure ?: "done", SystemClock.elapsedRealtime()))
         if (failure == null) {
             request.onCompleted?.invoke()
         } else {
@@ -1177,7 +1228,10 @@ class VoiceAssistantEngine(
 
     private fun failActiveSpeech(reason: String) {
         val requests = activeSpeech.values.toList()
+        val ids = activeSpeech.keys.toList()
         activeSpeech.clear()
+        speakingUtteranceId = null
+        ids.forEach { onTtsSubtitle?.invoke(TtsSubtitleEvent.End(it, reason, SystemClock.elapsedRealtime())) }
         if (requests.isNotEmpty() && pendingSpeech.isEmpty()) lastSpeechDoneAtMs = SystemClock.elapsedRealtime()
         requests.forEach { it.onFailed?.invoke(reason) }
         onTtsPlaybackStateChanged?.invoke(isTtsBusy)
@@ -1204,6 +1258,8 @@ class VoiceAssistantEngine(
         onSpeechResultReceived = null
         onErrorOccurred = null
         onSpokenSubtitle = null
+        onTtsSubtitle = null
+        subtitlePreparer = null
         onSttStateChanged = null
         onTtsPlaybackStateChanged = null
         onSttTextReceived = null

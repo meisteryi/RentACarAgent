@@ -82,9 +82,8 @@ class StartupCarSelectActivity : AppCompatActivity() {
         }
 
         binding.btnSkip.setOnClickListener {
-            if (!userPreferences.isPresetConfigured()) {
-                userPreferences.saveUsualCarSegment(CarSegment.SEDAN)
-            }
+            // Skipping no longer stores a made-up "세단": with nothing stored, the 더 뉴 아이오닉 5 briefing makes no
+            // comparison, and other rentals keep their old SEDAN fallback (CarButtonDatabase.generateAdaptationBriefing).
             navigateToReturnInfo()
         }
     }

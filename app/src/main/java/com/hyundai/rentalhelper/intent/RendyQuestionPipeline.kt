@@ -168,11 +168,17 @@ class RendyQuestionPipeline(
             DialogueAct.CONFIRM -> confirm(carModel, active, driving)
             DialogueAct.DENY -> deny(carModel, active, driving)
         }
+        // Guidance for this feature is on hold until the vehicle signal says PARKED: a re-ask of the same feature
+        // ("그래도 어디야?", "스마트 크루즈 어디 있어?") classified as a new question must not read the location
+        // again while driving or while the state is unknown. It repeats the hold and keeps the pending detail.
+        val heldReask = active != null && active.stage == DialogueStage.HELD_FOR_PARKING &&
+            turn.act == DialogueAct.NEW_QUESTION && reply.intentId == active.intentId && driving != DrivingState.PARKED
+        val guarded = if (heldReask) hold(active!!, driving, "NEW_QUESTION_same_feature") else reply
         // A follow-up that could not be mapped (proxy down + unknown phrase, STT garbage, no fitting intent) asks
         // again but keeps the current topic, so the next "못 찾겠어" still refers to it.
         val keepTopic = active != null && turn.act == DialogueAct.NEW_QUESTION &&
-            reply.source == AnswerSource.CLARIFICATION && reply.stateUpdate == DialogueStateUpdate.Clear
-        val safe = if (keepTopic) reply.copy(stateUpdate = DialogueStateUpdate.Transition(), reason = "${reply.reason}|topic_kept") else reply
+            guarded.source == AnswerSource.CLARIFICATION && guarded.stateUpdate == DialogueStateUpdate.Clear
+        val safe = if (keepTopic) guarded.copy(stateUpdate = DialogueStateUpdate.Transition(), reason = "${guarded.reason}|topic_kept") else guarded
         return safe.copy(act = turn.act, reason = "$tag|${safe.reason}")
     }
 

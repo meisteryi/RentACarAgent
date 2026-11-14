@@ -84,12 +84,7 @@ class VehicleSdkManager(
                     val gear = intent.getStringExtra(EXTRA_GEAR) ?: "PARK"
                     setSimulatedGear(gear)
                 }
-                ACTION_CLEAR_DEMO_MOTION -> {
-                    demoSpeedKmh = null
-                    demoGear = null
-                    Log.i(TAG, "Demo motion cleared")
-                    dispatchState()
-                }
+                ACTION_CLEAR_DEMO_MOTION -> clearDemoMotion()
             }
         }
     }
@@ -247,6 +242,7 @@ class VehicleSdkManager(
     }
 
     fun setSimulatedSpeed(speedKmh: Float) {
+        if (!com.hyundai.rentalhelper.BuildConfig.DEBUG) return // DEMO signals exist only in debug builds
         currentSpeedKmh = speedKmh
         demoSpeedKmh = speedKmh
         Log.i(TAG, "Demo speed set: $speedKmh km/h (DEMO, not a vehicle signal)")
@@ -254,11 +250,37 @@ class VehicleSdkManager(
     }
 
     fun setSimulatedGear(gear: String) {
+        if (!com.hyundai.rentalhelper.BuildConfig.DEBUG) return // DEMO signals exist only in debug builds
         currentGear = gear.uppercase()
         demoGear = gear.uppercase()
         Log.i(TAG, "Demo gear set: ${gear.uppercase()} (DEMO, not a vehicle signal)")
         dispatchState()
     }
+
+    /**
+     * Debug panel: sets the DEMO gear and speed together (one state dispatch). Never touches the vehicle; the
+     * real SDK values keep being received and are used again after [clearDemoMotion]. No-op in release builds.
+     */
+    fun setDemoMotion(gear: String, speedKmh: Float) {
+        if (!com.hyundai.rentalhelper.BuildConfig.DEBUG) return
+        currentGear = gear.uppercase()
+        currentSpeedKmh = speedKmh
+        demoGear = gear.uppercase()
+        demoSpeedKmh = speedKmh
+        Log.i(TAG, "Demo motion set: gear=${gear.uppercase()}, speed=$speedKmh km/h (DEMO, not a vehicle signal)")
+        dispatchState()
+    }
+
+    /** Back to the real SDK signals (or UNKNOWN if none were received). */
+    fun clearDemoMotion() {
+        demoSpeedKmh = null
+        demoGear = null
+        Log.i(TAG, "Demo motion cleared; using real SDK signals: ${motion().detail}")
+        dispatchState()
+    }
+
+    val isDemoMotionActive: Boolean
+        get() = com.hyundai.rentalhelper.BuildConfig.DEBUG && (demoSpeedKmh != null || demoGear != null)
 
     /**
      * Debug builds: demo values (adb broadcasts) win when present, and are labelled DEMO. Release builds use only

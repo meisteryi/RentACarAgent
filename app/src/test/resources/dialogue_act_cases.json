@@ -143,6 +143,18 @@
     {"id": "l02", "category": "driver_location", "state": "STEP", "utterance": "지금 여기가 어느 동네지?", "expected": ["NEW_QUESTION"], "expected_intent": "driver_location"},
     {"id": "l03", "category": "driver_location", "state": "ANSWERED", "utterance": "나 길 헤매고 있는 것 같아", "expected": ["NEW_QUESTION"], "expected_intent": "driver_location"},
     {"id": "l04", "category": "driver_location", "state": "LOCATE", "utterance": "나 지금 어디쯤 와 있는 거야?", "expected": ["NEW_QUESTION"], "expected_intent": "driver_location"},
-    {"id": "l05", "category": "location_guard", "state": "ANSWERED", "utterance": "어딨는지 모르겠어", "expected": ["NEED_DETAIL"]}
+    {"id": "l05", "category": "location_guard", "state": "ANSWERED", "utterance": "어딨는지 모르겠어", "expected": ["NEED_DETAIL"]},
+    {"id": "v01", "category": "need_detail_variants", "state": "ANSWERED", "utterance": "안 보이는데?", "expected": ["NEED_DETAIL"]},
+    {"id": "v02", "category": "need_detail_variants", "state": "ANSWERED", "utterance": "어디 있다는 건데?", "expected": ["NEED_DETAIL"]},
+    {"id": "v03", "category": "need_detail_variants", "state": "ANSWERED", "utterance": "나 못 찾겠어", "expected": ["NEED_DETAIL"]},
+    {"id": "v04", "category": "need_detail_variants", "state": "ANSWERED", "utterance": "어? 뭐라고?", "expected": ["REPEAT"]},
+    {"id": "v05", "category": "need_detail_variants", "state": "ANSWERED", "utterance": "다시 한번만", "expected": ["REPEAT"]},
+    {"id": "v06", "category": "need_detail_variants", "state": "ANSWERED", "utterance": "잘 못 들었어", "expected": ["REPEAT"]},
+    {"id": "v07", "category": "need_detail_variants", "state": "ANSWERED", "utterance": "어디를 봐야 해?", "expected": ["NEED_DETAIL"]},
+    {"id": "v08", "category": "need_detail_variants", "state": "HELD", "utterance": "그래도 어디야?", "expected": ["NEED_DETAIL", "NEW_QUESTION"]},
+    {"id": "v09", "category": "need_detail_variants", "state": "OFFER", "utterance": "응", "expected": ["CONFIRM"]},
+    {"id": "v10", "category": "need_detail_variants", "state": "LOCATE", "utterance": "아 여기 있네", "expected": ["FOUND"]},
+    {"id": "v11", "category": "need_detail_variants", "state": "STEP", "utterance": "이제 어떻게 해?", "expected": ["FOUND"]},
+    {"id": "v12", "category": "need_detail_variants", "state": "LOCATE", "utterance": "어딨는지 모르겠어", "expected": ["NEED_DETAIL"]}
   ]
 }

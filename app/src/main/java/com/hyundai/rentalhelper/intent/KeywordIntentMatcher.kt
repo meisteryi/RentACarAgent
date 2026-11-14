@@ -13,7 +13,8 @@ import com.hyundai.rentalhelper.data.FaqIntent
  *     produce an ambiguity, never an answer.
  *  4. Two different controls joined by a conjunction ("~랑", "~하고", "둘 다", "~도") are a multi-intent
  *     question and are not answered.
- *  5. Spoken synonyms for the rear/front glass ("뒤창", "앞창") are normalized before matching.
+ *  5. Spoken synonyms for the rear/front glass ("뒤창", "앞창") and for fogged glass ("뿌옇다") are normalized
+ *     before matching.
  */
 object KeywordIntentMatcher {
     data class Match(val intent: FaqIntent, val matchedKeyword: String)
@@ -29,7 +30,10 @@ object KeywordIntentMatcher {
     private val CONJUNCTIONS = listOf("랑", "하고", "그리고", "둘다", "모두", "같이", "및")
     private val SYNONYMS = listOf(
         Regex("뒤창(?!문)") to "뒷창문", Regex("뒷창(?!문)") to "뒷창문", Regex("뒤쪽유리") to "뒷유리",
-        Regex("앞창(?!문)") to "앞유리"
+        Regex("앞창(?!문)") to "앞유리",
+        // "뿌옇다/뿌예" (fogged glass) = the existing front_defog keyword "흐려". Only 2 characters, so an explicit
+        // "뒷유리" (rear_defog, 3) still wins: "뒷유리가 뿌예" stays rear.
+        Regex("뿌[옇예얘]") to "흐려"
     )
 
     fun normalize(query: String): String =

@@ -257,7 +257,13 @@ class CarButtonDatabase private constructor(context: Context) {
     /**
      * [기능 2] 평소 타던 차종과 현재 렌터카의 체급 비교 1~2문장 음성 브리핑 생성
      */
-    fun generateAdaptationBriefing(rentalModel: HyundaiCarModel, usualSegment: CarSegment): String {
+    fun generateAdaptationBriefing(rentalModel: HyundaiCarModel, selectedSegment: CarSegment?): String {
+        // 더 뉴 아이오닉 5: comparison briefing per usual body type; nothing selected -> basic controls, no comparison.
+        if (rentalModel.selectionId.equals(RendyVehicleVariants.IONIQ5_FACELIFT.variantId, ignoreCase = true)) {
+            return Ioniq5FaceliftComparisonBriefing.text(selectedSegment)
+        }
+        // Other rentals: unchanged for now (including the old SEDAN default when nothing was selected).
+        val usualSegment = selectedSegment ?: CarSegment.SEDAN
         val rentalSegment = rentalModel.segment.uppercase()
         val rentalName = rentalModel.modelNameKo
 

@@ -340,6 +340,84 @@
     },
     {
       "model": "IONIQ5",
+      "button": "front_defog",
+      "design_generation": "facelift_the_new",
+      "edition": "NE1 2025 국문 웹 매뉴얼 (더 뉴 아이오닉 5), 2026-11-14 본문·그림 확인",
+      "location": {
+        "text": "가운데 화면 아래 히터·에어컨 조작부의 아랫줄, 운전석 온도 버튼 바로 오른쪽을 보세요.",
+        "scope": "exact",
+        "evidence": "조작부 그림 1C_AutoAircon(https://ownersmanual.hyundai.com/full_webhelp/NE1/2025/ko_KR/convenience_device_automatic_climate_control_system.html) 아랫줄 왼쪽부터: 8 작동 정지(OFF), 6 운전석 온도 조절(∨), 9 앞유리 서리 제거, 10 풍량 조절(바람개비 두 개), 11 풍향 선택, 12 뒷유리(열선) 서리 제거, 7 동승석 온도 조절(∨), 13 내기/외기 선택 / 대시보드 그림 1C_CenterInsideVehicleOverview(https://ownersmanual.hyundai.com/full_webhelp/NE1/2025/ko_KR/id23C3I50K0HS.html): 6 히터 및 에어컨 = 5 인포테인먼트 화면 아래 가로 조작부 / 본문: '차량에 적용된 사양에 따라 버튼 배열이 달라질 수 있습니다.'",
+        "source": "https://ownersmanual.hyundai.com/full_webhelp/NE1/2025/ko_KR/convenience_device_automatic_climate_control_system.html",
+        "section": "히터와 에어컨(자동 조절식) / 대시보드 및 중앙 콘솔"
+      },
+      "appearance": {
+        "text": "앞유리 모양 안에 물결 화살표가 위로 올라가는 서리 제거 버튼이에요.",
+        "evidence": "그림 2C_AirconFrontDefrostButton: 앞유리(사다리꼴) 안에 위로 향한 물결 화살표 3개, 버튼 위 작은 표시등",
+        "source": "https://ownersmanual.hyundai.com/full_webhelp/NE1/2025/ko_KR/id042e6950a36.html",
+        "section": "수동으로 조절하기 / 앞유리 서리 제거하기"
+      },
+      "operation": {
+        "text": "한 번 누르면 표시등이 켜지고 앞유리 쪽으로 바람이 나와요. 외기 유입이 자동으로 선택되고, 바깥 온도에 따라 에어컨도 켜질 수 있어요.",
+        "steps": [
+          "서리 제거 버튼을 한 번 누르세요. 표시등이 켜지고, 외기 유입이 자동으로 선택되며 바깥 온도에 따라 에어컨도 켜질 수 있어요.",
+          "빨리 없애려면 풍량 버튼으로 바람을 세게 올리세요. 추운 날 두꺼운 성에는 온도와 풍량을 최대로 하면 더 빨리 녹아요.",
+          "외기 유입이나 에어컨이 자동으로 켜지지 않으면 A/C 버튼과 내기·외기 버튼을 직접 눌러 주세요.",
+          "다 없어지면 서리 제거 버튼을 한 번 더 누르세요. 표시등이 꺼지고 이전 설정으로 돌아가요."
+        ],
+        "result": "표시등이 켜지고 공조 표시창에 작동 중인 기능이 표시되면 켜진 거예요.",
+        "evidence": "앞유리 서리 제거 버튼을 누르십시오. 버튼의 표시등이 켜지고 작동 상태 표시창에 작동 중인 기능이 표시됩니다. 외기 유입이 자동으로 선택되고, 외부 온도에 따라 에어컨도 자동으로 작동합니다. / 다시 한번 누르면 … 이전의 설정 상태로 되돌아갑니다. (id042e6950a36, 앞유리 서리 제거하기(A, D)) / 빠르게 습기를 제거하려면 풍량을 최대로 설정하십시오. / 외부 온도에 따라 에어컨이 자동으로 작동합니다(유리창 습기 방지 기능 설정 시). / 외기 순환 모드와 에어컨이 자동으로 선택되지 않는 경우 버튼을 눌러 기능을 작동하십시오. (idb92168d37b2) / 기온이 낮을 때 앞유리 표면의 성에를 신속하게 제거하려면 … 앞유리 서리 제거 기능을 켜고 온도와 풍량을 최대로 설정하십시오. (idc0853a3fd8c)",
+        "source": "https://ownersmanual.hyundai.com/full_webhelp/NE1/2025/ko_KR/id042e6950a36.html",
+        "section": "앞유리 서리 제거하기 / 유리창 습기 자동으로 제거하기 / 효과적인 유리창 습기 제거법"
+      },
+      "clue": {
+        "text": "온도 버튼과 바람 세기 버튼 사이에 있고, 버튼 위에 작은 표시등이 있어요. 네모 안에 같은 화살표가 있는 버튼은 뒷유리 열선이니 헷갈리지 마세요.",
+        "evidence": "조작부 그림 1C_AutoAircon(https://ownersmanual.hyundai.com/full_webhelp/NE1/2025/ko_KR/convenience_device_automatic_climate_control_system.html) 아랫줄 왼쪽부터: 8 작동 정지(OFF), 6 운전석 온도 조절(∨), 9 앞유리 서리 제거, 10 풍량 조절(바람개비 두 개), 11 풍향 선택, 12 뒷유리(열선) 서리 제거, 7 동승석 온도 조절(∨), 13 내기/외기 선택 / 대시보드 그림 1C_CenterInsideVehicleOverview(https://ownersmanual.hyundai.com/full_webhelp/NE1/2025/ko_KR/id23C3I50K0HS.html): 6 히터 및 에어컨 = 5 인포테인먼트 화면 아래 가로 조작부 / 본문: '차량에 적용된 사양에 따라 버튼 배열이 달라질 수 있습니다.' / 그림 2C_RearWindowDefrost: 직사각형 안에 위로 향한 물결 화살표 3개",
+        "source": "https://ownersmanual.hyundai.com/full_webhelp/NE1/2025/ko_KR/convenience_device_automatic_climate_control_system.html",
+        "section": "히터와 에어컨(자동 조절식)"
+      },
+      "append_safety_note": false,
+      "notes": "Design-specific (facelift_the_new). Position relative to neighbouring buttons from the 2025 panel figure; no ordinal counting. A/C and outside air switch on automatically only with 유리창 습기 방지 기능 set (default after battery connection), hence '켜질 수 있어요'."
+    },
+    {
+      "model": "IONIQ5",
+      "button": "rear_defog",
+      "design_generation": "facelift_the_new",
+      "edition": "NE1 2025 국문 웹 매뉴얼 (더 뉴 아이오닉 5), 2026-11-14 본문·그림 확인",
+      "location": {
+        "text": "가운데 화면 아래 히터·에어컨 조작부의 아랫줄, 동승석 온도 버튼 바로 왼쪽을 보세요.",
+        "scope": "exact",
+        "evidence": "조작부 그림 1C_AutoAircon(https://ownersmanual.hyundai.com/full_webhelp/NE1/2025/ko_KR/convenience_device_automatic_climate_control_system.html) 아랫줄 왼쪽부터: 8 작동 정지(OFF), 6 운전석 온도 조절(∨), 9 앞유리 서리 제거, 10 풍량 조절(바람개비 두 개), 11 풍향 선택, 12 뒷유리(열선) 서리 제거, 7 동승석 온도 조절(∨), 13 내기/외기 선택 / 대시보드 그림 1C_CenterInsideVehicleOverview(https://ownersmanual.hyundai.com/full_webhelp/NE1/2025/ko_KR/id23C3I50K0HS.html): 6 히터 및 에어컨 = 5 인포테인먼트 화면 아래 가로 조작부 / 본문: '차량에 적용된 사양에 따라 버튼 배열이 달라질 수 있습니다.'",
+        "source": "https://ownersmanual.hyundai.com/full_webhelp/NE1/2025/ko_KR/convenience_device_automatic_climate_control_system.html",
+        "section": "히터와 에어컨(자동 조절식) / 대시보드 및 중앙 콘솔"
+      },
+      "appearance": {
+        "text": "네모 안에 물결 화살표가 위로 올라가는 뒷유리 서리 제거 버튼이에요.",
+        "evidence": "그림 2C_RearWindowDefrost: 직사각형 안에 위로 향한 물결 화살표 3개, 버튼 위 작은 표시등",
+        "source": "https://ownersmanual.hyundai.com/full_webhelp/NE1/2025/ko_KR/ide9dfd643271.html",
+        "section": "뒷유리 서리 제거하기"
+      },
+      "operation": {
+        "text": "시동을 건 상태에서 누르면 표시등이 켜지고 뒷유리와 사이드미러 열선이 함께 켜져요. 뒷유리 열선은 약 20분 동안 작동하고, 한 번 더 누르면 바로 꺼져요.",
+        "steps": [
+          "시동을 건 상태에서 뒷유리 서리 제거 버튼을 누르세요. 표시등이 켜지고 뒷유리와 사이드미러 열선이 함께 켜져요. 뒷유리 열선은 약 20분 동안 작동해요.",
+          "끄려면 한 번 더 누르세요. 켜 둔 채 시동을 껐다 다시 걸면 꺼진 상태가 돼요."
+        ],
+        "result": "버튼 표시등이 켜지면 뒷유리 열선이 작동 중이에요.",
+        "evidence": "시동을 건 상태에서 뒷유리 서리 제거 버튼을 누르십시오. 버튼 표시등이 켜지고 뒷유리 열선이 약 20분 동안 켜집니다. 버튼을 한 번 더 누르면 즉시 열선이 꺼집니다. 기능 작동 중 시동을 껐다 걸면 뒷유리 서리 제거 기능이 꺼진 상태로 유지됩니다. / 뒷유리 서리 제거 기능을 켜면 사이드 미러의 열선 기능도 동시에 작동합니다. (id23C1E0ZJ0UI)",
+        "source": "https://ownersmanual.hyundai.com/full_webhelp/NE1/2025/ko_KR/ide9dfd643271.html",
+        "section": "뒷유리 서리 제거하기"
+      },
+      "clue": {
+        "text": "바람 방향 버튼과 동승석 온도 버튼 사이에 있어요. 앞유리 모양 버튼은 앞유리 서리 제거이니 헷갈리지 마세요.",
+        "evidence": "조작부 그림 1C_AutoAircon(https://ownersmanual.hyundai.com/full_webhelp/NE1/2025/ko_KR/convenience_device_automatic_climate_control_system.html) 아랫줄 왼쪽부터: 8 작동 정지(OFF), 6 운전석 온도 조절(∨), 9 앞유리 서리 제거, 10 풍량 조절(바람개비 두 개), 11 풍향 선택, 12 뒷유리(열선) 서리 제거, 7 동승석 온도 조절(∨), 13 내기/외기 선택 / 대시보드 그림 1C_CenterInsideVehicleOverview(https://ownersmanual.hyundai.com/full_webhelp/NE1/2025/ko_KR/id23C3I50K0HS.html): 6 히터 및 에어컨 = 5 인포테인먼트 화면 아래 가로 조작부 / 본문: '차량에 적용된 사양에 따라 버튼 배열이 달라질 수 있습니다.'",
+        "source": "https://ownersmanual.hyundai.com/full_webhelp/NE1/2025/ko_KR/convenience_device_automatic_climate_control_system.html",
+        "section": "히터와 에어컨(자동 조절식)"
+      },
+      "append_safety_note": false,
+      "notes": "Design-specific (facelift_the_new). Side-mirror heating runs with this button (manual id23C1E0ZJ0UI: 뒷유리 서리 제거 기능을 켜면 사이드 미러의 열선 기능도 동시에 작동합니다); the 20-minute timer is stated only for the rear glass."
+    },
+    {
+      "model": "IONIQ5",
       "button": "rear_defog",
       "edition": "NE1 2023·2025 국문 웹 매뉴얼",
       "location": {

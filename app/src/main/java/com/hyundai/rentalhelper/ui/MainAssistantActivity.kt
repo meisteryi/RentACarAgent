@@ -150,13 +150,13 @@ class MainAssistantActivity : AppCompatActivity() {
      * 현대 순정 시스템 알림 팝업 + 1~2문장 음성 브리핑
      */
     private fun triggerAdaptationBriefing(rentalModel: HyundaiCarModel) {
-        val usualSegment = userPreferences.getUsualCarSegment() ?: CarSegment.SEDAN
+        val usualSegment: CarSegment? = userPreferences.getUsualCarSegment() // null = skipped; the DB decides the fallback
         val briefingText = buttonDb.generateAdaptationBriefing(rentalModel, usualSegment)
 
         binding.cardFloatingBriefing.visibility = View.VISIBLE
         binding.tvBriefingHeader.text = "💡 현대 렌터카 적응 코치 (${rentalModel.modelNameKo})"
         binding.tvBriefingContent.text = briefingText
-        binding.tvBriefingSubtip.text = "평소 운전: ${usualSegment.displayName} ➔ 현재 렌터카: ${rentalModel.modelNameKo}"
+        binding.tvBriefingSubtip.text = "평소 운전: ${usualSegment?.displayName ?: "선택 안 함"} ➔ 현재 렌터카: ${rentalModel.modelNameKo}"
 
         // 음성(TTS) 즉시 송출
         voiceEngine.speak(briefingText)

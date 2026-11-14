@@ -46,6 +46,9 @@ class CoachOverlayService : Service() {
         private const val NOTIFICATION_ID = 1001
         private const val WAKE_PROMPT_TEXT = RendyVoicePrompts.WAKE_PROMPT_TEXT
         private const val WAKE_PROMPT_UTTERANCE_ID = "rendy_wake_prompt"
+        private const val SUBTITLE_TAG = "RendySubtitle"
+        /** Safety cap for putting a subtitle frame on screen before speaking (not a sync delay). */
+        private const val PREPARE_CAP_MS = 700L
         private const val LISTENING_STATUS_HOLD_MS = 550L
         private const val RETRY_PROMPT_DELAY_MS = 300L
         private const val RETRY_STATUS_DURATION_MS = 2_500L
@@ -100,6 +103,10 @@ class CoachOverlayService : Service() {
     private var wakeResumeRunnable: Runnable? = null
     private var isServiceDestroying = false
     private var voiceStatusOverlay: RendyVoiceStatusOverlay? = null
+    private val ttsSubtitle = TtsSubtitleState()
+    private val startupSpeechGate = StartupSpeechGate()
+    /** DEBUG builds only (see attachDebugVehiclePanel). */
+    private var debugVehiclePanel: RendyDebugVehiclePanel? = null
     /** Live STT subtitle under the voice status (real Pleos partial/final results only). */
     private val liveTranscript = LiveTranscriptState()
     private var wakeInteractionActive = false
@@ -134,7 +141,34 @@ class CoachOverlayService : Service() {
         initWindowManager()
         createFloatingBubble()
         createFloatingBanner()
+        prewarmVoiceStatusOverlay()
+        attachDebugVehiclePanel()
         initWakeWord()
+    }
+
+    /**
+     * DEBUG builds only: gear/speed panel that drives the DEMO vehicle signal used by the guidance safety policy.
+     * Not created in release builds (and VehicleSdkManager ignores DEMO values there).
+     */
+    private fun attachDebugVehiclePanel() {
+        if (!com.hyundai.rentalhelper.BuildConfig.DEBUG || !Settings.canDrawOverlays(this)) return
+        val wm = windowManager ?: return
+        debugVehiclePanel = RendyDebugVehiclePanel(
+            this, wm,
+            onDemoMotion = { gear, speed ->
+                vehicleSdkManager.setDemoMotion(gear, speed.toFloat())
+                val m = vehicleSdkManager.motion()
+                Log.i("RendyDebugPanel", "Safety policy input now: ${m.state} (${m.detail})")
+            },
+            onClearDemo = {
+                vehicleSdkManager.clearDemoMotion()
+                val m = vehicleSdkManager.motion()
+                Log.i("RendyDebugPanel", "Safety policy input now: ${m.state} (${m.detail})")
+            }
+        ).also {
+            it.attach()
+            it.showMotion(vehicleSdkManager.motion())
+        }
     }
 
     private fun startForegroundNotification() {
@@ -224,37 +258,14 @@ class CoachOverlayService : Service() {
             }
         }
 
-        voiceEngine.onSpokenSubtitle = { spokenText ->
-            mainHandler.post {
-            if (wakeInteractionActive && wakeAnswerLookup) {
-                showWakeVoiceStatus(RendyVoicePrompts.ANSWERING_STATUS, animate = true)
-                Log.i("RendyVoiceUX", "Voice answer playback started")
-            }
-            val carName = currentRentalModel?.modelNameKo ?: "현대 렌터카"
-            showBanner(
-                title = "[Live speech subtitle - TTS playback]",
-                body = spokenText,
-                subtext = "Live subtitle for the spoken vehicle guidance.",
-                category = "💡 $carName 음성 Q&A 답변"
-            )
-            }
+        // TTS subtitle = the sentence Pleos is playing now (playback callbacks + utterance id), never request time.
+        voiceEngine.onTtsSubtitle = { event ->
+            mainHandler.post { handleTtsSubtitle(event) }
         }
+        voiceEngine.subtitlePreparer = { id, text, ready -> prepareSubtitle(id, text, ready) }
 
-        voiceEngine.onSpeechResultReceived = { query, title, answer ->
-            mainHandler.post {
-            if (wakeInteractionActive && wakeAnswerLookup) {
-                showWakeVoiceStatus(RendyVoicePrompts.ANSWERING_STATUS, animate = true)
-                Log.i("RendyVoiceUX", "Voice answer playback started")
-            }
-            val carName = currentRentalModel?.modelNameKo ?: "현대 렌터카"
-            showBanner(
-                title = "[Voice answer - $title]",
-                body = answer,
-                subtext = "질문: \"$query\"",
-                category = "$carName voice Q&A answer"
-            )
-            }
-        }
+        // The answer text is shown by the TTS subtitle when its playback starts (not here, at request time).
+        voiceEngine.onSpeechResultReceived = { _, _, _ -> }
 
         voiceEngine.onSttStateChanged = { state, message ->
             mainHandler.post {
@@ -283,7 +294,9 @@ class CoachOverlayService : Service() {
                         VoiceAssistantEngine.SttState.RESULT -> {
                             wakeAnswerLookup = true
                             cancelListeningStatusAdvance()
-                            showWakeVoiceStatus(RendyVoicePrompts.ANSWER_LOOKUP_STATUS, animate = true)
+                            // Static pill while answering: its endless bar animation kept the shared render thread busy
+                            // and delayed the TTS subtitle (A/B on the emulator 2026-11-14: hide lag 83-488 ms -> 7-131 ms).
+                            showWakeVoiceStatus(RendyVoicePrompts.ANSWER_LOOKUP_STATUS, animate = false)
                         }
                         VoiceAssistantEngine.SttState.IDLE,
                         VoiceAssistantEngine.SttState.ERROR -> {
@@ -342,7 +355,7 @@ class CoachOverlayService : Service() {
                 if (wakeInteractionActive) {
                     wakeAnswerLookup = true
                     cancelListeningStatusAdvance()
-                    showWakeVoiceStatus(RendyVoicePrompts.ANSWER_LOOKUP_STATUS, animate = true)
+                    showWakeVoiceStatus(RendyVoicePrompts.ANSWER_LOOKUP_STATUS, animate = false)
                 }
                 val model = currentRentalModel
                     ?: buttonDb.findModelById(vehicleSdkManager.getCurrentState().modelId)
@@ -380,11 +393,12 @@ class CoachOverlayService : Service() {
             currentRentalModel = model
 
             bubbleBinding?.tvBubbleBadge?.text = model?.modelNameKo ?: vehicleState.modelName
+            debugVehiclePanel?.showMotion(vehicleState.motion)
             onVehicleMotion(vehicleState.motion)
 
             if (!isBriefingGiven && model != null) {
                 isBriefingGiven = true
-                triggerAdaptationBriefing(model)
+                startupSpeechGate.runWhenReady(StartupSpeechGate.Order.BRIEFING) { triggerAdaptationBriefing(model) }
             }
         }
         voiceEngine.drivingStateProvider = { vehicleSdkManager.motion().state }
@@ -520,7 +534,7 @@ class CoachOverlayService : Service() {
         cancelListeningStatusAdvance()
         liveTranscript.reset()
         voiceStatusOverlay?.setTranscript(null)
-        showWakeVoiceStatus(RendyVoicePrompts.PREPARING_STATUS, animate = true)
+        showWakeVoiceStatus(RendyVoicePrompts.PREPARING_STATUS, animate = false) // static while the wake reply and its subtitle are drawn
         Log.i("RendyVoiceUX", "Wake prompt requested: handlerMs=${SystemClock.elapsedRealtime() - promptRequestAt}")
         voiceEngine.speak(
             text = WAKE_PROMPT_TEXT,
@@ -630,6 +644,17 @@ class CoachOverlayService : Service() {
                     finishWakeInteraction("STT retry exhausted")
                 }
             }, RETRY_STATUS_DURATION_MS)
+        }
+    }
+
+    /** Attach the voice status pill window hidden at service start (no window add/sync at the first wake word). */
+    private fun prewarmVoiceStatusOverlay() {
+        if (!Settings.canDrawOverlays(this)) return
+        val wm = windowManager ?: return
+        try {
+            voiceStatusOverlay = (voiceStatusOverlay ?: RendyVoiceStatusOverlay(this, wm)).also { it.prewarm() }
+        } catch (e: Exception) {
+            Log.e("RendyVoiceUX", "Could not prewarm voice status overlay", e)
         }
     }
 
@@ -794,12 +819,14 @@ class CoachOverlayService : Service() {
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
             windowType,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+            // Starts hidden: transparent window (compositor alpha) that lets touches through until a subtitle shows.
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
             PixelFormat.TRANSLUCENT
         ).apply {
             gravity = Gravity.TOP or Gravity.END
             x = 80
             y = 30
+            alpha = 0f
         }
 
         bannerBinding?.btnBannerClose?.setOnClickListener {
@@ -989,12 +1016,15 @@ class CoachOverlayService : Service() {
             val app = application as RentalCoachApplication
             if (app.claimRendyIntroForCurrentSession()) {
                 Log.i(TAG, "Automatic RENDY intro requested after Service start; no Navi42 foreground-ready signal is available")
-                voiceEngine.speak(
-                    text = VoiceAssistantEngine.RENDY_INTRO_TEXT,
-                    utteranceId = VoiceAssistantEngine.RENDY_INTRO_UTTERANCE_ID,
-                    queueMode = TextToSpeech.QUEUE_ADD,
-                    onFailed = { reason -> Log.e(TAG, "Automatic RENDY intro failed: $reason") }
-                )
+                // Greeting first, briefing after it (gate order), once the overlay UI can draw the subtitle.
+                startupSpeechGate.runWhenReady(StartupSpeechGate.Order.GREETING) {
+                    voiceEngine.speak(
+                        text = VoiceAssistantEngine.RENDY_INTRO_TEXT,
+                        utteranceId = VoiceAssistantEngine.RENDY_INTRO_UTTERANCE_ID,
+                        queueMode = TextToSpeech.QUEUE_ADD,
+                        onFailed = { reason -> Log.e(TAG, "Automatic RENDY intro failed: $reason") }
+                    )
+                }
             }
         }
 
@@ -1013,7 +1043,7 @@ class CoachOverlayService : Service() {
 
         if (model != null && (!isBriefingGiven || intent?.action == ACTION_TRIGGER_BRIEFING)) {
             isBriefingGiven = true
-            triggerAdaptationBriefing(model)
+            startupSpeechGate.runWhenReady(StartupSpeechGate.Order.BRIEFING) { triggerAdaptationBriefing(model) }
         }
 
         return START_STICKY
@@ -1023,19 +1053,166 @@ class CoachOverlayService : Service() {
      * Starts phase 2: native navigation, floating Q&A, and voice briefing.
      */
     private fun triggerAdaptationBriefing(rentalModel: HyundaiCarModel) {
-        val usualSegment = userPreferences.getUsualCarSegment() ?: CarSegment.SEDAN
+        val usualSegment = userPreferences.getUsualCarSegment() // null = skipped; the DB decides the fallback
         val briefingText = buttonDb.generateAdaptationBriefing(rentalModel, usualSegment)
+        briefingSubtext = "Selected segment: ${usualSegment?.displayName ?: "선택 안 함"}; model: ${rentalModel.modelNameKo}"
+        Log.i(TAG, "Adaptation briefing: rental=${rentalModel.selectionId}, usual=${usualSegment?.code ?: "NOT_SELECTED"}, text=$briefingText")
 
-        showBanner(
-            title = "[Voice briefing - vehicle adaptation]",
-            body = briefingText,
-            subtext = "Selected segment: ${usualSegment.displayName}; model: ${rentalModel.modelNameKo}",
-            category = "💡 ${rentalModel.modelNameKo} 음성 안내"
-        )
-
-        // Read the finished voice guide using Pleos TTS
-        // Keep this after/alongside the one-time greeting instead of flushing it.
+        // Queued after the greeting (QUEUE_ADD). Its subtitle appears when Pleos starts playing it
+        // (handleTtsSubtitle), not now: showing it here put the briefing on screen before the greeting.
         voiceEngine.speak(briefingText, queueMode = TextToSpeech.QUEUE_ADD)
+    }
+
+    private var briefingSubtext = ""
+
+    /** TTS subtitle banner: show on playback start of a still-playing utterance, clear when it ends/stops. */
+    private fun handleTtsSubtitle(event: TtsSubtitleEvent) {
+        val lateMs = SystemClock.elapsedRealtime() - event.atMs
+        when (val action = ttsSubtitle.onEvent(event, voiceEngine.speakingUtteranceId)) {
+            is TtsSubtitleState.Action.Show -> {
+                if (wakeInteractionActive && wakeAnswerLookup) {
+                    showWakeVoiceStatus(RendyVoicePrompts.ANSWERING_STATUS, animate = false)
+                    Log.i("RendyVoiceUX", "Voice answer playback started")
+                }
+                val id = action.utteranceId
+                // Normally already on screen (prepareSubtitle showed it before speak()); otherwise show it now.
+                // Normally already revealed right before speak(); otherwise (no preparer) show it now.
+                val prepared = preparedSubtitleId == id
+                if (!prepared) {
+                    fillBanner(id, action.text)
+                    revealBanner()
+                    Log.i(SUBTITLE_TAG, "SUBTITLE_REVEALED id=$id (window alpha 1 applied, on Pleos start), afterTtsStartMs=${SystemClock.elapsedRealtime() - event.atMs}")
+                }
+            }
+            is TtsSubtitleState.Action.Clear -> {
+                concealBanner()
+                Log.i(SUBTITLE_TAG, "SUBTITLE_CLEAR id=${action.utteranceId} (window alpha 0 applied), reason=${(event as? TtsSubtitleEvent.End)?.reason}, afterTtsEndMs=${SystemClock.elapsedRealtime() - event.atMs}")
+            }
+            is TtsSubtitleState.Action.Ignore ->
+                Log.i(SUBTITLE_TAG, "SUBTITLE_SKIP id=${action.utteranceId}, ${action.reason}, eventAgeMs=$lateMs")
+        }
+    }
+
+    private var preparedSubtitleId: String? = null
+
+    /**
+     * Called by the engine right before it hands [id] to Pleos (Pleos has no prepare/pause API; the only lever is
+     * WHEN speak() is called).
+     *  1. The sentence is drawn into the banner while the banner WINDOW is fully transparent (window alpha 0); we wait
+     *     for that frame to be committed. Skipped when the banner already holds this sentence (the wake reply is
+     *     pre-drawn while idle).
+     *  2. The window is made opaque by the compositor (WindowManager alpha), which needs no app frame, so it does not
+     *     wait for a busy render thread.
+     *  3. Only then Pleos speak() is called; Pleos starts its AudioTrack ~0.05-0.4 s later.
+     * [PREPARE_CAP_MS] (off the main thread) caps step 1 so speech never waits on a frame that does not come.
+     * A sentence cancelled while waiting is not spoken, and its End event hides the subtitle.
+     */
+    private fun prepareSubtitle(id: String, text: String, ready: () -> Unit) {
+        val root = bannerBinding?.root
+        if (root == null || Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) { ready(); return }
+        if (!voiceEngine.isUtteranceActive(id)) {
+            // Cancelled (newer QUEUE_FLUSH / stop) before its subtitle could be shown: show nothing.
+            Log.i(SUBTITLE_TAG, "SUBTITLE_SKIP id=$id, cancelled before it was shown")
+            ready()
+            return
+        }
+        val startedAt = SystemClock.elapsedRealtime()
+        val done = java.util.concurrent.atomic.AtomicBoolean(false)
+        fun proceed(how: String) {
+            if (!done.compareAndSet(false, true)) return
+            Log.i(SUBTITLE_TAG, "SUBTITLE_CONTENT_READY id=$id, drawMs=${SystemClock.elapsedRealtime() - startedAt}, by=$how")
+            // Reveal right before speak(): the window alpha is applied by the compositor (no app frame). Revealing on
+            // Pleos onStart instead was measured 0.3-1.6 s late, because the main thread is busy at that moment.
+            val reveal = {
+                if (voiceEngine.isUtteranceActive(id)) {
+                    setBannerWindow(visible = true)
+                    Log.i(SUBTITLE_TAG, "SUBTITLE_REVEALED id=$id (window alpha 1 applied), sinceRequestMs=${SystemClock.elapsedRealtime() - startedAt}")
+                }
+            }
+            if (Looper.myLooper() == Looper.getMainLooper()) reveal() else mainHandler.post { reveal() }
+            ready()
+        }
+        preparedSubtitleId = id
+        ttsSubtitle.markShown(id)
+        Log.i(SUBTITLE_TAG, "SUBTITLE_SHOW_REQUEST id=$id, text=${text.take(40)}")
+        if (bannerHolds(id, text) && root.visibility == View.VISIBLE) {
+            proceed("already_drawn")
+            return
+        }
+        fillBanner(id, text)
+        root.visibility = View.VISIBLE
+        root.viewTreeObserver.registerFrameCommitCallback {
+            Log.i(SUBTITLE_TAG, "SUBTITLE_CONTENT_COMMITTED id=$id, drawMs=${SystemClock.elapsedRealtime() - startedAt}")
+            proceed("frame_commit")
+        }
+        root.invalidate()
+        subtitleCapHandler.postDelayed({ proceed("cap") }, PREPARE_CAP_MS)
+    }
+
+    private val subtitleCapHandler: Handler by lazy {
+        Handler(android.os.HandlerThread("rendy-subtitle-cap").apply { start() }.looper)
+    }
+
+    private var bannerContentKey: String? = null
+
+    private fun bannerKind(id: String) = when {
+        id.startsWith("utterance_briefing") -> "briefing"
+        id.startsWith(VoiceAssistantEngine.RENDY_INTRO_UTTERANCE_ID) -> "guidance"
+        else -> "live"
+    }
+
+    private fun bannerHolds(id: String, text: String) = bannerContentKey == "${bannerKind(id)}|$text"
+
+    private fun fillBanner(id: String, text: String) {
+        val banner = bannerBinding ?: return
+        val carName = currentRentalModel?.modelNameKo ?: "현대 렌터카"
+        val kind = bannerKind(id)
+        val guidance = kind != "live"
+        banner.tvBannerTitle.text = if (guidance) "[Voice briefing - vehicle adaptation]" else "[Live speech subtitle - TTS playback]"
+        banner.tvBannerBody.text = "\"$text\""
+        banner.tvBannerSubtext.text = if (kind == "briefing" && briefingSubtext.isNotEmpty()) briefingSubtext
+            else "Live subtitle for the spoken vehicle guidance."
+        banner.tvBannerCategory.text = if (guidance) "💡 $carName 음성 안내" else "💡 $carName 음성 Q&A 답변"
+        bannerContentKey = "$kind|$text"
+    }
+
+    /**
+     * Shows/hides the banner by its WINDOW alpha (applied by the compositor, no app frame needed) and its touch
+     * flag (touches pass through while hidden). The content stays drawn underneath.
+     */
+    private fun setBannerWindow(visible: Boolean) {
+        val banner = bannerBinding ?: return
+        val params = bannerLayoutParams ?: return
+        mainHandler.removeCallbacks(autoHideBannerRunnable)
+        banner.root.alpha = 1f
+        if (visible) banner.root.visibility = View.VISIBLE
+        val alpha = if (visible) 1f else 0f
+        val flags = if (visible) params.flags and WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE.inv()
+            else params.flags or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+        if (params.alpha == alpha && params.flags == flags) return
+        params.alpha = alpha
+        params.flags = flags
+        try {
+            windowManager?.updateViewLayout(banner.root, params)
+        } catch (e: Exception) {}
+    }
+
+    private fun revealBanner() = setBannerWindow(visible = true)
+
+    private fun concealBanner() {
+        setBannerWindow(visible = false)
+        preparedSubtitleId = null
+        // While idle, keep the wake reply drawn underneath, so the next "네, 말씀하세요!" needs no drawing at all.
+        mainHandler.post {
+            if (ttsSubtitle.shownUtteranceId == null && bannerLayoutParams?.alpha == 0f) {
+                fillBanner(WAKE_PROMPT_UTTERANCE_ID, WAKE_PROMPT_TEXT)
+            }
+        }
+    }
+
+    private fun hideBanner() {
+        mainHandler.removeCallbacks(autoHideBannerRunnable)
+        autoHideBannerRunnable.run()
     }
 
     private fun showBanner(
@@ -1050,10 +1227,8 @@ class CoachOverlayService : Service() {
         banner.tvBannerSubtext.text = subtext
         val carName = currentRentalModel?.modelNameKo ?: "현대 렌터카"
         banner.tvBannerCategory.text = category ?: "$carName voice guidance"
-        banner.root.visibility = View.VISIBLE
-        try {
-            windowManager?.updateViewLayout(banner.root, bannerLayoutParams)
-        } catch (e: Exception) {}
+        bannerContentKey = null
+        setBannerWindow(visible = true)
 
         mainHandler.removeCallbacks(autoHideBannerRunnable)
         // Automatically hide the banner after the voice response
@@ -1062,10 +1237,8 @@ class CoachOverlayService : Service() {
 
     private val autoHideBannerRunnable = Runnable {
         bannerBinding?.let { banner ->
-            banner.root.visibility = View.GONE
-            try {
-                windowManager?.updateViewLayout(banner.root, bannerLayoutParams)
-            } catch (e: Exception) {}
+            // Window alpha 0 (compositor) instead of GONE: no window resize or app redraw; touches pass through.
+            setBannerWindow(visible = false)
         }
     }
 
@@ -1091,6 +1264,8 @@ class CoachOverlayService : Service() {
         cancelListeningStatusAdvance()
         voiceStatusOverlay?.destroy()
         voiceStatusOverlay = null
+        debugVehiclePanel?.detach()
+        debugVehiclePanel = null
         voiceEngine.detachForServiceStop()
         vehicleSdkManager.stop()
 

@@ -124,9 +124,17 @@ class RendyVoiceStatusOverlay(
         })
     }
 
+    /** Attaches the (hidden) window ahead of the first wake word, so showing it later is only a visibility change. */
+    fun prewarm() {
+        if (attached) return
+        show(RendyVoicePrompts.PREPARING_STATUS, animate = false)
+        hide()
+    }
+
     fun show(message: String, animate: Boolean) {
         statusText.text = message
         root.contentDescription = "RENDY: $message"
+        root.visibility = View.VISIBLE
         if (!attached) {
             val params = WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
@@ -181,21 +189,33 @@ class RendyVoiceStatusOverlay(
         root.contentDescription = "RENDY: ${statusText.text}, ${view.text}"
     }
 
+    /**
+     * Hides the pill but keeps its window attached (it is never touchable). Removing and re-adding the window on
+     * every wake word made the window manager's draw sync block the main thread for ~1 s right when the wake
+     * reply "네, 말씀하세요!" was dispatched (SurfaceSyncGroup timeout, measured 2026-11-14).
+     */
     fun hide() {
+        setTranscript(null)
+        setAnimating(false)
+        if (!attached) return
+        root.visibility = View.INVISIBLE
+        Log.i(TAG, "Voice status overlay dismissed (window kept)")
+    }
+
+    /** Service shutdown: actually removes the window. */
+    fun destroy() {
         setTranscript(null)
         setAnimating(false)
         if (!attached) return
         try {
             windowManager.removeView(root)
-            Log.i(TAG, "Voice status overlay dismissed")
+            Log.i(TAG, "Voice status overlay removed")
         } catch (e: Exception) {
             Log.w(TAG, "Voice status overlay removal failed: ${e.message}")
         } finally {
             attached = false
         }
     }
-
-    fun destroy() = hide()
 
     private fun setAnimating(enabled: Boolean) {
         if (enabled) {
