@@ -60,3 +60,14 @@ Thumbs.db
 
 # Node (server/rendy-intent-proxy has no dependencies, but never commit installs)
 node_modules/
+
+# VS Code 개인 설정
+.vscode/
+
+# 개발 중 만든 측정·조사 자료(에뮬레이터 로그, 스크린샷, 다운로드한 매뉴얼 그림 등).
+# 이미 추적 중인 reports/ 파일은 이 규칙과 관계없이 계속 추적되며, 새 파일만 제외됩니다.
+/reports/
+
+# 로컬 작업용 DB·QA 사본 (앱은 app/src/main/assets/의 JSON만 읽음)
+/hyundai_buttons_db_final.json
+/rendy_qa_test_cases_final.json
