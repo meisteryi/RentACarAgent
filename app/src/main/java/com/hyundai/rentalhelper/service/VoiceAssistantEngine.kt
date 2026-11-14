@@ -190,6 +190,12 @@ class VoiceAssistantEngine(
     var onPromptOverlapSttDiscarded: ((reason: String) -> Unit)? = null
     /** Final raw transcript hook for a later Q&A layer; this callback does not trigger answers. */
     var onSttTextReceived: ((query: String) -> Unit)? = null
+    /**
+     * Live transcript for the on-screen subtitle: capture, Pleos partial/final results and session end, tagged
+     * with the STT session. Only real recognizer output is forwarded; the [LiveTranscriptEvent.Final] text is the
+     * same string passed to [onSttTextReceived]. Called on the SDK callback thread.
+     */
+    var onLiveTranscript: ((LiveTranscriptEvent) -> Unit)? = null
 
     val isTtsBusy: Boolean
         get() = activeSpeech.isNotEmpty() || pendingSpeech.isNotEmpty()
@@ -281,6 +287,7 @@ class VoiceAssistantEngine(
             setSttState(SttState.LISTENING, "Listening")
             onListeningStateChanged?.invoke(true)
             Log.i(STT_TAG, "session=$sessionId microphone capture confirmed by $source: trigger=$activeSttTrigger, requestToCaptureMs=${now - activeSttRequestedAtMs}, readyToCaptureMs=${if (sessionReadyAtMs > 0L) now - sessionReadyAtMs else -1L}")
+            onLiveTranscript?.invoke(LiveTranscriptEvent.Capture(sessionId))
             scheduleSttWatchdog(sessionId, WATCHDOG_SPEECH, STT_NO_SPEECH_TIMEOUT_MS)
             onSttCaptureReady?.invoke(activeSttTrigger)
         }
@@ -321,6 +328,7 @@ class VoiceAssistantEngine(
                     sttFinalizeRunnable = null
                     val finalAtMs = SystemClock.elapsedRealtime()
                     Log.i(STT_TAG, "session=$sessionId final recognition: trigger=$activeSttTrigger, text=$stt, requestToFinalMs=${finalAtMs - activeSttRequestedAtMs}, readyToFinalMs=${if (sessionReadyAtMs > 0L) finalAtMs - sessionReadyAtMs else -1L}, captureToFinalMs=${if (sessionCaptureAtMs > 0L) finalAtMs - sessionCaptureAtMs else -1L}, finalAfterEndMs=${if (sessionEndedAtMs > 0L) finalAtMs - sessionEndedAtMs else -1L}, partialCount=$partialCount")
+                    onLiveTranscript?.invoke(LiveTranscriptEvent.Final(sessionId, stt))
                     onSttTextReceived?.invoke(stt)
                     setSttState(SttState.RESULT, "Text recognized")
                     if (sttSessionEnded) scheduleSttFinalization(sessionId, 250L)
@@ -339,6 +347,7 @@ class VoiceAssistantEngine(
                 val intervalMs = if (lastPartialAtMs > 0L) partialAtMs - lastPartialAtMs else -1L
                 lastPartialAtMs = partialAtMs
                 Log.i(STT_TAG, "session=$sessionId partial recognition: trigger=$activeSttTrigger, text=$stt, first=$first, requestToPartialMs=${partialAtMs - activeSttRequestedAtMs}, readyToPartialMs=${if (sessionReadyAtMs > 0L) partialAtMs - sessionReadyAtMs else -1L}, captureToPartialMs=${if (sessionCaptureAtMs > 0L) partialAtMs - sessionCaptureAtMs else -1L}, intervalMs=$intervalMs")
+                onLiveTranscript?.invoke(LiveTranscriptEvent.Partial(sessionId, stt))
                 setSttState(SttState.PROCESSING, "Processing speech")
             }
         }
@@ -644,6 +653,7 @@ class VoiceAssistantEngine(
         }
         pleosSttHasFinalResult = true
         Log.i(STT_TAG, "session=$activeSttSessionId DEBUG injected final result (text injection, not acoustic): trigger=$activeSttTrigger")
+        onLiveTranscript?.invoke(LiveTranscriptEvent.Final(activeSttSessionId, text))
         onSttTextReceived?.invoke(text)
         setSttState(SttState.RESULT, "Text recognized")
         stopPleosRecognition()
@@ -753,6 +763,7 @@ class VoiceAssistantEngine(
         pleosSttRequestActive = false
         sttSessionFinalizing = false
         sttSessionEnded = false
+        onLiveTranscript?.invoke(LiveTranscriptEvent.Ended(sessionId))
         if (publishState) setSttState(state, message) else sttState = state
         Log.i(STT_TAG, "session=$sessionId finalized; next request requires a new explicit action")
         activeSttSessionId = 0L

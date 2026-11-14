@@ -41,6 +41,17 @@ class RendyVoiceStatusOverlay(
         setTypeface(typeface, android.graphics.Typeface.BOLD)
         maxLines = 1
     }
+    /**
+     * Live STT transcript under the status (real Pleos partial/final text only). Interim text is grey, the
+     * confirmed question dark; at most two lines so it stays a glance, not something to read while driving.
+     */
+    private val transcriptText = TextView(context).apply {
+        textSize = 22f
+        maxLines = 2
+        ellipsize = android.text.TextUtils.TruncateAt.END
+        maxWidth = dp(640)
+        visibility = View.GONE
+    }
     private val bars = ArrayList<View>(3)
     private val animators = ArrayList<ObjectAnimator>(3)
     private var attached = false
@@ -75,6 +86,10 @@ class RendyVoiceStatusOverlay(
             LinearLayout.LayoutParams.WRAP_CONTENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         ).apply { topMargin = dp(2) })
+        labels.addView(transcriptText, LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        ).apply { topMargin = dp(3) })
         root.addView(labels, LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
             LinearLayout.LayoutParams.WRAP_CONTENT).apply { marginStart = dp(12) })
 
@@ -122,8 +137,10 @@ class RendyVoiceStatusOverlay(
                     WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
                 PixelFormat.TRANSLUCENT
             ).apply {
-                gravity = Gravity.TOP or Gravity.CENTER_HORIZONTAL
-                y = dp(34)
+                // Bottom centre, just above the dock: the top edge is taken by the system bar and the TTS subtitle
+                // banner (top-end, drawn above this window), which hid the status and the live transcript.
+                gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+                y = dp(DOCK_CLEARANCE_DP)
             }
             try {
                 windowManager.addView(root, params)
@@ -136,7 +153,36 @@ class RendyVoiceStatusOverlay(
         setAnimating(animate)
     }
 
+    /** Shows or clears the live transcript line; does not attach the overlay by itself. */
+    fun setTranscript(view: LiveTranscriptView?) {
+        if (view == null) {
+            transcriptText.text = ""
+            transcriptText.visibility = View.GONE
+            return
+        }
+        transcriptText.visibility = View.VISIBLE
+        when {
+            view.isPlaceholder -> {
+                transcriptText.text = view.text
+                transcriptText.setTextColor(Color.rgb(156, 163, 175))
+                transcriptText.setTypeface(null, android.graphics.Typeface.NORMAL)
+            }
+            view.isFinal -> {
+                transcriptText.text = "“${view.text}”"
+                transcriptText.setTextColor(Color.rgb(17, 24, 39))
+                transcriptText.setTypeface(null, android.graphics.Typeface.BOLD)
+            }
+            else -> {
+                transcriptText.text = view.text
+                transcriptText.setTextColor(Color.rgb(75, 85, 99))
+                transcriptText.setTypeface(null, android.graphics.Typeface.NORMAL)
+            }
+        }
+        root.contentDescription = "RENDY: ${statusText.text}, ${view.text}"
+    }
+
     fun hide() {
+        setTranscript(null)
         setAnimating(false)
         if (!attached) return
         try {
@@ -167,5 +213,7 @@ class RendyVoiceStatusOverlay(
 
     companion object {
         private const val TAG = "RendyVoiceUX"
+        /** Gap above the bottom dock (the overlay frame already ends at the dock's top edge). */
+        private const val DOCK_CLEARANCE_DP = 12
     }
 }

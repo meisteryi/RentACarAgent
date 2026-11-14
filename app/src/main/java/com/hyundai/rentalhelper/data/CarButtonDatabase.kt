@@ -263,19 +263,8 @@ class CarButtonDatabase private constructor(context: Context) {
 
         // [특화] 아이오닉 5 순수 전기차 전용 체급 및 EV 조작 브리핑
         if (rentalModel.modelId.equals("IONIQ5", ignoreCase = true)) {
-            // SCC button side differs by design (handoff 2026-11-13); unknown design -> no side is stated.
-            val scc = when (rentalModel.designGeneration) {
-                RendyVehicleVariants.FACELIFT_THE_NEW -> " 스마트 크루즈는 핸들 왼쪽 버튼 묶음 맨 윗줄 바깥쪽의 주행 보조 버튼으로 켭니다."
-                RendyVehicleVariants.PRE_FACELIFT -> " 스마트 크루즈는 핸들 오른쪽 버튼 묶음 맨 윗줄 바깥쪽의 주행 보조 버튼으로 켭니다."
-                else -> ""
-            }
-            return when (usualSegment) {
-                CarSegment.COMPACT -> "탑승하신 ${rentalName}는 100% 전기차로 평소 경차보다 차폭이 30센티미터 넓고 휠베이스가 3미터로 매우 깁니다. 기어는 핸들 오른쪽 뒤 칼럼 레버를 돌려 조작합니다.$scc"
-                CarSegment.SEDAN -> "탑승하신 ${rentalName}는 순수 전기차로 평소 세단보다 휠베이스가 3미터에 달해 실내가 매우 넓고 시야가 높습니다. 기어는 핸들 오른쪽 뒤 칼럼 레버 끝단을 돌려 조작합니다.$scc"
-                CarSegment.SUV -> "탑승하신 ${rentalName}는 전기차 전용 플랫폼으로 바닥에 배터리가 있어 일반 내연기관 SUV보다 무게중심이 낮고 주행이 안정적입니다. 기어는 핸들 오른쪽 뒤 칼럼 레버로 조작합니다.$scc"
-                CarSegment.VAN -> "탑승하신 ${rentalName}는 전기차로 대형 승합차 못지않은 3미터 휠베이스의 넓은 공간을 제공합니다. 핸들 뒤 패들쉬프트로 회생제동 세기를 맞추어 편안하게 주행하세요."
-                CarSegment.TRUCK -> "탑승하신 ${rentalName}는 전기 모터의 즉각적인 토크와 조용한 승차감이 특징입니다. 기어는 핸들 오른쪽 뒤 칼럼 레버를 돌려 D단으로 변속하세요."
-            }
+            // Smart cruise is not part of the briefing; it is explained when the driver asks (verified overlay answer).
+            return Ioniq5AdaptationBriefing.text(rentalName, usualSegment)
         }
 
         return when (usualSegment) {

@@ -100,6 +100,8 @@ class CoachOverlayService : Service() {
     private var wakeResumeRunnable: Runnable? = null
     private var isServiceDestroying = false
     private var voiceStatusOverlay: RendyVoiceStatusOverlay? = null
+    /** Live STT subtitle under the voice status (real Pleos partial/final results only). */
+    private val liveTranscript = LiveTranscriptState()
     private var wakeInteractionActive = false
     private var wakePromptPending = false
     /** Parallel wake STT: a Pleos STT request was made during the wake prompt and has not been discarded. */
@@ -352,6 +354,17 @@ class CoachOverlayService : Service() {
             }
         }
 
+        voiceEngine.onLiveTranscript = { event ->
+            mainHandler.post {
+                if (!liveTranscript.apply(event)) return@post
+                val view = liveTranscript.view()
+                Log.i("RendyVoiceUX", "Live transcript: session=${event.sessionId}, event=${event.javaClass.simpleName}, " +
+                    "shown=${view?.let { if (it.isPlaceholder) "placeholder" else if (it.isFinal) "final" else "partial" } ?: "none"}, " +
+                    "text=${view?.takeUnless { it.isPlaceholder }?.text ?: ""}, overlay=$wakeInteractionActive")
+                if (wakeInteractionActive) voiceStatusOverlay?.setTranscript(view)
+            }
+        }
+
         voiceEngine.onErrorOccurred = { errorMsg ->
             showBanner("Voice assistant notice", errorMsg, "Please try again.")
         }
@@ -505,6 +518,8 @@ class CoachOverlayService : Service() {
         followUpListenPending = false
         followUpSttActive = false
         cancelListeningStatusAdvance()
+        liveTranscript.reset()
+        voiceStatusOverlay?.setTranscript(null)
         showWakeVoiceStatus(RendyVoicePrompts.PREPARING_STATUS, animate = true)
         Log.i("RendyVoiceUX", "Wake prompt requested: handlerMs=${SystemClock.elapsedRealtime() - promptRequestAt}")
         voiceEngine.speak(
@@ -657,6 +672,7 @@ class CoachOverlayService : Service() {
         followUpSttActive = false
         wakeUxSessionId++
         cancelListeningStatusAdvance()
+        liveTranscript.reset()
         voiceStatusOverlay?.hide()
         Log.i("RendyVoiceUX", "Wake voice interaction ended: $reason; returning to wake-word standby")
         if (!isServiceDestroying) scheduleWakeWordResume("wake interaction ended: $reason", 650L)
