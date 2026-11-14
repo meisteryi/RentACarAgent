@@ -11,7 +11,8 @@ enum class CarSegment(val code: String, val displayName: String, val description
     SEDAN("SEDAN", "세단", "아반떼, 쏘나타, 그랜저 등 일반 승용차"),
     SUV("SUV", "SUV", "투싼, 싼타페, 팰리세이드 등 다목적 차량"),
     VAN("VAN", "승합차", "스타리아, 카니발 등 대형 패밀리/승합차"),
-    TRUCK("TRUCK", "트럭/상용차", "포터, 봉고 등 화물 상용차");
+    TRUCK("TRUCK", "트럭/상용차", "포터, 봉고 등 화물 상용차"),
+    NONE("NONE", "없음", "차량 미보유 / 운전 초보");
 
     companion object {
         fun fromCode(code: String?): CarSegment? {
@@ -28,6 +29,8 @@ class UserPreferences(context: Context) {
         private const val PREF_NAME = "rental_car_adaptation_prefs"
         private const val KEY_USUAL_CAR_SEGMENT = "usual_car_segment"
         private const val KEY_FIRST_RUN = "is_first_run"
+        private const val KEY_RETURN_LOCATION = "return_location"
+        private const val KEY_RETURN_TIME_MILLIS = "return_time_millis"
     }
 
     /**
@@ -60,6 +63,49 @@ class UserPreferences(context: Context) {
      */
     fun clearPreset() {
         prefs.edit().clear().apply()
+    }
+
+    /**
+     * 렌터카 반납지 및 반납 예정 일시 저장 (향후 반납 임박 안내에 사용)
+     */
+    fun saveReturnInfo(location: String, returnTimeMillis: Long) {
+        prefs.edit()
+            .putString(KEY_RETURN_LOCATION, location.trim())
+            .putLong(KEY_RETURN_TIME_MILLIS, returnTimeMillis)
+            .apply()
+    }
+
+    /**
+     * 저장된 반납지 반환 (없으면 null)
+     */
+    fun getReturnLocation(): String? {
+        return prefs.getString(KEY_RETURN_LOCATION, null)?.takeIf { it.isNotBlank() }
+    }
+
+    /**
+     * 저장된 반납 예정 일시(ms) 반환 (없으면 null)
+     */
+    fun getReturnTimeMillis(): Long? {
+        if (!prefs.contains(KEY_RETURN_TIME_MILLIS)) return null
+        val millis = prefs.getLong(KEY_RETURN_TIME_MILLIS, 0L)
+        return millis.takeIf { it > 0L }
+    }
+
+    /**
+     * 반납 정보 설정 여부
+     */
+    fun hasReturnInfo(): Boolean {
+        return getReturnLocation() != null && getReturnTimeMillis() != null
+    }
+
+    /**
+     * 반납 정보 초기화
+     */
+    fun clearReturnInfo() {
+        prefs.edit()
+            .remove(KEY_RETURN_LOCATION)
+            .remove(KEY_RETURN_TIME_MILLIS)
+            .apply()
     }
 }
 

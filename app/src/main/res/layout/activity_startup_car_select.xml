@@ -48,7 +48,7 @@
             android:id="@+id/cardCompact"
             android:layout_width="0dp"
             android:layout_height="380dp"
-            android:layout_margin="12dp"
+            android:layout_margin="8dp"
             android:layout_weight="1"
             android:clickable="true"
             android:focusable="true"
@@ -63,13 +63,13 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="24dp">
+                android:padding="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="🚗"
-                    android:textSize="84sp" />
+                    android:textSize="72sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -77,7 +77,7 @@
                     android:layout_marginTop="20dp"
                     android:text="경차"
                     android:textColor="@color/car_text_primary"
-                    android:textSize="38sp"
+                    android:textSize="34sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -86,7 +86,7 @@
                     android:layout_marginTop="10dp"
                     android:text="캐스퍼, 모닝"
                     android:textColor="@color/car_text_dim"
-                    android:textSize="24sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -95,7 +95,7 @@
             android:id="@+id/cardSedan"
             android:layout_width="0dp"
             android:layout_height="380dp"
-            android:layout_margin="12dp"
+            android:layout_margin="8dp"
             android:layout_weight="1"
             android:clickable="true"
             android:focusable="true"
@@ -110,13 +110,13 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="24dp">
+                android:padding="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="🚘"
-                    android:textSize="84sp" />
+                    android:textSize="72sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -124,7 +124,7 @@
                     android:layout_marginTop="20dp"
                     android:text="세단"
                     android:textColor="@color/car_text_primary"
-                    android:textSize="38sp"
+                    android:textSize="34sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -133,7 +133,7 @@
                     android:layout_marginTop="10dp"
                     android:text="아반떼, 쏘나타"
                     android:textColor="@color/car_text_dim"
-                    android:textSize="24sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -142,7 +142,7 @@
             android:id="@+id/cardSuv"
             android:layout_width="0dp"
             android:layout_height="380dp"
-            android:layout_margin="12dp"
+            android:layout_margin="8dp"
             android:layout_weight="1"
             android:clickable="true"
             android:focusable="true"
@@ -157,13 +157,13 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="24dp">
+                android:padding="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="🚙"
-                    android:textSize="84sp" />
+                    android:textSize="72sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -171,7 +171,7 @@
                     android:layout_marginTop="20dp"
                     android:text="SUV"
                     android:textColor="@color/car_text_primary"
-                    android:textSize="38sp"
+                    android:textSize="34sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -180,7 +180,7 @@
                     android:layout_marginTop="10dp"
                     android:text="투싼, 싼타페"
                     android:textColor="@color/car_text_dim"
-                    android:textSize="24sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -189,7 +189,7 @@
             android:id="@+id/cardVan"
             android:layout_width="0dp"
             android:layout_height="380dp"
-            android:layout_margin="12dp"
+            android:layout_margin="8dp"
             android:layout_weight="1"
             android:clickable="true"
             android:focusable="true"
@@ -204,13 +204,13 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="24dp">
+                android:padding="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="🚐"
-                    android:textSize="84sp" />
+                    android:textSize="72sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -218,7 +218,7 @@
                     android:layout_marginTop="20dp"
                     android:text="승합차"
                     android:textColor="@color/car_text_primary"
-                    android:textSize="38sp"
+                    android:textSize="34sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -227,7 +227,7 @@
                     android:layout_marginTop="10dp"
                     android:text="스타리아, 카니발"
                     android:textColor="@color/car_text_dim"
-                    android:textSize="24sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -236,7 +236,7 @@
             android:id="@+id/cardTruck"
             android:layout_width="0dp"
             android:layout_height="380dp"
-            android:layout_margin="12dp"
+            android:layout_margin="8dp"
             android:layout_weight="1"
             android:clickable="true"
             android:focusable="true"
@@ -251,13 +251,13 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="24dp">
+                android:padding="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="🚚"
-                    android:textSize="84sp" />
+                    android:textSize="72sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -265,7 +265,7 @@
                     android:layout_marginTop="20dp"
                     android:text="트럭"
                     android:textColor="@color/car_text_primary"
-                    android:textSize="38sp"
+                    android:textSize="34sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -274,7 +274,54 @@
                     android:layout_marginTop="10dp"
                     android:text="포터, 봉고"
                     android:textColor="@color/car_text_dim"
-                    android:textSize="24sp" />
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 6. 없음 (차량 미보유 / 운전 초보) -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardNone"
+            android:layout_width="0dp"
+            android:layout_height="380dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="@color/car_surface_light"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="4dp"
+            app:strokeColor="@color/car_surface_light_stroke"
+            app:strokeWidth="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🚶"
+                    android:textSize="72sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="없음"
+                    android:textColor="@color/car_text_primary"
+                    android:textSize="34sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="차량 미보유"
+                    android:textColor="@color/car_text_dim"
+                    android:textSize="20sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

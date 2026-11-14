@@ -25,5 +25,8 @@ object Ioniq5AdaptationBriefing {
             "탑승하신 ${rentalName}는 평소 타시던 승합차보다 차체가 작고 낮습니다. 앉는 위치와 시야가 달라지니 출발 전에 시트와 사이드미러를 맞춰 주세요."
         CarSegment.TRUCK ->
             "탑승하신 ${rentalName}는 승용 전기차로, 기어를 전자식 변속 다이얼과 P 버튼으로 조작합니다. 브레이크 페달을 밟은 채 다이얼을 돌리면 D나 R이 선택되고, 주차할 때는 P 버튼을 누르세요."
+        // "없음" (no own car / new driver, added on main): seat and mirrors first, then brake -> D -> pull away slowly.
+        CarSegment.NONE ->
+            "탑승하신 ${rentalName}는 순수 전기차입니다. 출발 전에 시트와 사이드미러를 먼저 맞추고, 브레이크 페달을 밟은 채 전자식 변속 다이얼을 돌려 D를 고른 뒤 천천히 출발하세요."
     }
 }

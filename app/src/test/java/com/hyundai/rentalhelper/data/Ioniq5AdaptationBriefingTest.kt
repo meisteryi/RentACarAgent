@@ -12,7 +12,7 @@ class Ioniq5AdaptationBriefingTest {
 
     @Test
     fun everySegmentGetsItsOwnShortBriefing() {
-        assertEquals(5, all.values.toSet().size)
+        assertEquals(CarSegment.entries.size, all.values.toSet().size)
         all.forEach { (seg, t) ->
             assertTrue("$seg: $t", t.startsWith("탑승하신 $name"))
             val sentences = t.split(Regex("(?<=[.?!])\\s+")).filter { it.isNotBlank() }
@@ -32,9 +32,11 @@ class Ioniq5AdaptationBriefingTest {
         // Official NE1 2025: dial turned for D/R, separate P button, brake pedal pressed for every shift.
         all.filterValues { it.contains("변속 다이얼") }.forEach { (seg, t) ->
             assertTrue("$seg brake: $t", t.contains("브레이크 페달을 밟은 채"))
-            assertTrue("$seg P button: $t", t.contains("P 버튼"))
-            assertTrue("$seg dial for D/R: $t", t.contains("다이얼을 돌려") || t.contains("다이얼을 돌리면"))
+            assertTrue("$seg dial turned: $t", t.contains("다이얼을 돌려") || t.contains("다이얼을 돌리면"))
         }
+        // Where parking is mentioned, P is the separate button (not a dial position).
+        for (seg in listOf(CarSegment.SUV, CarSegment.TRUCK)) assertTrue(all.getValue(seg).contains("P 버튼"))
+        assertTrue(all.getValue(CarSegment.NONE).contains("시트와 사이드미러"))
         assertTrue(all.getValue(CarSegment.SUV).contains("변속 다이얼"))
         assertTrue(all.getValue(CarSegment.TRUCK).contains("변속 다이얼"))
         // SUV: not every SUV differs (recent Santa Fe also has a column dial) -> no definite "unlike your car".

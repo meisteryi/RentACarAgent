@@ -297,6 +297,9 @@ class CarButtonDatabase private constructor(context: Context) {
             CarSegment.TRUCK -> { // 트럭을 몰던 운전자
                 "${rentalName}에 탑승하셨습니다. 상용차에 비해 브레이크 반응이 즉각적이니 페달을 부드럽게 밟아주세요."
             }
+            CarSegment.NONE -> { // 평소 자차 없음 / 운전 초보
+                "${rentalName}에 탑승하셨습니다. 시트 포지션과 사이드미러 각도를 먼저 맞춘 뒤 브레이크를 밟고 기어를 D단에 넣어 여유 있게 출발하세요."
+            }
         }
     }
 

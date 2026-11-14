@@ -1,12 +1,7 @@
 package com.hyundai.rentalhelper.ui
 
-import android.content.ComponentName
 import android.content.Intent
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.card.MaterialCardView
@@ -20,18 +15,13 @@ import com.hyundai.rentalhelper.service.CoachOverlayService
 /**
  * [기능 1: 승차 직전/시동 시 '평소 내 차종' 선택 화면]
  * - 시동 직후 드라이버에게 평소 타던 차종(경차, 세단, SUV, 승합차, 트럭) 선택 제공
- * - 선택 완료 즉시 [에뮬레이터 안의 실제 순정 내비게이션(Navi42)]을 전면에 호출하고
- *   백그라운드 음성 코칭 서비스를 기동하여 지도 위에서 음성 브리핑(TTS) 송출!
+ * - 선택 완료 후 [반납지 및 반납 일시 입력 화면(ReturnInfoActivity)]으로 이동하며,
+ *   반납 정보 입력까지 마친 뒤에 순정 내비게이션(Navi42) 및 음성 브리핑을 기동합니다.
  */
 class StartupCarSelectActivity : AppCompatActivity() {
 
     companion object {
-        private const val TAG = "StartupCarSelectActivity"
         const val EXTRA_FORCE_RECONFIGURE = "extra_force_reconfigure"
-
-        // 에뮬레이터 내 실제 현대/Pleos 순정 내비게이션 패키지 및 액티비티
-        private const val NATIVE_NAVI_PACKAGE = "ai.umos.maps.android.navigation.app"
-        private const val NATIVE_NAVI_ACTIVITY = "ai.umos.maps.android.navigation.app.MainActivity"
     }
 
     private lateinit var binding: ActivityStartupCarSelectBinding
@@ -70,6 +60,7 @@ class StartupCarSelectActivity : AppCompatActivity() {
         cardMap[CarSegment.SUV] = binding.cardSuv
         cardMap[CarSegment.VAN] = binding.cardVan
         cardMap[CarSegment.TRUCK] = binding.cardTruck
+        cardMap[CarSegment.NONE] = binding.cardNone
 
         userPreferences.getUsualCarSegment()?.let {
             selectSegment(it)
@@ -86,7 +77,7 @@ class StartupCarSelectActivity : AppCompatActivity() {
         binding.btnConfirm.setOnClickListener {
             selectedSegment?.let { segment ->
                 userPreferences.saveUsualCarSegment(segment)
-                launchNativeNavigationWithCoach()
+                navigateToReturnInfo()
             }
         }
 
@@ -94,7 +85,7 @@ class StartupCarSelectActivity : AppCompatActivity() {
             if (!userPreferences.isPresetConfigured()) {
                 userPreferences.saveUsualCarSegment(CarSegment.SEDAN)
             }
-            launchNativeNavigationWithCoach()
+            navigateToReturnInfo()
         }
     }
 
@@ -125,44 +116,10 @@ class StartupCarSelectActivity : AppCompatActivity() {
     }
 
     /**
-     * [핵심] 에뮬레이터 내 실제 순정 내비게이션(Navi42) 실행 + 백그라운드 음성 코칭 기동
+     * 차종 선택 이후 반납지 및 반납 일시 입력 화면으로 이동
      */
-    private fun launchNativeNavigationWithCoach() {
-        // 1. 순정 내비 위 음성 브리핑 & 플로팅 비서 서비스 기동
-        val coachIntent = Intent(this, CoachOverlayService::class.java).apply {
-            action = CoachOverlayService.ACTION_START_COACHING
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            ContextCompat.startForegroundService(this, coachIntent)
-        } else {
-            startService(coachIntent)
-        }
-
-        // 2. 에뮬레이터에 설치된 실제 현대 순정 내비게이션 앱 실행
-        var navIntent: Intent? = null
-        try {
-            navIntent = Intent().apply {
-                component = ComponentName(NATIVE_NAVI_PACKAGE, NATIVE_NAVI_ACTIVITY)
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
-            }
-            startActivity(navIntent)
-            Log.i(TAG, "Navi42 startActivity 요청이 반환됨; 화면 표시 완료는 이 코드에서 확인할 수 없습니다.")
-        } catch (e: Exception) {
-            Log.w(TAG, "순정 내비 호출 실패, 시스템 맵 인텐트로 폴백 시도", e)
-            try {
-                val fallbackIntent = packageManager.getLaunchIntentForPackage(NATIVE_NAVI_PACKAGE)
-                    ?: Intent(Intent.ACTION_VIEW, Uri.parse("geo:37.5665,126.9780"))
-                fallbackIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(fallbackIntent)
-            } catch (fallbackEx: Exception) {
-                // 앱 내부 내비 화면으로 폴백
-                // The Service already owns a TTS engine; stop it before the Activity fallback creates its own.
-                stopService(Intent(this, CoachOverlayService::class.java))
-                val internalNav = Intent(this, MainAssistantActivity::class.java)
-                startActivity(internalNav)
-            }
-        }
-
+    private fun navigateToReturnInfo() {
+        startActivity(Intent(this, ReturnInfoActivity::class.java))
         finish()
     }
 }

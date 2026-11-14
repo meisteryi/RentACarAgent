@@ -66,6 +66,18 @@
                 android:value="true" />
         </activity>
 
+        <!-- 차종 선택 이후 단계: 반납지 및 반납 일시 입력 UI -->
+        <activity
+            android:name=".ui.ReturnInfoActivity"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.RentalCarAdaptationCoach.StartupDialog"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="distractionOptimized"
+                android:value="true" />
+        </activity>
+
         <!-- 기능 2 & 3: 체급 브리핑 및 주행 중 음성 Q&A 비서 (내부 폴백 액티비티) -->
         <activity
             android:name=".ui.MicrophonePermissionActivity"
