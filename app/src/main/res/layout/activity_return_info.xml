@@ -19,17 +19,17 @@
             android:layout_height="wrap_content"
             android:text="@string/title_return_info"
             android:textColor="@color/car_text_primary"
-            android:textSize="50sp"
+            android:textSize="60sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvSubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="14dp"
             android:text="@string/subtitle_return_info"
             android:textColor="@color/car_text_secondary"
-            android:textSize="28sp" />
+            android:textSize="34sp" />
     </LinearLayout>
 
     <!-- Two-Column Input Area: Left = Return Location, Right = Return Date & Time -->
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
             android:layout_weight="1"
-            android:minHeight="400dp"
+            android:minHeight="450dp"
             app:cardBackgroundColor="@color/car_surface_light"
             app:cardCornerRadius="28dp"
             app:cardElevation="4dp"
@@ -65,31 +65,31 @@
                     android:layout_height="wrap_content"
                     android:text="📍  반납지"
                     android:textColor="@color/car_text_primary"
-                    android:textSize="34sp"
+                    android:textSize="44sp"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/etReturnLocation"
                     android:layout_width="match_parent"
-                    android:layout_height="96dp"
+                    android:layout_height="112dp"
                     android:layout_marginTop="24dp"
                     android:background="@drawable/bg_chip_button"
                     android:hint="@string/hint_return_location"
                     android:imeOptions="actionDone|flagNoExtractUi|flagNoFullscreen"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:paddingHorizontal="24dp"
+                    android:paddingHorizontal="28dp"
                     android:textColor="@color/car_text_primary"
                     android:textColorHint="@color/car_text_dim"
-                    android:textSize="28sp" />
+                    android:textSize="36sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="28dp"
                     android:text="자주 찾는 반납지"
                     android:textColor="@color/car_text_secondary"
-                    android:textSize="22sp" />
+                    android:textSize="28sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -105,11 +105,11 @@
                         android:background="@drawable/bg_chip_button"
                         android:clickable="true"
                         android:focusable="true"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="12dp"
+                        android:paddingHorizontal="18dp"
+                        android:paddingVertical="16dp"
                         android:text="김포공항"
                         android:textColor="@color/car_text_primary"
-                        android:textSize="22sp" />
+                        android:textSize="27sp" />
 
                     <TextView
                         android:id="@+id/chipLocIncheon"
@@ -119,11 +119,11 @@
                         android:background="@drawable/bg_chip_button"
                         android:clickable="true"
                         android:focusable="true"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="12dp"
+                        android:paddingHorizontal="18dp"
+                        android:paddingVertical="16dp"
                         android:text="인천공항"
                         android:textColor="@color/car_text_primary"
-                        android:textSize="22sp" />
+                        android:textSize="27sp" />
 
                     <TextView
                         android:id="@+id/chipLocSeoulStation"
@@ -133,11 +133,11 @@
                         android:background="@drawable/bg_chip_button"
                         android:clickable="true"
                         android:focusable="true"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="12dp"
+                        android:paddingHorizontal="18dp"
+                        android:paddingVertical="16dp"
                         android:text="서울역"
                         android:textColor="@color/car_text_primary"
-                        android:textSize="22sp" />
+                        android:textSize="27sp" />
 
                     <TextView
                         android:id="@+id/chipLocJeju"
@@ -146,11 +146,11 @@
                         android:background="@drawable/bg_chip_button"
                         android:clickable="true"
                         android:focusable="true"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="12dp"
+                        android:paddingHorizontal="18dp"
+                        android:paddingVertical="16dp"
                         android:text="제주공항"
                         android:textColor="@color/car_text_primary"
-                        android:textSize="22sp" />
+                        android:textSize="27sp" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -161,7 +161,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
             android:layout_weight="1"
-            android:minHeight="400dp"
+            android:minHeight="450dp"
             app:cardBackgroundColor="@color/car_surface_light"
             app:cardCornerRadius="28dp"
             app:cardElevation="4dp"
@@ -179,28 +179,28 @@
                     android:layout_height="wrap_content"
                     android:text="🗓️  반납 일시"
                     android:textColor="@color/car_text_primary"
-                    android:textSize="34sp"
+                    android:textSize="44sp"
                     android:textStyle="bold" />
 
                 <!-- Date Picker Trigger -->
                 <LinearLayout
                     android:id="@+id/btnSelectDate"
                     android:layout_width="match_parent"
-                    android:layout_height="76dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_height="104dp"
+                    android:layout_marginTop="24dp"
                     android:background="@drawable/bg_chip_button"
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="24dp">
+                    android:paddingHorizontal="28dp">
 
                     <TextView
-                        android:layout_width="72dp"
+                        android:layout_width="96dp"
                         android:layout_height="wrap_content"
                         android:text="@string/label_return_date"
                         android:textColor="@color/car_text_secondary"
-                        android:textSize="24sp" />
+                        android:textSize="30sp" />
 
                     <TextView
                         android:id="@+id/tvSelectedDate"
@@ -209,7 +209,7 @@
                         android:layout_weight="1"
                         android:text="2026년 11월 14일 (토)"
                         android:textColor="@color/car_text_primary"
-                        android:textSize="28sp"
+                        android:textSize="36sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -217,7 +217,7 @@
                         android:layout_height="wrap_content"
                         android:text="변경 ›"
                         android:textColor="@color/hyundai_accent"
-                        android:textSize="24sp"
+                        android:textSize="30sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -225,21 +225,21 @@
                 <LinearLayout
                     android:id="@+id/btnSelectTime"
                     android:layout_width="match_parent"
-                    android:layout_height="76dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_height="104dp"
+                    android:layout_marginTop="16dp"
                     android:background="@drawable/bg_chip_button"
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingHorizontal="24dp">
+                    android:paddingHorizontal="28dp">
 
                     <TextView
-                        android:layout_width="72dp"
+                        android:layout_width="96dp"
                         android:layout_height="wrap_content"
                         android:text="@string/label_return_time"
                         android:textColor="@color/car_text_secondary"
-                        android:textSize="24sp" />
+                        android:textSize="30sp" />
 
                     <TextView
                         android:id="@+id/tvSelectedTime"
@@ -248,7 +248,7 @@
                         android:layout_weight="1"
                         android:text="오후 06:00"
                         android:textColor="@color/car_text_primary"
-                        android:textSize="28sp"
+                        android:textSize="36sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -256,7 +256,7 @@
                         android:layout_height="wrap_content"
                         android:text="변경 ›"
                         android:textColor="@color/hyundai_accent"
-                        android:textSize="24sp"
+                        android:textSize="30sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -275,11 +275,11 @@
                         android:background="@drawable/bg_chip_button"
                         android:clickable="true"
                         android:focusable="true"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="12dp"
+                        android:paddingHorizontal="18dp"
+                        android:paddingVertical="16dp"
                         android:text="2시간 후"
                         android:textColor="@color/car_text_primary"
-                        android:textSize="22sp" />
+                        android:textSize="27sp" />
 
                     <TextView
                         android:id="@+id/chipTimeToday18"
@@ -289,11 +289,11 @@
                         android:background="@drawable/bg_chip_button"
                         android:clickable="true"
                         android:focusable="true"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="12dp"
+                        android:paddingHorizontal="18dp"
+                        android:paddingVertical="16dp"
                         android:text="오늘 18:00"
                         android:textColor="@color/car_text_primary"
-                        android:textSize="22sp" />
+                        android:textSize="27sp" />
 
                     <TextView
                         android:id="@+id/chipTimeTomorrow10"
@@ -303,11 +303,11 @@
                         android:background="@drawable/bg_chip_button"
                         android:clickable="true"
                         android:focusable="true"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="12dp"
+                        android:paddingHorizontal="18dp"
+                        android:paddingVertical="16dp"
                         android:text="내일 10:00"
                         android:textColor="@color/car_text_primary"
-                        android:textSize="22sp" />
+                        android:textSize="27sp" />
 
                     <TextView
                         android:id="@+id/chipTimeTomorrow18"
@@ -316,11 +316,11 @@
                         android:background="@drawable/bg_chip_button"
                         android:clickable="true"
                         android:focusable="true"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="12dp"
+                        android:paddingHorizontal="18dp"
+                        android:paddingVertical="16dp"
                         android:text="내일 18:00"
                         android:textColor="@color/car_text_primary"
-                        android:textSize="22sp" />
+                        android:textSize="27sp" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -339,21 +339,21 @@
             android:id="@+id/btnBack"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:paddingHorizontal="32dp"
+            android:layout_height="116dp"
+            android:paddingHorizontal="40dp"
             android:text="@string/btn_back_return"
             android:textColor="@color/car_text_secondary"
-            android:textSize="28sp" />
+            android:textSize="36sp" />
 
         <Button
             android:id="@+id/btnSkip"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:paddingHorizontal="32dp"
+            android:layout_height="116dp"
+            android:paddingHorizontal="40dp"
             android:text="@string/btn_skip_car"
             android:textColor="@color/car_text_secondary"
-            android:textSize="28sp" />
+            android:textSize="36sp" />
 
         <View
             android:layout_width="0dp"
@@ -363,16 +363,16 @@
         <Button
             android:id="@+id/btnConfirm"
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
+            android:layout_height="116dp"
             android:alpha="0.45"
             android:backgroundTint="@color/hyundai_accent"
             android:enabled="false"
-            android:paddingHorizontal="56dp"
+            android:paddingHorizontal="72dp"
             android:text="@string/btn_confirm_return"
             android:textColor="@color/car_text_on_accent"
-            android:textSize="32sp"
+            android:textSize="40sp"
             android:textStyle="bold"
-            app:cornerRadius="22dp" />
+            app:cornerRadius="24dp" />
     </LinearLayout>
 
 </LinearLayout>

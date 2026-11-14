@@ -25,18 +25,18 @@ class RendyVoiceStatusOverlay(
     private val root = LinearLayout(context).apply {
         orientation = LinearLayout.HORIZONTAL
         gravity = Gravity.CENTER_VERTICAL
-        setPadding(dp(16), dp(11), dp(16), dp(11))
+        setPadding(dp(32), dp(22), dp(32), dp(22))
         background = GradientDrawable().apply {
             setColor(Color.argb(248, 255, 255, 255))
-            cornerRadius = dp(22).toFloat()
-            setStroke(dp(1), Color.rgb(213, 232, 248))
+            cornerRadius = dp(44).toFloat()
+            setStroke(dp(2), Color.rgb(213, 232, 248))
         }
-        elevation = dp(12).toFloat()
-        contentDescription = "RENDY voice status"
+        elevation = dp(24).toFloat()
+        contentDescription = "RENDI voice status"
     }
     private val statusText = TextView(context).apply {
         text = RendyVoicePrompts.LISTENING_STATUS
-        textSize = 17f
+        textSize = 34f
         setTextColor(Color.rgb(17, 24, 39))
         setTypeface(typeface, android.graphics.Typeface.BOLD)
         maxLines = 1
@@ -46,10 +46,10 @@ class RendyVoiceStatusOverlay(
      * confirmed question dark; at most two lines so it stays a glance, not something to read while driving.
      */
     private val transcriptText = TextView(context).apply {
-        textSize = 22f
+        textSize = 44f
         maxLines = 2
         ellipsize = android.text.TextUtils.TruncateAt.END
-        maxWidth = dp(640)
+        maxWidth = dp(1280)
         visibility = View.GONE
     }
     private val bars = ArrayList<View>(3)
@@ -68,16 +68,16 @@ class RendyVoiceStatusOverlay(
             setColorFilter(Color.WHITE)
             contentDescription = "Microphone"
         }
-        micCircle.addView(micIcon, FrameLayout.LayoutParams(dp(28), dp(28), Gravity.CENTER))
-        root.addView(micCircle, LinearLayout.LayoutParams(dp(46), dp(46)))
+        micCircle.addView(micIcon, FrameLayout.LayoutParams(dp(56), dp(56), Gravity.CENTER))
+        root.addView(micCircle, LinearLayout.LayoutParams(dp(92), dp(92)))
 
         val labels = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
             gravity = Gravity.CENTER_VERTICAL
         }
         labels.addView(TextView(context).apply {
-            text = "RENDY"
-            textSize = 10f
+            text = "RENDI"
+            textSize = 20f
             setTextColor(Color.rgb(0, 114, 206))
             letterSpacing = 0.12f
             setTypeface(typeface, android.graphics.Typeface.BOLD)
@@ -85,13 +85,13 @@ class RendyVoiceStatusOverlay(
         labels.addView(statusText, LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.WRAP_CONTENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
-        ).apply { topMargin = dp(2) })
+        ).apply { topMargin = dp(4) })
         labels.addView(transcriptText, LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.WRAP_CONTENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
-        ).apply { topMargin = dp(3) })
+        ).apply { topMargin = dp(6) })
         root.addView(labels, LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT).apply { marginStart = dp(12) })
+            LinearLayout.LayoutParams.WRAP_CONTENT).apply { marginStart = dp(24) })
 
         val activity = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
@@ -100,15 +100,15 @@ class RendyVoiceStatusOverlay(
         repeat(3) { index ->
             val bar = View(context).apply {
                 background = GradientDrawable().apply {
-                    cornerRadius = dp(3).toFloat()
+                    cornerRadius = dp(6).toFloat()
                     setColor(Color.rgb(0, 114, 206))
                 }
                 scaleY = 0.35f
                 alpha = 0.55f
-                pivotY = dp(12).toFloat()
+                pivotY = dp(24).toFloat()
             }
-            activity.addView(bar, LinearLayout.LayoutParams(dp(4), dp(24)).apply {
-                marginStart = if (index == 0) 0 else dp(4)
+            activity.addView(bar, LinearLayout.LayoutParams(dp(8), dp(48)).apply {
+                marginStart = if (index == 0) 0 else dp(8)
             })
             bars += bar
             animators += ObjectAnimator.ofFloat(bar, View.SCALE_Y, 0.35f, 1.0f, 0.45f).apply {
@@ -119,8 +119,8 @@ class RendyVoiceStatusOverlay(
                 interpolator = AccelerateDecelerateInterpolator()
             }
         }
-        root.addView(activity, LinearLayout.LayoutParams(dp(28), dp(32)).apply {
-            marginStart = dp(14)
+        root.addView(activity, LinearLayout.LayoutParams(dp(56), dp(64)).apply {
+            marginStart = dp(28)
         })
     }
 
@@ -133,7 +133,7 @@ class RendyVoiceStatusOverlay(
 
     fun show(message: String, animate: Boolean) {
         statusText.text = message
-        root.contentDescription = "RENDY: $message"
+        root.contentDescription = "RENDI: $message"
         root.visibility = View.VISIBLE
         if (!attached) {
             val params = WindowManager.LayoutParams(
@@ -186,7 +186,7 @@ class RendyVoiceStatusOverlay(
                 transcriptText.setTypeface(null, android.graphics.Typeface.NORMAL)
             }
         }
-        root.contentDescription = "RENDY: ${statusText.text}, ${view.text}"
+        root.contentDescription = "RENDI: ${statusText.text}, ${view.text}"
     }
 
     /**

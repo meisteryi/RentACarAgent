@@ -84,10 +84,13 @@ class CoachOverlayService : Service() {
     // Floating widget above native navigation
     private var bubbleBinding: LayoutFloatingCoachBubbleBinding? = null
     private var bubbleLayoutParams: WindowManager.LayoutParams? = null
+    private var speakingGlowAnimator: android.animation.ObjectAnimator? = null
 
     // Voice guidance and answer banner
     private var bannerBinding: LayoutFloatingBriefingBannerBinding? = null
     private var bannerLayoutParams: WindowManager.LayoutParams? = null
+    private var subtitleRevealRunnable: Runnable? = null
+    private var activeSubtitleText: String = ""
 
     private lateinit var userPreferences: UserPreferences
     private lateinit var buttonDb: CarButtonDatabase
@@ -233,6 +236,7 @@ class CoachOverlayService : Service() {
         voiceEngine.onTtsPlaybackStateChanged = { isBusy ->
             mainHandler.post {
                 if (isServiceDestroying) return@post
+                updateSpeakingGlow(isBusy)
                 if (isBusy) {
                     stopWakeWordListening("TTS playback")
                 } else if (wakePromptPending) {
@@ -269,14 +273,6 @@ class CoachOverlayService : Service() {
 
         voiceEngine.onSttStateChanged = { state, message ->
             mainHandler.post {
-                val indicator = when (state) {
-                    VoiceAssistantEngine.SttState.IDLE -> "MIC"
-                    VoiceAssistantEngine.SttState.LISTENING -> "STOP"
-                    VoiceAssistantEngine.SttState.PROCESSING -> "..."
-                    VoiceAssistantEngine.SttState.RESULT -> "OK"
-                    VoiceAssistantEngine.SttState.ERROR -> "!"
-                }
-                bubbleBinding?.btnMicPtt?.text = indicator
                 refreshSttNotification("STT $state${message?.let { ": $it" } ?: ""}")
 
                 if (wakeInteractionActive) {
@@ -815,8 +811,9 @@ class CoachOverlayService : Service() {
         else
             @Suppress("DEPRECATION") WindowManager.LayoutParams.TYPE_PHONE
 
+        val bannerWidthPx = (860 * resources.displayMetrics.density).toInt()
         bannerLayoutParams = WindowManager.LayoutParams(
-            WindowManager.LayoutParams.WRAP_CONTENT,
+            bannerWidthPx,
             WindowManager.LayoutParams.WRAP_CONTENT,
             windowType,
             // Starts hidden: transparent window (compositor alpha) that lets touches through until a subtitle shows.
@@ -824,7 +821,7 @@ class CoachOverlayService : Service() {
             PixelFormat.TRANSLUCENT
         ).apply {
             gravity = Gravity.TOP or Gravity.END
-            x = 80
+            x = 48
             y = 30
             alpha = 0f
         }
@@ -903,8 +900,6 @@ class CoachOverlayService : Service() {
 
     private fun setupBubbleClickListeners() {
         val binding = bubbleBinding ?: return
-
-        binding.btnMicPtt.setOnClickListener { requestPleosSttFromUserAction() }
 
         binding.btnQuickDefog.setOnClickListener {
             toggleBubbleMenu()
@@ -1083,8 +1078,12 @@ class CoachOverlayService : Service() {
                     revealBanner()
                     Log.i(SUBTITLE_TAG, "SUBTITLE_REVEALED id=$id (window alpha 1 applied, on Pleos start), afterTtsStartMs=${SystemClock.elapsedRealtime() - event.atMs}")
                 }
+                if (id != WAKE_PROMPT_UTTERANCE_ID) {
+                    startSubtitleReveal(action.text)
+                }
             }
             is TtsSubtitleState.Action.Clear -> {
+                stopSubtitleReveal()
                 concealBanner()
                 Log.i(SUBTITLE_TAG, "SUBTITLE_CLEAR id=${action.utteranceId} (window alpha 0 applied), reason=${(event as? TtsSubtitleEvent.End)?.reason}, afterTtsEndMs=${SystemClock.elapsedRealtime() - event.atMs}")
             }
@@ -1165,15 +1164,74 @@ class CoachOverlayService : Service() {
 
     private fun fillBanner(id: String, text: String) {
         val banner = bannerBinding ?: return
+        stopSubtitleReveal()
+        activeSubtitleText = text
         val carName = currentRentalModel?.modelNameKo ?: "현대 렌터카"
         val kind = bannerKind(id)
         val guidance = kind != "live"
         banner.tvBannerTitle.text = if (guidance) "[Voice briefing - vehicle adaptation]" else "[Live speech subtitle - TTS playback]"
-        banner.tvBannerBody.text = "\"$text\""
+        if (id == WAKE_PROMPT_UTTERANCE_ID) {
+            banner.tvBannerBody.text = "\"$text\""
+        } else {
+            applySubtitleReveal(text, 0)
+        }
         banner.tvBannerSubtext.text = if (kind == "briefing" && briefingSubtext.isNotEmpty()) briefingSubtext
             else "Live subtitle for the spoken vehicle guidance."
         banner.tvBannerCategory.text = if (guidance) "💡 $carName 음성 안내" else "💡 $carName 음성 Q&A 답변"
         bannerContentKey = "$kind|$text"
+    }
+
+    private fun applySubtitleReveal(text: String, revealedCount: Int) {
+        val body = bannerBinding?.tvBannerBody ?: return
+        val wrapped = "\"$text\""
+        val clamped = revealedCount.coerceIn(0, text.length)
+        if (clamped >= text.length) {
+            body.text = wrapped
+            return
+        }
+        val spannable = android.text.SpannableString(wrapped)
+        // Keep the full text measured from frame 0 while hiding unspoken characters with a transparent span.
+        val hiddenStart = 1 + clamped
+        if (hiddenStart < wrapped.length) {
+            spannable.setSpan(
+                android.text.style.ForegroundColorSpan(android.graphics.Color.TRANSPARENT),
+                hiddenStart,
+                wrapped.length,
+                android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+        body.text = spannable
+    }
+
+    private fun startSubtitleReveal(text: String) {
+        stopSubtitleReveal()
+        if (text.isEmpty()) return
+        activeSubtitleText = text
+        val totalLen = text.length
+        val durationMs = (totalLen * 72L).coerceIn(500L, 14_000L)
+        val startedAt = SystemClock.elapsedRealtime()
+        applySubtitleReveal(text, 1)
+        val runnable = object : Runnable {
+            override fun run() {
+                if (isServiceDestroying || activeSubtitleText != text) return
+                val elapsed = SystemClock.elapsedRealtime() - startedAt
+                val progress = (elapsed.toFloat() / durationMs.toFloat()).coerceIn(0f, 1f)
+                val revealed = (progress * totalLen).toInt().coerceAtLeast(1)
+                applySubtitleReveal(text, revealed)
+                if (revealed < totalLen) {
+                    mainHandler.postDelayed(this, 45L)
+                } else {
+                    subtitleRevealRunnable = null
+                }
+            }
+        }
+        subtitleRevealRunnable = runnable
+        mainHandler.postDelayed(runnable, 45L)
+    }
+
+    private fun stopSubtitleReveal() {
+        subtitleRevealRunnable?.let(mainHandler::removeCallbacks)
+        subtitleRevealRunnable = null
     }
 
     /**
@@ -1200,6 +1258,7 @@ class CoachOverlayService : Service() {
     private fun revealBanner() = setBannerWindow(visible = true)
 
     private fun concealBanner() {
+        stopSubtitleReveal()
         setBannerWindow(visible = false)
         preparedSubtitleId = null
         // While idle, keep the wake reply drawn underneath, so the next "네, 말씀하세요!" needs no drawing at all.
@@ -1254,9 +1313,39 @@ class CoachOverlayService : Service() {
         voiceEngine.speak(answer)
     }
 
+    private fun updateSpeakingGlow(isSpeaking: Boolean) {
+        val glow = bubbleBinding?.vSpeakingGlow ?: return
+        if (isSpeaking) {
+            glow.visibility = View.VISIBLE
+            if (speakingGlowAnimator == null) {
+                speakingGlowAnimator = android.animation.ObjectAnimator.ofPropertyValuesHolder(
+                    glow,
+                    android.animation.PropertyValuesHolder.ofFloat(View.ALPHA, 0.25f, 1.0f),
+                    android.animation.PropertyValuesHolder.ofFloat(View.SCALE_X, 0.9f, 1.14f),
+                    android.animation.PropertyValuesHolder.ofFloat(View.SCALE_Y, 0.9f, 1.14f)
+                ).apply {
+                    duration = 520L
+                    repeatCount = android.animation.ValueAnimator.INFINITE
+                    repeatMode = android.animation.ValueAnimator.REVERSE
+                }
+            }
+            if (speakingGlowAnimator?.isStarted != true) {
+                speakingGlowAnimator?.start()
+            }
+        } else {
+            speakingGlowAnimator?.cancel()
+            glow.alpha = 1f
+            glow.scaleX = 1f
+            glow.scaleY = 1f
+            glow.visibility = View.INVISIBLE
+        }
+    }
+
     override fun onDestroy() {
         isServiceDestroying = true
         super.onDestroy()
+        speakingGlowAnimator?.cancel()
+        speakingGlowAnimator = null
         mainHandler.removeCallbacksAndMessages(null)
         Log.i(TAG, "Service stopping; releasing TTS/audio focus resources")
         wakeWordController?.release()

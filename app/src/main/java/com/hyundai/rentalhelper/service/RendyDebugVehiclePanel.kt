@@ -38,51 +38,51 @@ class RendyDebugVehiclePanel(
 
     private val root = LinearLayout(context).apply {
         orientation = LinearLayout.VERTICAL
-        setPadding(dp(10), dp(8), dp(10), dp(8))
+        setPadding(dp(15), dp(12), dp(15), dp(12))
         background = GradientDrawable().apply {
             setColor(Color.argb(240, 17, 24, 39))
-            cornerRadius = dp(14).toFloat()
-            setStroke(dp(2), Color.rgb(245, 158, 11))
+            cornerRadius = dp(21).toFloat()
+            setStroke(dp(3), Color.rgb(245, 158, 11))
         }
-        elevation = dp(10).toFloat()
-        contentDescription = "RENDY debug vehicle panel"
+        elevation = dp(15).toFloat()
+        contentDescription = "RENDI debug vehicle panel"
     }
 
     private val chip = TextView(context).apply {
         text = "DEBUG"
-        textSize = 13f
+        textSize = 19.5f
         setTypeface(typeface, Typeface.BOLD)
         setTextColor(Color.rgb(245, 158, 11))
-        setPadding(dp(6), dp(2), dp(6), dp(2))
+        setPadding(dp(9), dp(3), dp(9), dp(3))
         setOnClickListener { toggle() }
     }
     private val status = TextView(context).apply {
-        textSize = 13f
+        textSize = 19.5f
         setTextColor(Color.WHITE)
     }
     private val body = LinearLayout(context).apply { orientation = LinearLayout.VERTICAL; visibility = View.GONE }
     private val gearButtons = LinkedHashMap<Gear, Button>()
     private val speedLabel = TextView(context).apply {
-        textSize = 15f
+        textSize = 22.5f
         setTypeface(typeface, Typeface.BOLD)
         setTextColor(Color.WHITE)
-        minWidth = dp(84)
+        minWidth = dp(126)
     }
     private val slider = SeekBar(context)
 
     init {
         val header = LinearLayout(context).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
         header.addView(chip)
-        header.addView(status, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f).apply { marginStart = dp(6) })
+        header.addView(status, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f).apply { marginStart = dp(9) })
         root.addView(header)
 
         val gears = row()
         Gear.entries.forEach { g ->
-            val b = button(g.label, 18f) { selectGear(g) }
+            val b = button(g.label, 27f) { selectGear(g) }
             gearButtons[g] = b
-            gears.addView(b, LinearLayout.LayoutParams(0, dp(44), 1f).apply { marginEnd = dp(4) })
+            gears.addView(b, LinearLayout.LayoutParams(0, dp(66), 1f).apply { marginEnd = dp(6) })
         }
-        body.addView(gears, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply { topMargin = dp(6) })
+        body.addView(gears, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply { topMargin = dp(9) })
 
         val speedRow = row()
         speedRow.addView(speedLabel)
@@ -93,25 +93,25 @@ class RendyDebugVehiclePanel(
             override fun onStartTrackingTouch(bar: SeekBar?) = Unit
             override fun onStopTrackingTouch(bar: SeekBar?) = apply("slider")
         })
-        speedRow.addView(slider, LinearLayout.LayoutParams(0, dp(40), 1f))
-        body.addView(speedRow, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply { topMargin = dp(4) })
+        speedRow.addView(slider, LinearLayout.LayoutParams(0, dp(60), 1f))
+        body.addView(speedRow, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply { topMargin = dp(6) })
 
         val presets = row()
         DebugVehicleControl.PRESETS.forEach { p ->
-            presets.addView(button(p.label, 13f) {
+            presets.addView(button(p.label, 19.5f) {
                 gear = p.gear
                 speed = DebugVehicleControl.clampSpeed(p.gear, p.speedKmh)
                 apply("preset ${p.label}")
-            }, LinearLayout.LayoutParams(0, dp(40), 1f).apply { marginEnd = dp(4) })
+            }, LinearLayout.LayoutParams(0, dp(60), 1f).apply { marginEnd = dp(6) })
         }
-        body.addView(presets, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply { topMargin = dp(4) })
+        body.addView(presets, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply { topMargin = dp(6) })
 
-        body.addView(button("DEMO 해제 (실제 SDK 신호로)", 13f) {
+        body.addView(button("DEMO 해제 (실제 SDK 신호로)", 19.5f) {
             demoActive = false
             Log.i(TAG, "Panel: DEMO cleared")
             onClearDemo()
             render()
-        }, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dp(40)).apply { topMargin = dp(4) })
+        }, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dp(60)).apply { topMargin = dp(6) })
 
         root.addView(body, LinearLayout.LayoutParams(dp(PANEL_WIDTH_DP), LinearLayout.LayoutParams.WRAP_CONTENT))
         render()
@@ -205,10 +205,10 @@ class RendyDebugVehiclePanel(
         this.text = text
         textSize = size
         isAllCaps = false
-        setPadding(dp(2), 0, dp(2), 0)
+        setPadding(dp(3), 0, dp(3), 0)
         minHeight = 0
         minimumHeight = 0
-        background = GradientDrawable().apply { cornerRadius = dp(8).toFloat(); setColor(Color.rgb(55, 65, 81)) }
+        background = GradientDrawable().apply { cornerRadius = dp(12).toFloat(); setColor(Color.rgb(55, 65, 81)) }
         setTextColor(Color.WHITE)
         setOnClickListener { onClick() }
     }
@@ -217,6 +217,6 @@ class RendyDebugVehiclePanel(
 
     companion object {
         private const val TAG = "RendyDebugPanel"
-        private const val PANEL_WIDTH_DP = 400
+        private const val PANEL_WIDTH_DP = 600
     }
 }

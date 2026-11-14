@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/cardBannerRoot"
-    android:layout_width="1550dp"
+    android:layout_width="860dp"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
     android:background="@drawable/bg_floating_banner"
     android:elevation="30dp"
     android:orientation="vertical"
-    android:padding="32dp">
+    android:padding="28dp">
 
     <!-- Subtitle Header Bar -->
     <LinearLayout
@@ -66,13 +65,13 @@
         android:id="@+id/tvBannerBody"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="18dp"
         android:background="@drawable/bg_subtitle_box"
-        android:lineSpacingExtra="12dp"
+        android:lineSpacingExtra="14dp"
         android:padding="24dp"
         android:text="&quot;스피커 음성 안내 대사와 100% 동일한 자막이 여기에 표시됩니다.&quot;"
         android:textColor="#111827"
-        android:textSize="36sp"
+        android:textSize="44sp"
         android:textStyle="bold" />
 
     <!-- Subtitle Footer / Context Hint -->
