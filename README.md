@@ -183,9 +183,21 @@ curl -L -o app/src/main/assets/rendy/vosk-model-small-ko-0.22.zip \
 
 모델이 없어도 빌드와 단위 테스트는 통과하지만, "렌디" 호출어가 동작하지 않습니다. 출처와 라이선스는 `app/src/main/assets/rendy/README.txt`에 있습니다.
 
-### 2) Gemini 의도 분류 설정 (선택)
+### 2) Gemini 의도 분류 및 연결 방식
 
-소스에서 빌드할 때 기본값은 Gemini를 쓰지 않고 키워드 규칙으로 동작합니다(배포된 Release APK는 Cloud Run 프록시를 씁니다. 아래 "Release APK 빌드" 참고). 직접 빌드한 앱에서 Gemini를 쓰려면 다음 두 가지를 설정합니다.
+**제출된 RENDI v1.0.0 Release APK는 Gemini가 이미 연결된 상태입니다.**
+
+RENDI는 Google Cloud Run에 배포된 HTTPS 프록시를 통해 Gemini 기반 자연어 의도 분류를 수행합니다. 심사위원은 별도의 API 키 발급, 서버 실행 또는 환경변수 설정 없이 APK를 설치해 사용할 수 있습니다.
+
+- **제출용 Release APK:** Gemini 프록시 연결 설정 완료
+- **네트워크 또는 프록시 장애 발생 시:** 기기 내 키워드 규칙으로 자동 전환
+- **GitHub 소스를 직접 빌드하는 경우:** 기본적으로 키워드 규칙을 사용하며, Gemini 사용을 위해 별도 설정 필요
+
+#### 개발자용 Gemini 설정 (직접 빌드하는 경우에만 해당)
+
+직접 소스 코드를 빌드해 Gemini를 사용하려면 `server/rendy-intent-proxy/README.md`의 안내에 따라 프록시 서버를 실행하고, 프로젝트 루트의 `local.properties`에 프록시 주소 및 필요한 인증 정보를 설정합니다.
+
+이 과정은 **이미 배포된 RENDI v1.0.0 APK를 설치하고 실행하는 데 필요하지 않습니다.**
 
 1. 프록시 서버를 각자의 API 키로 실행합니다. 키는 `server/rendy-intent-proxy/.env`에만 두며, 이 파일은 git에서 제외됩니다.
    ```bash
