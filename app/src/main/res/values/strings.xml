@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">현대 렌터카 적응 코치</string>
+    <string name="app_name">RENDI</string>
     <string name="title_select_my_car">평소 어떤 차를 주로 운전하시나요?</string>
     <string name="subtitle_select_my_car">렌터카 체급 차이에 맞춰 주행 유의점을 즉시 음성으로 브리핑해 드립니다.</string>
 

@@ -1,12 +1,58 @@
-# RENDI(렌디) — 렌터카 차량 적응 음성 도우미
+# RENDI(렌디) — 렌터카 운전자용 AI 온보딩 에이전트
 
-처음 타는 렌터카의 조작법을 **음성으로** 알려 주는 Android Automotive 앱입니다.
+**앱 한 줄 소개**
+
+렌디는 처음 타는 현대차의 조작 방식에 빠르게 적응할 수 있도록 평소 이용하던 차량과의 차이를 먼저 짚어주고, 기능 이름을 몰라도 버튼의 위치와 사용법을 주행·주차 상황에 맞춰 음성으로 안내하는 렌터카 운전자용 AI 온보딩 에이전트입니다.
 
 출발 전에는 운전자가 평소 타던 차량 유형과 비교해 달라지는 조작을 짧게 브리핑합니다. 주행 중에는 "렌디"라고 부른 뒤 "스마트 크루즈 어떻게 켜?", "앞유리에 김이 서렸어"처럼 자연어로 물으면, 지금 탄 차량의 조작 데이터에서 버튼 위치와 사용법을 찾아 답합니다.
 
-- 앱 이름: RENDY / 패키지: `com.hyundai.rentalhelper` / Gradle 프로젝트: `RentalCarAdaptationCoach`
+- 앱 이름: RENDI(렌디) / 팀명: RENDI / 패키지: `com.hyundai.rentalhelper` / Gradle 프로젝트: `RentalCarAdaptationCoach`
 - 플랫폼: Android Automotive OS (minSdk 28, compileSdk·targetSdk 34), Kotlin
 - 시연 기본 차량: **더 뉴 아이오닉 5**
+
+---
+
+## 제출 정보
+
+### APK
+
+| 항목 | 내용 |
+|---|---|
+| 파일 | `RENDI_RENDI_release.apk` (서명된 Release 빌드, 약 149MB) |
+| 다운로드 | **[GitHub Release v1.0.0](https://github.com/meisteryi/RentACarAgent/releases/tag/v1.0.0)** → [RENDI_RENDI_release.apk 직접 받기](https://github.com/meisteryi/RentACarAgent/releases/download/v1.0.0/RENDI_RENDI_release.apk) |
+| 저장소 내 위치 | APK가 GitHub 파일 용량 제한(100MB)을 넘어 저장소에는 넣지 않았습니다. [`apk/README.md`](apk/README.md)에 같은 링크가 있습니다. |
+| 서명 | APK Signature Scheme v3, 인증서 CN=RENDI (SHA-256 `031334988fb8d28f476faa86c207120219fdf964cfa6841ce4ab7ca950dedaef`) |
+| APK SHA-256 | `20bc6a68af2b121ec591613fdba5ecc3be539e44cee00611830848ef2250ddc8` (148,961,324 bytes) |
+
+### 테스트 환경 (개발·검증에 실제로 사용한 환경)
+
+| 항목 | 값 |
+|---|---|
+| 에뮬레이터 시스템 이미지 | **Pleos Connect v2.1.0 APIs** (Android 14, API 34, x86_64) — 빌드 `Pleos/crp_avd/crp_avd_x86_64:14/RELEASE.release_connect_v2.1.0` |
+| AVD 기기 | Automotive (1408p landscape) |
+| 화면 규격 | **1408 × 792 px, 160 dpi** (가로) |
+| Android Emulator | 37.2.13.0 |
+| 개발 PC | Windows 11, Android Studio(JBR 21), Android SDK 34 |
+
+### Release APK 실행 방법 (심사용)
+
+1. 위 환경의 Pleos Connect 에뮬레이터를 실행합니다.
+2. APK를 설치합니다.
+   ```bash
+   adb install RENDI_RENDI_release.apk
+   ```
+3. 권한을 허용합니다. 앱은 화면 위에 음성 상태와 자막을 띄우므로 "다른 앱 위에 표시" 권한이 필요합니다. 설정 화면에서 허용하거나 아래 명령을 씁니다.
+   ```bash
+   adb shell pm grant --user current com.hyundai.rentalhelper android.permission.RECORD_AUDIO
+   adb shell pm grant --user current com.hyundai.rentalhelper android.car.permission.CAR_SPEED
+   adb shell appops set --user current com.hyundai.rentalhelper SYSTEM_ALERT_WINDOW allow
+   adb emu avd hostmicon   # PC 마이크를 에뮬레이터 마이크로 사용
+   ```
+4. 런처에서 **RENDI**를 실행 → 평소 차량 유형 선택 → 선택 완료 → 반납 정보 건너뛰기. 인사와 출발 전 비교 브리핑이 음성으로 나온 뒤 "렌디"라고 부르고 질문합니다.
+
+- **Gemini 의도 분류:** Release APK는 RENDI 팀이 Google Cloud Run에 배포한 HTTPS 프록시를 통해 Gemini로 질문을 분류합니다. 심사위원이 API 키를 입력하거나 서버를 실행할 필요가 없습니다. API 키는 서버(Secret Manager)에만 있고 APK와 저장소에는 없습니다.
+- **사용량 제한:** 프록시는 접근 토큰을 확인하고, 모든 사용자를 합쳐 분당 20회, 하루 500회까지만 처리합니다. 제한을 넘거나 네트워크·프록시 오류가 나면 앱이 자동으로 기기 내 키워드 규칙으로 답합니다.
+- **주행·정차 시연:** Release 빌드에는 DEBUG 차량 상태 패널이 없고, 에뮬레이터의 차량 신호(기본: P단, 0km/h)를 그대로 씁니다. 6장의 D단 주행 시연은 디버그 빌드의 DEBUG 패널로 진행합니다.
 
 ---
 
@@ -123,7 +169,7 @@ rendy_db_lint.py            # DB 정합성 검사
 - Android Studio (JDK 17 이상, 내장 JBR 21에서 확인), Android SDK 34
 - Gradle 8.7, Android Gradle Plugin 8.3.2, Kotlin 1.9.23 — Gradle wrapper가 자동으로 받습니다.
 - Pleos TextToSpeech·SpeechToText SDK는 `settings.gradle.kts`에 등록된 Pleos Maven 저장소에서 받습니다.
-- 실행 환경: Pleos SDK 서비스가 포함된 Android Automotive 에뮬레이터. 개발 중에는 API 34, 1408×792 가로 화면에서 확인했습니다.
+- 실행 환경: Pleos Connect v2.1.0 에뮬레이터(API 34, 1408×792, 160dpi). 자세한 값은 위 "테스트 환경" 표를 참고하세요.
 
 ### 1) 호출어 모델 받기 (필수, git 제외)
 
@@ -139,7 +185,7 @@ curl -L -o app/src/main/assets/rendy/vosk-model-small-ko-0.22.zip \
 
 ### 2) Gemini 의도 분류 설정 (선택)
 
-기본값은 Gemini를 쓰지 않고 키워드 규칙으로 동작합니다. Gemini를 쓰려면 다음 두 가지를 설정합니다.
+소스에서 빌드할 때 기본값은 Gemini를 쓰지 않고 키워드 규칙으로 동작합니다(배포된 Release APK는 Cloud Run 프록시를 씁니다. 아래 "Release APK 빌드" 참고). 직접 빌드한 앱에서 Gemini를 쓰려면 다음 두 가지를 설정합니다.
 
 1. 프록시 서버를 각자의 API 키로 실행합니다. 키는 `server/rendy-intent-proxy/.env`에만 두며, 이 파일은 git에서 제외됩니다.
    ```bash
@@ -165,6 +211,19 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 Android Studio에서는 `app` 구성을 실행하면 됩니다. 앱은 화면 위에 음성 상태와 자막을 띄우므로 "다른 앱 위에 표시" 권한이 필요합니다. 마이크 권한이 없으면 음성 기능을 쓸 때 Android 권한 요청 화면이 열립니다.
 에뮬레이터에서 PC 마이크를 쓰려면 `adb emu avd hostmicon`을 실행합니다.
+
+**Release APK 빌드** (서명 키는 저장소에 없으며 팀이 별도 보관)
+
+```bash
+# Gemini 프록시 주소와 사용 여부를 Release 빌드에 적용. 접근 토큰은 git 제외 파일 local.properties의 rendy.llm.proxyToken에서 읽음
+./gradlew :app:assembleRelease -Prendy.llm.enabled=true \
+  -Prendy.llm.proxyEndpoint=https://rendi-intent-proxy-528023278289.us-central1.run.app/v1/rendy/classify
+# 서명 (Android SDK build-tools의 apksigner)
+apksigner sign --ks <release-keystore> --ks-key-alias rendi \
+  --out RENDI_RENDI_release.apk app/build/outputs/apk/release/app-release-unsigned.apk
+```
+
+Release 빌드에서는 `BuildConfig.DEBUG`가 꺼져 DEBUG 차량 상태 패널, DEMO 차량 신호, 호출어·인식 결과 주입 같은 디버그 기능이 동작하지 않습니다.
 
 ### 4) DEBUG 패널로 주행·정차 바꾸기 (디버그 빌드)
 
@@ -198,7 +257,7 @@ adb shell am broadcast -a com.hyundai.rentalhelper.SET_CAR_MODEL --es model TUCS
 
 평소 차량 "SUV", 탑승 차량 "더 뉴 아이오닉 5" 기준입니다. 답변은 에뮬레이터에서 실제 Gemini 프록시와 Pleos TTS로 실행해 기록한 문장입니다(질문은 텍스트로 주입).
 
-| 순서 | 차량 상태 (DEBUG) | 운전자 | RENDY |
+| 순서 | 차량 상태 (DEBUG) | 운전자 | RENDI |
 |---|---|---|---|
 | 1 | — | 평소 차량 **SUV** 선택 → 선택 완료 → 반납 정보 건너뛰기 | "더 뉴 아이오닉 5는 평소 타시던 SUV와 변속과 감속 방식이 다를 수 있습니다. 평소 기어봉을 쓰셨다면, 이 차는 브레이크 페달을 밟은 채 변속 다이얼을 돌려 D나 R을 고르고, 주차할 때는 P 버튼을 누릅니다. 또 전기차라서 주행 중에는 회생 제동이 자동으로 작동하니, 처음에는 감속되는 느낌을 확인하며 천천히 출발하세요." |
 | 2 | **D / 70km/h** | "렌디" → "스마트 크루즈 어떻게 켜?" | "핸들 왼쪽 버튼 묶음의 맨 윗줄 바깥쪽을 보세요. 자동차와 속도계가 함께 그려진 주행 보조 버튼이 있어요. 그 버튼을 한 번 누르면 스마트 크루즈를 켤 수 있어요. 운전 보조 기능입니다. 손은 운전대에, 시선은 전방에 두세요." |
@@ -211,15 +270,17 @@ adb shell am broadcast -a com.hyundai.rentalhelper.SET_CAR_MODEL --es model TUCS
 시연 팁
 - 아래쪽 상태 표시가 "마이크 준비 중"에서 "네, 말씀하세요!"(이어지는 질문은 "더 궁금한 점이 있으면 말씀하세요")로 바뀐 뒤 말합니다. 듣는 창이 열려 있는 동안 발표자가 다른 말을 하면 질문으로 인식될 수 있습니다.
 - 듣는 창이 응답 없이 닫히면 "렌디"를 다시 부르고 같은 말을 하면 됩니다. 보류된 질문은 30분 동안 유지됩니다.
-- 5번의 재안내는 RENDY가 말하고 있지 않을 때 나옵니다. 주차로 바꾸기 전에 직전 응답이 끝나기를 기다립니다.
+- 5번의 재안내는 RENDI가 말하고 있지 않을 때 나옵니다. 주차로 바꾸기 전에 직전 응답이 끝나기를 기다립니다.
 
 ## 7. 검증 범위와 한계
 
 | 구분 | 상태 |
 |---|---|
 | 단위 테스트 | 174개 중 170개 통과, 4개는 실제 프록시가 필요해 기본 실행에서 건너뜀 |
+| Release APK | 서명 검증(v3, CN=RENDI), Pleos Connect v2.1.0 에뮬레이터에 설치·실행 확인. 앱 실행, 평소 차량 선택, 비교 브리핑 생성과 Pleos TTS 재생, Vosk 호출어 모델 로딩, DEBUG 패널 비활성화를 확인 |
+| Cloud Run 프록시 | HTTPS로 `/classify`·`/turn`을 실제 Gemini로 확인. 토큰 없는 요청 401, 분당 제한 초과 시 429 확인. Release 앱에서 질문이 프록시를 거쳐 Gemini로 분류되는 것을 확인했고, 비행기 모드(네트워크 차단)에서는 키워드 규칙으로 답하는 것을 확인 |
 | 실제 Gemini 분류 | 에뮬레이터에서 실제 프록시로 확인(스마트 크루즈 대화, 서리 제거 질문, 데모 시나리오) |
-| 질문 입력 방식 | 위 결과는 대부분 **인식 결과 문장을 앱에 주입**해 확인했습니다. 실제 마이크 음성으로는 일부 대화만 확인했고, 전체 시나리오를 마이크로 반복 검증하지는 않았습니다. |
+| 질문 입력 방식 | 위 결과는 대부분 **인식 결과 문장을 앱에 주입**해 확인했습니다. 실제 마이크 음성으로는 디버그 빌드에서 일부 대화만 확인했고, 전체 시나리오를 마이크로 반복 검증하지는 않았습니다. Release APK에서는 PC 스피커로 재생한 합성 음성으로 "렌디" 호출어 인식까지 확인했으나, 이어지는 질문의 Pleos STT 인식은 확인하지 못했습니다(합성 음성에서 음성 미검출). |
 | 차량 상태 | 에뮬레이터의 차량 신호와 **DEBUG 패널(DEMO 신호)**로만 확인했습니다. **실제 차량 SDK 연동은 검증하지 않았습니다.** |
 | 공식 매뉴얼 검증 | 일부 항목만 완료(3장 표 참고). 아이오닉 5 공조 버튼 배열은 매뉴얼에 "사양에 따라 달라질 수 있다"고 되어 있습니다. |
 
@@ -227,7 +288,8 @@ adb shell am broadcast -a com.hyundai.rentalhelper.SET_CAR_MODEL --es model TUCS
 - **Pleos 마이크 준비 지연(미해결):** 답변 뒤 이어서 듣는 창에서, Pleos STT가 녹음을 시작하기까지 8초를 넘기는 경우가 있습니다. 이때 앱의 8초 대기 제한에 걸려 응답 없이 창이 닫힙니다. 에뮬레이터 시연에서 대략 5번 중 1번꼴로 관찰되었고, 다시 "렌디"를 부르면 이어서 진행됩니다. 대기 시간 조정 등은 아직 적용하지 않았습니다.
 - 더 뉴 아이오닉 5 단계 안내 중 "그다음엔 어떻게 해?"가 "더 자세히"로 분류되어 다음 단계 대신 "확인된 설명이 없다"는 답이 나올 때가 있습니다. "다음 단계 알려줘"는 정상적으로 다음 단계를 안내합니다.
 - Gemini 프록시가 꺼져 있으면 키워드 규칙만 쓰므로, "유리창이 안 보여"처럼 앞·뒤 구분이 없는 표현은 다시 묻는 경우가 있습니다.
-
+- Cloud Run 프록시의 사용량 제한(분당 20회, 하루 500회)은 모든 사용자 합계입니다. 하루 제한 카운터는 서버 인스턴스가 다시 시작되면 초기화됩니다. APK에 들어 있는 접근 토큰은 추출될 수 있으므로, 토큰과 사용량 제한을 함께 적용하고 있습니다.
+- Cloud Run에서는 `/healthz` 경로가 플랫폼 예약 경로라 프록시 상태 확인에 쓸 수 없습니다(로컬 실행 시에는 사용 가능).
 향후 개선
 - 차량별 상세 조작 데이터의 공식 매뉴얼 검증 확대, 다른 렌트 차량의 비교 브리핑 확대
 - 실제 차량 SDK(차속·기어·차종) 연동 검증과 실차 시험
